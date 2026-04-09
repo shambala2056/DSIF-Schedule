@@ -546,12 +546,22 @@ document.getElementById('reg-form').addEventListener('submit',async function(e){
   };
   try{
     let regNum;
-    if(typeof window._dsifSaveRegistration==='function'){regNum=await window._dsifSaveRegistration(data)}
-    else{regNum='DSIF-2026-'+(Math.floor(Math.random()*9000)+1000)}
+    if(typeof window._dsifSaveRegistration==='function'){
+      regNum=await window._dsifSaveRegistration(data);
+    }else{
+      console.warn('Firebase not loaded, waiting 2s...');
+      await new Promise(r=>setTimeout(r,2000));
+      if(typeof window._dsifSaveRegistration==='function'){
+        regNum=await window._dsifSaveRegistration(data);
+      }else{
+        throw new Error('Firebase модуль ачаалагдсангүй. Хуудсаа дахин ачаалаад оролдоно уу.');
+      }
+    }
     showSuccess(data,regNum);
   }catch(err){
-    console.error(err);
-    showSuccess(data,'DSIF-2026-'+(Math.floor(Math.random()*9000)+1000));
+    console.error('Registration error:',err);
+    btn.textContent='БҮРТГҮҮЛЭХ';btn.disabled=false;
+    alert('Алдаа гарлаа: '+err.message);
   }
 });
 
