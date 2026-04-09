@@ -9,7 +9,7 @@
 <!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
   authDomain: "dsif-shedule.firebaseapp.com",
@@ -22,7 +22,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 window._dsifSaveRegistration = async function(data) {
   const regNum = 'DSIF-2026-' + (Math.floor(Math.random() * 9000) + 1000);
-  await addDoc(collection(db, "registrations"), { ...data, regNumber: regNum, registeredAt: serverTimestamp() });
+  const docName = (data.lastname + ' ' + data.firstname).trim() || regNum;
+  await setDoc(doc(db, "registrations", docName), { ...data, regNumber: regNum, registeredAt: serverTimestamp() });
   return regNum;
 };
 </script>
