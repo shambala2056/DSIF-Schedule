@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>НОГООН ХӨГЖИЛ — ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ ФОРУМ 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Exo+2:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Firebase SDK -->
 <script type="module">
@@ -31,455 +31,463 @@ window._dsifSaveRegistration = async function(data) {
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Exo 2',sans-serif;background:#fff;color:#222;-webkit-font-smoothing:antialiased;text-transform:uppercase}
+body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#e8e8e8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
 :root{
-  --green:#00b352;--green-dark:#009944;
-  --green-pale:rgba(0,179,82,.06);--green-glow:rgba(0,179,82,.15);
+  --green:#00b352;--green-dark:#009944;--green-light:#00d964;
+  --bg:#0a0a0a;--bg-card:#141414;--bg-hover:#1a1a1a;
+  --border:rgba(255,255,255,.06);--text:#e8e8e8;--text-dim:rgba(255,255,255,.4);
 }
 
-/* ── NAV ── */
-.nav{position:absolute;top:0;left:0;right:0;z-index:900;height:60px;display:flex;align-items:center;padding:0 40px;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06);transition:all .3s}
-.nav-logo{height:30px;width:auto}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:24px}
-.nav-link{font-size:.7rem;font-weight:600;letter-spacing:1.5px;color:#555;text-decoration:none;transition:color .2s}
-.nav-link:hover{color:var(--green)}
-.nav-btn{padding:8px 20px;background:var(--green);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-decoration:none;border:none;cursor:pointer;transition:all .2s}
-.nav-btn:hover{background:var(--green-dark);transform:translateY(-1px)}
-
 /* ── HERO ── */
-.hero{min-height:70vh;position:relative;display:flex;align-items:flex-end;padding:60px 40px 60px;margin-top:0}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 80px}
 .hero-bg{position:absolute;inset:0;z-index:0}
 .hero-bg img{width:100%;height:100%;object-fit:cover}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.05) 0%,rgba(255,255,255,.4) 40%,rgba(255,255,255,.9) 80%,#fff 100%)}
-.hero-content{position:relative;z-index:1;max-width:800px}
-.hero-logo{height:64px;margin-bottom:20px}
-.hero-date{display:inline-flex;align-items:center;gap:10px;font-size:.58rem;font-weight:700;letter-spacing:3px;color:rgba(0,0,0,.45);margin-bottom:16px}
-.hero-date::before{content:'';width:32px;height:2px;background:var(--green)}
-.hero-title{font-family:'Rajdhani',sans-serif;font-size:clamp(2.4rem,5vw,4.2rem);font-weight:700;line-height:.92;color:#111;margin-bottom:8px}
-.hero-title span{color:var(--green)}
+.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.2) 0%,rgba(10,10,10,.5) 40%,rgba(10,10,10,.92) 75%,#0a0a0a 100%)}
+.hero-content{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:0 60px;width:100%}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid rgba(0,179,82,.3);background:rgba(0,179,82,.08);margin-bottom:32px}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-tag-text{font-size:.65rem;font-weight:600;letter-spacing:3px;color:var(--green);text-transform:uppercase}
+.hero-logo{height:56px;margin-bottom:24px;display:block}
+.hero-title{font-size:clamp(2.8rem,6vw,5.5rem);font-weight:900;line-height:.95;letter-spacing:-2px;margin-bottom:20px;text-transform:uppercase}
+.hero-title .accent{color:var(--green)}
+.hero-meta{display:flex;align-items:center;gap:32px;margin-top:28px;flex-wrap:wrap}
+.hero-meta-item{display:flex;align-items:center;gap:10px}
+.hero-meta-icon{width:36px;height:36px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.hero-meta-icon svg{width:16px;height:16px;stroke:var(--green);fill:none;stroke-width:1.5}
+.hero-meta-label{font-size:.6rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
+.hero-meta-value{font-size:.85rem;font-weight:700;color:#fff;letter-spacing:.5px}
+
+/* ── NAV BAR (inside hero top) ── */
+.topbar{position:absolute;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:24px 60px}
+.topbar-logo{height:28px;filter:brightness(0) invert(1);opacity:.7}
+.topbar-btn{padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none}
+.topbar-btn:hover{background:var(--green);border-color:var(--green);color:#fff}
 
 /* ── SECTION ── */
-.section{padding:80px 40px}
-.section-inner{max-width:1200px;margin:0 auto}
+.section{padding:100px 60px;max-width:1400px;margin:0 auto}
+.section-label{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:600;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:16px}
+.section-label::before{content:'';width:40px;height:1px;background:var(--green)}
+.section-title{font-size:clamp(1.8rem,3.5vw,3rem);font-weight:800;letter-spacing:-1px;margin-bottom:48px;text-transform:uppercase;line-height:1.1}
 
 /* ── DAY TABS ── */
-.day-tabs{display:flex;gap:0;margin-bottom:40px;border-bottom:2px solid #eee}
-.day-tab{flex:1;padding:16px 24px;font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:3px;color:#999;background:transparent;border:none;cursor:pointer;transition:all .2s;text-align:center;border-bottom:3px solid transparent;margin-bottom:-2px}
-.day-tab.active{color:var(--green);border-bottom-color:var(--green);background:var(--green-pale)}
-.day-tab:hover{color:var(--green)}
+.day-switcher{display:flex;gap:2px;margin-bottom:48px;background:var(--bg-card);padding:4px;width:fit-content}
+.day-btn{padding:14px 36px;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;color:var(--text-dim);background:transparent;border:none;cursor:pointer;transition:all .25s;text-transform:uppercase}
+.day-btn.active{background:var(--green);color:#fff}
+.day-btn:hover:not(.active){color:#fff;background:rgba(255,255,255,.05)}
 
-/* ── TIMELINE ── */
-.timeline{position:relative;padding-left:48px}
-.timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--green),rgba(0,179,82,.1))}
-.tl-section{margin-bottom:8px}
-.tl-header{position:relative;padding:14px 0 14px 28px;margin-bottom:4px}
-.tl-header::before{content:'';position:absolute;left:-42px;top:50%;transform:translateY(-50%);width:16px;height:16px;border-radius:50%;background:var(--green);border:3px solid #fff;box-shadow:0 0 0 2px var(--green)}
-.tl-header-text{font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:3px;color:var(--green)}
-.tl-item{position:relative;display:flex;align-items:stretch;border-bottom:1px solid rgba(0,0,0,.04);transition:background .2s}
-.tl-item:hover{background:var(--green-pale)}
-.tl-item::before{content:'';position:absolute;left:-42px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid var(--green)}
-.tl-item.tl-break::before{background:var(--green)}
-.tl-item.tl-break{background:rgba(0,179,82,.03)}
-.tl-time{min-width:140px;padding:16px 20px 16px 28px;display:flex;align-items:center;gap:6px;flex-shrink:0}
-.tl-time-text{font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:800;color:var(--green);letter-spacing:.5px}
-.tl-sep{font-size:.6rem;color:rgba(0,179,82,.4);font-family:'Space Mono',monospace}
-.tl-content{flex:1;padding:16px 20px;border-left:1px solid rgba(0,0,0,.05)}
-.tl-title{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;color:#1a1a1a;line-height:1.4;letter-spacing:.3px}
+/* ── SCHEDULE CARDS ── */
+.sched-grid{display:flex;flex-direction:column;gap:2px}
+.sched-block{margin-bottom:24px}
+.sched-block-title{font-size:.6rem;font-weight:700;letter-spacing:4px;color:var(--green);text-transform:uppercase;padding:16px 0;border-bottom:1px solid rgba(0,179,82,.15);margin-bottom:2px;display:flex;align-items:center;gap:12px}
+.sched-block-title::before{content:'';width:8px;height:8px;background:var(--green)}
+.sched-row{display:grid;grid-template-columns:160px 1fr;background:var(--bg-card);border-bottom:1px solid var(--border);transition:all .2s}
+.sched-row:hover{background:var(--bg-hover)}
+.sched-row.is-break{background:rgba(0,179,82,.03);border-left:2px solid var(--green)}
+.sched-time{padding:20px 24px;display:flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:600;color:var(--green);letter-spacing:1px;border-right:1px solid var(--border)}
+.sched-info{padding:20px 28px;display:flex;align-items:center}
+.sched-name{font-size:.82rem;font-weight:600;color:var(--text);letter-spacing:.3px;line-height:1.5;text-transform:uppercase}
 
 /* ── CTA ── */
-.cta{position:relative;padding:100px 40px;text-align:center;overflow:hidden}
+.cta-section{position:relative;padding:140px 60px;text-align:center;overflow:hidden}
 .cta-bg{position:absolute;inset:0;z-index:0}
 .cta-bg img{width:100%;height:100%;object-fit:cover}
-.cta-bg-overlay{position:absolute;inset:0;background:rgba(8,24,16,.82)}
-.cta-content{position:relative;z-index:1;max-width:640px;margin:0 auto}
-.cta-label{font-size:.58rem;font-weight:700;letter-spacing:4px;color:var(--green);margin-bottom:12px}
-.cta-date{font-size:.6rem;font-weight:600;letter-spacing:3px;color:rgba(255,255,255,.45);margin-bottom:24px}
-.cta-heading{font-family:'Rajdhani',sans-serif;font-size:clamp(2.4rem,5vw,4.8rem);font-weight:700;line-height:.92;color:#fff;margin-bottom:16px}
-.cta-heading em{font-style:normal;color:var(--green)}
-.cta-desc{font-size:.82rem;font-weight:300;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:40px}
-.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-primary{padding:14px 44px;background:var(--green);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:2px;text-decoration:none;border:none;cursor:pointer;transition:all .25s;font-family:'Exo 2',sans-serif;text-transform:uppercase}
-.btn-primary:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,179,82,.3)}
-.btn-outline{padding:14px 44px;background:transparent;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.75);font-size:.65rem;font-weight:700;letter-spacing:2px;text-decoration:none;cursor:pointer;transition:all .25s;font-family:'Exo 2',sans-serif;text-transform:uppercase}
-.btn-outline:hover{border-color:rgba(255,255,255,.6);color:#fff;transform:translateY(-2px)}
+.cta-bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,#0a0a0a 0%,rgba(10,10,10,.7) 30%,rgba(10,10,10,.7) 70%,#0a0a0a 100%)}
+.cta-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.cta-badge{display:inline-block;padding:8px 24px;border:1px solid rgba(0,179,82,.3);font-size:.6rem;font-weight:700;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:32px}
+.cta-h{font-size:clamp(2.4rem,5vw,4.5rem);font-weight:900;line-height:.95;letter-spacing:-2px;text-transform:uppercase;margin-bottom:20px}
+.cta-h em{font-style:normal;color:var(--green)}
+.cta-p{font-size:.85rem;font-weight:300;color:var(--text-dim);line-height:1.9;margin-bottom:48px;max-width:520px;margin-left:auto;margin-right:auto;text-transform:none}
+.cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-g{padding:16px 48px;background:var(--green);color:#fff;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all .25s;text-decoration:none}
+.btn-g:hover{background:var(--green-light);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,179,82,.25)}
+.btn-o{padding:16px 48px;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-family:'Inter',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .25s;text-decoration:none}
+.btn-o:hover{border-color:rgba(255,255,255,.4);color:#fff;transform:translateY(-2px)}
 
 /* ── FOOTER ── */
-.footer{position:relative;padding:60px 40px 32px;overflow:hidden}
-.footer-bg{position:absolute;inset:0;z-index:0}
-.footer-bg img{width:100%;height:100%;object-fit:cover}
-.footer-bg-overlay{display:none}
-.footer-inner{position:relative;z-index:1;max-width:1200px;margin:0 auto}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:40px}
-.footer-logo{height:40px;margin-bottom:12px}
-.footer-desc{font-size:.68rem;font-weight:300;color:rgba(255,255,255,.8);line-height:1.8;max-width:320px;text-transform:none}
-.footer-col-title{font-size:.55rem;font-weight:700;letter-spacing:3px;color:var(--green);margin-bottom:14px}
-.footer-links{list-style:none}
-.footer-links li{margin-bottom:7px}
-.footer-links a{font-size:.68rem;font-weight:400;color:rgba(255,255,255,.75);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:6px}
-.footer-links a::before{content:'';width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.5);flex-shrink:0}
-.footer-links a:hover{color:#fff}
-.footer-links a:hover::before{background:var(--green)}
-.footer-bottom{padding-top:20px;border-top:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.footer-copy{font-size:.56rem;font-weight:400;color:rgba(255,255,255,.6);letter-spacing:.5px}
-.footer-sdg{display:flex;gap:6px}
-.footer-sdg span{padding:4px 10px;border:1px solid rgba(255,255,255,.3);font-size:.52rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.7)}
+.site-footer{border-top:1px solid var(--border);padding:60px 60px 32px;max-width:1400px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand-logo{height:36px;margin-bottom:16px;display:block}
+.footer-brand-text{font-size:.78rem;font-weight:300;color:var(--text-dim);line-height:1.9;max-width:340px;text-transform:none}
+.footer-heading{font-size:.6rem;font-weight:700;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:16px}
+.footer-list{list-style:none}
+.footer-list li{margin-bottom:8px}
+.footer-list a{font-size:.75rem;font-weight:400;color:var(--text-dim);text-decoration:none;transition:color .2s;text-transform:uppercase;letter-spacing:.5px}
+.footer-list a:hover{color:var(--green)}
+.footer-bar{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:.65rem;color:rgba(255,255,255,.25);letter-spacing:.5px;text-transform:uppercase}
+.footer-tags{display:flex;gap:6px}
+.footer-tags span{padding:4px 12px;border:1px solid rgba(255,255,255,.08);font-size:.55rem;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.3);text-transform:uppercase}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
-  .footer-grid{grid-template-columns:1fr 1fr}
-  .hero{min-height:50vh;padding:0 20px 40px}
+  .hero{min-height:85vh;padding-bottom:60px}
+  .hero-content,.topbar,.section,.site-footer{padding-left:24px;padding-right:24px}
+  .topbar{padding:16px 24px}
+  .cta-section{padding:80px 24px}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+  .hero-meta{gap:20px}
+  .sched-row{grid-template-columns:120px 1fr}
 }
 @media(max-width:640px){
-  .nav{padding:0 16px;height:54px}
-  .nav-link{display:none}
-  .section{padding:50px 16px}
-  .hero{padding:0 16px 30px}
-  .hero-title{font-size:2rem}
-  .day-tabs{flex-direction:column;gap:0}
-  .timeline{padding-left:36px}
-  .timeline::before{left:10px}
-  .tl-header::before{left:-30px;width:12px;height:12px}
-  .tl-item::before{left:-30px;width:6px;height:6px}
-  .tl-item{flex-direction:column}
-  .tl-time{min-width:auto;padding:10px 12px 4px 16px}
-  .tl-content{border-left:none;padding:0 12px 12px 16px}
-  .cta{padding:60px 16px}
-  .footer{padding:40px 16px 24px}
-  .footer-grid{grid-template-columns:1fr;gap:24px}
+  .hero-title{font-size:2.2rem;letter-spacing:-1px}
+  .hero-content{padding-left:16px;padding-right:16px}
+  .topbar{padding:12px 16px}
+  .section{padding:60px 16px}
+  .day-switcher{width:100%}
+  .day-btn{flex:1;padding:12px 16px;font-size:.6rem}
+  .sched-row{grid-template-columns:1fr;gap:0}
+  .sched-time{border-right:none;border-bottom:1px solid var(--border);padding:12px 20px}
+  .sched-info{padding:12px 20px}
+  .cta-section{padding:60px 16px}
+  .site-footer{padding:40px 16px 24px}
+  .footer-top{grid-template-columns:1fr;gap:24px}
+  .hero-meta{flex-direction:column;align-items:flex-start;gap:12px}
 }
 
-/* ── MODAL (simplified) ── */
-.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.5);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.7);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal-box{width:100%;max-width:520px;background:#fff;border-top:3px solid var(--green);max-height:90vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #eee}
-.modal-head-title{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;color:#222}
-.modal-close{width:28px;height:28px;background:#f5f5f5;border:none;color:#999;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%}
-.modal-close:hover{background:#eee;color:#222}
+.modal-box{width:100%;max-width:520px;background:#111;border:1px solid rgba(255,255,255,.08);max-height:90vh;display:flex;flex-direction:column;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border)}
+.modal-head-title{font-size:.78rem;font-weight:700;letter-spacing:2px;color:#fff;text-transform:uppercase}
+.modal-close{width:32px;height:32px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:#666;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.modal-close:hover{background:rgba(255,255,255,.1);color:#fff}
 .modal-body{padding:24px;overflow-y:auto;flex:1}
 .form-group{margin-bottom:16px}
-.form-label{display:block;font-size:.58rem;font-weight:700;letter-spacing:2px;color:#999;margin-bottom:6px}
-.form-input{width:100%;padding:12px 14px;background:#f8f8f8;border:1px solid #e0e0e0;font-family:'Exo 2',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.5px;outline:none;transition:border-color .2s;text-transform:uppercase}
-.form-input:focus{border-color:var(--green);background:#fff}
-.form-input::placeholder{color:#bbb;font-weight:400}
+.form-label{display:block;font-size:.55rem;font-weight:700;letter-spacing:2px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase}
+.form-input{width:100%;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:'Inter',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.5px;outline:none;transition:all .2s}
+.form-input:focus{border-color:var(--green);background:rgba(0,179,82,.04)}
+.form-input::placeholder{color:rgba(255,255,255,.2);font-weight:400}
+.form-input option{background:#111;color:#fff}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-check{display:flex;align-items:flex-start;gap:8px;font-size:.62rem;color:#888;line-height:1.5;margin-top:8px;text-transform:none}
+.form-check{display:flex;align-items:flex-start;gap:8px;font-size:.65rem;color:var(--text-dim);line-height:1.5;margin-top:8px;text-transform:none}
 .form-check input{margin-top:2px;accent-color:var(--green)}
-.modal-foot{padding:16px 24px;border-top:1px solid #eee;display:flex;justify-content:flex-end;gap:10px}
-.modal-btn{padding:10px 24px;font-family:'Exo 2',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:2px;cursor:pointer;border:none;transition:all .2s;text-transform:uppercase}
-.modal-btn-submit{background:var(--green);color:#fff}
-.modal-btn-submit:hover{background:var(--green-dark)}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+.modal-btn-submit{padding:12px 36px;background:var(--green);color:#fff;font-family:'Inter',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s}
+.modal-btn-submit:hover{background:var(--green-light)}
 #reg-success{display:none;padding:40px 24px;text-align:center}
-.success-icon{width:56px;height:56px;border:2px solid var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--green);margin:0 auto 16px}
+.success-icon{width:56px;height:56px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--green);margin:0 auto 16px}
 @media(max-width:540px){.form-row{grid-template-columns:1fr}.modal-box{max-height:96vh}}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="nav">
-  <img src="dsif-logo.png" alt="DSIF" class="nav-logo" style="filter:brightness(0)">
-  <div class="nav-right">
-    <a href="#schedule" class="nav-link">ХӨТӨЛБӨР</a>
-    <a href="javascript:void(0)" class="nav-btn open-reg">БҮРТГҮҮЛЭХ</a>
-  </div>
-</nav>
-
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg">
     <img src="hero-bg.jpg" alt="">
-    <div class="hero-overlay"></div>
+    <div class="hero-gradient"></div>
   </div>
+
+  <div class="topbar">
+    <img src="dsif-logo.png" alt="DSIF" class="topbar-logo">
+    <a href="javascript:void(0)" class="topbar-btn open-reg">БҮРТГҮҮЛЭХ</a>
+  </div>
+
   <div class="hero-content">
+    <div class="hero-tag">
+      <span class="hero-tag-dot"></span>
+      <span class="hero-tag-text">Бүртгэл нээлттэй</span>
+    </div>
     <img src="dsif-logo.png" alt="DSIF 2026" class="hero-logo">
-    <div class="hero-date">2026.04.24–25 · САЙНШАНД, ДОРНОГОВЬ АЙМАГ</div>
-    <h1 class="hero-title">ФОРУМЫН<br><span>ХӨТӨЛБӨР</span></h1>
+    <h1 class="hero-title">ФОРУМЫН<br><span class="accent">ХӨТӨЛБӨР</span></h1>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <div>
+          <div class="hero-meta-label">ОГНОО</div>
+          <div class="hero-meta-value">2026.04.24 — 25</div>
+        </div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <div class="hero-meta-label">БАЙРШИЛ</div>
+          <div class="hero-meta-value">САЙНШАНД, ДОРНОГОВЬ</div>
+        </div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div>
+          <div class="hero-meta-label">ХЭЛБЭР</div>
+          <div class="hero-meta-value">2 ӨДӨР · ОФЛАЙН</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- SCHEDULE -->
 <section class="section" id="schedule">
-  <div class="section-inner">
+  <div class="section-label">ХӨТӨЛБӨР</div>
+  <h2 class="section-title">ФОРУМЫН ХУВААРЬ</h2>
 
-    <div class="day-tabs">
-      <button class="day-tab active" onclick="switchDay(1)" id="tab-day1">1-Р ӨДӨР · 2026.04.24 (БААСАН)</button>
-      <button class="day-tab" onclick="switchDay(2)" id="tab-day2">2-Р ӨДӨР · 2026.04.25 (БЯМБА)</button>
-    </div>
+  <div class="day-switcher">
+    <button class="day-btn active" onclick="switchDay(1)" id="tab-day1">1-Р ӨДӨР · 04.24</button>
+    <button class="day-btn" onclick="switchDay(2)" id="tab-day2">2-Р ӨДӨР · 04.25</button>
+  </div>
 
-    <!-- DAY 1 -->
-    <div id="sched-day1" class="sched-day">
-      <div class="timeline">
+  <!-- DAY 1 -->
+  <div id="sched-day1" class="sched-day">
+    <div class="sched-grid">
 
-        <div class="tl-section">
-          <div class="tl-header"><div class="tl-header-text">① НЭЭЛТ</div></div>
-          <div class="tl-item tl-break">
-            <div class="tl-time"><span class="tl-time-text">08:30</span><span class="tl-sep">—</span><span class="tl-time-text">09:00</span></div>
-            <div class="tl-content"><div class="tl-title">БҮРТГЭЛ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">09:00</span><span class="tl-sep">—</span><span class="tl-time-text">09:10</span></div>
-            <div class="tl-content"><div class="tl-title">НЭЭЛТИЙН ҮГ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">09:10</span><span class="tl-sep">—</span><span class="tl-time-text">09:30</span></div>
-            <div class="tl-content"><div class="tl-title">МЭНДЧИЛГЭЭ</div></div>
-          </div>
+      <div class="sched-block">
+        <div class="sched-block-title">НЭЭЛТ</div>
+        <div class="sched-row is-break">
+          <div class="sched-time">08:30 — 09:00</div>
+          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ</div></div>
         </div>
-
-        <div class="tl-section">
-          <div class="tl-header"><div class="tl-header-text">② ПЛЕНАР ХУРАЛДААН</div></div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">09:30</span><span class="tl-sep">—</span><span class="tl-time-text">10:10</span></div>
-            <div class="tl-content"><div class="tl-title">ФОРУМЫН ЗОРИЛГО, ХҮЛЭЭГДЭЖ БУЙ ҮР ДҮН — ДОРНОГОВЬ АЙМГИЙН ЭДИЙН ЗАСГИЙН ӨНӨӨГИЙН БАЙДАЛ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">10:10</span><span class="tl-sep">—</span><span class="tl-time-text">10:25</span></div>
-            <div class="tl-content"><div class="tl-title">ДОРНОГОВЬ — БОЛОМЖ, ИРЭЭДҮЙ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">10:25</span><span class="tl-sep">—</span><span class="tl-time-text">10:45</span></div>
-            <div class="tl-content"><div class="tl-title">НОГООН ЭДИЙН ЗАСАГ — ДОРНОГОВЬ АЙМГИЙН ХӨРӨНГӨ ОРУУЛАЛТЫН ОРЧИН</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">10:45</span><span class="tl-sep">—</span><span class="tl-time-text">11:05</span></div>
-            <div class="tl-content"><div class="tl-title">НИЙГМИЙН ОРОЛЦОО БА ОРОН НУТГИЙН ИРГЭД ХӨРӨНГӨ ОРУУЛАЛТААС ЯМАР ҮР ШИМ ХҮРТЭХ ВЭ?</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">11:05</span><span class="tl-sep">—</span><span class="tl-time-text">11:20</span></div>
-            <div class="tl-content"><div class="tl-title">ТОГТВОРТОЙ ХАА — ХОРШОО 2.0</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">11:20</span><span class="tl-sep">—</span><span class="tl-time-text">11:40</span></div>
-            <div class="tl-content"><div class="tl-title">ХОНИНЫ НООС — ТОЙРОГ ЭДИЙН ЗАСАГ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">11:40</span><span class="tl-sep">—</span><span class="tl-time-text">11:55</span></div>
-            <div class="tl-content"><div class="tl-title">УХААЛАГ ХУДАГ 2.0 · МАЛЧДЫН БҮТЭЭЛЧ ҮЙЛДВЭРЛЭЛИЙН ТӨВ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">11:55</span><span class="tl-sep">—</span><span class="tl-time-text">12:15</span></div>
-            <div class="tl-content"><div class="tl-title">ДОРНОГОВЬ ПЛАТФОРМ · ЦАХИМ ТЕХНОЛОГИ БА НОГООН ХӨГЖИЛ</div></div>
-          </div>
+        <div class="sched-row">
+          <div class="sched-time">09:00 — 09:10</div>
+          <div class="sched-info"><div class="sched-name">НЭЭЛТИЙН ҮГ</div></div>
         </div>
-
-        <div class="tl-section">
-          <div class="tl-header"><div class="tl-header-text">③ ЗАВСАРЛАГА</div></div>
-          <div class="tl-item tl-break">
-            <div class="tl-time"><span class="tl-time-text">12:15</span><span class="tl-sep">—</span><span class="tl-time-text">13:45</span></div>
-            <div class="tl-content"><div class="tl-title">ҮДИЙН ХООЛ, NETWORKING</div></div>
-          </div>
+        <div class="sched-row">
+          <div class="sched-time">09:10 — 09:30</div>
+          <div class="sched-info"><div class="sched-name">МЭНДЧИЛГЭЭ</div></div>
         </div>
-
-        <div class="tl-section">
-          <div class="tl-header"><div class="tl-header-text">④ ӨДРИЙН ХЭЛЭЛЦҮҮЛЭГ</div></div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">13:45</span><span class="tl-sep">—</span><span class="tl-time-text">14:05</span></div>
-            <div class="tl-content"><div class="tl-title">БОЛОВСРОЛ, СОЁЛЫН САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">14:05</span><span class="tl-sep">—</span><span class="tl-time-text">14:25</span></div>
-            <div class="tl-content"><div class="tl-title">ЦӨЛЖИЛТ БА УУР АМЬСГАЛЫН ӨӨРЧЛӨЛТ — НОГООН ХӨГЖЛИЙН БОДЛОГО БА СОР 17</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">14:25</span><span class="tl-sep">—</span><span class="tl-time-text">14:45</span></div>
-            <div class="tl-content"><div class="tl-title">КАРБОН КРЕДИТ · СО2-ИЙН ЯЛГАРУУЛАЛТ · БИОЛОГИЙН ОЛОН ЯНЗ БАЙДАЛ</div></div>
-          </div>
-          <div class="tl-item tl-break">
-            <div class="tl-time"><span class="tl-time-text">14:45</span><span class="tl-sep">—</span><span class="tl-time-text">15:00</span></div>
-            <div class="tl-content"><div class="tl-title">COFFEE BREAK</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">15:00</span><span class="tl-sep">—</span><span class="tl-time-text">15:20</span></div>
-            <div class="tl-content"><div class="tl-title">АЯЛАЛ ЖУУЛЧЛАЛ БА ДЭД БҮТЭЦ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">15:20</span><span class="tl-sep">—</span><span class="tl-time-text">15:40</span></div>
-            <div class="tl-content"><div class="tl-title">БОЛОВСРОЛ, СОЁЛЫН САЛБАРЫН УРЬДЧИЛСАН ГЭРЭЭ САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">15:40</span><span class="tl-sep">—</span><span class="tl-time-text">16:30</span></div>
-            <div class="tl-content"><div class="tl-title">УУЛ УУРХАЙ БА ХҮНД ҮЙЛДВЭРЛЭЛИЙН ЖИШИГ ТӨСЛҮҮД · ESG · SDG</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">16:30</span><span class="tl-sep">—</span><span class="tl-time-text">17:00</span></div>
-            <div class="tl-content"><div class="tl-title">ДҮГНЭЛТ, ХААЛТ</div></div>
-          </div>
-        </div>
-
       </div>
-    </div>
 
-    <!-- DAY 2 -->
-    <div id="sched-day2" class="sched-day" style="display:none">
-      <div class="timeline">
-
-        <div class="tl-section">
-          <div class="tl-header"><div class="tl-header-text">① НЭЭЛТ</div></div>
-          <div class="tl-item tl-break">
-            <div class="tl-time"><span class="tl-time-text">08:30</span><span class="tl-sep">—</span><span class="tl-time-text">09:00</span></div>
-            <div class="tl-content"><div class="tl-title">БҮРТГЭЛ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">09:00</span><span class="tl-sep">—</span><span class="tl-time-text">09:15</span></div>
-            <div class="tl-content"><div class="tl-title">ФОРУМЫН ЗОРИЛГО, ХҮЛЭЭГДЭЖ БУЙ ҮР ДҮН</div></div>
-          </div>
+      <div class="sched-block">
+        <div class="sched-block-title">ПЛЕНАР ХУРАЛДААН</div>
+        <div class="sched-row">
+          <div class="sched-time">09:30 — 10:10</div>
+          <div class="sched-info"><div class="sched-name">ФОРУМЫН ЗОРИЛГО, ХҮЛЭЭГДЭЖ БУЙ ҮР ДҮН — ДОРНОГОВЬ АЙМГИЙН ЭДИЙН ЗАСГИЙН ӨНӨӨГИЙН БАЙДАЛ</div></div>
         </div>
-
-        <div class="tl-section">
-          <div class="tl-header"><div class="tl-header-text">② ПЛЕНАР ХУРАЛДААН</div></div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">09:15</span><span class="tl-sep">—</span><span class="tl-time-text">09:35</span></div>
-            <div class="tl-content"><div class="tl-title">ЭРЧИМ ХҮЧНИЙ ИРЭЭДҮЙН ЧИГ ХАНДЛАГА БА ДОРНОГОВЬ АЙМАГ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">09:35</span><span class="tl-sep">—</span><span class="tl-time-text">09:55</span></div>
-            <div class="tl-content"><div class="tl-title">ХАРИУЦЛАГАТАЙ УУЛ УУРХАЙ БА УСНЫ МЕНЕЖМЕНТ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">09:55</span><span class="tl-sep">—</span><span class="tl-time-text">10:20</span></div>
-            <div class="tl-content"><div class="tl-title">ДЭД БҮТЭЦ, БАЙГАЛЬ ОРЧНЫ САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">10:20</span><span class="tl-sep">—</span><span class="tl-time-text">10:40</span></div>
-            <div class="tl-content"><div class="tl-title">ГАДААДЫН ХӨРӨНГӨ ОРУУЛАЛТЫН БОЛОМЖ БА ДОРНОГОВЬ АЙМАГ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">10:40</span><span class="tl-sep">—</span><span class="tl-time-text">11:00</span></div>
-            <div class="tl-content"><div class="tl-title">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРЫН ГЭРЭЭ САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">11:00</span><span class="tl-sep">—</span><span class="tl-time-text">11:20</span></div>
-            <div class="tl-content"><div class="tl-title">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">11:20</span><span class="tl-sep">—</span><span class="tl-time-text">12:20</span></div>
-            <div class="tl-content"><div class="tl-title">УУЛ УУРХАЙН ААН-ТЭЙ ХАРИУЦЛАГЫН ГЭРЭЭ БАЙГУУЛАХ</div></div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">12:20</span><span class="tl-sep">—</span><span class="tl-time-text">12:40</span></div>
-            <div class="tl-content"><div class="tl-title">ДҮГНЭЛТ, ХААЛТ</div></div>
-          </div>
+        <div class="sched-row">
+          <div class="sched-time">10:10 — 10:25</div>
+          <div class="sched-info"><div class="sched-name">ДОРНОГОВЬ — БОЛОМЖ, ИРЭЭДҮЙ</div></div>
         </div>
-
-        <div class="tl-section">
-          <div class="tl-header"><div class="tl-header-text">③ ЗАВСАРЛАГА & ЧӨЛӨӨТ ЦАГ</div></div>
-          <div class="tl-item tl-break">
-            <div class="tl-time"><span class="tl-time-text">12:40</span><span class="tl-sep">—</span><span class="tl-time-text">14:00</span></div>
-            <div class="tl-content"><div class="tl-title">ҮДИЙН ХООЛ, NETWORKING</div></div>
-          </div>
-          <div class="tl-item tl-break">
-            <div class="tl-time"><span class="tl-time-text">14:00</span><span class="tl-sep">—</span><span class="tl-time-text">19:00</span></div>
-            <div class="tl-content"><div class="tl-title">ЧӨЛӨӨТ ЦАГ</div></div>
-          </div>
+        <div class="sched-row">
+          <div class="sched-time">10:25 — 10:45</div>
+          <div class="sched-info"><div class="sched-name">НОГООН ЭДИЙН ЗАСАГ — ДОРНОГОВЬ АЙМГИЙН ХӨРӨНГӨ ОРУУЛАЛТЫН ОРЧИН</div></div>
         </div>
-
-        <div class="tl-section">
-          <div class="tl-header"><div class="tl-header-text">④ ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ</div></div>
-          <div class="tl-item">
-            <div class="tl-time"><span class="tl-time-text">19:00</span><span class="tl-sep">—</span><span class="tl-time-text">23:00</span></div>
-            <div class="tl-content"><div class="tl-title">НОГООН ХӨГЖИЛ ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ — ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ</div></div>
-          </div>
+        <div class="sched-row">
+          <div class="sched-time">10:45 — 11:05</div>
+          <div class="sched-info"><div class="sched-name">НИЙГМИЙН ОРОЛЦОО БА ОРОН НУТГИЙН ИРГЭД ХӨРӨНГӨ ОРУУЛАЛТААС ЯМАР ҮР ШИМ ХҮРТЭХ ВЭ?</div></div>
         </div>
-
+        <div class="sched-row">
+          <div class="sched-time">11:05 — 11:20</div>
+          <div class="sched-info"><div class="sched-name">ТОГТВОРТОЙ ХАА — ХОРШОО 2.0</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">11:20 — 11:40</div>
+          <div class="sched-info"><div class="sched-name">ХОНИНЫ НООС — ТОЙРОГ ЭДИЙН ЗАСАГ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">11:40 — 11:55</div>
+          <div class="sched-info"><div class="sched-name">УХААЛАГ ХУДАГ 2.0 · МАЛЧДЫН БҮТЭЭЛЧ ҮЙЛДВЭРЛЭЛИЙН ТӨВ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">11:55 — 12:15</div>
+          <div class="sched-info"><div class="sched-name">ДОРНОГОВЬ ПЛАТФОРМ · ЦАХИМ ТЕХНОЛОГИ БА НОГООН ХӨГЖИЛ</div></div>
+        </div>
       </div>
-    </div>
 
+      <div class="sched-block">
+        <div class="sched-block-title">ЗАВСАРЛАГА</div>
+        <div class="sched-row is-break">
+          <div class="sched-time">12:15 — 13:45</div>
+          <div class="sched-info"><div class="sched-name">ҮДИЙН ХООЛ, NETWORKING</div></div>
+        </div>
+      </div>
+
+      <div class="sched-block">
+        <div class="sched-block-title">ӨДРИЙН ХЭЛЭЛЦҮҮЛЭГ</div>
+        <div class="sched-row">
+          <div class="sched-time">13:45 — 14:05</div>
+          <div class="sched-info"><div class="sched-name">БОЛОВСРОЛ, СОЁЛЫН САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">14:05 — 14:25</div>
+          <div class="sched-info"><div class="sched-name">ЦӨЛЖИЛТ БА УУР АМЬСГАЛЫН ӨӨРЧЛӨЛТ — НОГООН ХӨГЖЛИЙН БОДЛОГО БА СОР 17</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">14:25 — 14:45</div>
+          <div class="sched-info"><div class="sched-name">КАРБОН КРЕДИТ · СО2-ИЙН ЯЛГАРУУЛАЛТ · БИОЛОГИЙН ОЛОН ЯНЗ БАЙДАЛ</div></div>
+        </div>
+        <div class="sched-row is-break">
+          <div class="sched-time">14:45 — 15:00</div>
+          <div class="sched-info"><div class="sched-name">COFFEE BREAK</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">15:00 — 15:20</div>
+          <div class="sched-info"><div class="sched-name">АЯЛАЛ ЖУУЛЧЛАЛ БА ДЭД БҮТЭЦ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">15:20 — 15:40</div>
+          <div class="sched-info"><div class="sched-name">БОЛОВСРОЛ, СОЁЛЫН САЛБАРЫН УРЬДЧИЛСАН ГЭРЭЭ САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">15:40 — 16:30</div>
+          <div class="sched-info"><div class="sched-name">УУЛ УУРХАЙ БА ХҮНД ҮЙЛДВЭРЛЭЛИЙН ЖИШИГ ТӨСЛҮҮД · ESG · SDG</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">16:30 — 17:00</div>
+          <div class="sched-info"><div class="sched-name">ДҮГНЭЛТ, ХААЛТ</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div id="sched-day2" class="sched-day" style="display:none">
+    <div class="sched-grid">
+
+      <div class="sched-block">
+        <div class="sched-block-title">НЭЭЛТ</div>
+        <div class="sched-row is-break">
+          <div class="sched-time">08:30 — 09:00</div>
+          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">09:00 — 09:15</div>
+          <div class="sched-info"><div class="sched-name">ФОРУМЫН ЗОРИЛГО, ХҮЛЭЭГДЭЖ БУЙ ҮР ДҮН</div></div>
+        </div>
+      </div>
+
+      <div class="sched-block">
+        <div class="sched-block-title">ПЛЕНАР ХУРАЛДААН</div>
+        <div class="sched-row">
+          <div class="sched-time">09:15 — 09:35</div>
+          <div class="sched-info"><div class="sched-name">ЭРЧИМ ХҮЧНИЙ ИРЭЭДҮЙН ЧИГ ХАНДЛАГА БА ДОРНОГОВЬ АЙМАГ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">09:35 — 09:55</div>
+          <div class="sched-info"><div class="sched-name">ХАРИУЦЛАГАТАЙ УУЛ УУРХАЙ БА УСНЫ МЕНЕЖМЕНТ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">09:55 — 10:20</div>
+          <div class="sched-info"><div class="sched-name">ДЭД БҮТЭЦ, БАЙГАЛЬ ОРЧНЫ САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">10:20 — 10:40</div>
+          <div class="sched-info"><div class="sched-name">ГАДААДЫН ХӨРӨНГӨ ОРУУЛАЛТЫН БОЛОМЖ БА ДОРНОГОВЬ АЙМАГ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">10:40 — 11:00</div>
+          <div class="sched-info"><div class="sched-name">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРЫН ГЭРЭЭ САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">11:00 — 11:20</div>
+          <div class="sched-info"><div class="sched-name">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">11:20 — 12:20</div>
+          <div class="sched-info"><div class="sched-name">УУЛ УУРХАЙН ААН-ТЭЙ ХАРИУЦЛАГЫН ГЭРЭЭ БАЙГУУЛАХ</div></div>
+        </div>
+        <div class="sched-row">
+          <div class="sched-time">12:20 — 12:40</div>
+          <div class="sched-info"><div class="sched-name">ДҮГНЭЛТ, ХААЛТ</div></div>
+        </div>
+      </div>
+
+      <div class="sched-block">
+        <div class="sched-block-title">ЗАВСАРЛАГА & ЧӨЛӨӨТ ЦАГ</div>
+        <div class="sched-row is-break">
+          <div class="sched-time">12:40 — 14:00</div>
+          <div class="sched-info"><div class="sched-name">ҮДИЙН ХООЛ, NETWORKING</div></div>
+        </div>
+        <div class="sched-row is-break">
+          <div class="sched-time">14:00 — 19:00</div>
+          <div class="sched-info"><div class="sched-name">ЧӨЛӨӨТ ЦАГ</div></div>
+        </div>
+      </div>
+
+      <div class="sched-block">
+        <div class="sched-block-title">ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ</div>
+        <div class="sched-row">
+          <div class="sched-time">19:00 — 23:00</div>
+          <div class="sched-info"><div class="sched-name">НОГООН ХӨГЖИЛ ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ — ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ</div></div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
-<!-- CTA + FOOTER (нэг зурагтай) -->
-<div style="position:relative;overflow:hidden">
-  <!-- Нэг цул background зураг -->
-  <div style="position:absolute;inset:0;z-index:0">
-    <img src="zam-1.jpg" alt="" style="width:100%;height:100%;object-fit:cover">
-    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,24,16,.85) 0%,rgba(8,24,16,.7) 50%,rgba(8,24,16,.5) 75%,rgba(8,24,16,.35) 100%)"></div>
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg">
+    <img src="zam-1.jpg" alt="">
+    <div class="cta-bg-overlay"></div>
   </div>
-
-  <!-- CTA -->
-  <section class="cta" style="position:relative;z-index:1;background:none">
-    <div class="cta-content">
-      <div class="cta-label">БҮРТГЭЛ НЭЭЛТТЭЙ</div>
-      <div class="cta-date">2026.04.24–25 · САЙНШАНД · ДОРНОГОВЬ АЙМАГ</div>
-      <h2 class="cta-heading">ФОРУМД<br><em>ОРОЛЦООРОЙ</em></h2>
-      <p class="cta-desc">ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ, НОГООН ХӨГЖЛИЙН ИРЭЭДҮЙГ ХАМТДАА БҮТЭЭХ ЭНЭХҮҮ ҮЙЛ ЯВДАЛД ТА БОЛОН ТАНЫ БАЙГУУЛЛАГЫГ УРЬЖ БАЙНА.</p>
-      <div class="cta-btns">
-        <a href="javascript:void(0)" class="btn-primary open-reg">БҮРТГҮҮЛЭХ</a>
-        <a href="#schedule" class="btn-outline">ХӨТӨЛБӨР ХАРАХ</a>
-      </div>
+  <div class="cta-inner">
+    <div class="cta-badge">БҮРТГЭЛ НЭЭЛТТЭЙ</div>
+    <h2 class="cta-h">ФОРУМД<br><em>ОРОЛЦООРОЙ</em></h2>
+    <p class="cta-p">Тогтвортой хөрөнгө оруулалт, ногоон хөгжлийн ирээдүйг хамтдаа бүтээх энэхүү үйл явдалд та болон таны байгууллагыг урьж байна.</p>
+    <div class="cta-buttons">
+      <a href="javascript:void(0)" class="btn-g open-reg">БҮРТГҮҮЛЭХ</a>
+      <a href="#schedule" class="btn-o">ХӨТӨЛБӨР ХАРАХ</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Хуваагч зураас -->
-  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 40px"><div style="height:1px;background:rgba(255,255,255,.12)"></div></div>
-
-  <!-- FOOTER -->
-  <footer class="footer" style="position:relative;z-index:1;background:none">
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div>
-        <img src="dsif-logo.png" alt="DSIF" class="footer-logo">
-        <p class="footer-desc">Дорноговь аймгийн "Тогтвортой бодлого — Тасралтгүй хөгжил" хөтөлбөрийн хүрээнд сэргээгдэх эрчим хүч, байгаль орчин, хөдөө аж ахуй, аялал жуулчлал, дэд бүтцийн салбарт хөрөнгө оруулалт татах форум.</p>
-      </div>
-      <div>
-        <div class="footer-col-title">САЛБАРУУД</div>
-        <ul class="footer-links">
-          <li><a href="#">СЭРГЭЭГДЭХ ЭРЧИМ ХҮЧ</a></li>
-          <li><a href="#">ТЭЭВЭР ЛОГИСТИК</a></li>
-          <li><a href="#">БАНК САНХҮҮ</a></li>
-          <li><a href="#">ХӨДӨӨ АЖ АХУЙ</a></li>
-          <li><a href="#">АЯЛАЛ ЖУУЛЧЛАЛ</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">ФОРУМ</div>
-        <ul class="footer-links">
-          <li><a href="#">ЗОРИЛГО</a></li>
-          <li><a href="#">ХӨТӨЛБӨР</a></li>
-          <li><a href="#">ИЛТГЭГЧИД</a></li>
-          <li><a href="#">ОРОЛЦОГЧИД</a></li>
-          <li><a href="#">БҮРТГЭЛ</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">ХОЛБОО БАРИХ</div>
-        <ul class="footer-links">
-          <li><a href="#">ДОРНОГОВЬ АЙМАГ</a></li>
-          <li><a href="#">САЙНШАНД ХОТ</a></li>
-          <li><a href="#">INFO@FORUM2026.MN</a></li>
-          <li><a href="#">FORUM2026.MN</a></li>
-        </ul>
-      </div>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <img src="dsif-logo.png" alt="DSIF" class="footer-brand-logo">
+      <p class="footer-brand-text">Дорноговь аймгийн "Тогтвортой бодлого — Тасралтгүй хөгжил" хөтөлбөрийн хүрээнд сэргээгдэх эрчим хүч, байгаль орчин, хөдөө аж ахуй, аялал жуулчлал, дэд бүтцийн салбарт хөрөнгө оруулалт татах форум.</p>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2026 НОГООН ХӨГЖИЛ ФОРУМ · ДОРНОГОВЬ АЙМАГ · БҮХ ЭРХ ХУУЛИАР ХАМГААЛАГДСАН</div>
-      <div class="footer-sdg"><span>ТХЗ 8</span><span>ТХЗ 9</span><span>ТХЗ 13</span><span>ТХЗ 17</span></div>
+    <div>
+      <div class="footer-heading">САЛБАРУУД</div>
+      <ul class="footer-list">
+        <li><a href="#">СЭРГЭЭГДЭХ ЭРЧИМ ХҮЧ</a></li>
+        <li><a href="#">ТЭЭВЭР ЛОГИСТИК</a></li>
+        <li><a href="#">БАНК САНХҮҮ</a></li>
+        <li><a href="#">ХӨДӨӨ АЖ АХУЙ</a></li>
+        <li><a href="#">АЯЛАЛ ЖУУЛЧЛАЛ</a></li>
+      </ul>
     </div>
+    <div>
+      <div class="footer-heading">ФОРУМ</div>
+      <ul class="footer-list">
+        <li><a href="#">ЗОРИЛГО</a></li>
+        <li><a href="#schedule">ХӨТӨЛБӨР</a></li>
+        <li><a href="#">ИЛТГЭГЧИД</a></li>
+        <li><a href="#">ОРОЛЦОГЧИД</a></li>
+        <li><a href="javascript:void(0)" class="open-reg">БҮРТГЭЛ</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">ХОЛБОО БАРИХ</div>
+      <ul class="footer-list">
+        <li><a href="#">ДОРНОГОВЬ АЙМАГ</a></li>
+        <li><a href="#">САЙНШАНД ХОТ</a></li>
+        <li><a href="#">INFO@FORUM2026.MN</a></li>
+        <li><a href="#">FORUM2026.MN</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <div class="footer-copy">&copy; 2026 НОГООН ХӨГЖИЛ ФОРУМ &middot; ДОРНОГОВЬ АЙМАГ</div>
+    <div class="footer-tags"><span>SDG 8</span><span>SDG 9</span><span>SDG 13</span><span>SDG 17</span></div>
   </div>
 </footer>
-</div><!-- /CTA+FOOTER wrapper -->
 
 <!-- REGISTRATION MODAL -->
 <div id="reg-modal" class="modal-overlay">
   <div class="modal-box">
     <div class="modal-head">
       <div class="modal-head-title">ФОРУМД БҮРТГҮҮЛЭХ</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <button class="modal-close" onclick="closeModal()">&#10005;</button>
     </div>
     <div id="reg-form-wrap" class="modal-body">
       <form id="reg-form" novalidate>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">ОВОГ</label><input id="f-lastname" type="text" class="form-input" placeholder="ОВОГ" required></div>
-          <div class="form-group"><label class="form-label">НЭР</label><input id="f-firstname" type="text" class="form-input" placeholder="НЭР" required></div>
+          <div class="form-group"><label class="form-label">ОВОГ</label><input id="f-lastname" type="text" class="form-input" placeholder="Овог" required></div>
+          <div class="form-group"><label class="form-label">НЭР</label><input id="f-firstname" type="text" class="form-input" placeholder="Нэр" required></div>
         </div>
         <div class="form-row">
           <div class="form-group"><label class="form-label">УТАС</label><input id="f-phone" type="tel" class="form-input" placeholder="+976 XXXX XXXX" required></div>
           <div class="form-group"><label class="form-label">И-МЭЙЛ</label><input id="f-email" type="email" class="form-input" placeholder="name@example.com" required></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">БАЙГУУЛЛАГА</label><input id="f-org" type="text" class="form-input" placeholder="БАЙГУУЛЛАГЫН НЭР" required></div>
-          <div class="form-group"><label class="form-label">АЛБАН ТУШААЛ</label><input id="f-role" type="text" class="form-input" placeholder="АЛБАН ТУШААЛ" required></div>
+          <div class="form-group"><label class="form-label">БАЙГУУЛЛАГА</label><input id="f-org" type="text" class="form-input" placeholder="Байгууллагын нэр" required></div>
+          <div class="form-group"><label class="form-label">АЛБАН ТУШААЛ</label><input id="f-role" type="text" class="form-input" placeholder="Албан тушаал" required></div>
         </div>
         <div class="form-group">
           <label class="form-label">САЛБАР</label>
@@ -495,27 +503,24 @@ body{font-family:'Exo 2',sans-serif;background:#fff;color:#222;-webkit-font-smoo
             <option>ХӨРӨНГӨ ОРУУЛАГЧ</option><option>B2B УУЛЗАЛТ</option><option>ИЛТГЭГЧ / ПАНЕЛИСТ</option><option>ЗОЧИН</option><option>ХЭВЛЭЛ МЭДЭЭЛЭЛ</option>
           </select>
         </div>
-        <div class="form-group"><label class="form-label">НЭМЭЛТ ТЭМДЭГЛЭЛ</label><textarea id="f-notes" class="form-input" rows="3" placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical;text-transform:none"></textarea></div>
+        <div class="form-group"><label class="form-label">НЭМЭЛТ ТЭМДЭГЛЭЛ</label><textarea id="f-notes" class="form-input" rows="3" placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical"></textarea></div>
         <label class="form-check"><input type="checkbox" id="f-agree" required> Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна</label>
       </form>
     </div>
     <div id="reg-success"></div>
     <div class="modal-foot" id="modal-foot">
-      <button class="modal-btn modal-btn-submit" type="submit" form="reg-form">ИЛГЭЭХ ✓</button>
+      <button class="modal-btn-submit" type="submit" form="reg-form">ИЛГЭЭХ</button>
     </div>
   </div>
 </div>
 
 <script>
-/* NAV - no scroll effect */
-
 /* Day switch */
 function switchDay(n){
   document.querySelectorAll('.sched-day').forEach(d=>d.style.display='none');
-  document.querySelectorAll('.day-tab').forEach(t=>{t.classList.remove('active');t.style.background='transparent';t.style.color='#999';t.style.borderBottomColor='transparent'});
+  document.querySelectorAll('.day-btn').forEach(t=>t.classList.remove('active'));
   document.getElementById('sched-day'+n).style.display='block';
-  const tab=document.getElementById('tab-day'+n);
-  if(tab){tab.classList.add('active');tab.style.background='var(--green-pale)';tab.style.color='var(--green)';tab.style.borderBottomColor='var(--green)'}
+  document.getElementById('tab-day'+n).classList.add('active');
 }
 
 /* Modal */
@@ -557,7 +562,7 @@ document.getElementById('reg-form').addEventListener('submit',async function(e){
     showSuccess(data,regNum);
   }catch(err){
     console.error('Registration error:',err);
-    btn.textContent='БҮРТГҮҮЛЭХ';btn.disabled=false;
+    btn.textContent='ИЛГЭЭХ';btn.disabled=false;
     alert('Алдаа гарлаа: '+err.message);
   }
 });
@@ -568,14 +573,14 @@ function showSuccess(d,regNum){
   const suc=document.getElementById('reg-success');
   suc.innerHTML=`
     <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="22" height="22"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <h3 style="font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:2px;color:#222;margin-bottom:8px">АМЖИЛТТАЙ БҮРТГЭГДЛЭЭ!</h3>
-    <p style="font-size:.65rem;color:#888;margin-bottom:6px;text-transform:none">Бүртгэлийн дугаар: <strong style="color:var(--green)">${regNum}</strong></p>
-    <p style="font-size:.62rem;color:#aaa;margin-bottom:20px;text-transform:none">Баталгаажуулах и-мэйл илгээгдэнэ.</p>
-    <div style="text-align:left;border:1px solid #eee;padding:16px;margin-bottom:20px">
-      <div style="font-size:.52rem;color:var(--green);letter-spacing:2px;margin-bottom:10px;font-weight:700">БҮРТГЭЛИЙН МЭДЭЭЛЭЛ</div>
-      ${[['ОВОГ, НЭР',d.lastname+' '+d.firstname],['УТАС',d.phone],['И-МЭЙЛ',d.email],['БАЙГУУЛЛАГА',d.org],['САЛБАР',d.sector]].filter(r=>r[1].trim()).map(([k,v])=>`<div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid #f5f5f5"><span style="font-size:.52rem;color:#999;min-width:100px;letter-spacing:1px">${k}</span><span style="font-size:.62rem;font-weight:600;color:#222">${v}</span></div>`).join('')}
+    <h3 style="font-size:1.1rem;font-weight:800;letter-spacing:2px;color:#fff;margin-bottom:8px;text-transform:uppercase">АМЖИЛТТАЙ БҮРТГЭГДЛЭЭ!</h3>
+    <p style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:6px">Бүртгэлийн дугаар: <strong style="color:var(--green)">${regNum}</strong></p>
+    <p style="font-size:.65rem;color:rgba(255,255,255,.25);margin-bottom:24px">Баталгаажуулах и-мэйл илгээгдэнэ.</p>
+    <div style="text-align:left;border:1px solid rgba(255,255,255,.08);padding:16px;margin-bottom:24px">
+      <div style="font-size:.52rem;color:var(--green);letter-spacing:2px;margin-bottom:12px;font-weight:700;text-transform:uppercase">БҮРТГЭЛИЙН МЭДЭЭЛЭЛ</div>
+      ${[['ОВОГ, НЭР',d.lastname+' '+d.firstname],['УТАС',d.phone],['И-МЭЙЛ',d.email],['БАЙГУУЛЛАГА',d.org],['САЛБАР',d.sector]].filter(r=>r[1].trim()).map(([k,v])=>`<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="font-size:.55rem;color:rgba(255,255,255,.3);min-width:100px;letter-spacing:1px;text-transform:uppercase">${k}</span><span style="font-size:.7rem;font-weight:600;color:#fff">${v}</span></div>`).join('')}
     </div>
-    <button class="btn-primary" onclick="closeModal()" style="border:none;cursor:pointer;padding:10px 28px;font-size:.6rem">ХААХ</button>`;
+    <button class="btn-g" onclick="closeModal()" style="padding:12px 32px;font-size:.65rem;cursor:pointer">ХААХ</button>`;
   suc.style.display='block';
 }
 </script>
