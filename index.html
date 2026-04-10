@@ -65,6 +65,15 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 .topbar-btn{padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none}
 .topbar-btn:hover{background:var(--green);border-color:var(--green);color:#fff}
 
+/* ── TICKER ── */
+.ticker{position:relative;width:100%;height:40px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(10,10,10,.9);backdrop-filter:blur(12px);display:flex;align-items:center;overflow:hidden;z-index:10}
+.ticker-badge{flex-shrink:0;height:100%;padding:0 20px 0 60px;display:flex;align-items:center;border-right:1px solid var(--border);font-size:.56rem;font-weight:700;letter-spacing:3px;color:var(--green);background:rgba(0,179,82,.04);white-space:nowrap;gap:8px}
+.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.ticker-track{flex:1;overflow:hidden}
+.ticker-inner{display:inline-flex;gap:0;white-space:nowrap;font-size:.58rem;font-weight:500;letter-spacing:.5px;color:var(--text-dim)}
+.ticker-item{display:inline-flex;align-items:center;padding:0 28px;border-right:1px solid var(--border);gap:10px}
+.ticker-item:hover{color:#fff}
+
 /* ── SECTION ── */
 .section{padding:100px 60px;max-width:1400px;margin:0 auto}
 .section-label{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:600;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:16px}
@@ -211,6 +220,14 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
     </div>
   </div>
 </section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-badge"><span class="ticker-dot"></span>МЭДЭЭЛЭЛ</div>
+  <div class="ticker-track" id="ticker-track">
+    <div class="ticker-inner" id="ticker-inner"></div>
+  </div>
+</div>
 
 <!-- SCHEDULE -->
 <section class="section" id="schedule">
@@ -508,6 +525,43 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 </div>
 
 <script>
+/* Ticker */
+(function(){
+  const items=[
+    {label:'231 ИДЭВХТЭЙ',value:'ТХЗ',color:'var(--green)'},
+    {label:'ТХЗ',value:'8 · 9 · 13 · 17',color:'rgba(255,255,255,.5)'},
+    {label:'ФОРУМ',value:'2026.04.24–25 · САЙНШАНД',color:'rgba(255,255,255,.5)'},
+    {label:'ОРОЛЦОГЧ',value:'500+',color:'var(--green)'},
+    {label:'B2B УУЛЗАЛТ',value:'100+',color:'rgba(255,255,255,.5)'},
+    {label:'САНАМЖ БИЧИГ',value:'50+',color:'rgba(255,255,255,.5)'},
+  ];
+  const inner=document.getElementById('ticker-inner');
+  if(!inner)return;
+  function build(){
+    inner.innerHTML='';
+    [...items,...items,...items].forEach(item=>{
+      const s=document.createElement('span');
+      s.className='ticker-item';
+      s.innerHTML=`<span style="color:${item.color};font-weight:700;letter-spacing:1px">${item.label}</span><span style="color:rgba(255,255,255,.15)">·</span><span style="color:rgba(255,255,255,.6)">${item.value}</span>`;
+      inner.appendChild(s);
+    });
+  }
+  build();
+  let x=0,speed=0.5,halfW=0,paused=false;
+  function calcHalf(){halfW=inner.scrollWidth/3}
+  function tick(){
+    if(!paused){x-=speed;if(Math.abs(x)>=halfW)x=0;inner.style.transform=`translateX(${x}px)`}
+    requestAnimationFrame(tick);
+  }
+  const track=document.getElementById('ticker-track');
+  if(track){
+    track.addEventListener('mouseenter',()=>{paused=true});
+    track.addEventListener('mouseleave',()=>{paused=false});
+  }
+  window.addEventListener('load',()=>{calcHalf();tick()});
+  window.addEventListener('resize',calcHalf);
+})();
+
 /* Day switch */
 function switchDay(n){
   document.querySelectorAll('.sched-day').forEach(d=>d.style.display='none');
