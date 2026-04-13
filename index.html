@@ -197,11 +197,15 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 .success-icon{width:56px;height:56px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--green);margin:0 auto 16px}
 @media(max-width:540px){.form-row{grid-template-columns:1fr}.modal-box{max-height:96vh}}
 /* ── PDF COVER ── */
-.pdf-cover{display:none;flex-direction:column;min-height:270mm;background:#fff;page-break-after:always;break-after:always;margin:-72px -60px 0;padding:40px 60px}
-.pdf-cover-logo{width:150px;display:block;margin-bottom:0}
-.pdf-cover-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.pdf-cover-title{font-size:2rem;font-weight:800;letter-spacing:8px;color:#111;text-transform:uppercase;margin-bottom:16px;text-align:center;line-height:1.2}
-.pdf-cover-sub{font-size:.78rem;color:#00b352;letter-spacing:4px;text-transform:uppercase;text-align:center}
+.pdf-cover{display:none;flex-direction:column;min-height:270mm;background:#0a0a0a;page-break-after:always;break-after:always;margin:-72px -60px 0;padding:60px 60px 48px;position:relative;overflow:hidden}
+.pdf-cover-bg{position:absolute;inset:0;z-index:0}
+.pdf-cover-bg img{width:100%;height:100%;object-fit:cover;opacity:.45}
+.pdf-cover-bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.2) 0%,rgba(10,10,10,.75) 60%,#0a0a0a 100%)}
+.pdf-cover-logo{width:min(380px,65%);display:block;margin-bottom:auto;position:relative;z-index:1}
+.pdf-cover-body{position:relative;z-index:1;margin-top:auto}
+.pdf-cover-title{font-size:clamp(3rem,8vw,5rem);font-weight:800;line-height:.95;letter-spacing:-2px;color:#fff;text-transform:uppercase;margin-bottom:20px}
+.pdf-cover-title .accent{color:#00b352}
+.pdf-cover-sub{font-size:.82rem;color:rgba(255,255,255,.6);letter-spacing:2px;text-transform:uppercase}
 /* ── PDF MODE (white bg + green) ── */
 .pdf-mode{background:#fff!important}
 .pdf-mode .section-label{color:#00b352!important}
@@ -214,6 +218,8 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 .pdf-mode .sched-row.is-break{background:#f2fbf5!important;border-left-color:#00b352!important}
 .pdf-mode .sched-time{color:#00b352!important;border-right-color:#e8e8e8!important}
 .pdf-mode .sched-name{color:#1a1a1a!important}
+.pdf-mode #sched-day2{break-before:page;page-break-before:always}
+.pdf-mode #sched-day3{break-before:page;page-break-before:always}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
@@ -269,9 +275,13 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 
   <!-- PDF Cover -->
   <div class="pdf-cover" id="pdf-cover">
-    <img src="dsif-logo.png" alt="DSIF" class="pdf-cover-logo">
-    <div class="pdf-cover-center">
-      <div class="pdf-cover-title">ФОРУМЫН ХӨТӨЛБӨР</div>
+    <div class="pdf-cover-bg">
+      <img src="hero-bg.jpg" alt="">
+      <div class="pdf-cover-bg-overlay"></div>
+    </div>
+    <img src="dsif-logo.png" alt="DSIF 2026" class="pdf-cover-logo">
+    <div class="pdf-cover-body">
+      <div class="pdf-cover-title">ФОРУМЫН<br><span class="accent">ХӨТӨЛБӨР</span></div>
       <div class="pdf-cover-sub">2026.04.26 — 27 &nbsp;·&nbsp; САЙНШАНД, ДОРНОГОВЬ</div>
     </div>
   </div>
