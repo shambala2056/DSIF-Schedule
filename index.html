@@ -138,21 +138,15 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 
 /* ── PRINT ── */
 @media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   .topbar,.hero,.ticker,.cta-section,.site-footer,.sched-header,#reg-modal{display:none!important}
-  body{background:#fff;color:#000}
+  body{background:#0a0a0a;color:#fff}
   .section{padding:24px;max-width:100%}
-  .section-title,.section-label{color:#000}
-  .section-label::before{background:#000}
   .sched-day{display:block!important}
   .sched-block{margin-bottom:16px;break-inside:avoid}
-  .sched-block-title{color:#000;border-bottom:2px solid #000;background:none}
-  .sched-block-title::before{background:#000}
-  .sched-row{background:#fff!important;border-bottom:1px solid #ddd;break-inside:avoid}
-  .sched-row.is-break{background:#f5f5f5!important;border-left:3px solid #000}
-  .sched-time{color:#000;border-right:1px solid #ddd}
-  .sched-name{color:#000}
-  .print-title{display:block!important;text-align:center;font-size:1.2rem;font-weight:700;letter-spacing:2px;margin-bottom:4px}
-  .print-date{display:block!important;text-align:center;font-size:.8rem;color:#555;margin-bottom:24px;border-bottom:1px solid #000;padding-bottom:12px}
+  .sched-row{break-inside:avoid}
+  .print-title{display:block!important;text-align:center;font-size:1.1rem;font-weight:700;letter-spacing:3px;color:#fff;margin-bottom:4px;text-transform:uppercase}
+  .print-date{display:block!important;text-align:center;font-size:.75rem;color:#00b352;letter-spacing:2px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1);text-transform:uppercase}
 }
 .print-title,.print-date{display:none}
 
