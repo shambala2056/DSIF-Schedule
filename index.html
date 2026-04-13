@@ -136,18 +136,6 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 .pdf-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
 .pdf-btn:hover{border-color:var(--green);color:var(--green)}
 
-/* ── PRINT ── */
-@media print{
-  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-  .topbar,.hero,.ticker,.cta-section,.site-footer,.sched-header,#reg-modal{display:none!important}
-  body{background:#0a0a0a;color:#fff}
-  .section{padding:24px;max-width:100%}
-  .sched-day{display:block!important}
-  .sched-block{margin-bottom:16px;break-inside:avoid}
-  .sched-row{break-inside:avoid}
-  .print-title{display:block!important;text-align:center;font-size:1.1rem;font-weight:700;letter-spacing:3px;color:#fff;margin-bottom:4px;text-transform:uppercase}
-  .print-date{display:block!important;text-align:center;font-size:.75rem;color:#00b352;letter-spacing:2px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1);text-transform:uppercase}
-}
 .print-title,.print-date{display:none}
 
 /* ── RESPONSIVE ── */
@@ -208,7 +196,21 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 #reg-success{display:none;padding:40px 24px;text-align:center}
 .success-icon{width:56px;height:56px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--green);margin:0 auto 16px}
 @media(max-width:540px){.form-row{grid-template-columns:1fr}.modal-box{max-height:96vh}}
+/* ── PDF MODE (white bg + green) ── */
+.pdf-mode{background:#fff!important}
+.pdf-mode .section-label{color:#00b352!important}
+.pdf-mode .section-label::before{background:#00b352!important}
+.pdf-mode .section-title{color:#111!important}
+.pdf-mode .print-title{display:block!important;color:#111!important;font-size:1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:4px}
+.pdf-mode .print-date{display:block!important;color:#00b352!important;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid #e0e0e0!important}
+.pdf-mode .sched-block-title{color:#00b352!important;border-bottom-color:#00b352!important;background:none!important}
+.pdf-mode .sched-block-title::before{background:#00b352!important}
+.pdf-mode .sched-row{background:#fff!important;border-bottom-color:#e8e8e8!important}
+.pdf-mode .sched-row.is-break{background:#f2fbf5!important;border-left-color:#00b352!important}
+.pdf-mode .sched-time{color:#00b352!important;border-right-color:#e8e8e8!important}
+.pdf-mode .sched-name{color:#1a1a1a!important}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -745,13 +747,28 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
   window.addEventListener('resize',calcHalf);
 })();
 
-/* PDF print */
+/* PDF download */
 function printSchedule(){
-  const days=document.querySelectorAll('.sched-day');
-  const saved=[];
-  days.forEach((d,i)=>{saved[i]=d.style.display;d.style.display='block'});
-  window.print();
-  days.forEach((d,i)=>d.style.display=saved[i]);
+  const section=document.getElementById('schedule');
+  const header=section.querySelector('.sched-header');
+  const days=section.querySelectorAll('.sched-day');
+  const savedDays=Array.from(days).map(d=>d.style.display);
+
+  days.forEach(d=>d.style.display='block');
+  header.style.visibility='hidden';
+  section.classList.add('pdf-mode');
+
+  html2pdf().set({
+    margin:[10,10,10,10],
+    filename:'DSIF-Forum-2026.pdf',
+    image:{type:'jpeg',quality:0.98},
+    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+  }).from(section).save().then(()=>{
+    days.forEach((d,i)=>d.style.display=savedDays[i]);
+    header.style.visibility='';
+    section.classList.remove('pdf-mode');
+  });
 }
 
 /* Day switch */
