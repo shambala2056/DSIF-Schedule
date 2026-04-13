@@ -129,6 +129,33 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 .footer-tags{display:flex;gap:6px}
 .footer-tags span{padding:4px 12px;border:1px solid rgba(255,255,255,.08);font-size:.55rem;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.3);text-transform:uppercase}
 
+/* ── PDF BUTTON ── */
+.sched-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:36px;flex-wrap:wrap}
+.sched-header .day-switcher{margin-bottom:0}
+.pdf-btn{display:flex;align-items:center;gap:8px;padding:14px 24px;font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.5);background:transparent;border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:all .25s;text-transform:uppercase;white-space:nowrap}
+.pdf-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
+.pdf-btn:hover{border-color:var(--green);color:var(--green)}
+
+/* ── PRINT ── */
+@media print{
+  .topbar,.hero,.ticker,.cta-section,.site-footer,.sched-header,#reg-modal{display:none!important}
+  body{background:#fff;color:#000}
+  .section{padding:24px;max-width:100%}
+  .section-title,.section-label{color:#000}
+  .section-label::before{background:#000}
+  .sched-day{display:block!important}
+  .sched-block{margin-bottom:16px;break-inside:avoid}
+  .sched-block-title{color:#000;border-bottom:2px solid #000;background:none}
+  .sched-block-title::before{background:#000}
+  .sched-row{background:#fff!important;border-bottom:1px solid #ddd;break-inside:avoid}
+  .sched-row.is-break{background:#f5f5f5!important;border-left:3px solid #000}
+  .sched-time{color:#000;border-right:1px solid #ddd}
+  .sched-name{color:#000}
+  .print-title{display:block!important;text-align:center;font-size:1.2rem;font-weight:700;letter-spacing:2px;margin-bottom:4px}
+  .print-date{display:block!important;text-align:center;font-size:.8rem;color:#555;margin-bottom:24px;border-bottom:1px solid #000;padding-bottom:12px}
+}
+.print-title,.print-date{display:none}
+
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
   .hero{min-height:80vh}
@@ -239,10 +266,18 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
   <div class="section-label">ХӨТӨЛБӨР</div>
   <h2 class="section-title">ФОРУМЫН ХУВААРЬ</h2>
 
-  <div class="day-switcher">
-    <button class="day-btn active" onclick="switchDay(1)" id="tab-day1">1-Р ӨДӨР 04.26</button>
-    <button class="day-btn" onclick="switchDay(2)" id="tab-day2">2-Р ӨДӨР 04.27</button>
-    <button class="day-btn" onclick="switchDay(3)" id="tab-day3">УУЛЗАЛТЫН ХӨТӨЛБӨР</button>
+  <div class="print-title">ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026</div>
+  <div class="print-date">2026.04.26 — 27 &nbsp;·&nbsp; САЙНШАНД</div>
+  <div class="sched-header">
+    <div class="day-switcher">
+      <button class="day-btn active" onclick="switchDay(1)" id="tab-day1">1-Р ӨДӨР 04.26</button>
+      <button class="day-btn" onclick="switchDay(2)" id="tab-day2">2-Р ӨДӨР 04.27</button>
+      <button class="day-btn" onclick="switchDay(3)" id="tab-day3">УУЛЗАЛТЫН ХӨТӨЛБӨР</button>
+    </div>
+    <button class="pdf-btn" onclick="printSchedule()">
+      <svg viewBox="0 0 24 24"><path d="M12 16l-4-4h2.5V4h3v8H16l-4 4z"/><path d="M4 18h16v2H4z"/></svg>
+      PDF ТАТАХ
+    </button>
   </div>
 
   <!-- DAY 1 -->
@@ -715,6 +750,15 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
   window.addEventListener('load',()=>{calcHalf();tick()});
   window.addEventListener('resize',calcHalf);
 })();
+
+/* PDF print */
+function printSchedule(){
+  const days=document.querySelectorAll('.sched-day');
+  const saved=[];
+  days.forEach((d,i)=>{saved[i]=d.style.display;d.style.display='block'});
+  window.print();
+  days.forEach((d,i)=>d.style.display=saved[i]);
+}
 
 /* Day switch */
 function switchDay(n){
