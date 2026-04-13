@@ -210,16 +210,16 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 /* ── PDF MODE ── */
 .pdf-mode{background:#fff!important;padding:0!important;max-width:100%!important}
 .pdf-mode .section-label,.pdf-mode .section-title{display:none!important}
-.pdf-mode #sched-day1,.pdf-mode #sched-day2,.pdf-mode #sched-day3{padding:16px 32px 0}
-.pdf-day-header{display:none;justify-content:space-between;align-items:flex-end;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid #00b352}
-.pdf-day-header-title{font-size:1.1rem;font-weight:800;letter-spacing:3px;color:#111;text-transform:uppercase}
+.pdf-day-header{display:none;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:2px solid #00b352;margin-bottom:10px}
+.pdf-day-header-title{font-size:.8rem;font-weight:800;letter-spacing:3px;color:#111;text-transform:uppercase}
 .pdf-day-header-meta{text-align:right}
-.pdf-day-header-date{font-size:.75rem;font-weight:700;color:#00b352;letter-spacing:2px}
-.pdf-day-header-day{font-size:.6rem;font-weight:600;color:#888;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.pdf-day-header-date{font-size:.78rem;font-weight:700;color:#00b352;letter-spacing:2px}
+.pdf-day-header-day{font-size:.55rem;font-weight:600;color:#888;letter-spacing:2px;text-transform:uppercase}
 .pdf-mode .pdf-day-header{display:flex}
-.pdf-mode #sched-day2{break-before:page;page-break-before:always}
-.pdf-mode #sched-day3{break-before:page;page-break-before:always}
-.pdf-mode .sched-block{margin-bottom:20px;page-break-inside:avoid;break-inside:avoid}
+#sched-all-days{display:contents}
+.pdf-mode #sched-all-days{display:block;padding:14px 28px 0}
+.pdf-mode #sched-day2,.pdf-mode #sched-day3{margin-top:18px}
+.pdf-mode .sched-block{margin-bottom:10px}
 .pdf-mode .sched-block-title{page-break-after:avoid;break-after:avoid;color:#00b352!important;border-bottom-color:#00b352!important;background:none!important}
 .pdf-mode .sched-block-title::before{background:#00b352!important}
 .pdf-mode .sched-row{background:#fff!important;border-bottom-color:#e8e8e8!important;page-break-inside:avoid;break-inside:avoid}
@@ -304,6 +304,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
     </button>
   </div>
 
+  <div id="sched-all-days">
   <!-- DAY 1 -->
   <div id="sched-day1" class="sched-day">
     <div class="pdf-day-header">
@@ -638,6 +639,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 
     </div>
   </div>
+  </div><!-- /sched-all-days -->
 
 </section>
 
@@ -831,10 +833,8 @@ async function printSchedule(){
   const cW=pgW-2*mg, cH=pgH-2*mg; // 190×277mm
 
   const sections=[
-    {el:cover,       bg:'#0a0a0a',logo:false},
-    {el:document.getElementById('sched-day1'),bg:'#ffffff',logo:true},
-    {el:document.getElementById('sched-day2'),bg:'#ffffff',logo:true},
-    {el:document.getElementById('sched-day3'),bg:'#ffffff',logo:true},
+    {el:cover,                                        bg:'#0a0a0a',logo:false},
+    {el:document.getElementById('sched-all-days'),    bg:'#ffffff',logo:true},
   ];
 
   let pageCount=0;
