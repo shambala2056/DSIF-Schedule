@@ -198,11 +198,9 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 @media(max-width:540px){.form-row{grid-template-columns:1fr}.modal-box{max-height:96vh}}
 /* ── PDF COVER ── */
 /* windowWidth:800 → 1px=0.2375mm, A4 content(273mm)=1150px */
-.pdf-cover{display:none;flex-direction:column;width:100%;height:1150px;background:#0a0a0a;page-break-after:always;break-after:always;padding:48px 40px 40px;position:relative;overflow:hidden;box-sizing:border-box}
-.pdf-cover-bg{position:absolute;inset:0;z-index:0}
-.pdf-cover-bg img{width:100%;height:100%;object-fit:cover;opacity:.45}
-.pdf-cover-bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.2) 0%,rgba(10,10,10,.8) 65%,#0a0a0a 100%)}
-.pdf-cover-logo{width:320px;display:block;margin-bottom:auto;position:relative;z-index:1;flex-shrink:0}
+.pdf-cover{display:none;flex-direction:column;width:100%;height:1150px;background:#0a0a0a url('hero-bg.jpg') center/cover no-repeat;page-break-after:always;break-after:always;padding:48px 40px 40px;position:relative;overflow:hidden;box-sizing:border-box}
+.pdf-cover-bg-overlay{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(10,10,10,.3) 0%,rgba(10,10,10,.8) 65%,#0a0a0a 100%)}
+.pdf-cover-logo{width:320px;display:block;margin-bottom:auto;position:relative;z-index:1;flex-shrink:0;filter:brightness(0)}
 .pdf-cover-body{position:relative;z-index:1;padding-bottom:8px}
 .pdf-cover-title{font-size:4.5rem;font-weight:800;line-height:.9;letter-spacing:-3px;color:#fff;text-transform:uppercase;margin-bottom:24px}
 .pdf-cover-title .accent{color:#00b352}
@@ -282,10 +280,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 
   <!-- PDF Cover -->
   <div class="pdf-cover" id="pdf-cover">
-    <div class="pdf-cover-bg">
-      <img src="hero-bg.jpg" alt="">
-      <div class="pdf-cover-bg-overlay"></div>
-    </div>
+    <div class="pdf-cover-bg-overlay"></div>
     <img src="dsif-logo.png" alt="DSIF 2026" class="pdf-cover-logo">
     <div class="pdf-cover-body">
       <div class="pdf-cover-title">ФОРУМЫН<br><span class="accent">ХӨТӨЛБӨР</span></div>
