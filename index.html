@@ -196,17 +196,19 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 #reg-success{display:none;padding:40px 24px;text-align:center}
 .success-icon{width:56px;height:56px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--green);margin:0 auto 16px}
 @media(max-width:540px){.form-row{grid-template-columns:1fr}.modal-box{max-height:96vh}}
+/* ── PDF COVER ── */
+.pdf-cover{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:270mm;background:#071409;page-break-after:always;break-after:always;margin:-72px -60px 0}
+.pdf-cover-logo{width:220px;margin-bottom:52px;filter:brightness(0) invert(1)}
+.pdf-cover-title{font-size:2rem;font-weight:800;letter-spacing:8px;color:#fff;text-transform:uppercase;margin-bottom:20px;text-align:center;line-height:1.2}
+.pdf-cover-sub{font-size:.78rem;color:#00b352;letter-spacing:4px;text-transform:uppercase}
 /* ── PDF MODE (white bg + green) ── */
 .pdf-mode{background:#fff!important}
 .pdf-mode .section-label{color:#00b352!important}
 .pdf-mode .section-label::before{background:#00b352!important}
 .pdf-mode .section-title{color:#111!important}
-.pdf-mode .print-title{display:block!important;color:#111!important;font-size:1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:4px}
-.pdf-mode .print-date{display:block!important;color:#00b352!important;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid #e0e0e0!important}
-.pdf-mode .sched-block-title{color:#00b352!important;border-bottom-color:#00b352!important;background:none!important}
-.pdf-mode .sched-block-title::before{background:#00b352!important}
 .pdf-mode .sched-block{page-break-inside:avoid;break-inside:avoid}
-.pdf-mode .sched-block-title{page-break-after:avoid;break-after:avoid}
+.pdf-mode .sched-block-title{page-break-after:avoid;break-after:avoid;color:#00b352!important;border-bottom-color:#00b352!important;background:none!important}
+.pdf-mode .sched-block-title::before{background:#00b352!important}
 .pdf-mode .sched-row{background:#fff!important;border-bottom-color:#e8e8e8!important;page-break-inside:avoid;break-inside:avoid}
 .pdf-mode .sched-row.is-break{background:#f2fbf5!important;border-left-color:#00b352!important}
 .pdf-mode .sched-time{color:#00b352!important;border-right-color:#e8e8e8!important}
@@ -264,8 +266,12 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
   <div class="section-label">ХӨТӨЛБӨР</div>
   <h2 class="section-title">ФОРУМЫН ХУВААРЬ</h2>
 
-  <div class="print-title">ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026</div>
-  <div class="print-date">2026.04.26 — 27 &nbsp;·&nbsp; САЙНШАНД</div>
+  <!-- PDF Cover -->
+  <div class="pdf-cover" id="pdf-cover">
+    <img src="dsif-logo.png" alt="DSIF" class="pdf-cover-logo">
+    <div class="pdf-cover-title">ФОРУМЫН ХӨТӨЛБӨР</div>
+    <div class="pdf-cover-sub">2026.04.26 — 27 &nbsp;·&nbsp; САЙНШАНД, ДОРНОГОВЬ</div>
+  </div>
   <div class="sched-header">
     <div class="day-switcher">
       <button class="day-btn active" onclick="switchDay(1)" id="tab-day1">1-Р ӨДӨР 04.26</button>
@@ -753,25 +759,55 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 function printSchedule(){
   const section=document.getElementById('schedule');
   const header=section.querySelector('.sched-header');
+  const cover=document.getElementById('pdf-cover');
   const days=section.querySelectorAll('.sched-day');
   const savedDays=Array.from(days).map(d=>d.style.display);
 
   days.forEach(d=>d.style.display='block');
   header.style.visibility='hidden';
+  cover.style.display='flex';
   section.classList.add('pdf-mode');
 
-  html2pdf().set({
-    margin:[10,10,10,10],
+  function restore(){
+    days.forEach((d,i)=>d.style.display=savedDays[i]);
+    header.style.visibility='';
+    cover.style.display='none';
+    section.classList.remove('pdf-mode');
+  }
+
+  const opt={
+    margin:[14,10,10,10],
     filename:'DSIF-Forum-2026.pdf',
     image:{type:'jpeg',quality:0.98},
     html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:900},
     jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
     pagebreak:{mode:['avoid-all','css','legacy']}
-  }).from(section).save().then(()=>{
-    days.forEach((d,i)=>d.style.display=savedDays[i]);
-    header.style.visibility='';
-    section.classList.remove('pdf-mode');
-  });
+  };
+
+  /* Load logo → data URL → add to every page header */
+  const img=new Image();
+  img.crossOrigin='anonymous';
+  img.onload=function(){
+    const c=document.createElement('canvas');
+    c.width=img.naturalWidth||300; c.height=img.naturalHeight||80;
+    c.getContext('2d').drawImage(img,0,0);
+    const logoUrl=c.toDataURL('image/png');
+
+    html2pdf().set(opt).from(section).toPdf().get('pdf').then(function(pdf){
+      const total=pdf.internal.getNumberOfPages();
+      const pw=pdf.internal.pageSize.getWidth();
+      for(let i=2;i<=total;i++){
+        pdf.setPage(i);
+        pdf.setFillColor(7,20,9);
+        pdf.rect(pw-46,1,46,13,'F');
+        pdf.addImage(logoUrl,'PNG',pw-44,3,38,8);
+      }
+    }).save().then(restore);
+  };
+  img.onerror=function(){
+    html2pdf().set(opt).from(section).save().then(restore);
+  };
+  img.src='dsif-logo.png';
 }
 
 /* Day switch */
