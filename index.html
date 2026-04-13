@@ -210,7 +210,13 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 /* ── PDF MODE ── */
 .pdf-mode{background:#fff!important;padding:0!important;max-width:100%!important}
 .pdf-mode .section-label,.pdf-mode .section-title{display:none!important}
-.pdf-mode #sched-day1,.pdf-mode #sched-day2,.pdf-mode #sched-day3{padding:32px 40px 0}
+.pdf-mode #sched-day1,.pdf-mode #sched-day2,.pdf-mode #sched-day3{padding:16px 32px 0}
+.pdf-day-header{display:none;justify-content:space-between;align-items:flex-end;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid #00b352}
+.pdf-day-header-title{font-size:1.1rem;font-weight:800;letter-spacing:3px;color:#111;text-transform:uppercase}
+.pdf-day-header-meta{text-align:right}
+.pdf-day-header-date{font-size:.75rem;font-weight:700;color:#00b352;letter-spacing:2px}
+.pdf-day-header-day{font-size:.6rem;font-weight:600;color:#888;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.pdf-mode .pdf-day-header{display:flex}
 .pdf-mode #sched-day2{break-before:page;page-break-before:always}
 .pdf-mode #sched-day3{break-before:page;page-break-before:always}
 .pdf-mode .sched-block{margin-bottom:20px;page-break-inside:avoid;break-inside:avoid}
@@ -300,6 +306,13 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 
   <!-- DAY 1 -->
   <div id="sched-day1" class="sched-day">
+    <div class="pdf-day-header">
+      <div class="pdf-day-header-title">ФОРУМЫН ХӨТӨЛБӨР</div>
+      <div class="pdf-day-header-meta">
+        <div class="pdf-day-header-date">2026.04.26</div>
+        <div class="pdf-day-header-day">1-Р ӨДӨР</div>
+      </div>
+    </div>
     <div class="sched-grid">
 
       <div class="sched-block">
@@ -403,6 +416,13 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 
   <!-- DAY 2 -->
   <div id="sched-day2" class="sched-day" style="display:none">
+    <div class="pdf-day-header">
+      <div class="pdf-day-header-title">ФОРУМЫН ХӨТӨЛБӨР</div>
+      <div class="pdf-day-header-meta">
+        <div class="pdf-day-header-date">2026.04.27</div>
+        <div class="pdf-day-header-day">2-Р ӨДӨР</div>
+      </div>
+    </div>
     <div class="sched-grid">
 
       <div class="sched-block">
@@ -495,6 +515,13 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 
   <!-- MEETINGS -->
   <div id="sched-day3" class="sched-day" style="display:none">
+    <div class="pdf-day-header">
+      <div class="pdf-day-header-title">ФОРУМЫН ХӨТӨЛБӨР</div>
+      <div class="pdf-day-header-meta">
+        <div class="pdf-day-header-date">2026.04.26 — 27</div>
+        <div class="pdf-day-header-day">УУЛЗАЛТЫН ХӨТӨЛБӨР</div>
+      </div>
+    </div>
     <div class="sched-grid">
 
       <div class="sched-block">
