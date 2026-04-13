@@ -197,10 +197,11 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 .success-icon{width:56px;height:56px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--green);margin:0 auto 16px}
 @media(max-width:540px){.form-row{grid-template-columns:1fr}.modal-box{max-height:96vh}}
 /* ── PDF COVER ── */
-.pdf-cover{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:270mm;background:#071409;page-break-after:always;break-after:always;margin:-72px -60px 0}
-.pdf-cover-logo{width:220px;margin-bottom:52px;filter:brightness(0) invert(1)}
-.pdf-cover-title{font-size:2rem;font-weight:800;letter-spacing:8px;color:#fff;text-transform:uppercase;margin-bottom:20px;text-align:center;line-height:1.2}
-.pdf-cover-sub{font-size:.78rem;color:#00b352;letter-spacing:4px;text-transform:uppercase}
+.pdf-cover{display:none;flex-direction:column;min-height:270mm;background:#fff;page-break-after:always;break-after:always;margin:-72px -60px 0;padding:40px 60px}
+.pdf-cover-logo{width:150px;display:block;margin-bottom:0}
+.pdf-cover-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pdf-cover-title{font-size:2rem;font-weight:800;letter-spacing:8px;color:#111;text-transform:uppercase;margin-bottom:16px;text-align:center;line-height:1.2}
+.pdf-cover-sub{font-size:.78rem;color:#00b352;letter-spacing:4px;text-transform:uppercase;text-align:center}
 /* ── PDF MODE (white bg + green) ── */
 .pdf-mode{background:#fff!important}
 .pdf-mode .section-label{color:#00b352!important}
@@ -269,8 +270,10 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
   <!-- PDF Cover -->
   <div class="pdf-cover" id="pdf-cover">
     <img src="dsif-logo.png" alt="DSIF" class="pdf-cover-logo">
-    <div class="pdf-cover-title">ФОРУМЫН ХӨТӨЛБӨР</div>
-    <div class="pdf-cover-sub">2026.04.26 — 27 &nbsp;·&nbsp; САЙНШАНД, ДОРНОГОВЬ</div>
+    <div class="pdf-cover-center">
+      <div class="pdf-cover-title">ФОРУМЫН ХӨТӨЛБӨР</div>
+      <div class="pdf-cover-sub">2026.04.26 — 27 &nbsp;·&nbsp; САЙНШАНД, ДОРНОГОВЬ</div>
+    </div>
   </div>
   <div class="sched-header">
     <div class="day-switcher">
@@ -779,7 +782,7 @@ function printSchedule(){
     margin:[14,10,10,10],
     filename:'DSIF-Forum-2026.pdf',
     image:{type:'jpeg',quality:0.98},
-    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:900},
+    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:1400},
     jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
     pagebreak:{mode:['avoid-all','css','legacy']}
   };
@@ -798,9 +801,7 @@ function printSchedule(){
       const pw=pdf.internal.pageSize.getWidth();
       for(let i=2;i<=total;i++){
         pdf.setPage(i);
-        pdf.setFillColor(7,20,9);
-        pdf.rect(pw-46,1,46,13,'F');
-        pdf.addImage(logoUrl,'PNG',pw-44,3,38,8);
+        pdf.addImage(logoUrl,'PNG',10,3,36,9);
       }
     }).save().then(restore);
   };
