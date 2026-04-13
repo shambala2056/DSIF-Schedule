@@ -197,29 +197,29 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 .success-icon{width:56px;height:56px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--green);margin:0 auto 16px}
 @media(max-width:540px){.form-row{grid-template-columns:1fr}.modal-box{max-height:96vh}}
 /* ── PDF COVER ── */
-.pdf-cover{display:none;flex-direction:column;min-height:270mm;background:#0a0a0a;page-break-after:always;break-after:always;margin:-72px -60px 0;padding:60px 60px 48px;position:relative;overflow:hidden}
+/* windowWidth:800 → 1px=0.2375mm, A4 content(273mm)=1150px */
+.pdf-cover{display:none;flex-direction:column;width:100%;height:1150px;background:#0a0a0a;page-break-after:always;break-after:always;padding:48px 40px 40px;position:relative;overflow:hidden;box-sizing:border-box}
 .pdf-cover-bg{position:absolute;inset:0;z-index:0}
 .pdf-cover-bg img{width:100%;height:100%;object-fit:cover;opacity:.45}
-.pdf-cover-bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.2) 0%,rgba(10,10,10,.75) 60%,#0a0a0a 100%)}
-.pdf-cover-logo{width:min(380px,65%);display:block;margin-bottom:auto;position:relative;z-index:1}
-.pdf-cover-body{position:relative;z-index:1;margin-top:auto}
-.pdf-cover-title{font-size:clamp(3rem,8vw,5rem);font-weight:800;line-height:.95;letter-spacing:-2px;color:#fff;text-transform:uppercase;margin-bottom:20px}
+.pdf-cover-bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.2) 0%,rgba(10,10,10,.8) 65%,#0a0a0a 100%)}
+.pdf-cover-logo{width:320px;display:block;margin-bottom:auto;position:relative;z-index:1;flex-shrink:0}
+.pdf-cover-body{position:relative;z-index:1;padding-bottom:8px}
+.pdf-cover-title{font-size:4.5rem;font-weight:800;line-height:.9;letter-spacing:-3px;color:#fff;text-transform:uppercase;margin-bottom:24px}
 .pdf-cover-title .accent{color:#00b352}
-.pdf-cover-sub{font-size:.82rem;color:rgba(255,255,255,.6);letter-spacing:2px;text-transform:uppercase}
-/* ── PDF MODE (white bg + green) ── */
-.pdf-mode{background:#fff!important}
-.pdf-mode .section-label{color:#00b352!important}
-.pdf-mode .section-label::before{background:#00b352!important}
-.pdf-mode .section-title{color:#111!important}
-.pdf-mode .sched-block{page-break-inside:avoid;break-inside:avoid}
+.pdf-cover-sub{font-size:.9rem;color:rgba(255,255,255,.6);letter-spacing:3px;text-transform:uppercase}
+/* ── PDF MODE ── */
+.pdf-mode{background:#fff!important;padding:0!important;max-width:100%!important}
+.pdf-mode .section-label,.pdf-mode .section-title{display:none!important}
+.pdf-mode #sched-day1,.pdf-mode #sched-day2,.pdf-mode #sched-day3{padding:32px 40px 0}
+.pdf-mode #sched-day2{break-before:page;page-break-before:always}
+.pdf-mode #sched-day3{break-before:page;page-break-before:always}
+.pdf-mode .sched-block{margin-bottom:20px;page-break-inside:avoid;break-inside:avoid}
 .pdf-mode .sched-block-title{page-break-after:avoid;break-after:avoid;color:#00b352!important;border-bottom-color:#00b352!important;background:none!important}
 .pdf-mode .sched-block-title::before{background:#00b352!important}
 .pdf-mode .sched-row{background:#fff!important;border-bottom-color:#e8e8e8!important;page-break-inside:avoid;break-inside:avoid}
 .pdf-mode .sched-row.is-break{background:#f2fbf5!important;border-left-color:#00b352!important}
 .pdf-mode .sched-time{color:#00b352!important;border-right-color:#e8e8e8!important}
 .pdf-mode .sched-name{color:#1a1a1a!important}
-.pdf-mode #sched-day2{break-before:page;page-break-before:always}
-.pdf-mode #sched-day3{break-before:page;page-break-before:always}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
@@ -792,7 +792,7 @@ function printSchedule(){
     margin:[14,10,10,10],
     filename:'DSIF-Forum-2026.pdf',
     image:{type:'jpeg',quality:0.98},
-    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:1400},
+    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:800},
     jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
     pagebreak:{mode:['avoid-all','css','legacy']}
   };
@@ -811,7 +811,7 @@ function printSchedule(){
       const pw=pdf.internal.pageSize.getWidth();
       for(let i=2;i<=total;i++){
         pdf.setPage(i);
-        pdf.addImage(logoUrl,'PNG',10,3,36,9);
+        pdf.addImage(logoUrl,'PNG',10,3,28,7);
       }
     }).save().then(restore);
   };
