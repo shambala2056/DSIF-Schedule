@@ -221,7 +221,8 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 .pdf-mode .sched-time{color:#00b352!important;border-right-color:#e8e8e8!important}
 .pdf-mode .sched-name{color:#1a1a1a!important}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -768,57 +769,89 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
   window.addEventListener('resize',calcHalf);
 })();
 
-/* PDF download */
-function printSchedule(){
-  const section=document.getElementById('schedule');
-  const header=section.querySelector('.sched-header');
+/* PDF download — canvas-slice approach */
+async function printSchedule(){
+  const schedule=document.getElementById('schedule');
+  const header=schedule.querySelector('.sched-header');
   const cover=document.getElementById('pdf-cover');
-  const days=section.querySelectorAll('.sched-day');
+  const days=schedule.querySelectorAll('.sched-day');
   const savedDays=Array.from(days).map(d=>d.style.display);
 
+  // Prepare DOM
   days.forEach(d=>d.style.display='block');
   header.style.visibility='hidden';
   cover.style.display='flex';
-  section.classList.add('pdf-mode');
+  schedule.classList.add('pdf-mode');
+  await new Promise(r=>setTimeout(r,400));
 
-  function restore(){
-    days.forEach((d,i)=>d.style.display=savedDays[i]);
-    header.style.visibility='';
-    cover.style.display='none';
-    section.classList.remove('pdf-mode');
+  // Load logo
+  const logoUrl=await new Promise(res=>{
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=()=>{
+      const c=document.createElement('canvas');
+      c.width=img.naturalWidth||300;c.height=img.naturalHeight||80;
+      c.getContext('2d').drawImage(img,0,0);
+      res(c.toDataURL('image/png'));
+    };
+    img.onerror=()=>res(null);
+    img.src='dsif-logo.png';
+  });
+
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({format:'a4',orientation:'portrait',unit:'mm'});
+  const mg=10, pgW=210, pgH=297;
+  const cW=pgW-2*mg, cH=pgH-2*mg; // 190×277mm
+
+  const sections=[
+    {el:cover,       bg:'#0a0a0a',logo:false},
+    {el:document.getElementById('sched-day1'),bg:'#ffffff',logo:true},
+    {el:document.getElementById('sched-day2'),bg:'#ffffff',logo:true},
+    {el:document.getElementById('sched-day3'),bg:'#ffffff',logo:true},
+  ];
+
+  let pageCount=0;
+
+  for(const {el,bg,logo} of sections){
+    const canvas=await html2canvas(el,{
+      scale:2,useCORS:true,backgroundColor:bg,
+      windowWidth:800,logging:false
+    });
+
+    // canvas pixels per PDF mm
+    const pxPerMm=canvas.width/cW;
+    const pageHpx=Math.round(cH*pxPerMm);
+
+    let yPx=0;
+    while(yPx<canvas.height){
+      if(pageCount>0) pdf.addPage();
+      pageCount++;
+
+      // Slice canvas to one page height
+      const sliceH=Math.min(pageHpx,canvas.height-yPx);
+      const sc=document.createElement('canvas');
+      sc.width=canvas.width; sc.height=pageHpx;
+      const ctx=sc.getContext('2d');
+      ctx.fillStyle=bg; ctx.fillRect(0,0,sc.width,sc.height);
+      ctx.drawImage(canvas,0,yPx,canvas.width,sliceH,0,0,canvas.width,sliceH);
+
+      pdf.addImage(sc.toDataURL('image/jpeg',0.93),'JPEG',mg,mg,cW,cH);
+
+      // Logo top-left on content pages
+      if(logo&&logoUrl){
+        pdf.addImage(logoUrl,'PNG',mg,2,28,7);
+      }
+      yPx+=pageHpx;
+    }
   }
 
-  const opt={
-    margin:[14,10,10,10],
-    filename:'DSIF-Forum-2026.pdf',
-    image:{type:'jpeg',quality:0.98},
-    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:800},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
-    pagebreak:{mode:['avoid-all','css','legacy']}
-  };
+  pdf.save('DSIF-Forum-2026.pdf');
 
-  /* Load logo → data URL → add to every page header */
-  const img=new Image();
-  img.crossOrigin='anonymous';
-  img.onload=function(){
-    const c=document.createElement('canvas');
-    c.width=img.naturalWidth||300; c.height=img.naturalHeight||80;
-    c.getContext('2d').drawImage(img,0,0);
-    const logoUrl=c.toDataURL('image/png');
-
-    html2pdf().set(opt).from(section).toPdf().get('pdf').then(function(pdf){
-      const total=pdf.internal.getNumberOfPages();
-      const pw=pdf.internal.pageSize.getWidth();
-      for(let i=2;i<=total;i++){
-        pdf.setPage(i);
-        pdf.addImage(logoUrl,'PNG',10,3,28,7);
-      }
-    }).save().then(restore);
-  };
-  img.onerror=function(){
-    html2pdf().set(opt).from(section).save().then(restore);
-  };
-  img.src='dsif-logo.png';
+  // Restore
+  days.forEach((d,i)=>d.style.display=savedDays[i]);
+  header.style.visibility='';
+  cover.style.display='none';
+  schedule.classList.remove('pdf-mode');
 }
 
 /* Day switch */
