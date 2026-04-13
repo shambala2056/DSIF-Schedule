@@ -117,7 +117,8 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 .btn-o:hover{border-color:rgba(255,255,255,.4);color:#fff;transform:translateY(-2px)}
 
 /* ── FOOTER ── */
-.site-footer{border-top:1px solid var(--border);padding:48px 60px 28px;max-width:1400px;margin:0 auto}
+.footer-wrap{position:relative;background:linear-gradient(180deg,#ffffff 0%,rgba(0,179,82,.06) 40%,rgba(0,179,82,.14) 100%);border-top:2px solid rgba(0,179,82,.25)}
+.site-footer{padding:48px 60px 28px;max-width:1400px;margin:0 auto;position:relative;z-index:1}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;margin-bottom:36px}
 .footer-brand-logo{height:36px;margin-bottom:16px;display:block}
 .footer-brand-text{font-size:.78rem;font-weight:300;color:var(--text-dim);line-height:1.9;max-width:340px;text-transform:none}
@@ -657,6 +658,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 </section>
 
 <!-- FOOTER -->
+<div class="footer-wrap">
 <footer class="site-footer">
   <div class="footer-top">
     <div>
@@ -703,6 +705,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
     <div class="footer-tags"><span>SDG 8</span><span>SDG 9</span><span>SDG 13</span><span>SDG 17</span></div>
   </div>
 </footer>
+</div><!-- /footer-wrap -->
 
 <!-- REGISTRATION MODAL -->
 <div id="reg-modal" class="modal-overlay">
