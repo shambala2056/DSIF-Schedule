@@ -205,7 +205,9 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
 .pdf-mode .print-date{display:block!important;color:#00b352!important;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;text-align:center;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid #e0e0e0!important}
 .pdf-mode .sched-block-title{color:#00b352!important;border-bottom-color:#00b352!important;background:none!important}
 .pdf-mode .sched-block-title::before{background:#00b352!important}
-.pdf-mode .sched-row{background:#fff!important;border-bottom-color:#e8e8e8!important}
+.pdf-mode .sched-block{page-break-inside:avoid;break-inside:avoid}
+.pdf-mode .sched-block-title{page-break-after:avoid;break-after:avoid}
+.pdf-mode .sched-row{background:#fff!important;border-bottom-color:#e8e8e8!important;page-break-inside:avoid;break-inside:avoid}
 .pdf-mode .sched-row.is-break{background:#f2fbf5!important;border-left-color:#00b352!important}
 .pdf-mode .sched-time{color:#00b352!important;border-right-color:#e8e8e8!important}
 .pdf-mode .sched-name{color:#1a1a1a!important}
@@ -762,8 +764,9 @@ function printSchedule(){
     margin:[10,10,10,10],
     filename:'DSIF-Forum-2026.pdf',
     image:{type:'jpeg',quality:0.98},
-    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:900},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['avoid-all','css','legacy']}
   }).from(section).save().then(()=>{
     days.forEach((d,i)=>d.style.display=savedDays[i]);
     header.style.visibility='';
