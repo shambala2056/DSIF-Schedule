@@ -880,19 +880,7 @@ async function printSchedule(){
     return c;
   }
 
-  // 1 — Cover page (no header)
-  const coverCanvas=await html2canvas(cover,{scale:2,useCORS:true,backgroundColor:'#0a0a0a',windowWidth:800,logging:false});
-  {
-    const cpx=Math.round(cH*pxPerMm);
-    const sc=document.createElement('canvas');
-    sc.width=coverCanvas.width;sc.height=cpx;
-    const ctx=sc.getContext('2d');
-    ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,sc.width,sc.height);
-    ctx.drawImage(coverCanvas,0,0,coverCanvas.width,Math.min(cpx,coverCanvas.height),0,0,coverCanvas.width,Math.min(cpx,coverCanvas.height));
-    pdf.addImage(sc.toDataURL('image/jpeg',0.93),'JPEG',mg,mg,cW,cH);
-  }
-
-  // 2 — All days in one canvas (continuous flow, no forced page breaks)
+  // All days in one canvas (continuous flow, no forced page breaks)
   const allDaysEl=document.getElementById('sched-all-days');
   const canvas=await html2canvas(allDaysEl,{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:800,logging:false});
   const hdrCanvas=await makeHeader();
@@ -901,9 +889,9 @@ async function printSchedule(){
   const contentH=cH-hdrMmH;
   const pageHpx=Math.round(contentH*pxPerMm);
 
-  let yPx=0;
+  let yPx=0;let pgCount=0;
   while(yPx<canvas.height){
-    pdf.addPage();
+    if(pgCount>0)pdf.addPage();pgCount++;
     pdf.addImage(hdrData,'PNG',mg,mg,cW,hdrMmH);
     const sliceH=Math.min(pageHpx,canvas.height-yPx);
     const sc=document.createElement('canvas');
