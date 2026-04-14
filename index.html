@@ -852,7 +852,7 @@ async function printSchedule(){
   // Build page header canvas (HTML→canvas for proper font/logo rendering)
   async function makeHeader(dayTitle,dateStr){
     const el=document.createElement('div');
-    el.style.cssText='position:fixed;top:0;left:0;width:800px;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;background:#fff;font-family:Montserrat,sans-serif;box-sizing:border-box;border-bottom:3px solid #00b352;z-index:99999;opacity:0;pointer-events:none';
+    el.style.cssText='position:absolute;top:0;left:-9999px;width:800px;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;background:#fff;font-family:Montserrat,sans-serif;box-sizing:border-box;border-bottom:3px solid #00b352';
     el.innerHTML=`<img src="dsif-logo.png" crossorigin="anonymous" style="height:32px;width:auto;display:block">
       <div style="text-align:right;line-height:1.35">
         <div style="font-size:10px;font-weight:800;letter-spacing:2px;color:#1a1a1a;text-transform:uppercase">${dayTitle}</div>
