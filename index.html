@@ -43,7 +43,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 .hero{position:relative;min-height:70vh;display:flex;flex-direction:column;justify-content:flex-start;padding:80px 0 0}
 .hero-bg{position:absolute;inset:0;z-index:0}
 .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.2) 0%,transparent 35%,rgba(0,179,82,.15) 65%,rgba(0,179,82,.5) 85%,#ffffff 100%)}
+.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,transparent 32%,rgba(0,179,82,.04) 58%,rgba(0,179,82,.14) 74%,rgba(0,179,82,.32) 87%,rgba(0,100,46,.45) 94%,rgba(255,255,255,.6) 98%,#ffffff 100%)}
 .hero-content{position:relative;z-index:1;padding:0 60px;width:100%;display:flex;flex-direction:column;flex:1}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid rgba(0,179,82,.3);background:rgba(0,179,82,.08);margin-bottom:24px}
 .hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
@@ -102,13 +102,13 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 .sched-name{font-size:.82rem;font-weight:300;color:var(--text);letter-spacing:.3px;line-height:1.5;text-transform:uppercase}
 
 /* ── CTA ── */
-.cta-section{position:relative;padding:60px 60px;text-align:center;overflow:hidden}
+.cta-section{position:relative;padding:80px 60px;text-align:center;overflow:hidden}
 .cta-bg{position:absolute;inset:0;z-index:0}
 .cta-bg img{width:100%;height:100%;object-fit:cover}
-.cta-bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,rgba(0,179,82,.15) 10%,rgba(10,10,10,.82) 22%,rgba(10,10,10,.82) 78%,rgba(0,179,82,.15) 90%,#ffffff 100%)}
+.cta-bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,rgba(0,179,82,.16) 5%,rgba(0,100,46,.12) 10%,rgba(0,50,25,.1) 16%,rgba(0,0,0,.22) 26%,rgba(0,0,0,.28) 50%,rgba(0,0,0,.22) 74%,rgba(0,50,25,.1) 84%,rgba(0,100,46,.12) 90%,rgba(0,179,82,.16) 95%,#ffffff 100%)}
 .cta-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
-.cta-badge{display:inline-block;padding:8px 24px;border:1px solid rgba(0,179,82,.3);font-size:.6rem;font-weight:700;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:24px}
-.cta-h{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:.95;letter-spacing:-2px;text-transform:uppercase;margin-bottom:16px}
+.cta-badge{display:inline-block;padding:8px 24px;border:1px solid rgba(0,179,82,.35);font-size:.6rem;font-weight:700;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:24px}
+.cta-h{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:.95;letter-spacing:-2px;text-transform:uppercase;margin-bottom:16px;color:#fff}
 .cta-h em{font-style:normal;color:var(--green)}
 .cta-p{font-size:.8rem;font-weight:400;color:rgba(255,255,255,.75);line-height:1.9;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto;text-transform:none}
 .cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
@@ -186,7 +186,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 .modal-close:hover{background:rgba(255,255,255,.1);color:#fff}
 .modal-body{padding:24px;overflow-y:auto;flex:1}
 .form-group{margin-bottom:16px}
-.form-label{display:block;font-size:.55rem;font-weight:700;letter-spacing:2px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase}
+.form-label{display:block;font-size:.55rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.5);margin-bottom:6px;text-transform:uppercase}
 .form-input{width:100%;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.5px;outline:none;transition:all .2s}
 .form-input:focus{border-color:var(--green);background:rgba(0,179,82,.04)}
 .form-input::placeholder{color:rgba(255,255,255,.2);font-weight:400}
@@ -750,6 +750,16 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
             <option>ХӨРӨНГӨ ОРУУЛАГЧ</option><option>B2B УУЛЗАЛТ</option><option>ИЛТГЭГЧ / ПАНЕЛИСТ</option><option>ЗОЧИН</option><option>ХЭВЛЭЛ МЭДЭЭЛЭЛ</option>
           </select>
         </div>
+        <div class="form-group">
+          <label class="form-label">БУУДАЛЫН ЗАХИАЛГА</label>
+          <div style="display:flex;gap:12px;margin-bottom:8px">
+            <label style="display:flex;align-items:center;gap:6px;font-size:.65rem;color:rgba(255,255,255,.7);cursor:pointer"><input type="radio" name="hotel" id="f-hotel-yes" value="yes" style="accent-color:var(--green)"> Тийм</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:.65rem;color:rgba(255,255,255,.7);cursor:pointer"><input type="radio" name="hotel" id="f-hotel-no" value="no" checked style="accent-color:var(--green)"> Үгүй</label>
+          </div>
+          <div id="hotel-count-wrap" style="display:none">
+            <input id="f-hotel-count" type="number" class="form-input" min="1" max="20" placeholder="Хэдэн хүн?" style="width:140px">
+          </div>
+        </div>
         <div class="form-group"><label class="form-label">НЭМЭЛТ ТЭМДЭГЛЭЛ</label><textarea id="f-notes" class="form-input" rows="3" placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical"></textarea></div>
         <label class="form-check"><input type="checkbox" id="f-agree" required> Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна</label>
       </form>
@@ -927,6 +937,7 @@ function closeModal(){document.getElementById('reg-modal').classList.remove('ope
 document.getElementById('reg-modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 document.querySelectorAll('.open-reg').forEach(btn=>{btn.addEventListener('click',e=>{e.preventDefault();openModal()})});
+document.querySelectorAll('input[name="hotel"]').forEach(r=>{r.addEventListener('change',()=>{document.getElementById('hotel-count-wrap').style.display=document.getElementById('f-hotel-yes').checked?'block':'none'})});
 
 /* Form submit */
 document.getElementById('reg-form').addEventListener('submit',async function(e){
@@ -943,6 +954,8 @@ document.getElementById('reg-form').addEventListener('submit',async function(e){
     sector:document.getElementById('f-sector')?.value||'',
     participate:document.getElementById('f-participate')?.value||'',
     notes:document.getElementById('f-notes')?.value.trim()||'',
+    hotel:document.getElementById('f-hotel-yes')?.checked?'Тийм':'Үгүй',
+    hotelCount:document.getElementById('f-hotel-yes')?.checked?(document.getElementById('f-hotel-count')?.value||''):'',
   };
   try{
     let regNum;
