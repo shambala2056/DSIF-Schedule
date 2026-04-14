@@ -849,11 +849,36 @@ async function printSchedule(){
   const pxPerMm=(800*2)/cW;
   const contentPageHpx=Math.round(contentMm*pxPerMm);
 
-  // Build page header canvas (HTML→canvas for proper font/logo rendering)
-  async function makeHeader(dayTitle,dateStr){
+  // Pre-process logo: white pixels → black, keep colors
+  const blackLogoUrl=await new Promise(res=>{
+    const img=new Image();img.crossOrigin='anonymous';
+    img.onload=()=>{
+      const c=document.createElement('canvas');
+      c.width=img.naturalWidth;c.height=img.naturalHeight;
+      const ctx=c.getContext('2d');ctx.drawImage(img,0,0);
+      const d=ctx.getImageData(0,0,c.width,c.height);
+      for(let i=0;i<d.data.length;i+=4){
+        if(d.data[i+3]>10){
+          const max=Math.max(d.data[i],d.data[i+1],d.data[i+2]);
+          const min=Math.min(d.data[i],d.data[i+1],d.data[i+2]);
+          if((d.data[i]+d.data[i+1]+d.data[i+2])/3>160&&(max-min)/max<0.25){
+            d.data[i]=0;d.data[i+1]=0;d.data[i+2]=0;
+          }
+        }
+      }
+      ctx.putImageData(d,0,0);res(c.toDataURL('image/png'));
+    };
+    img.onerror=()=>res(null);img.src='dsif-logo.png';
+  });
+
+  // Build page header canvas
+  async function makeHeader(){
     const el=document.createElement('div');
     el.style.cssText='position:absolute;top:0;left:-9999px;width:800px;height:50px;display:flex;align-items:center;padding:0 8px;background:#fff;font-family:Montserrat,sans-serif;box-sizing:border-box;border-bottom:3px solid #00b352';
-    el.innerHTML=`<img src="dsif-logo.png" crossorigin="anonymous" style="height:32px;width:auto;display:block">`;
+    const logoImg=document.createElement('img');
+    logoImg.src=blackLogoUrl||'dsif-logo.png';
+    logoImg.style.cssText='height:32px;width:auto;display:block';
+    el.appendChild(logoImg);
     document.body.appendChild(el);
     await new Promise(r=>setTimeout(r,80));
     const c=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',windowWidth:800,logging:false,useCORS:true});
@@ -876,7 +901,7 @@ async function printSchedule(){
   // 2 — All days in one canvas (continuous flow, no forced page breaks)
   const allDaysEl=document.getElementById('sched-all-days');
   const canvas=await html2canvas(allDaysEl,{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:800,logging:false});
-  const hdrCanvas=await makeHeader('','');
+  const hdrCanvas=await makeHeader();
   const hdrData=hdrCanvas.toDataURL('image/png');
   const hdrMmH=hdrCanvas.height/pxPerMm;
   const contentH=cH-hdrMmH;
