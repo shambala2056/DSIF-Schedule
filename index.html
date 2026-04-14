@@ -206,7 +206,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 .pdf-cover-bg-overlay{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(10,10,10,.3) 0%,rgba(10,10,10,.8) 65%,#0a0a0a 100%)}
 .pdf-cover-logo{position:absolute;top:547px;left:40px;width:632px;height:auto;display:block;z-index:1}
 .pdf-cover-body{position:absolute;top:688px;left:40px;width:632px;z-index:1;padding-bottom:8px}
-.pdf-cover-title{font-size:4.5rem;font-weight:800;line-height:.9;letter-spacing:37px;color:#fff;text-transform:uppercase;margin-bottom:24px;width:100%}
+.pdf-cover-title{font-size:4.5rem;font-weight:800;line-height:.9;letter-spacing:0;color:#fff;text-transform:uppercase;margin-bottom:24px;width:100%}
 .pdf-cover-title .accent{color:#00b352}
 .pdf-cover-sub{font-size:.9rem;color:rgba(255,255,255,.6);letter-spacing:3px;text-transform:uppercase}
 /* ── PDF MODE ── */
@@ -819,6 +819,21 @@ async function printSchedule(){
   cover.style.display='flex';
   schedule.classList.add('pdf-mode');
   await new Promise(r=>setTimeout(r,400));
+
+  // Match ХӨТӨЛБӨР letter-spacing to logo width
+  const coverLogoEl=cover.querySelector('.pdf-cover-logo');
+  const coverTitleEl=cover.querySelector('.pdf-cover-title');
+  if(coverLogoEl&&coverTitleEl){
+    const logoW=coverLogoEl.getBoundingClientRect().width||632;
+    const tmp=document.createElement('span');
+    tmp.style.cssText='position:absolute;visibility:hidden;font-family:Montserrat,sans-serif;font-weight:800;font-size:4.5rem;letter-spacing:0;text-transform:uppercase;white-space:nowrap';
+    tmp.textContent='ХӨТӨЛБӨР';
+    document.body.appendChild(tmp);
+    const txtW=tmp.offsetWidth;
+    document.body.removeChild(tmp);
+    const ls=Math.max(0,(logoW-txtW)/'ХӨТӨЛБӨР'.length);
+    coverTitleEl.style.letterSpacing=ls+'px';
+  }
 
   // Load logo — invert white pixels to black for use on white page headers
   const logoUrl=await new Promise(res=>{
