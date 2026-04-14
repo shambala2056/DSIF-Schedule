@@ -204,9 +204,9 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 /* windowWidth:800 → 1px=0.2375mm, A4 content(273mm)=1150px */
 .pdf-cover{display:none;flex-direction:column;width:100%;height:1150px;background-color:#0a0a0a;background-image:url('hero-bg.jpg');background-size:cover;background-position:center center;background-repeat:no-repeat;page-break-after:always;break-after:always;padding:48px 40px 40px;position:relative;overflow:hidden;box-sizing:border-box}
 .pdf-cover-bg-overlay{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(10,10,10,.3) 0%,rgba(10,10,10,.8) 65%,#0a0a0a 100%)}
-.pdf-cover-logo{position:absolute;top:547px;left:40px;width:632px;height:211px;object-fit:contain;object-position:left center;z-index:1}
-.pdf-cover-body{position:absolute;top:782px;left:40px;z-index:1;padding-bottom:8px}
-.pdf-cover-title{font-size:4.5rem;font-weight:800;line-height:.9;letter-spacing:-3px;color:#fff;text-transform:uppercase;margin-bottom:24px}
+.pdf-cover-logo{position:absolute;top:547px;left:40px;width:632px;height:auto;display:block;z-index:1}
+.pdf-cover-body{position:absolute;top:800px;left:40px;width:632px;z-index:1;padding-bottom:8px}
+.pdf-cover-title{font-size:4.5rem;font-weight:800;line-height:.9;letter-spacing:28px;color:#fff;text-transform:uppercase;margin-bottom:24px;width:100%}
 .pdf-cover-title .accent{color:#00b352}
 .pdf-cover-sub{font-size:.9rem;color:rgba(255,255,255,.6);letter-spacing:3px;text-transform:uppercase}
 /* ── PDF MODE ── */
