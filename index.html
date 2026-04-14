@@ -40,10 +40,10 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 }
 
 /* ── HERO ── */
-.hero{position:relative;min-height:70vh;display:flex;flex-direction:column;justify-content:flex-start;padding:80px 0 0}
+.hero{position:relative;min-height:55vh;display:flex;flex-direction:column;justify-content:flex-start;padding:80px 0 0}
 .hero-bg{position:absolute;inset:0;z-index:0}
 .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15) 0%,transparent 32%,rgba(0,179,82,.04) 58%,rgba(0,179,82,.14) 74%,rgba(0,179,82,.32) 87%,rgba(0,100,46,.45) 94%,rgba(255,255,255,.6) 98%,#ffffff 100%)}
+.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.15) 30%,transparent 50%,rgba(0,179,82,.1) 70%,rgba(0,179,82,.3) 85%,rgba(255,255,255,.7) 95%,#ffffff 100%)}
 .hero-content{position:relative;z-index:1;padding:0 60px;width:100%;display:flex;flex-direction:column;flex:1}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid rgba(0,179,82,.3);background:rgba(0,179,82,.08);margin-bottom:24px}
 .hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
@@ -118,20 +118,20 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 .btn-o:hover{border-color:rgba(255,255,255,.4);color:#fff;transform:translateY(-2px)}
 
 /* ── FOOTER ── */
-.footer-wrap{position:relative;background:linear-gradient(180deg,#ffffff 0%,rgba(0,179,82,.06) 40%,rgba(0,179,82,.14) 100%);border-top:2px solid rgba(0,179,82,.25)}
+.footer-wrap{position:relative;background:var(--green);border-top:none}
 .site-footer{padding:48px 60px 28px;max-width:1400px;margin:0 auto;position:relative;z-index:1}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;margin-bottom:36px}
 .footer-brand-logo{height:36px;margin-bottom:16px;display:block}
-.footer-brand-text{font-size:.78rem;font-weight:300;color:var(--text-dim);line-height:1.9;max-width:340px;text-transform:none}
-.footer-heading{font-size:.6rem;font-weight:700;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:16px}
+.footer-brand-text{font-size:.78rem;font-weight:300;color:rgba(255,255,255,.8);line-height:1.9;max-width:340px;text-transform:none}
+.footer-heading{font-size:.6rem;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase;margin-bottom:16px}
 .footer-list{list-style:none}
 .footer-list li{margin-bottom:8px}
-.footer-list a{font-size:.75rem;font-weight:400;color:var(--text-dim);text-decoration:none;transition:color .2s;text-transform:uppercase;letter-spacing:.5px}
-.footer-list a:hover{color:var(--green)}
-.footer-bar{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.footer-copy{font-size:.65rem;color:rgba(0,0,0,.35);letter-spacing:.5px;text-transform:uppercase}
+.footer-list a{font-size:.75rem;font-weight:400;color:rgba(255,255,255,.8);text-decoration:none;transition:color .2s;text-transform:uppercase;letter-spacing:.5px}
+.footer-list a:hover{color:#fff}
+.footer-bar{padding-top:24px;border-top:1px solid rgba(255,255,255,.2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:.65rem;color:rgba(255,255,255,.6);letter-spacing:.5px;text-transform:uppercase}
 .footer-tags{display:flex;gap:6px}
-.footer-tags span{padding:4px 12px;border:1px solid rgba(0,0,0,.1);font-size:.55rem;font-weight:600;letter-spacing:1px;color:rgba(0,0,0,.35);text-transform:uppercase}
+.footer-tags span{padding:4px 12px;border:1px solid rgba(255,255,255,.3);font-size:.55rem;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.6);text-transform:uppercase}
 
 /* ── PDF BUTTON ── */
 .sched-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:36px;flex-wrap:wrap}
@@ -144,7 +144,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
-  .hero{min-height:80vh}
+  .hero{min-height:60vh}
   .hero-bg img{object-position:70% 25%}
   .hero-content,.topbar,.section,.site-footer{padding-left:24px;padding-right:24px}
   .topbar{padding:16px 24px}
@@ -237,7 +237,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg">
-    <img src="hero-bg.jpg" alt="">
+    <img src="sens.jpg" alt="">
     <div class="hero-gradient"></div>
   </div>
 
@@ -649,6 +649,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
 </section>
 
 <!-- CTA -->
+<!-- CTA section temporarily hidden
 <section class="cta-section">
   <div class="cta-bg">
     <img src="zam-1.jpg" alt="">
@@ -659,11 +660,12 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
     <h2 class="cta-h">ФОРУМД<br><em>ОРОЛЦОХ</em></h2>
     <p class="cta-p">Тогтвортой хөрөнгө оруулалт, ногоон хөгжлийн ирээдүйг хамтдаа бүтээх энэхүү үйл явдалд та болон таны байгууллагыг урьж байна.</p>
     <div class="cta-buttons">
-      <!-- <a href="javascript:void(0)" class="btn-g open-reg">БҮРТГҮҮЛЭХ</a> -->
+      <a href="javascript:void(0)" class="btn-g open-reg">БҮРТГҮҮЛЭХ</a>
       <a href="#schedule" class="btn-o">ХӨТӨЛБӨР ХАРАХ</a>
     </div>
   </div>
 </section>
+-->
 
 <!-- FOOTER -->
 <div class="footer-wrap">
@@ -703,8 +705,8 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
       <ul class="footer-list">
         <li><a href="#">ДОРНОГОВЬ АЙМАГ</a></li>
         <li><a href="#">САЙНШАНД ХОТ</a></li>
-        <li><a href="#">INFO@FORUM2026.MN</a></li>
-        <li><a href="#">FORUM2026.MN</a></li>
+        <li><a href="mailto:nomin@dornogovi.gov.mn">NOMIN@DORNOGOVI.GOV.MN</a></li>
+        <li><a href="https://www.dornogovi.one">WWW.DORNOGOVI.ONE</a></li>
       </ul>
     </div>
   </div>
@@ -780,7 +782,7 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
     {label:'ЧӨЛӨӨТ БҮС',value:'900 ГА',color:'#00bcd4'},
     {label:'ЗӨВШӨӨРӨЛ',value:'231 ИДЭВХТЭЙ',color:'var(--green)'},
     {label:'ТХЗ',value:'8 9 13 17',color:'#f0c040'},
-    {label:'ФОРУМ',value:'2026.04.26–25 САЙНШАНД',color:'#00bcd4'},
+    {label:'ФОРУМ',value:'2026.04.26–27 · САЙНШАНД',color:'#00bcd4'},
     {label:'ОРОЛЦОГЧ',value:'500+',color:'#e74c3c'},
     {label:'B2B УУЛЗАЛТ',value:'100+',color:'var(--green)'},
     {label:'САНАМЖ БИЧИГ',value:'30+',color:'#f0c040'},
@@ -808,8 +810,8 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;colo
   }
   const track=document.getElementById('ticker-track');
   if(track){
-    track.addEventListener('mouseenter',()=>{paused=true});
-    track.addEventListener('mouseleave',()=>{paused=false});
+    // hover pause disabled
+
   }
   window.addEventListener('load',()=>{calcHalf();tick()});
   window.addEventListener('resize',calcHalf);
