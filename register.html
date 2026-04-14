@@ -34,8 +34,14 @@ a{color:inherit;text-decoration:none}
 /* Header */
 .page-header{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid rgba(255,255,255,.07)}
 .header-logo{height:36px;width:auto;display:block}
+.header-right{display:flex;align-items:center;gap:20px}
 .header-back{font-size:.6rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;transition:color .2s}
 .header-back:hover{color:#00b352}
+
+/* Language toggle */
+.lang-toggle{display:flex;gap:2px;border:1px solid rgba(255,255,255,.12);overflow:hidden}
+.lang-btn{padding:6px 12px;font-family:'Montserrat',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;transition:all .2s}
+.lang-btn.active{background:#00b352;color:#fff}
 
 /* Main */
 .page-main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:48px 24px 64px}
@@ -88,56 +94,100 @@ a{color:inherit;text-decoration:none}
 
 <header class="page-header">
   <img src="dsif-logo.png" alt="DSIF 2026" class="header-logo" id="header-logo">
-  <a href="index.html" class="header-back">← Үндсэн хуудас</a>
+  <div class="header-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('mn')">МН</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="index.html" class="header-back" data-mn="← Үндсэн хуудас" data-en="← Back to site">← Үндсэн хуудас</a>
+  </div>
 </header>
 
 <main class="page-main">
   <div class="card">
     <div id="form-block">
       <div class="card-badge">DSIF FORUM 2026</div>
-      <h1 class="card-title">ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em></h1>
-      <p class="card-sub">2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь</p>
+      <h1 class="card-title" data-mn="ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em>" data-en="REGISTER FOR<br><em>THE FORUM</em>">ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em></h1>
+      <p class="card-sub" data-mn="2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь" data-en="April 26–27, 2026 &nbsp;·&nbsp; Sainshand, Dornogovi">2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь</p>
 
       <form id="reg-form" novalidate>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">ОВОГ</label><input id="f-lastname" type="text" class="form-input" placeholder="Овог" required></div>
-          <div class="form-group"><label class="form-label">НЭР</label><input id="f-firstname" type="text" class="form-input" placeholder="Нэр" required></div>
+          <div class="form-group">
+            <label class="form-label" data-mn="ОВОГ" data-en="LAST NAME">ОВОГ</label>
+            <input id="f-lastname" type="text" class="form-input" data-ph-mn="Овог" data-ph-en="Last name" placeholder="Овог" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-mn="НЭР" data-en="FIRST NAME">НЭР</label>
+            <input id="f-firstname" type="text" class="form-input" data-ph-mn="Нэр" data-ph-en="First name" placeholder="Нэр" required>
+          </div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">УТАС</label><input id="f-phone" type="tel" class="form-input" placeholder="+976 XXXX XXXX" required></div>
-          <div class="form-group"><label class="form-label">И-МЭЙЛ</label><input id="f-email" type="email" class="form-input" placeholder="name@example.com" required></div>
+          <div class="form-group">
+            <label class="form-label" data-mn="УТАС" data-en="PHONE">УТАС</label>
+            <input id="f-phone" type="tel" class="form-input" placeholder="+976 XXXX XXXX" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-mn="И-МЭЙЛ" data-en="EMAIL">И-МЭЙЛ</label>
+            <input id="f-email" type="email" class="form-input" placeholder="name@example.com" required>
+          </div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">БАЙГУУЛЛАГА</label><input id="f-org" type="text" class="form-input" placeholder="Байгууллагын нэр" required></div>
-          <div class="form-group"><label class="form-label">АЛБАН ТУШААЛ</label><input id="f-role" type="text" class="form-input" placeholder="Албан тушаал" required></div>
+          <div class="form-group">
+            <label class="form-label" data-mn="БАЙГУУЛЛАГА" data-en="ORGANIZATION">БАЙГУУЛЛАГА</label>
+            <input id="f-org" type="text" class="form-input" data-ph-mn="Байгууллагын нэр" data-ph-en="Organization name" placeholder="Байгууллагын нэр" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-mn="АЛБАН ТУШААЛ" data-en="POSITION">АЛБАН ТУШААЛ</label>
+            <input id="f-role" type="text" class="form-input" data-ph-mn="Албан тушаал" data-ph-en="Job title" placeholder="Албан тушаал" required>
+          </div>
         </div>
         <div class="form-group">
-          <label class="form-label">САЛБАР</label>
+          <label class="form-label" data-mn="САЛБАР" data-en="SECTOR">САЛБАР</label>
           <select id="f-sector" class="form-input" required>
-            <option value="">— СОНГОНО УУ —</option>
-            <option>НОГООН ЭДИЙН ЗАСАГ</option><option>ЭРЧИМ ХҮЧ</option><option>УУЛ УУРХАЙ</option><option>БАЙГАЛЬ ОРЧИН</option><option>ДЭД БҮТЭЦ</option><option>БОЛОВСРОЛ</option><option>СОЁЛ</option><option>ЭРҮҮЛ МЭНД</option><option>НИЙГЭМ</option><option>ХӨДӨӨ АЖ АХУЙ</option><option>БУСАД</option>
+            <option value="" data-mn="— СОНГОНО УУ —" data-en="— SELECT —">— СОНГОНО УУ —</option>
+            <option data-mn="НОГООН ЭДИЙН ЗАСАГ" data-en="GREEN ECONOMY">НОГООН ЭДИЙН ЗАСАГ</option>
+            <option data-mn="ЭРЧИМ ХҮЧ" data-en="ENERGY">ЭРЧИМ ХҮЧ</option>
+            <option data-mn="УУЛ УУРХАЙ" data-en="MINING">УУЛ УУРХАЙ</option>
+            <option data-mn="БАЙГАЛЬ ОРЧИН" data-en="ENVIRONMENT">БАЙГАЛЬ ОРЧИН</option>
+            <option data-mn="ДЭД БҮТЭЦ" data-en="INFRASTRUCTURE">ДЭД БҮТЭЦ</option>
+            <option data-mn="БОЛОВСРОЛ" data-en="EDUCATION">БОЛОВСРОЛ</option>
+            <option data-mn="СОЁЛ" data-en="CULTURE">СОЁЛ</option>
+            <option data-mn="ЭРҮҮЛ МЭНД" data-en="HEALTH">ЭРҮҮЛ МЭНД</option>
+            <option data-mn="НИЙГЭМ" data-en="SOCIAL">НИЙГЭМ</option>
+            <option data-mn="ХӨДӨӨ АЖ АХУЙ" data-en="AGRICULTURE">ХӨДӨӨ АЖ АХУЙ</option>
+            <option data-mn="БУСАД" data-en="OTHER">БУСАД</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">ОРОЛЦОХ ХЭЛБЭР</label>
+          <label class="form-label" data-mn="ОРОЛЦОХ ХЭЛБЭР" data-en="PARTICIPATION TYPE">ОРОЛЦОХ ХЭЛБЭР</label>
           <select id="f-participate" class="form-input" required>
-            <option value="">— СОНГОНО УУ —</option>
-            <option>ХӨРӨНГӨ ОРУУЛАГЧ</option><option>B2B УУЛЗАЛТ</option><option>ИЛТГЭГЧ / ПАНЕЛИСТ</option><option>ЗОЧИН</option><option>ХЭВЛЭЛ МЭДЭЭЛЭЛ</option>
+            <option value="" data-mn="— СОНГОНО УУ —" data-en="— SELECT —">— СОНГОНО УУ —</option>
+            <option data-mn="ХӨРӨНГӨ ОРУУЛАГЧ" data-en="INVESTOR">ХӨРӨНГӨ ОРУУЛАГЧ</option>
+            <option data-mn="B2B УУЛЗАЛТ" data-en="B2B MEETING">B2B УУЛЗАЛТ</option>
+            <option data-mn="ИЛТГЭГЧ / ПАНЕЛИСТ" data-en="SPEAKER / PANELIST">ИЛТГЭГЧ / ПАНЕЛИСТ</option>
+            <option data-mn="ЗОЧИН" data-en="GUEST">ЗОЧИН</option>
+            <option data-mn="ХЭВЛЭЛ МЭДЭЭЛЭЛ" data-en="MEDIA">ХЭВЛЭЛ МЭДЭЭЛЭЛ</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">БУУДАЛЫН ЗАХИАЛГА</label>
+          <label class="form-label" data-mn="БУУДАЛЫН ЗАХИАЛГА" data-en="HOTEL BOOKING">БУУДАЛЫН ЗАХИАЛГА</label>
           <div class="hotel-radios">
-            <label><input type="radio" name="hotel" id="f-hotel-yes" value="yes"> Тийм</label>
-            <label><input type="radio" name="hotel" id="f-hotel-no" value="no" checked> Үгүй</label>
+            <label><input type="radio" name="hotel" id="f-hotel-yes" value="yes"> <span data-mn="Тийм" data-en="Yes">Тийм</span></label>
+            <label><input type="radio" name="hotel" id="f-hotel-no" value="no" checked> <span data-mn="Үгүй" data-en="No">Үгүй</span></label>
           </div>
           <div id="hotel-count-wrap" style="display:none">
-            <input id="f-hotel-count" type="number" class="form-input" min="1" max="20" placeholder="Хэдэн хүн?" style="width:160px">
+            <input id="f-hotel-count" type="number" class="form-input" min="1" max="20" data-ph-mn="Хэдэн хүн?" data-ph-en="How many guests?" placeholder="Хэдэн хүн?" style="width:160px">
           </div>
         </div>
-        <div class="form-group"><label class="form-label">НЭМЭЛТ ТЭМДЭГЛЭЛ</label><textarea id="f-notes" class="form-input" rows="3" placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical"></textarea></div>
-        <label class="form-check"><input type="checkbox" id="f-agree" required> Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна</label>
-        <button type="submit" class="btn-submit" id="submit-btn">ИЛГЭЭХ</button>
+        <div class="form-group">
+          <label class="form-label" data-mn="НЭМЭЛТ ТЭМДЭГЛЭЛ" data-en="ADDITIONAL NOTES">НЭМЭЛТ ТЭМДЭГЛЭЛ</label>
+          <textarea id="f-notes" class="form-input" rows="3" data-ph-mn="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." data-ph-en="Special requests or questions..." placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical"></textarea>
+        </div>
+        <label class="form-check">
+          <input type="checkbox" id="f-agree" required>
+          <span data-mn="Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна" data-en="I agree to the processing of my personal data">Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна</span>
+        </label>
+        <button type="submit" class="btn-submit" id="submit-btn" data-mn="ИЛГЭЭХ" data-en="SUBMIT">ИЛГЭЭХ</button>
       </form>
     </div>
 
@@ -145,98 +195,173 @@ a{color:inherit;text-decoration:none}
       <div class="success-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="24" height="24"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <h2 style="font-size:1.2rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">АМЖИЛТТАЙ БҮРТГЭГДЛЭЭ!</h2>
-      <p style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:4px">Бүртгэлийн дугаар: <strong id="s-regnum" style="color:#00b352"></strong></p>
-      <p style="font-size:.63rem;color:rgba(255,255,255,.25);margin-bottom:20px">Баталгаажуулах и-мэйл илгээгдэнэ.</p>
+      <h2 id="s-title" style="font-size:1.2rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">АМЖИЛТТАЙ БҮРТГЭГДЛЭЭ!</h2>
+      <p style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:4px"><span id="s-regnum-label">Бүртгэлийн дугаар:</span> <strong id="s-regnum" style="color:#00b352"></strong></p>
+      <p id="s-email-note" style="font-size:.63rem;color:rgba(255,255,255,.25);margin-bottom:20px">Баталгаажуулах и-мэйл илгээгдэнэ.</p>
       <div class="success-rows" id="s-rows"></div>
-      <a href="index.html" class="btn-home">ҮНДСЭН ХУУДАС РУУ БУЦАХ</a>
+      <a href="index.html" class="btn-home" id="s-home-btn">ҮНДСЭН ХУУДАС РУУ БУЦАХ</a>
     </div>
   </div>
 </main>
 
-<footer class="page-footer">DSIF Forum 2026 &nbsp;·&nbsp; Сайншанд, Дорноговь &nbsp;·&nbsp; 2026.04.26–27</footer>
+<footer class="page-footer">DSIF Forum 2026 &nbsp;·&nbsp; Sainshand, Dornogovi &nbsp;·&nbsp; 2026.04.26–27</footer>
 
 <script>
-// Hotel toggle
-document.querySelectorAll('input[name="hotel"]').forEach(r=>{
-  r.addEventListener('change',()=>{
-    document.getElementById('hotel-count-wrap').style.display=
-      document.getElementById('f-hotel-yes').checked?'block':'none';
+// ── Language ──
+let currentLang = 'mn';
+
+const T = {
+  mn: {
+    title: 'ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em>',
+    sub: '2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь',
+    back: '← Үндсэн хуудас',
+    submit: 'ИЛГЭЭХ',
+    submitting: 'ИЛГЭЭЖ БАЙНА...',
+    successTitle: 'АМЖИЛТТАЙ БҮРТГЭГДЛЭЭ!',
+    regnumLabel: 'Бүртгэлийн дугаар:',
+    emailNote: 'Баталгаажуулах и-мэйл илгээгдэнэ.',
+    homeBtn: 'ҮНДСЭН ХУУДАС РУУ БУЦАХ',
+    hotelYes: 'Тийм', hotelNo: 'Үгүй',
+    hotelSuffix: ' хүн',
+    errorMsg: 'Алдаа гарлаа: ',
+    firebaseErr: 'Firebase модуль ачаалагдсангүй. Хуудсаа дахин ачаалаад оролдоно уу.',
+    successRows: ['ОВОГ, НЭР','УТАС','И-МЭЙЛ','БАЙГУУЛЛАГА','АЛБАН ТУШААЛ','САЛБАР','ОРОЛЦОХ ХЭЛБЭР','БУУДАЛ'],
+  },
+  en: {
+    title: 'REGISTER FOR<br><em>THE FORUM</em>',
+    sub: 'April 26–27, 2026 &nbsp;·&nbsp; Sainshand, Dornogovi',
+    back: '← Back to site',
+    submit: 'SUBMIT',
+    submitting: 'SUBMITTING...',
+    successTitle: 'REGISTRATION COMPLETE!',
+    regnumLabel: 'Registration number:',
+    emailNote: 'A confirmation email will be sent.',
+    homeBtn: 'BACK TO MAIN SITE',
+    hotelYes: 'Yes', hotelNo: 'No',
+    hotelSuffix: ' guest(s)',
+    errorMsg: 'Error: ',
+    firebaseErr: 'Firebase module not loaded. Please reload the page.',
+    successRows: ['FULL NAME','PHONE','EMAIL','ORGANIZATION','POSITION','SECTOR','PARTICIPATION','HOTEL'],
+  }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+
+  // Toggle buttons
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+
+  // Elements with data-mn / data-en text content
+  document.querySelectorAll('[data-mn][data-en]').forEach(el => {
+    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return;
+    if(el.tagName === 'BUTTON' && el.dataset.mn) {
+      el.textContent = el.dataset[lang];
+      return;
+    }
+    el.innerHTML = el.dataset[lang];
+  });
+
+  // Placeholders
+  document.querySelectorAll('[data-ph-mn][data-ph-en]').forEach(el => {
+    el.placeholder = el.dataset['ph' + lang.charAt(0).toUpperCase() + lang.slice(1)];
+  });
+
+  // Select options
+  document.querySelectorAll('select option[data-mn]').forEach(opt => {
+    opt.textContent = opt.dataset[lang];
+  });
+}
+
+// ── Hotel toggle ──
+document.querySelectorAll('input[name="hotel"]').forEach(r => {
+  r.addEventListener('change', () => {
+    document.getElementById('hotel-count-wrap').style.display =
+      document.getElementById('f-hotel-yes').checked ? 'block' : 'none';
   });
 });
 
-// Form submit
-document.getElementById('reg-form').addEventListener('submit',async function(e){
+// ── Form submit ──
+document.getElementById('reg-form').addEventListener('submit', async function(e) {
   e.preventDefault();
-  const btn=document.getElementById('submit-btn');
-  btn.textContent='ИЛГЭЭЖ БАЙНА...';btn.disabled=true;
-  const data={
-    lastname:document.getElementById('f-lastname').value.trim(),
-    firstname:document.getElementById('f-firstname').value.trim(),
-    phone:document.getElementById('f-phone').value.trim(),
-    email:document.getElementById('f-email').value.trim(),
-    org:document.getElementById('f-org').value.trim(),
-    role:document.getElementById('f-role').value.trim(),
-    sector:document.getElementById('f-sector').value,
-    participate:document.getElementById('f-participate').value,
-    hotel:document.getElementById('f-hotel-yes').checked?'Тийм':'Үгүй',
-    hotelCount:document.getElementById('f-hotel-yes').checked?(document.getElementById('f-hotel-count').value||''):'',
-    notes:document.getElementById('f-notes').value.trim(),
+  const t = T[currentLang];
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = t.submitting; btn.disabled = true;
+
+  const hotelYes = document.getElementById('f-hotel-yes').checked;
+  const data = {
+    lastname:    document.getElementById('f-lastname').value.trim(),
+    firstname:   document.getElementById('f-firstname').value.trim(),
+    phone:       document.getElementById('f-phone').value.trim(),
+    email:       document.getElementById('f-email').value.trim(),
+    org:         document.getElementById('f-org').value.trim(),
+    role:        document.getElementById('f-role').value.trim(),
+    sector:      document.getElementById('f-sector').value,
+    participate: document.getElementById('f-participate').value,
+    hotel:       hotelYes ? t.hotelYes : t.hotelNo,
+    hotelCount:  hotelYes ? (document.getElementById('f-hotel-count').value || '') : '',
+    lang:        currentLang,
   };
-  try{
+  try {
     let regNum;
-    if(typeof window._dsifSaveRegistration==='function'){
-      regNum=await window._dsifSaveRegistration(data);
-    }else{
-      await new Promise(r=>setTimeout(r,2000));
-      if(typeof window._dsifSaveRegistration==='function'){
-        regNum=await window._dsifSaveRegistration(data);
-      }else{
-        throw new Error('Firebase модуль ачаалагдсангүй. Хуудсаа дахин ачаалаад оролдоно уу.');
+    if (typeof window._dsifSaveRegistration === 'function') {
+      regNum = await window._dsifSaveRegistration(data);
+    } else {
+      await new Promise(r => setTimeout(r, 2000));
+      if (typeof window._dsifSaveRegistration === 'function') {
+        regNum = await window._dsifSaveRegistration(data);
+      } else {
+        throw new Error(t.firebaseErr);
       }
     }
-    showSuccess(data,regNum);
-  }catch(err){
+    showSuccess(data, regNum);
+  } catch(err) {
     console.error(err);
-    btn.textContent='ИЛГЭЭХ';btn.disabled=false;
-    alert('Алдаа гарлаа: '+err.message);
+    btn.textContent = t.submit; btn.disabled = false;
+    alert(t.errorMsg + err.message);
   }
 });
 
-function showSuccess(d,regNum){
-  document.getElementById('form-block').style.display='none';
-  document.getElementById('s-regnum').textContent=regNum;
-  const rows=[
-    ['ОВОГ, НЭР',d.lastname+' '+d.firstname],
-    ['УТАС',d.phone],['И-МЭЙЛ',d.email],
-    ['БАЙГУУЛЛАГА',d.org],['АЛБАН ТУШААЛ',d.role],
-    ['САЛБАР',d.sector],['ОРОЛЦОХ ХЭЛБЭР',d.participate],
-    ['БУУДАЛ',d.hotel+(d.hotelCount?' — '+d.hotelCount+' хүн':'')],
+function showSuccess(d, regNum) {
+  const t = T[currentLang];
+  document.getElementById('form-block').style.display = 'none';
+  document.getElementById('s-title').textContent = t.successTitle;
+  document.getElementById('s-regnum-label').textContent = t.regnumLabel;
+  document.getElementById('s-regnum').textContent = regNum;
+  document.getElementById('s-email-note').textContent = t.emailNote;
+  document.getElementById('s-home-btn').textContent = t.homeBtn;
+
+  const keys = t.successRows;
+  const vals = [
+    d.lastname + ' ' + d.firstname, d.phone, d.email,
+    d.org, d.role, d.sector, d.participate,
+    d.hotel + (d.hotelCount ? ' — ' + d.hotelCount + t.hotelSuffix : ''),
   ];
-  document.getElementById('s-rows').innerHTML=rows.filter(r=>r[1].trim()).map(([k,v])=>
-    `<div class="success-row"><span class="success-row-key">${k}</span><span class="success-row-val">${v}</span></div>`
+  document.getElementById('s-rows').innerHTML = keys.map((k,i) =>
+    vals[i].trim() ? `<div class="success-row"><span class="success-row-key">${k}</span><span class="success-row-val">${vals[i]}</span></div>` : ''
   ).join('');
-  document.getElementById('success-block').style.display='block';
+  document.getElementById('success-block').style.display = 'block';
 }
 
-// Logo recolor
-window.addEventListener('load',()=>{
-  const logo=document.getElementById('header-logo');
-  if(!logo)return;
-  const img=new Image();img.crossOrigin='anonymous';
-  img.onload=()=>{
-    const c=document.createElement('canvas');
-    c.width=img.naturalWidth;c.height=img.naturalHeight;
-    const ctx=c.getContext('2d');ctx.drawImage(img,0,0);
-    const d=ctx.getImageData(0,0,c.width,c.height);
-    for(let i=0;i<d.data.length;i+=4){
-      if(d.data[i+3]>10&&d.data[i]>180&&d.data[i+1]>180&&d.data[i+2]>180){
-        d.data[i]=255;d.data[i+1]=255;d.data[i+2]=255;
+// ── Logo recolor ──
+window.addEventListener('load', () => {
+  const logo = document.getElementById('header-logo');
+  if (!logo) return;
+  const img = new Image(); img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    const c = document.createElement('canvas');
+    c.width = img.naturalWidth; c.height = img.naturalHeight;
+    const ctx = c.getContext('2d'); ctx.drawImage(img, 0, 0);
+    const d = ctx.getImageData(0, 0, c.width, c.height);
+    for (let i = 0; i < d.data.length; i += 4) {
+      if (d.data[i+3] > 10 && d.data[i] > 180 && d.data[i+1] > 180 && d.data[i+2] > 180) {
+        d.data[i] = 255; d.data[i+1] = 255; d.data[i+2] = 255;
       }
     }
-    ctx.putImageData(d,0,0);logo.src=c.toDataURL('image/png');
+    ctx.putImageData(d, 0, 0); logo.src = c.toDataURL('image/png');
   };
-  img.src='dsif-logo.png';
+  img.src = 'dsif-logo.png';
 });
 </script>
 </body>
