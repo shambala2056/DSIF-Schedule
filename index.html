@@ -852,12 +852,8 @@ async function printSchedule(){
   // Build page header canvas (HTML→canvas for proper font/logo rendering)
   async function makeHeader(dayTitle,dateStr){
     const el=document.createElement('div');
-    el.style.cssText='position:absolute;top:0;left:-9999px;width:800px;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;background:#fff;font-family:Montserrat,sans-serif;box-sizing:border-box;border-bottom:3px solid #00b352';
-    el.innerHTML=`<img src="dsif-logo.png" crossorigin="anonymous" style="height:32px;width:auto;display:block">
-      <div style="text-align:right;line-height:1.35">
-        <div style="font-size:10px;font-weight:800;letter-spacing:2px;color:#1a1a1a;text-transform:uppercase">${dayTitle}</div>
-        <div style="font-size:9px;font-weight:700;color:#00b352;letter-spacing:2px">${dateStr}</div>
-      </div>`;
+    el.style.cssText='position:absolute;top:0;left:-9999px;width:800px;height:50px;display:flex;align-items:center;padding:0 8px;background:#fff;font-family:Montserrat,sans-serif;box-sizing:border-box;border-bottom:3px solid #00b352';
+    el.innerHTML=`<img src="dsif-logo.png" crossorigin="anonymous" style="height:32px;width:auto;display:block">`;
     document.body.appendChild(el);
     await new Promise(r=>setTimeout(r,80));
     const c=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',windowWidth:800,logging:false,useCORS:true});
@@ -877,38 +873,27 @@ async function printSchedule(){
     pdf.addImage(sc.toDataURL('image/jpeg',0.93),'JPEG',mg,mg,cW,cH);
   }
 
-  // 2 — Day sections with per-page headers
-  const daySections=[
-    {id:'sched-day1',dayTitle:'1-Р ӨДРИЙН ХӨТӨЛБӨР',date:'2026.04.26'},
-    {id:'sched-day2',dayTitle:'2-Р ӨДРИЙН ХӨТӨЛБӨР',date:'2026.04.27'},
-    {id:'sched-day3',dayTitle:'УУЛЗАЛТЫН ХӨТӨЛБӨР', date:'2026.04.26 — 27'},
-  ];
+  // 2 — All days in one canvas (continuous flow, no forced page breaks)
+  const allDaysEl=document.getElementById('sched-all-days');
+  const canvas=await html2canvas(allDaysEl,{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:800,logging:false});
+  const hdrCanvas=await makeHeader('','');
+  const hdrData=hdrCanvas.toDataURL('image/png');
+  const hdrMmH=hdrCanvas.height/pxPerMm;
+  const contentH=cH-hdrMmH;
+  const pageHpx=Math.round(contentH*pxPerMm);
 
-  for(const {id,dayTitle,date} of daySections){
-    const el=document.getElementById(id);
-    if(!el)continue;
-    const canvas=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:800,logging:false});
-    const hdrCanvas=await makeHeader(dayTitle,date);
-    const hdrData=hdrCanvas.toDataURL('image/png');
-    const hdrMmH=hdrCanvas.height/pxPerMm;
-    const contentH=cH-hdrMmH;
-    const pageHpx=Math.round(contentH*pxPerMm);
-
-    let yPx=0;
-    while(yPx<canvas.height){
-      pdf.addPage();
-      // Header
-      pdf.addImage(hdrData,'PNG',mg,mg,cW,hdrMmH);
-      // Content slice
-      const sliceH=Math.min(pageHpx,canvas.height-yPx);
-      const sc=document.createElement('canvas');
-      sc.width=canvas.width;sc.height=pageHpx;
-      const ctx=sc.getContext('2d');
-      ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sc.width,sc.height);
-      ctx.drawImage(canvas,0,yPx,canvas.width,sliceH,0,0,canvas.width,sliceH);
-      pdf.addImage(sc.toDataURL('image/jpeg',0.93),'JPEG',mg,mg+hdrMmH,cW,contentH);
-      yPx+=pageHpx;
-    }
+  let yPx=0;
+  while(yPx<canvas.height){
+    pdf.addPage();
+    pdf.addImage(hdrData,'PNG',mg,mg,cW,hdrMmH);
+    const sliceH=Math.min(pageHpx,canvas.height-yPx);
+    const sc=document.createElement('canvas');
+    sc.width=canvas.width;sc.height=pageHpx;
+    const ctx=sc.getContext('2d');
+    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sc.width,sc.height);
+    ctx.drawImage(canvas,0,yPx,canvas.width,sliceH,0,0,canvas.width,sliceH);
+    pdf.addImage(sc.toDataURL('image/jpeg',0.93),'JPEG',mg,mg+hdrMmH,cW,contentH);
+    yPx+=pageHpx;
   }
 
   pdf.save('DSIF-Forum-2026.pdf');
