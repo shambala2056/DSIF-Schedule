@@ -825,9 +825,9 @@ async function printSchedule(){
   const coverTitleEl=cover.querySelector('.pdf-cover-title');
   const coverBodyEl=cover.querySelector('.pdf-cover-body');
   if(coverLogoEl&&coverTitleEl&&coverBodyEl){
-    const coverW=cover.offsetWidth;
-    const coverH=cover.offsetHeight;
-    const logoW=coverLogoEl.offsetWidth||632;
+    const coverW=800; // html2canvas windowWidth
+    const coverH=1150; // fixed cover height in px
+    const logoW=632; // fixed logo width in px
     // Letter-spacing: match logo width
     coverBodyEl.style.width=logoW+'px';
     const tmp=document.createElement('span');
