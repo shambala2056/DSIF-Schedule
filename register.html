@@ -98,8 +98,9 @@ a{color:inherit;text-decoration:none}
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('mn')">МН</button>
       <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('zh')">中文</button>
     </div>
-    <a href="index.html" class="header-back" data-mn="← Үндсэн хуудас" data-en="← Back to site">← Үндсэн хуудас</a>
+    <a href="index.html" class="header-back" data-mn="← Үндсэн хуудас" data-en="← Back to site" data-zh="← 返回主页">← Үндсэн хуудас</a>
   </div>
 </header>
 
@@ -107,87 +108,87 @@ a{color:inherit;text-decoration:none}
   <div class="card">
     <div id="form-block">
       <div class="card-badge">DSIF FORUM 2026</div>
-      <h1 class="card-title" data-mn="ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em>" data-en="REGISTER FOR<br><em>THE FORUM</em>">ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em></h1>
-      <p class="card-sub" data-mn="2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь" data-en="April 26–27, 2026 &nbsp;·&nbsp; Sainshand, Dornogovi">2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь</p>
+      <h1 class="card-title" data-mn="ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em>" data-en="REGISTER FOR<br><em>THE FORUM</em>" data-zh="论坛<br><em>报名注册</em>">ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em></h1>
+      <p class="card-sub" data-mn="2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь" data-en="April 26–27, 2026 &nbsp;·&nbsp; Sainshand, Dornogovi" data-zh="2026年4月26–27日 &nbsp;·&nbsp; 东戈壁省，赛音山达">2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь</p>
 
       <form id="reg-form" novalidate>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label" data-mn="ОВОГ" data-en="LAST NAME">ОВОГ</label>
-            <input id="f-lastname" type="text" class="form-input" data-ph-mn="Овог" data-ph-en="Last name" placeholder="Овог" required>
+            <label class="form-label" data-mn="ОВОГ" data-en="LAST NAME" data-zh="姓氏">ОВОГ</label>
+            <input id="f-lastname" type="text" class="form-input" data-ph-mn="Овог" data-ph-en="Last name" data-ph-zh="姓氏" placeholder="Овог" required>
           </div>
           <div class="form-group">
-            <label class="form-label" data-mn="НЭР" data-en="FIRST NAME">НЭР</label>
-            <input id="f-firstname" type="text" class="form-input" data-ph-mn="Нэр" data-ph-en="First name" placeholder="Нэр" required>
+            <label class="form-label" data-mn="НЭР" data-en="FIRST NAME" data-zh="名字">НЭР</label>
+            <input id="f-firstname" type="text" class="form-input" data-ph-mn="Нэр" data-ph-en="First name" data-ph-zh="名字" placeholder="Нэр" required>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label" data-mn="УТАС" data-en="PHONE">УТАС</label>
+            <label class="form-label" data-mn="УТАС" data-en="PHONE" data-zh="电话">УТАС</label>
             <input id="f-phone" type="tel" class="form-input" placeholder="+976 XXXX XXXX" required>
           </div>
           <div class="form-group">
-            <label class="form-label" data-mn="И-МЭЙЛ" data-en="EMAIL">И-МЭЙЛ</label>
+            <label class="form-label" data-mn="И-МЭЙЛ" data-en="EMAIL" data-zh="邮箱">И-МЭЙЛ</label>
             <input id="f-email" type="email" class="form-input" placeholder="name@example.com" required>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label" data-mn="БАЙГУУЛЛАГА" data-en="ORGANIZATION">БАЙГУУЛЛАГА</label>
-            <input id="f-org" type="text" class="form-input" data-ph-mn="Байгууллагын нэр" data-ph-en="Organization name" placeholder="Байгууллагын нэр" required>
+            <label class="form-label" data-mn="БАЙГУУЛЛАГА" data-en="ORGANIZATION" data-zh="所属机构">БАЙГУУЛЛАГА</label>
+            <input id="f-org" type="text" class="form-input" data-ph-mn="Байгууллагын нэр" data-ph-en="Organization name" data-ph-zh="机构名称" placeholder="Байгууллагын нэр" required>
           </div>
           <div class="form-group">
-            <label class="form-label" data-mn="АЛБАН ТУШААЛ" data-en="POSITION">АЛБАН ТУШААЛ</label>
-            <input id="f-role" type="text" class="form-input" data-ph-mn="Албан тушаал" data-ph-en="Job title" placeholder="Албан тушаал" required>
+            <label class="form-label" data-mn="АЛБАН ТУШААЛ" data-en="POSITION" data-zh="职务">АЛБАН ТУШААЛ</label>
+            <input id="f-role" type="text" class="form-input" data-ph-mn="Албан тушаал" data-ph-en="Job title" data-ph-zh="职务名称" placeholder="Албан тушаал" required>
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label" data-mn="САЛБАР" data-en="SECTOR">САЛБАР</label>
+          <label class="form-label" data-mn="САЛБАР" data-en="SECTOR" data-zh="行业领域">САЛБАР</label>
           <select id="f-sector" class="form-input" required>
-            <option value="" data-mn="— СОНГОНО УУ —" data-en="— SELECT —">— СОНГОНО УУ —</option>
-            <option data-mn="НОГООН ЭДИЙН ЗАСАГ" data-en="GREEN ECONOMY">НОГООН ЭДИЙН ЗАСАГ</option>
-            <option data-mn="ЭРЧИМ ХҮЧ" data-en="ENERGY">ЭРЧИМ ХҮЧ</option>
-            <option data-mn="УУЛ УУРХАЙ" data-en="MINING">УУЛ УУРХАЙ</option>
-            <option data-mn="БАЙГАЛЬ ОРЧИН" data-en="ENVIRONMENT">БАЙГАЛЬ ОРЧИН</option>
-            <option data-mn="ДЭД БҮТЭЦ" data-en="INFRASTRUCTURE">ДЭД БҮТЭЦ</option>
-            <option data-mn="БОЛОВСРОЛ" data-en="EDUCATION">БОЛОВСРОЛ</option>
-            <option data-mn="СОЁЛ" data-en="CULTURE">СОЁЛ</option>
-            <option data-mn="ЭРҮҮЛ МЭНД" data-en="HEALTH">ЭРҮҮЛ МЭНД</option>
-            <option data-mn="НИЙГЭМ" data-en="SOCIAL">НИЙГЭМ</option>
-            <option data-mn="ХӨДӨӨ АЖ АХУЙ" data-en="AGRICULTURE">ХӨДӨӨ АЖ АХУЙ</option>
-            <option data-mn="БУСАД" data-en="OTHER">БУСАД</option>
+            <option value="" data-mn="— СОНГОНО УУ —" data-en="— SELECT —" data-zh="— 请选择 —">— СОНГОНО УУ —</option>
+            <option data-mn="НОГООН ЭДИЙН ЗАСАГ" data-en="GREEN ECONOMY" data-zh="绿色经济">НОГООН ЭДИЙН ЗАСАГ</option>
+            <option data-mn="ЭРЧИМ ХҮЧ" data-en="ENERGY" data-zh="能源">ЭРЧИМ ХҮЧ</option>
+            <option data-mn="УУЛ УУРХАЙ" data-en="MINING" data-zh="矿业">УУЛ УУРХАЙ</option>
+            <option data-mn="БАЙГАЛЬ ОРЧИН" data-en="ENVIRONMENT" data-zh="环境">БАЙГАЛЬ ОРЧИН</option>
+            <option data-mn="ДЭД БҮТЭЦ" data-en="INFRASTRUCTURE" data-zh="基础设施">ДЭД БҮТЭЦ</option>
+            <option data-mn="БОЛОВСРОЛ" data-en="EDUCATION" data-zh="教育">БОЛОВСРОЛ</option>
+            <option data-mn="СОЁЛ" data-en="CULTURE" data-zh="文化">СОЁЛ</option>
+            <option data-mn="ЭРҮҮЛ МЭНД" data-en="HEALTH" data-zh="卫生健康">ЭРҮҮЛ МЭНД</option>
+            <option data-mn="НИЙГЭМ" data-en="SOCIAL" data-zh="社会">НИЙГЭМ</option>
+            <option data-mn="ХӨДӨӨ АЖ АХУЙ" data-en="AGRICULTURE" data-zh="农牧业">ХӨДӨӨ АЖ АХУЙ</option>
+            <option data-mn="БУСАД" data-en="OTHER" data-zh="其他">БУСАД</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label" data-mn="ОРОЛЦОХ ХЭЛБЭР" data-en="PARTICIPATION TYPE">ОРОЛЦОХ ХЭЛБЭР</label>
+          <label class="form-label" data-mn="ОРОЛЦОХ ХЭЛБЭР" data-en="PARTICIPATION TYPE" data-zh="参与形式">ОРОЛЦОХ ХЭЛБЭР</label>
           <select id="f-participate" class="form-input" required>
-            <option value="" data-mn="— СОНГОНО УУ —" data-en="— SELECT —">— СОНГОНО УУ —</option>
-            <option data-mn="ХӨРӨНГӨ ОРУУЛАГЧ" data-en="INVESTOR">ХӨРӨНГӨ ОРУУЛАГЧ</option>
-            <option data-mn="B2B УУЛЗАЛТ" data-en="B2B MEETING">B2B УУЛЗАЛТ</option>
-            <option data-mn="ИЛТГЭГЧ / ПАНЕЛИСТ" data-en="SPEAKER / PANELIST">ИЛТГЭГЧ / ПАНЕЛИСТ</option>
-            <option data-mn="ЗОЧИН" data-en="GUEST">ЗОЧИН</option>
-            <option data-mn="ХЭВЛЭЛ МЭДЭЭЛЭЛ" data-en="MEDIA">ХЭВЛЭЛ МЭДЭЭЛЭЛ</option>
+            <option value="" data-mn="— СОНГОНО УУ —" data-en="— SELECT —" data-zh="— 请选择 —">— СОНГОНО УУ —</option>
+            <option data-mn="ХӨРӨНГӨ ОРУУЛАГЧ" data-en="INVESTOR" data-zh="投资者">ХӨРӨНГӨ ОРУУЛАГЧ</option>
+            <option data-mn="B2B УУЛЗАЛТ" data-en="B2B MEETING" data-zh="B2B 洽谈">B2B УУЛЗАЛТ</option>
+            <option data-mn="ИЛТГЭГЧ / ПАНЕЛИСТ" data-en="SPEAKER / PANELIST" data-zh="演讲者 / 嘉宾">ИЛТГЭГЧ / ПАНЕЛИСТ</option>
+            <option data-mn="ЗОЧИН" data-en="GUEST" data-zh="来宾">ЗОЧИН</option>
+            <option data-mn="ХЭВЛЭЛ МЭДЭЭЛЭЛ" data-en="MEDIA" data-zh="媒体">ХЭВЛЭЛ МЭДЭЭЛЭЛ</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label" data-mn="БУУДАЛЫН ЗАХИАЛГА" data-en="HOTEL BOOKING">БУУДАЛЫН ЗАХИАЛГА</label>
+          <label class="form-label" data-mn="БУУДАЛЫН ЗАХИАЛГА" data-en="HOTEL BOOKING" data-zh="酒店预订">БУУДАЛЫН ЗАХИАЛГА</label>
           <div class="hotel-radios">
-            <label><input type="radio" name="hotel" id="f-hotel-yes" value="yes"> <span data-mn="Тийм" data-en="Yes">Тийм</span></label>
-            <label><input type="radio" name="hotel" id="f-hotel-no" value="no" checked> <span data-mn="Үгүй" data-en="No">Үгүй</span></label>
+            <label><input type="radio" name="hotel" id="f-hotel-yes" value="yes"> <span data-mn="Тийм" data-en="Yes" data-zh="是">Тийм</span></label>
+            <label><input type="radio" name="hotel" id="f-hotel-no" value="no" checked> <span data-mn="Үгүй" data-en="No" data-zh="否">Үгүй</span></label>
           </div>
           <div id="hotel-count-wrap" style="display:none">
-            <input id="f-hotel-count" type="number" class="form-input" min="1" max="20" data-ph-mn="Хэдэн хүн?" data-ph-en="How many guests?" placeholder="Хэдэн хүн?" style="width:160px">
+            <input id="f-hotel-count" type="number" class="form-input" min="1" max="20" data-ph-mn="Хэдэн хүн?" data-ph-en="How many guests?" data-ph-zh="几位客人？" placeholder="Хэдэн хүн?" style="width:160px">
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label" data-mn="НЭМЭЛТ ТЭМДЭГЛЭЛ" data-en="ADDITIONAL NOTES">НЭМЭЛТ ТЭМДЭГЛЭЛ</label>
-          <textarea id="f-notes" class="form-input" rows="3" data-ph-mn="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." data-ph-en="Special requests or questions..." placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical"></textarea>
+          <label class="form-label" data-mn="НЭМЭЛТ ТЭМДЭГЛЭЛ" data-en="ADDITIONAL NOTES" data-zh="备注说明">НЭМЭЛТ ТЭМДЭГЛЭЛ</label>
+          <textarea id="f-notes" class="form-input" rows="3" data-ph-mn="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." data-ph-en="Special requests or questions..." data-ph-zh="如有特殊需求或问题，请在此填写…" placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical"></textarea>
         </div>
         <label class="form-check">
           <input type="checkbox" id="f-agree" required>
-          <span data-mn="Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна" data-en="I agree to the processing of my personal data">Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна</span>
+          <span data-mn="Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна" data-en="I agree to the processing of my personal data" data-zh="我同意对个人信息的处理">Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна</span>
         </label>
-        <button type="submit" class="btn-submit" id="submit-btn" data-mn="ИЛГЭЭХ" data-en="SUBMIT">ИЛГЭЭХ</button>
+        <button type="submit" class="btn-submit" id="submit-btn" data-mn="ИЛГЭЭХ" data-en="SUBMIT" data-zh="提交">ИЛГЭЭХ</button>
       </form>
     </div>
 
@@ -242,6 +243,22 @@ const T = {
     errorMsg: 'Error: ',
     firebaseErr: 'Firebase module not loaded. Please reload the page.',
     successRows: ['FULL NAME','PHONE','EMAIL','ORGANIZATION','POSITION','SECTOR','PARTICIPATION','HOTEL'],
+  },
+  zh: {
+    title: '论坛<br><em>报名注册</em>',
+    sub: '2026年4月26–27日 &nbsp;·&nbsp; 东戈壁省，赛音山达',
+    back: '← 返回主页',
+    submit: '提交',
+    submitting: '提交中...',
+    successTitle: '注册成功！',
+    regnumLabel: '注册编号：',
+    emailNote: '确认邮件将发送至您的邮箱。',
+    homeBtn: '返回主页',
+    hotelYes: '是', hotelNo: '否',
+    hotelSuffix: ' 位客人',
+    errorMsg: '错误：',
+    firebaseErr: 'Firebase 模块未加载，请刷新页面后重试。',
+    successRows: ['姓名','电话','邮箱','所属机构','职务','行业领域','参与形式','酒店预订'],
   }
 };
 
@@ -264,8 +281,9 @@ function setLang(lang) {
   });
 
   // Placeholders
-  document.querySelectorAll('[data-ph-mn][data-ph-en]').forEach(el => {
-    el.placeholder = el.dataset['ph' + lang.charAt(0).toUpperCase() + lang.slice(1)];
+  document.querySelectorAll('[data-ph-mn]').forEach(el => {
+    const key = 'ph' + lang.charAt(0).toUpperCase() + lang.slice(1);
+    if(el.dataset[key]) el.placeholder = el.dataset[key];
   });
 
   // Select options
