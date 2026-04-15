@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЭКО НОЙЛ — Эрүүл орчин, Эко шийдэл</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#00b352;--green-light:#00c95b;--text:#e8e8e8;--text-dim:rgba(255,255,255,.55);--border:rgba(255,255,255,.08);--bg-card:rgba(255,255,255,.02)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;color:#e8e8e8;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 60px;position:relative;z-index:10}
+.topbar-back{padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none}
+.topbar-back:hover{border-color:var(--green);color:var(--green)}
+
+/* HERO */
+.project-hero{padding:40px 60px 60px;max-width:1000px}
+.project-tag{display:inline-block;padding:6px 16px;border:1px solid rgba(0,179,82,.3);background:rgba(0,179,82,.08);font-size:.6rem;font-weight:700;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:24px}
+.project-title{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1;letter-spacing:-1px;text-transform:uppercase;margin-bottom:12px}
+.project-title .accent{color:var(--green)}
+.project-subtitle{font-size:.85rem;font-weight:300;color:var(--text-dim);line-height:1.8;max-width:700px;margin-bottom:32px}
+.project-meta{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:40px}
+.meta-card{padding:20px 28px;border:1px solid var(--border);background:var(--bg-card)}
+.meta-label{font-size:.55rem;font-weight:700;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px}
+.meta-value{font-size:1rem;font-weight:700;color:#fff;letter-spacing:.5px}
+.meta-value.green{color:var(--green)}
+
+/* SECTIONS */
+.section{padding:48px 60px;max-width:1000px}
+.section-label{font-size:.55rem;font-weight:700;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px}
+.section-title{font-size:1.4rem;font-weight:800;letter-spacing:-0.5px;text-transform:uppercase;margin-bottom:24px}
+.section-text{font-size:.82rem;font-weight:300;color:rgba(255,255,255,.75);line-height:2;margin-bottom:20px}
+
+/* GOALS */
+.goals-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.goal-item{padding:20px 24px;border:1px solid var(--border);background:var(--bg-card);display:flex;align-items:flex-start;gap:12px}
+.goal-icon{width:28px;height:28px;background:rgba(0,179,82,.1);border:1px solid rgba(0,179,82,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--green);font-size:.7rem;font-weight:700}
+.goal-text{font-size:.75rem;font-weight:400;color:rgba(255,255,255,.7);line-height:1.7}
+
+/* TABLE */
+.budget-table{width:100%;border-collapse:collapse;margin-bottom:32px}
+.budget-table th{text-align:left;font-size:.55rem;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;padding:14px 20px;border-bottom:2px solid rgba(0,179,82,.2)}
+.budget-table td{font-size:.78rem;font-weight:400;color:rgba(255,255,255,.7);padding:14px 20px;border-bottom:1px solid var(--border)}
+.budget-table tr:hover td{background:rgba(255,255,255,.02)}
+.budget-table .total td{font-weight:700;color:#fff;border-top:2px solid rgba(0,179,82,.3);border-bottom:none}
+
+/* DETAIL TABLE */
+.detail-title{font-size:.85rem;font-weight:700;color:#fff;margin:32px 0 16px;text-transform:uppercase;letter-spacing:1px}
+
+/* RESULT */
+.result-box{padding:28px 32px;border:1px solid rgba(0,179,82,.2);background:rgba(0,179,82,.04);margin-bottom:24px}
+.result-text{font-size:.82rem;font-weight:400;color:rgba(255,255,255,.8);line-height:1.9}
+
+/* GALLERY */
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.gallery-grid img{width:100%;aspect-ratio:1;object-fit:cover;border:1px solid var(--border);transition:all .25s;cursor:pointer}
+.gallery-grid img:hover{border-color:var(--green);transform:scale(1.02)}
+@media(max-width:768px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:0 60px}
+
+/* FOOTER */
+.project-footer{padding:32px 60px;text-align:center}
+.project-footer p{font-size:.6rem;font-weight:500;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
+
+@media(max-width:768px){
+  .topbar,.project-hero,.section,.project-footer{padding-left:20px;padding-right:20px}
+  .divider{margin:0 20px}
+  .goals-grid{grid-template-columns:1fr}
+  .project-meta{flex-direction:column;gap:12px}
+  .budget-table{font-size:.7rem}
+  .budget-table th,.budget-table td{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="index.html" class="topbar-back">НҮҮР ХУУДАС</a>
+</nav>
+
+<div class="project-hero">
+  <div class="project-tag">ТӨСЛИЙН ТАНИЛЦУУЛГА</div>
+  <h1 class="project-title">ЭРҮҮЛ ОРЧИН —<br><span class="accent">ЭКО ШИЙДЭЛ</span></h1>
+  <p class="project-subtitle">"Эко нойл" барих санхүүжилтийн төсөл. Хөдөө орон нутаг болон байгууллагын орчинд байгальд ээлтэй, бохирдолгүй, удаан эдэлгээтэй эко нойл барьж ашиглалтад оруулах.</p>
+
+  <div class="project-meta">
+    <div class="meta-card">
+      <div class="meta-label">БАЙРШИЛ</div>
+      <div class="meta-value">ДОРНОГОВЬ, САЙНШАНД</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">НИЙТ ТӨСӨВ</div>
+      <div class="meta-value green">990,000,000 ₮</div>
+    </div>
+    <div class="meta-card">
+      <div class="meta-label">ХАМРАХ ХҮРЭЭ</div>
+      <div class="meta-value">300 ЭКО НОЙЛ</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">ҮНДЭСЛЭЛ</div>
+  <h2 class="section-title">ТӨСЛИЙН ҮНДЭСЛЭЛ</h2>
+  <p class="section-text">Дорноговь аймаг болон суманд орчны бохирдол, халдварт өвчин гэх мэт тулгамдаж буй хүндрэлтэй асуудлууд байдаг. Сүүлийн жилүүдэд янз бүрийн халдварт өвчин нэмэгдэж, байгаль орчин улам бүр бохирдон сүйдсээр байна.</p>
+  <p class="section-text">Одоогийн нүхэн жорлон хэт их талбай шаарддаг, 3-5 жилд байршлыг солих шаардлага гардаг. Хөрс болон агаарыг бохирдуулахгүй байдлаар шийдэж өгсөн нь эко жорлонгийн давуу тал юм.</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">ЗОРИЛГО</div>
+  <h2 class="section-title">ЗОРИЛГО, ДАВУУ ТАЛУУД</h2>
+
+  <div class="goals-grid">
+    <div class="goal-item">
+      <div class="goal-icon">01</div>
+      <div class="goal-text">Байгальд ээлтэй, бохирдолгүй, удаан эдэлгээтэй эко нойл барьж ашиглалтад оруулах</div>
+    </div>
+    <div class="goal-item">
+      <div class="goal-icon">02</div>
+      <div class="goal-text">Хөрс, гүний усны бохирдлоос сэргийлж, эрүүл орчин бүрдүүлэх</div>
+    </div>
+    <div class="goal-item">
+      <div class="goal-icon">03</div>
+      <div class="goal-text">Үнэр, ялаа эрс бага, усны эх үүсвэр шаардлагагүй</div>
+    </div>
+    <div class="goal-item">
+      <div class="goal-icon">04</div>
+      <div class="goal-text">Материалын олдоц сайн, барихад хялбар, дахин нүх ухах шаардлагагүй</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">ҮР ДҮН</div>
+  <h2 class="section-title">ТӨСЛӨӨС ГАРАХ ҮР ДҮН</h2>
+  <div class="result-box">
+    <p class="result-text">Тус төслийг хэрэгжүүлсэнээр 300 айл өрх эко нойл ашиглах ба иргэдийн ая тухтай амьдрах орчин бүрдэнэ. Нийтийн зам талбай болон аялал жуулчлалын бүсийг эко жорлонтой болсноор хөрс, гүний усны бохирдлоос сэргийлж чадна.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">ЗУРГУУД</div>
+  <h2 class="section-title">ЭКО НОЙЛЫН ЖИШЭЭ</h2>
+  <div class="gallery-grid">
+    <img src="eco1.png" alt="Эко нойл">
+    <img src="eco2.png" alt="Эко нойл">
+    <img src="eco3.png" alt="Эко нойл">
+    <img src="eco4.png" alt="Эко нойл">
+    <img src="eco5.png" alt="Эко нойл">
+    <img src="eco6.png" alt="Эко нойл">
+    <img src="eco7.png" alt="Эко нойл">
+    <img src="eco8.png" alt="Эко нойл">
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-label">САНХҮҮЖИЛТ</div>
+  <h2 class="section-title">ТӨСВИЙН ТООЦООЛОЛ</h2>
+
+  <table class="budget-table">
+    <thead>
+      <tr>
+        <th>НЭР</th>
+        <th>НЭГ БҮРИЙН ҮНЭ</th>
+        <th>300Ш НИЙТ ТӨСӨВ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Барилгын материал</td>
+        <td>2,550,000 ₮</td>
+        <td>765,000,000 ₮</td>
+      </tr>
+      <tr>
+        <td>Хөдөлмөрийн зардал</td>
+        <td>500,000 ₮</td>
+        <td>150,000,000 ₮</td>
+      </tr>
+      <tr>
+        <td>Тээвэр, нэмэлт зардал</td>
+        <td>250,000 ₮</td>
+        <td>75,000,000 ₮</td>
+      </tr>
+      <tr class="total">
+        <td>НИЙТ ДҮН</td>
+        <td>3,300,000 ₮</td>
+        <td>990,000,000 ₮</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="detail-title">1. Барилгын материал — 2,550,000 ₮</div>
+  <table class="budget-table">
+    <thead>
+      <tr><th>№</th><th>МАТЕРИАЛ</th><th>ДҮН</th><th>300Ш ТӨСӨВ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Төмөр, каркас</td><td>750,000 ₮</td><td>225,000,000 ₮</td></tr>
+      <tr><td>2</td><td>Пластик кольцо</td><td>600,000 ₮</td><td>180,000,000 ₮</td></tr>
+      <tr><td>3</td><td>Доторлогоо, шал</td><td>430,000 ₮</td><td>129,000,000 ₮</td></tr>
+      <tr><td>4</td><td>Хаалга, цонх</td><td>350,000 ₮</td><td>105,000,000 ₮</td></tr>
+      <tr><td>5</td><td>Сэнс, агааржуулалтын хоолой</td><td>200,000 ₮</td><td>60,000,000 ₮</td></tr>
+      <tr><td>6</td><td>Будаг, бэхэлгээ, жижиг хэрэгсэл</td><td>220,000 ₮</td><td>66,000,000 ₮</td></tr>
+      <tr class="total"><td></td><td>НИЙТ</td><td>2,550,000 ₮</td><td>765,000,000 ₮</td></tr>
+    </tbody>
+  </table>
+
+  <div class="detail-title">2. Хөдөлмөрийн зардал — 500,000 ₮</div>
+  <table class="budget-table">
+    <thead>
+      <tr><th>№</th><th>АЖИЛ</th><th>ДҮН</th><th>300Ш ТӨСӨВ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Суурь бэлтгэх</td><td>150,000 ₮</td><td>45,000,000 ₮</td></tr>
+      <tr><td>2</td><td>Каркас угсралт</td><td>230,000 ₮</td><td>69,000,000 ₮</td></tr>
+      <tr><td>3</td><td>Дотор засал, угсралт</td><td>120,000 ₮</td><td>36,000,000 ₮</td></tr>
+      <tr class="total"><td></td><td>НИЙТ</td><td>500,000 ₮</td><td>150,000,000 ₮</td></tr>
+    </tbody>
+  </table>
+
+  <div class="detail-title">3. Тээвэр, нэмэлт зардал — 250,000 ₮</div>
+  <table class="budget-table">
+    <thead>
+      <tr><th>№</th><th>ЗАРДАЛ</th><th>ДҮН</th><th>300Ш ТӨСӨВ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Материал тээвэр</td><td>150,000 ₮</td><td>45,000,000 ₮</td></tr>
+      <tr><td>2</td><td>Нөөц, нэмэлт зардал</td><td>100,000 ₮</td><td>30,000,000 ₮</td></tr>
+      <tr class="total"><td></td><td>НИЙТ</td><td>250,000 ₮</td><td>75,000,000 ₮</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<div class="project-footer">
+  <p>НОГООН ХӨГЖИЛ — ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ ФОРУМ 2026 · ДОРНОГОВЬ АЙМАГ</p>
+</div>
+
+</body>
+</html>
