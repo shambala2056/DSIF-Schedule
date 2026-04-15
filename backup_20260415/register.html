@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Бүртгэл — DSIF Forum 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+  authDomain: "dsif-shedule.firebaseapp.com",
+  projectId: "dsif-shedule",
+  storageBucket: "dsif-shedule.firebasestorage.app",
+  messagingSenderId: "973476131387",
+  appId: "1:973476131387:web:8c2e1234567890abcdef"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+window._dsifSaveRegistration = async function(data) {
+  const regNum = 'DSIF-2026-' + (Math.floor(Math.random() * 9000) + 1000);
+  const docName = (data.lastname + ' ' + data.firstname).trim() || regNum;
+  await setDoc(doc(db, "registrations", docName), { ...data, regNumber: regNum, registeredAt: serverTimestamp() });
+  return regNum;
+};
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;color:#fff;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+
+/* Header */
+.page-header{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid rgba(255,255,255,.07)}
+.header-logo{height:36px;width:auto;display:block}
+.header-right{display:flex;align-items:center;gap:20px}
+.header-back{font-size:.6rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;transition:color .2s}
+.header-back:hover{color:#00b352}
+
+/* Language toggle */
+.lang-toggle{display:flex;gap:2px;border:1px solid rgba(255,255,255,.12);overflow:hidden}
+.lang-btn{padding:6px 12px;font-family:'Montserrat',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;transition:all .2s}
+.lang-btn.active{background:#00b352;color:#fff}
+
+/* Main */
+.page-main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:48px 24px 64px}
+.card{width:100%;max-width:560px}
+.card-badge{display:inline-block;padding:6px 18px;border:1px solid rgba(0,179,82,.35);font-size:.55rem;font-weight:700;letter-spacing:3px;color:#00b352;text-transform:uppercase;margin-bottom:20px}
+.card-title{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;letter-spacing:-1px;text-transform:uppercase;line-height:1;margin-bottom:6px}
+.card-title em{font-style:normal;color:#00b352}
+.card-sub{font-size:.65rem;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:36px}
+
+/* Form */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:.52rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.45);margin-bottom:6px;text-transform:uppercase}
+.form-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:400;padding:10px 14px;outline:none;transition:border .2s;-webkit-appearance:none;appearance:none;border-radius:0}
+.form-input:focus{border-color:#00b352}
+.form-input option{background:#1a1a1a;color:#fff}
+.form-check{display:flex;align-items:flex-start;gap:8px;font-size:.63rem;color:rgba(255,255,255,.4);line-height:1.5;margin-top:4px}
+.form-check input{margin-top:2px;accent-color:#00b352}
+.hotel-radios{display:flex;gap:16px;margin-bottom:8px}
+.hotel-radios label{display:flex;align-items:center;gap:6px;font-size:.65rem;color:rgba(255,255,255,.65);cursor:pointer}
+.hotel-radios input{accent-color:#00b352}
+
+/* Submit */
+.btn-submit{width:100%;padding:14px;background:#00b352;color:#fff;font-family:'Montserrat',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s;margin-top:8px}
+.btn-submit:hover{background:#00d964}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed}
+
+/* Success */
+#success-block{display:none;text-align:center;padding:48px 0}
+.success-icon{width:60px;height:60px;border:2px solid #00b352;display:flex;align-items:center;justify-content:center;color:#00b352;margin:0 auto 20px}
+.success-rows{text-align:left;border:1px solid rgba(255,255,255,.08);padding:16px;margin:20px 0 28px}
+.success-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.success-row:last-child{border-bottom:none}
+.success-row-key{font-size:.52rem;color:rgba(255,255,255,.3);min-width:110px;letter-spacing:1px;text-transform:uppercase;padding-top:2px}
+.success-row-val{font-size:.7rem;font-weight:600;color:#fff}
+.btn-home{display:inline-block;padding:12px 32px;background:#00b352;color:#fff;font-family:'Montserrat',sans-serif;font-size:.63rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;text-decoration:none}
+
+/* Footer */
+.page-footer{padding:20px 40px;border-top:1px solid rgba(255,255,255,.06);font-size:.55rem;color:rgba(255,255,255,.2);letter-spacing:1px;text-transform:uppercase;text-align:center}
+
+@media(max-width:540px){
+  .page-header{padding:16px 20px}
+  .page-main{padding:32px 20px 48px}
+  .form-row{grid-template-columns:1fr}
+  .page-footer{padding:16px 20px}
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <img src="dsif-logo.png" alt="DSIF 2026" class="header-logo" id="header-logo">
+  <div class="header-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('mn')">МН</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('zh')">中文</button>
+    </div>
+    <a href="index.html" class="header-back" data-mn="← Үндсэн хуудас" data-en="← Back to site" data-zh="← 返回主页">← Үндсэн хуудас</a>
+  </div>
+</header>
+
+<main class="page-main">
+  <div class="card">
+    <div id="form-block">
+      <div class="card-badge">DSIF FORUM 2026</div>
+      <h1 class="card-title" data-mn="ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em>" data-en="REGISTER FOR<br><em>THE FORUM</em>" data-zh="论坛<br><em>报名注册</em>">ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em></h1>
+      <p class="card-sub" data-mn="2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь" data-en="April 26–27, 2026 &nbsp;·&nbsp; Sainshand, Dornogovi" data-zh="2026年4月26–27日 &nbsp;·&nbsp; 东戈壁省，赛音山达">2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь</p>
+
+      <form id="reg-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-mn="ОВОГ" data-en="LAST NAME" data-zh="姓氏">ОВОГ</label>
+            <input id="f-lastname" type="text" class="form-input" data-ph-mn="Овог" data-ph-en="Last name" data-ph-zh="姓氏" placeholder="Овог" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-mn="НЭР" data-en="FIRST NAME" data-zh="名字">НЭР</label>
+            <input id="f-firstname" type="text" class="form-input" data-ph-mn="Нэр" data-ph-en="First name" data-ph-zh="名字" placeholder="Нэр" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-mn="УТАС" data-en="PHONE" data-zh="电话">УТАС</label>
+            <input id="f-phone" type="tel" class="form-input" placeholder="+976 XXXX XXXX" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-mn="И-МЭЙЛ" data-en="EMAIL" data-zh="邮箱">И-МЭЙЛ</label>
+            <input id="f-email" type="email" class="form-input" placeholder="name@example.com" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-mn="БАЙГУУЛЛАГА" data-en="ORGANIZATION" data-zh="所属机构">БАЙГУУЛЛАГА</label>
+            <input id="f-org" type="text" class="form-input" data-ph-mn="Байгууллагын нэр" data-ph-en="Organization name" data-ph-zh="机构名称" placeholder="Байгууллагын нэр" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-mn="АЛБАН ТУШААЛ" data-en="POSITION" data-zh="职务">АЛБАН ТУШААЛ</label>
+            <input id="f-role" type="text" class="form-input" data-ph-mn="Албан тушаал" data-ph-en="Job title" data-ph-zh="职务名称" placeholder="Албан тушаал" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-mn="САЛБАР" data-en="SECTOR" data-zh="行业领域">САЛБАР</label>
+          <select id="f-sector" class="form-input" required>
+            <option value="" data-mn="— СОНГОНО УУ —" data-en="— SELECT —" data-zh="— 请选择 —">— СОНГОНО УУ —</option>
+            <option data-mn="НОГООН ЭДИЙН ЗАСАГ" data-en="GREEN ECONOMY" data-zh="绿色经济">НОГООН ЭДИЙН ЗАСАГ</option>
+            <option data-mn="ЭРЧИМ ХҮЧ" data-en="ENERGY" data-zh="能源">ЭРЧИМ ХҮЧ</option>
+            <option data-mn="УУЛ УУРХАЙ" data-en="MINING" data-zh="矿业">УУЛ УУРХАЙ</option>
+            <option data-mn="БАЙГАЛЬ ОРЧИН" data-en="ENVIRONMENT" data-zh="环境">БАЙГАЛЬ ОРЧИН</option>
+            <option data-mn="ДЭД БҮТЭЦ" data-en="INFRASTRUCTURE" data-zh="基础设施">ДЭД БҮТЭЦ</option>
+            <option data-mn="БОЛОВСРОЛ" data-en="EDUCATION" data-zh="教育">БОЛОВСРОЛ</option>
+            <option data-mn="СОЁЛ" data-en="CULTURE" data-zh="文化">СОЁЛ</option>
+            <option data-mn="ЭРҮҮЛ МЭНД" data-en="HEALTH" data-zh="卫生健康">ЭРҮҮЛ МЭНД</option>
+            <option data-mn="НИЙГЭМ" data-en="SOCIAL" data-zh="社会">НИЙГЭМ</option>
+            <option data-mn="ХӨДӨӨ АЖ АХУЙ" data-en="AGRICULTURE" data-zh="农牧业">ХӨДӨӨ АЖ АХУЙ</option>
+            <option data-mn="БУСАД" data-en="OTHER" data-zh="其他">БУСАД</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-mn="ОРОЛЦОХ ХЭЛБЭР" data-en="PARTICIPATION TYPE" data-zh="参与形式">ОРОЛЦОХ ХЭЛБЭР</label>
+          <select id="f-participate" class="form-input" required>
+            <option value="" data-mn="— СОНГОНО УУ —" data-en="— SELECT —" data-zh="— 请选择 —">— СОНГОНО УУ —</option>
+            <option data-mn="ХӨРӨНГӨ ОРУУЛАГЧ" data-en="INVESTOR" data-zh="投资者">ХӨРӨНГӨ ОРУУЛАГЧ</option>
+            <option data-mn="B2B УУЛЗАЛТ" data-en="B2B MEETING" data-zh="B2B 洽谈">B2B УУЛЗАЛТ</option>
+            <option data-mn="ИЛТГЭГЧ / ПАНЕЛИСТ" data-en="SPEAKER / PANELIST" data-zh="演讲者 / 嘉宾">ИЛТГЭГЧ / ПАНЕЛИСТ</option>
+            <option data-mn="ЗОЧИН" data-en="GUEST" data-zh="来宾">ЗОЧИН</option>
+            <option data-mn="ХЭВЛЭЛ МЭДЭЭЛЭЛ" data-en="MEDIA" data-zh="媒体">ХЭВЛЭЛ МЭДЭЭЛЭЛ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-mn="БУУДАЛЫН ЗАХИАЛГА" data-en="HOTEL BOOKING" data-zh="酒店预订">БУУДАЛЫН ЗАХИАЛГА</label>
+          <div class="hotel-radios">
+            <label><input type="radio" name="hotel" id="f-hotel-yes" value="yes"> <span data-mn="Тийм" data-en="Yes" data-zh="是">Тийм</span></label>
+            <label><input type="radio" name="hotel" id="f-hotel-no" value="no" checked> <span data-mn="Үгүй" data-en="No" data-zh="否">Үгүй</span></label>
+          </div>
+          <div id="hotel-count-wrap" style="display:none">
+            <input id="f-hotel-count" type="number" class="form-input" min="1" max="20" data-ph-mn="Хэдэн хүн?" data-ph-en="How many guests?" data-ph-zh="几位客人？" placeholder="Хэдэн хүн?" style="width:160px">
+            <p id="hotel-notice" style="margin-top:10px;padding:10px 14px;border-left:3px solid #00b352;background:rgba(0,179,82,.07);font-size:.62rem;color:rgba(255,255,255,.55);line-height:1.7"
+              data-mn="Форумын оролцогчдын зочид буудлын өрөөний төлбөр болон холбогдох бүх зардлыг зохион байгуулагч тал хариуцахгүй бөгөөд зөвхөн өрөөний урьдчилсан захиалгыг хийж өгөхийг анхаарна уу."
+              data-en="Please note that the organizers will only make a preliminary room reservation. All hotel room charges and related expenses are the sole responsibility of the forum participants."
+              data-zh="请注意，主办方仅负责提前预订房间，论坛参与者的住宿费用及相关所有费用由参与者本人承担。">Форумын оролцогчдын зочид буудлын өрөөний төлбөр болон холбогдох бүх зардлыг зохион байгуулагч тал хариуцахгүй бөгөөд зөвхөн өрөөний урьдчилсан захиалгыг хийж өгөхийг анхаарна уу.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-mn="НЭМЭЛТ ТЭМДЭГЛЭЛ" data-en="ADDITIONAL NOTES" data-zh="备注说明">НЭМЭЛТ ТЭМДЭГЛЭЛ</label>
+          <textarea id="f-notes" class="form-input" rows="3" data-ph-mn="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." data-ph-en="Special requests or questions..." data-ph-zh="如有特殊需求或问题，请在此填写…" placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical"></textarea>
+        </div>
+        <label class="form-check">
+          <input type="checkbox" id="f-agree" required>
+          <span data-mn="Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна" data-en="I agree to the processing of my personal data" data-zh="我同意对个人信息的处理">Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна</span>
+        </label>
+        <button type="submit" class="btn-submit" id="submit-btn" data-mn="ИЛГЭЭХ" data-en="SUBMIT" data-zh="提交">ИЛГЭЭХ</button>
+      </form>
+    </div>
+
+    <div id="success-block">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="24" height="24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 id="s-title" style="font-size:1.2rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">АМЖИЛТТАЙ БҮРТГЭГДЛЭЭ!</h2>
+      <p style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:4px"><span id="s-regnum-label">Бүртгэлийн дугаар:</span> <strong id="s-regnum" style="color:#00b352"></strong></p>
+      <p id="s-email-note" style="font-size:.63rem;color:rgba(255,255,255,.25);margin-bottom:20px">Баталгаажуулах и-мэйл илгээгдэнэ.</p>
+      <div class="success-rows" id="s-rows"></div>
+      <a href="index.html" class="btn-home" id="s-home-btn">ҮНДСЭН ХУУДАС РУУ БУЦАХ</a>
+    </div>
+  </div>
+</main>
+
+<footer class="page-footer">DSIF Forum 2026 &nbsp;·&nbsp; Sainshand, Dornogovi &nbsp;·&nbsp; 2026.04.26–27</footer>
+
+<script>
+// ── Language ──
+let currentLang = 'mn';
+
+const T = {
+  mn: {
+    title: 'ФОРУМД<br><em>БҮРТГҮҮЛЭХ</em>',
+    sub: '2026.04.26 — 27 &nbsp;·&nbsp; Сайншанд, Дорноговь',
+    back: '← Үндсэн хуудас',
+    submit: 'ИЛГЭЭХ',
+    submitting: 'ИЛГЭЭЖ БАЙНА...',
+    successTitle: 'АМЖИЛТТАЙ БҮРТГЭГДЛЭЭ!',
+    regnumLabel: 'Бүртгэлийн дугаар:',
+    emailNote: 'Баталгаажуулах и-мэйл илгээгдэнэ.',
+    homeBtn: 'ҮНДСЭН ХУУДАС РУУ БУЦАХ',
+    hotelYes: 'Тийм', hotelNo: 'Үгүй',
+    hotelSuffix: ' хүн',
+    errorMsg: 'Алдаа гарлаа: ',
+    firebaseErr: 'Firebase модуль ачаалагдсангүй. Хуудсаа дахин ачаалаад оролдоно уу.',
+    successRows: ['ОВОГ, НЭР','УТАС','И-МЭЙЛ','БАЙГУУЛЛАГА','АЛБАН ТУШААЛ','САЛБАР','ОРОЛЦОХ ХЭЛБЭР','БУУДАЛ'],
+  },
+  en: {
+    title: 'REGISTER FOR<br><em>THE FORUM</em>',
+    sub: 'April 26–27, 2026 &nbsp;·&nbsp; Sainshand, Dornogovi',
+    back: '← Back to site',
+    submit: 'SUBMIT',
+    submitting: 'SUBMITTING...',
+    successTitle: 'REGISTRATION COMPLETE!',
+    regnumLabel: 'Registration number:',
+    emailNote: 'A confirmation email will be sent.',
+    homeBtn: 'BACK TO MAIN SITE',
+    hotelYes: 'Yes', hotelNo: 'No',
+    hotelSuffix: ' guest(s)',
+    errorMsg: 'Error: ',
+    firebaseErr: 'Firebase module not loaded. Please reload the page.',
+    successRows: ['FULL NAME','PHONE','EMAIL','ORGANIZATION','POSITION','SECTOR','PARTICIPATION','HOTEL'],
+  },
+  zh: {
+    title: '论坛<br><em>报名注册</em>',
+    sub: '2026年4月26–27日 &nbsp;·&nbsp; 东戈壁省，赛音山达',
+    back: '← 返回主页',
+    submit: '提交',
+    submitting: '提交中...',
+    successTitle: '注册成功！',
+    regnumLabel: '注册编号：',
+    emailNote: '确认邮件将发送至您的邮箱。',
+    homeBtn: '返回主页',
+    hotelYes: '是', hotelNo: '否',
+    hotelSuffix: ' 位客人',
+    errorMsg: '错误：',
+    firebaseErr: 'Firebase 模块未加载，请刷新页面后重试。',
+    successRows: ['姓名','电话','邮箱','所属机构','职务','行业领域','参与形式','酒店预订'],
+  }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+
+  // Toggle buttons
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+
+  // Elements with data-mn / data-en text content
+  document.querySelectorAll('[data-mn][data-en]').forEach(el => {
+    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return;
+    if(el.tagName === 'BUTTON' && el.dataset.mn) {
+      el.textContent = el.dataset[lang];
+      return;
+    }
+    el.innerHTML = el.dataset[lang];
+  });
+
+  // Placeholders
+  document.querySelectorAll('[data-ph-mn]').forEach(el => {
+    const key = 'ph' + lang.charAt(0).toUpperCase() + lang.slice(1);
+    if(el.dataset[key]) el.placeholder = el.dataset[key];
+  });
+
+  // Select options
+  document.querySelectorAll('select option[data-mn]').forEach(opt => {
+    opt.textContent = opt.dataset[lang];
+  });
+}
+
+// ── Hotel toggle ──
+document.querySelectorAll('input[name="hotel"]').forEach(r => {
+  r.addEventListener('change', () => {
+    document.getElementById('hotel-count-wrap').style.display =
+      document.getElementById('f-hotel-yes').checked ? 'block' : 'none';
+  });
+});
+
+// ── Form submit ──
+document.getElementById('reg-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const t = T[currentLang];
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = t.submitting; btn.disabled = true;
+
+  const hotelYes = document.getElementById('f-hotel-yes').checked;
+  const data = {
+    lastname:    document.getElementById('f-lastname').value.trim(),
+    firstname:   document.getElementById('f-firstname').value.trim(),
+    phone:       document.getElementById('f-phone').value.trim(),
+    email:       document.getElementById('f-email').value.trim(),
+    org:         document.getElementById('f-org').value.trim(),
+    role:        document.getElementById('f-role').value.trim(),
+    sector:      document.getElementById('f-sector').value,
+    participate: document.getElementById('f-participate').value,
+    hotel:       hotelYes ? t.hotelYes : t.hotelNo,
+    hotelCount:  hotelYes ? (document.getElementById('f-hotel-count').value || '') : '',
+    lang:        currentLang,
+  };
+  try {
+    let regNum;
+    if (typeof window._dsifSaveRegistration === 'function') {
+      regNum = await window._dsifSaveRegistration(data);
+    } else {
+      await new Promise(r => setTimeout(r, 2000));
+      if (typeof window._dsifSaveRegistration === 'function') {
+        regNum = await window._dsifSaveRegistration(data);
+      } else {
+        throw new Error(t.firebaseErr);
+      }
+    }
+    showSuccess(data, regNum);
+  } catch(err) {
+    console.error(err);
+    btn.textContent = t.submit; btn.disabled = false;
+    alert(t.errorMsg + err.message);
+  }
+});
+
+function showSuccess(d, regNum) {
+  const t = T[currentLang];
+  document.getElementById('form-block').style.display = 'none';
+  document.getElementById('s-title').textContent = t.successTitle;
+  document.getElementById('s-regnum-label').textContent = t.regnumLabel;
+  document.getElementById('s-regnum').textContent = regNum;
+  document.getElementById('s-email-note').textContent = t.emailNote;
+  document.getElementById('s-home-btn').textContent = t.homeBtn;
+
+  const keys = t.successRows;
+  const vals = [
+    d.lastname + ' ' + d.firstname, d.phone, d.email,
+    d.org, d.role, d.sector, d.participate,
+    d.hotel + (d.hotelCount ? ' — ' + d.hotelCount + t.hotelSuffix : ''),
+  ];
+  document.getElementById('s-rows').innerHTML = keys.map((k,i) =>
+    vals[i].trim() ? `<div class="success-row"><span class="success-row-key">${k}</span><span class="success-row-val">${vals[i]}</span></div>` : ''
+  ).join('');
+  document.getElementById('success-block').style.display = 'block';
+}
+
+// ── Logo recolor ──
+window.addEventListener('load', () => {
+  const logo = document.getElementById('header-logo');
+  if (!logo) return;
+  const img = new Image(); img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    const c = document.createElement('canvas');
+    c.width = img.naturalWidth; c.height = img.naturalHeight;
+    const ctx = c.getContext('2d'); ctx.drawImage(img, 0, 0);
+    const d = ctx.getImageData(0, 0, c.width, c.height);
+    for (let i = 0; i < d.data.length; i += 4) {
+      if (d.data[i+3] > 10 && d.data[i] > 180 && d.data[i+1] > 180 && d.data[i+2] > 180) {
+        d.data[i] = 255; d.data[i+1] = 255; d.data[i+2] = 255;
+      }
+    }
+    ctx.putImageData(d, 0, 0); logo.src = c.toDataURL('image/png');
+  };
+  img.src = 'dsif-logo.png';
+});
+</script>
+</body>
+</html>
