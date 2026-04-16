@@ -1525,6 +1525,24 @@
         font-weight: 600;
       }
 
+      /* Schedule section — row hover highlight */
+      #section-schedule .d-tab-content > li > div {
+        border-radius: 8px;
+        transition: background 0.2s, border-color 0.2s;
+        cursor: default;
+      }
+      #section-schedule .d-tab-content > li > div:hover {
+        background: rgba(75,172,72,0.12) !important;
+        border-color: rgba(75,172,72,0.4) !important;
+      }
+      #section-schedule .d-tab-content > li > div:hover .col-md-2 {
+        color: #4bac48 !important;
+        opacity: 1 !important;
+      }
+      #section-schedule .d-tab-content > li > div:hover h5 {
+        color: #4bac48 !important;
+      }
+
       /* Schedule section — compact row spacing */
       #section-schedule .d-tab-content > li > div {
         padding-bottom: 0.4rem !important;
