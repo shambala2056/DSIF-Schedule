@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дорноговь аймгийн Нэгдсэн Эмнэлэг — Хөрөнгө Оруулалтын Төсөл 2026</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mongolian&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-dark:  #1a3a5c;
+      --blue-mid:   #2563a8;
+      --blue-light: #3b82c4;
+      --blue-pale:  #dbeafe;
+      --blue-xpale: #eff6ff;
+      --green:      #16a34a;
+      --green-pale: #dcfce7;
+      --red:        #dc2626;
+      --red-pale:   #fee2e2;
+      --gold:       #ca8a04;
+      --gold-pale:  #fef9c3;
+      --gray-50:    #f8fafc;
+      --gray-100:   #f1f5f9;
+      --gray-200:   #e2e8f0;
+      --gray-600:   #475569;
+      --gray-700:   #334155;
+      --gray-800:   #1e293b;
+      --text:       #0f172a;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans Mongolian', sans-serif;
+      background: var(--gray-50);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, var(--blue-light) 100%);
+      color: #fff;
+      padding: 60px 48px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .cover-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .cover h1 {
+      font-size: clamp(22px, 4vw, 34px);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .cover-sub {
+      font-size: 17px;
+      opacity: .82;
+      margin-bottom: 6px;
+    }
+    .cover-title {
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 700;
+      margin: 28px 0 8px;
+    }
+    .cover-desc {
+      font-size: 15px;
+      opacity: .78;
+      margin-bottom: 40px;
+    }
+    .cover-amount {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.45);
+      border-radius: 12px;
+      padding: 20px 32px;
+      margin-bottom: 36px;
+    }
+    .cover-amount .label { font-size: 12px; opacity: .7; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 4px; }
+    .cover-amount .value { font-size: clamp(26px, 5vw, 40px); font-weight: 800; letter-spacing: -.02em; }
+    .cover-amount .currency { font-size: 13px; opacity: .75; margin-top: 2px; }
+    .cover-meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      opacity: .75;
+    }
+    .cover-meta span { display: flex; align-items: center; gap: 6px; }
+
+    /* ── WRAPPER ── */
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.04);
+      margin-top: 28px;
+      overflow: hidden;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--gray-200);
+      background: var(--blue-xpale);
+    }
+    .section-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue-dark);
+    }
+    .section-body { padding: 28px; }
+
+    /* ── INFO GRID ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .info-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .info-card .key {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--blue-mid);
+      margin-bottom: 4px;
+    }
+    .info-card .val {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-800);
+    }
+
+    /* ── PROBLEM / RESULT CARDS ── */
+    .alert-list, .result-list { display: flex; flex-direction: column; gap: 14px; }
+    .alert-card {
+      display: flex; gap: 16px;
+      background: var(--red-pale);
+      border-left: 4px solid var(--red);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+    }
+    .alert-icon { font-size: 22px; flex-shrink: 0; line-height: 1.4; }
+    .alert-title { font-weight: 700; color: var(--red); margin-bottom: 4px; font-size: 15px; }
+    .alert-desc { font-size: 14px; color: var(--gray-700); }
+
+    .result-card {
+      display: flex; gap: 16px;
+      background: var(--green-pale);
+      border-left: 4px solid var(--green);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+    }
+    .result-icon { font-size: 22px; flex-shrink: 0; line-height: 1.4; }
+    .result-title { font-weight: 700; color: var(--green); margin-bottom: 4px; font-size: 15px; }
+    .result-desc { font-size: 14px; color: var(--gray-700); }
+
+    /* ── SOLUTION CARDS ── */
+    .solution-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+    .solution-card {
+      border: 1px solid var(--blue-pale);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .solution-icon { font-size: 30px; margin-bottom: 10px; }
+    .solution-title { font-weight: 700; color: var(--blue-dark); font-size: 15px; margin-bottom: 8px; }
+    .solution-desc { font-size: 13.5px; color: var(--gray-600); line-height: 1.6; }
+
+    /* ── TABLE ── */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead tr { background: var(--blue-dark); color: #fff; }
+    thead th { padding: 12px 14px; text-align: left; font-weight: 600; font-size: 13px; }
+    tbody tr { border-bottom: 1px solid var(--gray-200); }
+    tbody tr:nth-child(even) { background: var(--gray-50); }
+    tbody td { padding: 12px 14px; vertical-align: top; }
+    .td-num { font-weight: 500; color: var(--gray-600); }
+    .td-bold { font-weight: 700; }
+    .td-amount { font-weight: 700; color: var(--blue-mid); text-align: right; }
+    tfoot tr { background: var(--blue-dark); color: #fff; }
+    tfoot td { padding: 14px; font-weight: 700; font-size: 15px; }
+    tfoot .total-label { color: rgba(255,255,255,.8); }
+    tfoot .total-amount { text-align: right; }
+
+    /* ── PHASE TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .phase {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 0;
+    }
+    .phase-left {
+      background: var(--blue-dark);
+      color: #fff;
+      padding: 18px 16px;
+      text-align: center;
+    }
+    .phase-left .ph-num { font-size: 11px; opacity: .7; text-transform: uppercase; letter-spacing: .08em; }
+    .phase-left .ph-month { font-size: 14px; font-weight: 700; margin-top: 4px; }
+    .phase-right {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--gray-200);
+      border-left: 3px solid var(--blue-light);
+    }
+    .phase-right .ph-title { font-weight: 700; font-size: 14px; color: var(--blue-dark); margin-bottom: 4px; }
+    .phase-right .ph-owner { font-size: 12px; color: var(--blue-mid); font-weight: 600; }
+    .phase:last-child .phase-right { border-bottom: none; }
+    .phase:nth-child(even) .phase-left { background: var(--blue-mid); }
+
+    /* ── PARTNERS ── */
+    .partner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .partner-card {
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .partner-name { font-weight: 700; font-size: 14px; color: var(--blue-dark); margin-bottom: 4px; }
+    .partner-role { font-size: 12px; font-weight: 600; color: var(--blue-mid); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .partner-desc { font-size: 13px; color: var(--gray-600); }
+
+    /* ── IMPACT TABLE ── */
+    .impact-table tr td:first-child { font-weight: 700; color: var(--blue-dark); width: 200px; }
+
+    /* ── URGENCY ── */
+    .urgency-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .urgency-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px;
+      background: var(--gold-pale);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      color: var(--gray-700);
+    }
+    .urgency-list li::before { content: '⚠'; font-size: 16px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--blue-dark);
+      color: #fff;
+      text-align: center;
+      padding: 32px 24px;
+      margin-top: 28px;
+    }
+    .footer-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .footer-title { font-size: 13px; opacity: .7; margin-bottom: 14px; }
+    .footer-org { font-size: 14px; opacity: .6; }
+    .footer-note {
+      margin-top: 20px;
+      font-size: 11px;
+      opacity: .45;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    p { margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 640px) {
+      .cover { padding: 40px 24px; }
+      .section-body { padding: 20px; }
+      .phase { grid-template-columns: 100px 1fr; }
+      .info-card .val { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">🏥 Хөрөнгө Оруулалтын Төсөл · 2026</div>
+  <h1>Дорноговь аймгийн<br>Нэгдсэн Эмнэлэг</h1>
+  <div class="cover-sub">Дорноговь аймаг, Сайншанд сум</div>
+  <div class="cover-title">Интернет Сүлжээ ба Камерын Хяналтыг Шинэчлэх</div>
+  <div class="cover-desc">Мэдээллийн технологийн дэд бүтцийг орчин үеийн стандартад нийцүүлэн бүрэн шинэчлэх</div>
+  <div class="cover-amount">
+    <div class="label">Нийт Хөрөнгө Оруулалт</div>
+    <div class="value">220,483,500 ₮</div>
+    <div class="currency">Монгол Улсын Төгрөг</div>
+  </div>
+  <div class="cover-meta">
+    <span>📅 2026 оны 4-р сараас эхлэх</span>
+    <span>⚡ Яаралтай хэрэгжүүлэх төсөл</span>
+    <span>🔒 Нууц биш · Хөрөнгө оруулагчдад зориулсан</span>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- 1. ТОВЧ ТАНИЛЦУУЛГА -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <h2>Товч Танилцуулга</h2>
+    </div>
+    <div class="section-body">
+      <p>Дорноговь аймгийн Нэгдсэн эмнэлэг нь аймгийн 14 сумын иргэдэд эмнэлгийн тусламж үйлчилгээг хариуцан ажилладаг гол байгууллага юм. Одоогийн мэдээллийн технологийн дэд бүтэц — интернет сүлжээ болон камерын хяналт — хоцрогдсон байгаа нь үйлчилгээний чанар, аюулгүй байдалд сөрөг нөлөө үзүүлж байна.</p>
+      <p>Энэхүү төсөл нь эмнэлгийн мэдээллийн технологийн дэд бүтцийг бүрэн шинэчлэх замаар иргэдийн эмнэлгийн үйлчилгээний хүртээмж, чанар, аюулгүй байдлыг эрс сайжруулахад чиглэгдсэн байна.</p>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="key">Төслийн зорилго</div>
+          <div class="val">Интернет сүлжээ, камерын хяналтыг шинэчлэн иргэдэд чанартай, тасралтгүй эмнэлгийн үйлчилгээ үзүүлэх</div>
+        </div>
+        <div class="info-card">
+          <div class="key">Байршил</div>
+          <div class="val">Дорноговь аймаг, Сайншанд сум, 2-р баг — Нэгдсэн эмнэлгийн төв барилга</div>
+        </div>
+        <div class="info-card">
+          <div class="key">Хугацаа</div>
+          <div class="val">2026 оны 04-р сараас яаралтай эхлэх</div>
+        </div>
+        <div class="info-card">
+          <div class="key">Нийт хөрөнгө оруулалт</div>
+          <div class="val">220,483,500 ₮ (Монгол Төгрөг)</div>
+        </div>
+        <div class="info-card">
+          <div class="key">Гүйцэтгэгч</div>
+          <div class="val">Юнител ХХК (суурилуулалтын ажил)</div>
+        </div>
+        <div class="info-card">
+          <div class="key">Санхүүжилтийн хэлбэр</div>
+          <div class="val">Шууд хөрөнгө оруулалт</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. ТУЛГАМДСАН АСУУДАЛ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2>Тулгамдсан Асуудал</h2>
+    </div>
+    <div class="section-body">
+      <div class="alert-list">
+        <div class="alert-card">
+          <div class="alert-icon">📡</div>
+          <div>
+            <div class="alert-title">Сүлжээний найдваргүй байдал</div>
+            <div class="alert-desc">Интернет холболт тасралтгүй биш байгаа нь эмнэлгийн мэдээллийн систем, тоног төхөөрөмжийн ажиллагааг алдагдуулж, эмч нарын ажлыг удаашруулж байна.</div>
+          </div>
+        </div>
+        <div class="alert-card">
+          <div class="alert-icon">📷</div>
+          <div>
+            <div class="alert-title">Камерын хяналтын дутмаг байдал</div>
+            <div class="alert-desc">Камерын хяналт хангалтгүй байгаагаас гэмт хэрэг, зөрчил гарах эрсдэл өндөр бөгөөд хариуцлага тооцох боломж хязгаарлагдмал байна.</div>
+          </div>
+        </div>
+        <div class="alert-card">
+          <div class="alert-icon">📉</div>
+          <div>
+            <div class="alert-title">Үйлчилгээний чанар буурах</div>
+            <div class="alert-desc">Технологийн дэд бүтцийн дутагдлаас болж иргэд хүлээгдэл, чирэгдэлтэй тулгарч, эмнэлгийн санхүүжилт буурч байна.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ШИЙДЭЛ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2>Шийдэл ба Технологийн Сонголт</h2>
+    </div>
+    <div class="section-body">
+      <div class="solution-grid">
+        <div class="solution-card">
+          <div class="solution-icon">📶</div>
+          <div class="solution-title">EKIT Managed AIR WIFI Систем</div>
+          <div class="solution-desc">Байгууллагад зориулсан ухаалаг, найдвартай, төвлөрсөн удирдлагатай сүлжээний платформ. Нийт 55 нэгж төхөөрөмжийг 36 сарын лизингийн нөхцөлтэйгөөр нутагшуулах бөгөөд эмнэлгийн бүх хэсгийг өндөр хурдтай сүлжээгээр хамарна.</div>
+        </div>
+        <div class="solution-card">
+          <div class="solution-icon">🎥</div>
+          <div class="solution-title">VSS Видео Хяналтын Систем</div>
+          <div class="solution-desc">AI ухаалаг аналитик функцтэй 68 камерыг суурилуулах бөгөөд видео менежментийн системтэй бүрэн интегращлагдсан байна. Дүрс бичлэгийн диск болон дагалдах бүх төхөөрөмжийг 12 сарын лизингийн нөхцөлтэйгөөр хангана.</div>
+        </div>
+        <div class="solution-card">
+          <div class="solution-icon">🔧</div>
+          <div class="solution-title">Дотоод Сүлжээний Бүрэн Шинэчлэлт</div>
+          <div class="solution-desc">Юнител ХХК гүйцэтгэгчээр ажиллан эмнэлгийн дотоод сүлжээний бүх кабель, тоног төхөөрөмжийг орчин үеийн стандартад нийцүүлэн шинэчилнэ.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ХҮЛЭЭГДЭЖ БУЙ ҮР ДҮН -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2>Хүлээгдэж Буй Үр Дүн</h2>
+    </div>
+    <div class="section-body">
+      <div class="result-list">
+        <div class="result-card">
+          <div class="result-icon">✅</div>
+          <div>
+            <div class="result-title">Иргэдэд чанартай үйлчилгээ</div>
+            <div class="result-desc">Хүлээгдэл, чирэгдэлгүйгээр эмнэлгийн тусламж үйлчилгээг тасралтгүй, найдвартай хүргэнэ.</div>
+          </div>
+        </div>
+        <div class="result-card">
+          <div class="result-icon">💰</div>
+          <div>
+            <div class="result-title">Санхүүгийн үр ашиг</div>
+            <div class="result-desc">Эмнэлгийн санхүүжилтийг нэмэгдүүлж, алдагдлыг бууруулах боломж бүрдэнэ.</div>
+          </div>
+        </div>
+        <div class="result-card">
+          <div class="result-icon">🛡️</div>
+          <div>
+            <div class="result-title">Аюулгүй байдал сайжрана</div>
+            <div class="result-desc">AI камерын хяналт нь гэмт хэрэг, зөрчлөөс урьдчилан сэргийлж, эмнэлгийн орчны аюулгүй байдлыг хангана.</div>
+          </div>
+        </div>
+        <div class="result-card">
+          <div class="result-icon">⚡</div>
+          <div>
+            <div class="result-title">Цаг хугацаа хэмнэнэ</div>
+            <div class="result-desc">Эмч, ажилтнууд хурдан, шуурхай ажиллаж, эмнэлгийн бүх процессийг хялбаршуулна.</div>
+          </div>
+        </div>
+        <div class="result-card">
+          <div class="result-icon">🌐</div>
+          <div>
+            <div class="result-title">Үйлчилгээний хүртээмж нэмэгдэнэ</div>
+            <div class="result-desc">14 сумын иргэд чанартай эмнэлгийн үйлчилгээнд жигд хамрагдах боломж бүрдэнэ.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. ХӨРӨНГӨ ОРУУЛАЛТЫН ЗАДАРГАА -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <h2>Хөрөнгө Оруулалтын Задаргаа</h2>
+    </div>
+    <div class="section-body">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:40px">№</th>
+            <th>Зүйл</th>
+            <th>Тайлбар</th>
+            <th style="text-align:right">Дүн (₮)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-num">1</td>
+            <td class="td-bold">EKIT Managed AIR WIFI төхөөрөмж</td>
+            <td>55 төхөөрөмж — 36 сарын лизинг</td>
+            <td class="td-amount">94,325,000</td>
+          </tr>
+          <tr>
+            <td class="td-num">2</td>
+            <td class="td-bold">VSS Камерын систем</td>
+            <td>68 камер + AI аналитик — 12 сарын лизинг</td>
+            <td class="td-amount">62,916,000</td>
+          </tr>
+          <tr>
+            <td class="td-num">3</td>
+            <td class="td-bold">Дотоод сүлжээний бүрэн шинэчлэлт</td>
+            <td>Юнител ХХК — материал + ажлын хөлс</td>
+            <td class="td-amount">51,002,500</td>
+          </tr>
+          <tr>
+            <td class="td-num">4</td>
+            <td class="td-bold">Камер суурилуулалтын ажил</td>
+            <td>Юнител ХХК — материал + ажлын хөлс</td>
+            <td class="td-amount">12,240,000</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="total-label">НИЙТ ХӨРӨНГӨ ОРУУЛАЛТ</td>
+            <td class="total-amount">220,483,500 ₮</td>
+          </tr>
+        </tfoot>
+      </table>
+      <p style="margin-top:16px; font-size:13px; color:var(--gray-600);">Лизингийн санхүүжилтийн нөхцөл нь эхний хөрөнгийн ачааллыг бууруулж, байгууллагад санхүүгийн уян хатан боломж олгоно.</p>
+    </div>
+  </div>
+
+  <!-- 6. ЯАРАЛТАЙ ХЭРЭГЖҮҮЛЭХ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <h2>Яаралтай Хэрэгжүүлэх Шаардлага</h2>
+    </div>
+    <div class="section-body">
+      <p>Энэхүү төслийг 2026 оны 4-р сараас яаралтай эхлэх хэрэгтэй байгаа нь дараах шалтгааныг агуулна:</p>
+      <ul class="urgency-list">
+        <li>Одоогийн сүлжээний дутагдал нь эмнэлгийн үйл ажиллагаанд шууд нөлөөлж байна</li>
+        <li>Аюулгүй байдлын эрсдэл нэмэгдэж, иргэдийн эрх ашигт сөргөөр нөлөөлж байна</li>
+        <li>Шийдвэрлэхгүй байх тусам санхүүгийн болон нийгмийн алдагдал нэмэгдэх эрсдэлтэй</li>
+        <li>Лизингийн нөхцөл нь яаралтай хэрэгжүүлэлтэд тохиромжтой санхүүгийн шийдэл юм</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7. НИЙГМИЙН ҮР НӨЛӨӨ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <h2>Төслийн Нийгмийн Үр Нөлөө</h2>
+    </div>
+    <div class="section-body">
+      <p>Энэхүү төсөл нь зөвхөн эмнэлгийн дэд бүтцийг сайжруулахаас гадна Дорноговь аймгийн 14 сумын иргэдийн амьдралын чанарт шууд болон шууд бус нөлөө үзүүлнэ.</p>
+      <table class="impact-table">
+        <thead>
+          <tr>
+            <th>Нийгмийн үр нөлөөний чиглэл</th>
+            <th>Хүрэх үр дүн</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Хүн амын хамрах хүрээ</td>
+            <td>Дорноговь аймгийн 14 сумын нийт 60,000 гаруй иргэн чанартай эмнэлгийн үйлчилгээнд хамрагдах боломж нэмэгдэнэ.</td>
+          </tr>
+          <tr>
+            <td>Эмчилгээний хүртээмж</td>
+            <td>Алслагдсан сумдын иргэд телемедицины болон цахим бүртгэлийн системийг найдвартай ашиглах боломжтой болно.</td>
+          </tr>
+          <tr>
+            <td>Хүүхэд, эхчүүдийн эрүүл мэнд</td>
+            <td>Эх, хүүхдийн эрүүл мэндийн үйлчилгээний хурд, чанар дээшлэх нь нас баралт болон хүндрэлийн тохиолдлыг бууруулна.</td>
+          </tr>
+          <tr>
+            <td>Ажлын байр бий болгох</td>
+            <td>Суурилуулалт болон ажиллуулалтын үе шатанд орон нутгийн мэргэжилтнүүдийг татан оролцуулах замаар шинэ ажлын байр бий болно.</td>
+          </tr>
+          <tr>
+            <td>Нийтийн аюулгүй байдал</td>
+            <td>AI камерын хяналтын систем нь эмнэлгийн орчин дахь гэмт хэрэг, зөрчлийг бууруулж, нийт иргэдийн аюулгүй байдлыг хангана.</td>
+          </tr>
+          <tr>
+            <td>Эрүүл мэндийн системийн бат бөх байдал</td>
+            <td>Найдвартай сүлжээний дэд бүтэц нь яаралтай тусламж болон онцгой байдлын үед эмнэлгийн тасралтгүй ажиллагааг баталгаажуулна.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 8. ХЭРЭГЖҮҮЛЭЛТИЙН ҮЕ ШАТ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <h2>Хэрэгжүүлэлтийн Үе Шатны Хуваарь</h2>
+    </div>
+    <div class="section-body" style="padding:0; overflow:hidden; border-radius:0 0 14px 14px;">
+      <div class="timeline">
+        <div class="phase">
+          <div class="phase-left">
+            <div class="ph-num">1-р үе шат</div>
+            <div class="ph-month">2026 оны 4-р сар</div>
+          </div>
+          <div class="phase-right">
+            <div class="ph-title">Гэрээ байгуулах, тоног төхөөрөмж захиалах, ажлын зураг төсөл боловсруулах</div>
+            <div class="ph-owner">Нэгдсэн эмнэлэг, Юнител ХХК</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-left">
+            <div class="ph-num">2-р үе шат</div>
+            <div class="ph-month">2026 оны 5-р сар</div>
+          </div>
+          <div class="phase-right">
+            <div class="ph-title">Дотоод сүлжээний кабель, тоног төхөөрөмж суурилуулах ажил эхлэх</div>
+            <div class="ph-owner">Юнител ХХК</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-left">
+            <div class="ph-num">3-р үе шат</div>
+            <div class="ph-month">2026 оны 5–6-р сар</div>
+          </div>
+          <div class="phase-right">
+            <div class="ph-title">EKIT WiFi төхөөрөмж суурилуулж, сүлжээ тохируулах, туршилт хийх</div>
+            <div class="ph-owner">Юнител ХХК, EKIT</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-left">
+            <div class="ph-num">4-р үе шат</div>
+            <div class="ph-month">2026 оны 6-р сар</div>
+          </div>
+          <div class="phase-right">
+            <div class="ph-title">VSS камерын систем суурилуулах, AI тохиргоо хийх, бичлэгийн сервер идэвхжүүлэх</div>
+            <div class="ph-owner">Юнител ХХК, VSS</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-left">
+            <div class="ph-num">5-р үе шат</div>
+            <div class="ph-month">2026 оны 7-р сар</div>
+          </div>
+          <div class="phase-right">
+            <div class="ph-title">Бүх систем нэгдсэн туршилт, ажилтнуудад сургалт, албан ёсны хүлээн авалт</div>
+            <div class="ph-owner">Нэгдсэн эмнэлэг, бүх гүйцэтгэгчид</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. ХАМТРАН ХЭРЭГЖҮҮЛЭХ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">9</div>
+      <h2>Хамтран Хэрэгжүүлэх Байгууллагууд</h2>
+    </div>
+    <div class="section-body">
+      <div class="partner-grid">
+        <div class="partner-card">
+          <div class="partner-name">Дорноговь аймгийн Нэгдсэн эмнэлэг</div>
+          <div class="partner-role">Захиалагч байгууллага</div>
+          <div class="partner-desc">Төслийн үндсэн захиалагч, хэрэгжүүлэлтийн хяналт, хүлээн авалт</div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-name">Юнител ХХК</div>
+          <div class="partner-role">Үндсэн гүйцэтгэгч</div>
+          <div class="partner-desc">Дотоод сүлжээ, камерын суурилуулалт, материал хангамж, ажлын хөлс</div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-name">EKIT</div>
+          <div class="partner-role">Тоног төхөөрөмж нийлүүлэгч</div>
+          <div class="partner-desc">Managed WiFi систем, 55 нэгж төхөөрөмж нийлүүлэх, техникийн дэмжлэг</div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-name">VSS</div>
+          <div class="partner-role">Тоног төхөөрөмж нийлүүлэгч</div>
+          <div class="partner-desc">68 AI камер, видео менежментийн систем, бичлэгийн сервер нийлүүлэх</div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-name">Дорноговь аймгийн Засаг дарга</div>
+          <div class="partner-role">Зохицуулах байгууллага</div>
+          <div class="partner-desc">Аймгийн хэмжээний зохицуулалт, зөвшөөрөл, бодлогын дэмжлэг</div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-name">Эрүүл мэндийн яам</div>
+          <div class="partner-role">Бодлогын дэмжлэг</div>
+          <div class="partner-desc">Эрүүл мэндийн мэдээллийн технологийн стандарт, санхүүжилтийн зөвшөөрөл</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-name">Б. Энх-Амгалан</div>
+  <div class="footer-title">Дэмжих Албаны Дарга</div>
+  <div class="footer-org">Дорноговь аймгийн Нэгдсэн Эмнэлэг &nbsp;·&nbsp; Сайншанд, Дорноговь</div>
+  <div class="footer-note">Нууц биш · Хөрөнгө оруулагчдад зориулсан</div>
+</div>
+
+</body>
+</html>
