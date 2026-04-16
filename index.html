@@ -234,6 +234,12 @@
       body:not(.dark-scheme) #section-hero .sw-overlay {
         background: rgba(75,172,72,0.45) !important;
       }
+      /* Hero date/location/button text → white on light mode (icons excluded) */
+      body:not(.dark-scheme) #section-hero h4,
+      body:not(.dark-scheme) #section-hero .btn-main span,
+      body:not(.dark-scheme) #section-hero .btn-line span {
+        color: #fff !important;
+      }
       /* Hero headings → green on light mode */
       body:not(.dark-scheme) .hero-heading,
       body:not(.dark-scheme) .text-light .hero-heading,
