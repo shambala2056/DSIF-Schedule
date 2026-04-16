@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>AIvent - AI Event, Conference and Meetup Website Template</title>
+    <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
+    <meta content="AIvent" name="description" >
+    <meta content="" name="keywords" >
+    <meta content="" name="author" >
+    <!-- CSS Files
+    ================================================== -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
+    <link href="css/vendors.css" rel="stylesheet" type="text/css" >
+    <link href="css/style.css" rel="stylesheet" type="text/css" >
+    <!-- color scheme -->
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
+    <style>
+      /* Brand accent (yellow) overrides */
+      :root { --accent-color:#FFC107; --mainmenu-font-weight:400; }
+      * { letter-spacing: 1px; }
+      .btn-main { background: var(--primary-color) !important; }
+      .btn-main:hover { background: var(--secondary-color) !important; }
+      h1 em, h2 em, h3 em { color: var(--accent-color); font-style: normal; }
+      .id-color-accent { color: var(--accent-color); }
+      /* gradient-edge-top.color → #4bac48 */
+      .gradient-edge-top.color {
+        background: linear-gradient(180deg, rgba(75,172,72,1) 0%, rgba(75,172,72,0) 100%) !important;
+      }
+      /* gradient-edge-bottom.color → #57ab48 */
+      .gradient-edge-bottom.color {
+        background: linear-gradient(0deg, rgba(87,171,72,1) 0%, rgba(87,171,72,0) 100%) !important;
+      }
+      /* hero section buttons */
+      .btn-hero { background: #4bac48 !important; }
+      .btn-hero:hover, .btn-hero:focus { background: #45abe1 !important; }
+      /* theme toggle button */
+      #theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 18px;
+        line-height: 1;
+        transition: background 0.3s;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      #theme-toggle:hover { background: rgba(255,255,255,0.3); }
+      body:not(.dark-scheme) #theme-toggle { background: rgba(0,0,0,0.1); color: #333; }
+      body:not(.dark-scheme) #theme-toggle:hover { background: rgba(0,0,0,0.2); }
+    </style>
+
+</head>
+
+<body class="dark-scheme">
+
+    <div id="wrapper">
+
+        <div class="float-text show-on-scroll">
+            <span><a href="#">Scroll to top</a></span>
+        </div>
+        <div class="scrollbar-v show-on-scroll"></div>
+
+        <!-- page preloader begin -->
+        <div id="de-loader"></div>
+        <!-- page preloader close -->
+
+        <header class="transparent">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="de-flex">
+                            <div class="de-flex-col">
+                                <!-- logo begin -->
+                                <div id="logo">
+                                    <a href="index.html">
+                                        <img class="logo-main" src="images/logo.webp" alt="" >
+                                        <img class="logo-scroll" src="images/logo.webp" alt="" >
+                                        <img class="logo-mobile" src="images/logo.webp" alt="" >
+                                    </a>
+                                </div>
+                                <!-- logo close -->
+                            </div>
+
+                            <div class="de-flex-col">
+                                <div class="de-flex-col header-col-mid">
+                                    <ul id="mainmenu">
+
+                                        <li><a class="menu-item" href="#section-about">ЗОРИЛГО</a></li>
+                                                                                <li><a class="menu-item active" href="#section-hero">ТӨСӨЛ</a>
+                                            <ul class="mega">
+                                                <li>
+                                                    <div class="container">
+                                                        <div class="sb-menu p-4">
+                                                            <div class="row g-3">
+
+
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-2.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">ЭРЧИМ ХҮЧ</h6>
+                                                                </div>
+
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-3.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">УУЛ УУРХАЙ</h6>
+                                                                </div>
+
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-4.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">БАЙГАЛЬ ОРЧИН</h6>
+                                                                </div>
+
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-5.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">ДЭД БҮТЭЦ</h6>
+                                                                </div>
+
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-6.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">БОЛОВСРОЛ</h6>
+                                                                </div>
+
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-7.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">СОЁЛ</h6>
+                                                                </div>
+
+                                                                                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-8.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">ЭРҮҮЛ МЭНД</h6>
+                                                                </div>
+
+                                                                                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-9.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">НИЙГЭМ</h6>
+                                                                </div>
+
+                                                                                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-10.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">ХӨДӨӨ АЖ АХУЙ</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="menu-item" href="#section-speakers">ОНЦЛОХ ОРОЛЦОГЧИД</a></li>
+                                        <li><a class="menu-item" href="#section-schedule">ХӨТӨЛБӨР</a></li>
+                                        <!-- <li><a class="menu-item" href="#section-tickets">B2B</a></li> -->
+                                        <li><a class="menu-item" href="#section-venue">БАЙРШИЛ</a></li>
+                                        <!-- <li><a class="menu-item" href="#section-faq">FAQ</a></li> -->
+                                        <!-- <li><a class="menu-item" href="news.html">Pages</a>
+                                            <ul>
+                                                <li><a class="menu-item" href="tickets.html">Tickets Style 1</a></li>
+                                                <li><a class="menu-item" href="tickets-2.html">Tickets Style 2</a></li>
+                                                <li><a class="menu-item" href="news.html">News</a></li>
+                                                <li><a class="menu-item" href="news-single.html">News Single</a></li>
+                                                <li><a class="menu-item" href="contact.html">Contact</a>
+                                            </ul>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="de-flex-col">
+                                <button id="theme-toggle" title="Toggle dark/light mode">&#9788;</button>
+                                <!-- <a class="btn-main fx-slide w-100" href="tickets-2.html"><span>Buy Tickets</span></a> -->
+
+                                <div class="menu_side_area">
+                                    <span id="menu-btn"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+ 
+      
+
+    
+
+   
+
+     
+
+   
+
+ 
+ 
+
+        <!-- Projects Discovery Page -->
+        <section class="bg-dark section-dark text-light" style="padding-top:100px;min-height:100vh;" aria-label="section-projects">
+          <div class="container-fluid px-4 px-lg-5">
+
+            <!-- Page Title -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <nav aria-label="breadcrumb" style="font-size:13px;opacity:.6;">
+                  <span>Нүүр</span> <span class="mx-2">/</span> <span>Төслүүд</span>
+                </nav>
+                <h2 class="mt-2 mb-0">Бүх төслүүд</h2>
+              </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="row align-items-center mb-4 gy-3" id="filter-bar">
+
+              <!-- Category Pills -->
+              <div class="col-lg-8 col-md-7">
+                <div class="d-flex flex-wrap gap-2" id="cat-pills">
+                  <button class="cat-pill active" data-cat="all">Бүгд</button>
+                  <button class="cat-pill" data-cat="energy">Эрчим хүч</button>
+                  <button class="cat-pill" data-cat="mining">Уул уурхай</button>
+                  <button class="cat-pill" data-cat="environment">Байгаль орчин</button>
+                  <button class="cat-pill" data-cat="infra">Дэд бүтэц</button>
+                  <button class="cat-pill" data-cat="edu">Боловсрол</button>
+                  <button class="cat-pill" data-cat="culture">Соёл</button>
+                  <button class="cat-pill" data-cat="health">Эрүүл мэнд</button>
+                  <button class="cat-pill" data-cat="social">Нийгэм</button>
+                  <button class="cat-pill" data-cat="agri">Хөдөө аж ахуй</button>
+                </div>
+              </div>
+
+              <!-- Sort + Search -->
+              <div class="col-lg-4 col-md-5">
+                <div class="d-flex align-items-center gap-2 justify-content-md-end">
+                  <div class="project-search-wrap" style="position:relative;flex:1;max-width:220px;">
+                    <input type="text" id="project-search" placeholder="Хайх…" autocomplete="off"
+                      style="width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:7px 12px 7px 34px;color:#fff;font-size:13px;outline:none;">
+                    <i class="fa fa-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.5;font-size:13px;"></i>
+                  </div>
+                  <select id="sort-select"
+                    style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;outline:none;cursor:pointer;">
+                    <option value="popular">Алдартай</option>
+                    <option value="newest">Шинэ</option>
+                    <option value="funded">Санхүүжилт</option>
+                    <option value="ending">Дуусах</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Stats Row -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <p id="result-count" style="font-size:13px;opacity:.55;margin:0;">
+                  <span id="visible-count">18</span> төсөл олдлоо
+                </p>
+              </div>
+            </div>
+
+            <!-- Project Grid -->
+            <div class="row g-4" id="project-grid">
+
+              <!-- Card template (repeated 18 times with different data) -->
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="energy" data-name="Нарны эрчим хүч" data-funded="87" data-days="12" data-backers="342" data-newest="1">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-2.webp" alt="Нарны эрчим хүч" class="pcard-img">
+                    <span class="pcard-badge">Эрчим хүч</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Нарны эрчим хүчний хамтарсан станц</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Ч. Батбаяр</p>
+                    <p class="pcard-desc">Говь-Алтай аймгийн 3 сумд 500 өрхийг нарны эрчим хүчээр хангах төсөл.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:87%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">87%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">342</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">12</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="environment" data-name="Ойжуулалт" data-funded="63" data-days="28" data-backers="215" data-newest="2">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-4.webp" alt="Ойжуулалт" class="pcard-img">
+                    <span class="pcard-badge">Байгаль орчин</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Хангайн ойжуулалт — 1 сая мод</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Б. Отгонбаяр</p>
+                    <p class="pcard-desc">Хангайн уулын бэлд 1 сая мод тарих хамтарсан байгаль хамгаалах санаачилга.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:63%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">63%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">215</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">28</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="edu" data-name="Онлайн боловсрол" data-funded="120" data-days="0" data-backers="891" data-newest="5">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-6.webp" alt="Онлайн боловсрол" class="pcard-img">
+                    <span class="pcard-badge">Боловсрол</span>
+                    <span class="pcard-badge-funded">Санхүүжсэн!</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Хөдөөгийн хүүхдэд зориулсан онлайн платформ</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Э. Наранцэцэг</p>
+                    <p class="pcard-desc">Интернэт хязгаарлагдмал нөхцөлд ажиллах боловсролын платформ бий болгох.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar funded" style="width:100%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:#4bac48">120%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">891</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">—</span><span class="pstat-lbl">дууссан</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="infra" data-name="Гүүр барилга" data-funded="45" data-days="35" data-backers="128" data-newest="3">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-5.webp" alt="Гүүр" class="pcard-img">
+                    <span class="pcard-badge">Дэд бүтэц</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Сэлэнгэ голын гүүр шинэчлэл</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Д. Мөнхбаяр</p>
+                    <p class="pcard-desc">3 аймгийг холбох стратегийн гүүрийг орчин үеийн материалаар шинэчлэх.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:45%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">45%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">128</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">35</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="mining" data-name="Уул уурхай аюулгүй байдал" data-funded="72" data-days="18" data-backers="504" data-newest="6">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-3.webp" alt="Уул уурхай" class="pcard-img">
+                    <span class="pcard-badge">Уул уурхай</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Уурхайн ажилчдын аюулгүй байдлын систем</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Г. Сүхбаатар</p>
+                    <p class="pcard-desc">IoT мэдрэгч ашиглан уурхайн доторх аюулгүй байдлыг бодит цагт хянах.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:72%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">72%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">504</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">18</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="health" data-name="Телемедицин" data-funded="98" data-days="7" data-backers="673" data-newest="4">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-8.webp" alt="Эрүүл мэнд" class="pcard-img">
+                    <span class="pcard-badge">Эрүүл мэнд</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Хөдөөний телемедицин үйлчилгээ</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Н. Болормаа</p>
+                    <p class="pcard-desc">Алслагдсан сумдад видео дуудлагаар эмчийн зөвлөгөө авах боломж олгох.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:98%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">98%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">673</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">7</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="culture" data-name="Соёл урлаг" data-funded="55" data-days="22" data-backers="189" data-newest="7">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-7.webp" alt="Соёл" class="pcard-img">
+                    <span class="pcard-badge">Соёл</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Монгол бичгийн дижитал архив</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Т. Энхжаргал</p>
+                    <p class="pcard-desc">Уламжлалт гар бичмэл эх сурвалжуудыг дижитал хэлбэрт шилжүүлэх.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:55%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">55%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">189</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">22</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="social" data-name="Нийгмийн дэмжлэг" data-funded="38" data-days="40" data-backers="97" data-newest="8">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-9.webp" alt="Нийгэм" class="pcard-img">
+                    <span class="pcard-badge">Нийгэм</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Ахмад настны халамжийн төв</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> С. Мөнхзул</p>
+                    <p class="pcard-desc">Нийслэлийн захад ахмад настнуудад зориулсан орчин үеийн асрамжийн газар.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:38%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">38%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">97</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">40</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="agri" data-name="Ухаалаг тариалан" data-funded="81" data-days="15" data-backers="420" data-newest="9">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-10.webp" alt="Хөдөө аж ахуй" class="pcard-img">
+                    <span class="pcard-badge">Хөдөө аж ахуй</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Ухаалаг хүлэмжийн тариалан</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> А. Дулмаа</p>
+                    <p class="pcard-desc">Автомат усалгаа, температур хяналттай хүлэмжийн систем суурилуулах.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:81%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">81%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">420</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">15</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="energy" data-name="Салхины эрчим хүч" data-funded="60" data-days="25" data-backers="260" data-newest="10">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-1.webp" alt="Салхины эрчим хүч" class="pcard-img">
+                    <span class="pcard-badge">Эрчим хүч</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Мини салхины турбин сүлжээ</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Б. Эрдэнэбат</p>
+                    <p class="pcard-desc">Говийн бүсэд 50 кВт-ийн салхины турбин байршуулж цахилгааны хүртээмжийг нэмэгдүүлэх.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:60%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">60%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">260</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">25</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="environment" data-name="Цэвэр ус" data-funded="44" data-days="32" data-backers="155" data-newest="11">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-5.webp" alt="Цэвэр ус" class="pcard-img">
+                    <span class="pcard-badge">Байгаль орчин</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Цэвэр усны шүүлтүүр — 10 суманд</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> О. Ганзориг</p>
+                    <p class="pcard-desc">Нано шүүлтүүрийн технологи ашиглан гэрийн хэрэглэгчдэд цэвэр ус хүргэх.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:44%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">44%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">155</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">32</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="edu" data-name="Кодчлол сурах" data-funded="109" data-days="0" data-backers="744" data-newest="12">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-3.webp" alt="Кодчлол" class="pcard-img">
+                    <span class="pcard-badge">Боловсрол</span>
+                    <span class="pcard-badge-funded">Санхүүжсэн!</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Бага насны хүүхдэд кодчлол заах хөтөлбөр</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Х. Оюунчимэг</p>
+                    <p class="pcard-desc">6-12 насны хүүхдүүдэд тоглоомоор дамжуулан программчлалын суурь ойлголт өгөх.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar funded" style="width:100%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:#4bac48">109%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">744</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">—</span><span class="pstat-lbl">дууссан</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="health" data-name="Хүүхдийн эрүүл мэнд" data-funded="76" data-days="20" data-backers="389" data-newest="13">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-6.webp" alt="Эрүүл мэнд" class="pcard-img">
+                    <span class="pcard-badge">Эрүүл мэнд</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Хүүхдийн шүдний үнэгүй эмчилгээ</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Р. Ариунаа</p>
+                    <p class="pcard-desc">Хөдөөгийн 500 хүүхдэд үнэгүй шүдний эмчилгээ хийж, урьдчилан сэргийлэх.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:76%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">76%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">389</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">20</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="infra" data-name="Интернэт сүлжээ" data-funded="53" data-days="30" data-backers="202" data-newest="14">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-9.webp" alt="Дэд бүтэц" class="pcard-img">
+                    <span class="pcard-badge">Дэд бүтэц</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Хөдөөний сумдад өргөн зурвасын интернэт</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Ж. Ганбаатар</p>
+                    <p class="pcard-desc">Сателлит технологи ашиглан 20 алслагдсан сумыг өргөн зурвасын интернэтэд холбох.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:53%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">53%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">202</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">30</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="agri" data-name="Малын эрүүл мэнд" data-funded="67" data-days="17" data-backers="318" data-newest="15">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-10.webp" alt="Мал аж ахуй" class="pcard-img">
+                    <span class="pcard-badge">Хөдөө аж ахуй</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Малын эрүүл мэндийн хяналтын чип</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> П. Лхагвасүрэн</p>
+                    <p class="pcard-desc">GPS болон биометрик мэдрэгчтэй чип бүхий малыг хянах ухаалаг систем.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:67%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">67%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">318</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">17</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="mining" data-name="Уурхайн хаягдал" data-funded="42" data-days="38" data-backers="143" data-newest="16">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-2.webp" alt="Уул уурхай" class="pcard-img">
+                    <span class="pcard-badge">Уул уурхай</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Уурхайн хаягдлын боловсруулалт</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> В. Энхтүвшин</p>
+                    <p class="pcard-desc">Уурхайн хаягдлыг дахин боловсруулж байгаль орчинд үзүүлэх нөлөөг бууруулах.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:42%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">42%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">143</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">38</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="social" data-name="Залуучуудын хөгжил" data-funded="91" data-days="9" data-backers="557" data-newest="17">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-7.webp" alt="Нийгэм" class="pcard-img">
+                    <span class="pcard-badge">Нийгэм</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Залуучуудын манлайллын хөгжлийн хөтөлбөр</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> З. Нандинцэцэг</p>
+                    <p class="pcard-desc">Хөдөөгийн 200 залуу удирдагчид зориулсан нэг жилийн хөгжлийн хөтөлбөр.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:91%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">91%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">557</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">9</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="culture" data-name="Уламжлалт урлаг" data-funded="33" data-days="45" data-backers="88" data-newest="18">
+                <div class="pcard h-100">
+                  <div class="pcard-img-wrap">
+                    <img src="images/demo/homepage-8.webp" alt="Соёл" class="pcard-img">
+                    <span class="pcard-badge">Соёл</span>
+                  </div>
+                  <div class="pcard-body">
+                    <h5 class="pcard-title">Уламжлалт хөгжмийн дижитал сан</h5>
+                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Ц. Батчимэг</p>
+                    <p class="pcard-desc">Монгол уламжлалт хөгжмийн бичлэг, хотавчуудыг ирээдүй үедэд хадгалах.</p>
+                    <div class="pcard-progress-wrap">
+                      <div class="pcard-progress-bar" style="width:33%"></div>
+                    </div>
+                    <div class="pcard-stats">
+                      <div><span class="pstat-val" style="color:var(--accent-color)">33%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                      <div><span class="pstat-val">88</span><span class="pstat-lbl">оролцогч</span></div>
+                      <div><span class="pstat-val">45</span><span class="pstat-lbl">хоног</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /project-grid -->
+
+            <!-- No results message -->
+            <div id="no-results" class="text-center py-5" style="display:none;">
+              <i class="fa fa-search fa-3x mb-3" style="opacity:.3;"></i>
+              <p style="opacity:.5;">Хайлтанд тохирох төсөл олдсонгүй.</p>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Styles for project cards -->
+        <style>
+          /* Category pills */
+          .cat-pill {
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.18);
+            color: rgba(255,255,255,.75);
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all .2s;
+            white-space: nowrap;
+          }
+          .cat-pill:hover { background: rgba(255,255,255,.16); color: #fff; }
+          .cat-pill.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #000;
+            font-weight: 600;
+          }
+          body:not(.dark-scheme) .cat-pill {
+            background: rgba(0,0,0,.06);
+            border-color: rgba(0,0,0,.15);
+            color: #444;
+          }
+          body:not(.dark-scheme) .cat-pill:hover { background: rgba(0,0,0,.12); color: #000; }
+          body:not(.dark-scheme) .cat-pill.active { background: var(--accent-color); color: #000; border-color: var(--accent-color); }
+
+          /* Project card */
+          .pcard {
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform .25s, box-shadow .25s;
+            display: flex;
+            flex-direction: column;
+          }
+          body:not(.dark-scheme) .pcard {
+            background: #fff;
+            border-color: rgba(0,0,0,.1);
+            box-shadow: 0 2px 12px rgba(0,0,0,.07);
+          }
+          .pcard:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,.35);
+          }
+          .pcard-img-wrap {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+          }
+          .pcard-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .4s;
+          }
+          .pcard:hover .pcard-img { transform: scale(1.06); }
+          .pcard-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,.65);
+            color: #fff;
+            font-size: 11px;
+            padding: 3px 9px;
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+          }
+          .pcard-badge-funded {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #4bac48;
+            color: #fff;
+            font-size: 11px;
+            padding: 3px 9px;
+            border-radius: 50px;
+            font-weight: 600;
+          }
+          .pcard-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+          }
+          .pcard-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            color: inherit;
+          }
+          .pcard-creator {
+            font-size: 12px;
+            opacity: .55;
+            margin-bottom: 8px;
+          }
+          .pcard-desc {
+            font-size: 13px;
+            opacity: .7;
+            line-height: 1.55;
+            flex: 1;
+            margin-bottom: 14px;
+          }
+          .pcard-progress-wrap {
+            height: 5px;
+            background: rgba(255,255,255,.12);
+            border-radius: 50px;
+            overflow: hidden;
+            margin-bottom: 12px;
+          }
+          body:not(.dark-scheme) .pcard-progress-wrap { background: rgba(0,0,0,.1); }
+          .pcard-progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            border-radius: 50px;
+            transition: width .6s ease;
+          }
+          .pcard-progress-bar.funded { background: #4bac48; }
+          .pcard-stats {
+            display: flex;
+            gap: 0;
+            justify-content: space-between;
+          }
+          .pcard-stats > div { display: flex; flex-direction: column; align-items: center; flex: 1; }
+          .pstat-val {
+            font-size: 15px;
+            font-weight: 700;
+            display: block;
+          }
+          .pstat-lbl {
+            font-size: 10px;
+            opacity: .5;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          }
+
+          /* Search input focus */
+          #project-search:focus {
+            border-color: var(--accent-color) !important;
+          }
+          body:not(.dark-scheme) #project-search {
+            background: rgba(0,0,0,.05) !important;
+            border-color: rgba(0,0,0,.2) !important;
+            color: #333 !important;
+          }
+          body:not(.dark-scheme) #sort-select {
+            background: rgba(0,0,0,.05) !important;
+            border-color: rgba(0,0,0,.2) !important;
+            color: #333 !important;
+          }
+
+          /* Fade animation for filtering */
+          .project-card {
+            transition: opacity .25s, transform .25s;
+          }
+          .project-card.hidden {
+            display: none;
+          }
+        </style>
+
+        <!-- Filter & Sort JS -->
+        <script>
+          (function () {
+            var pills = document.querySelectorAll('.cat-pill');
+            var cards = document.querySelectorAll('.project-card');
+            var searchInput = document.getElementById('project-search');
+            var sortSelect = document.getElementById('sort-select');
+            var grid = document.getElementById('project-grid');
+            var noResults = document.getElementById('no-results');
+            var visibleCount = document.getElementById('visible-count');
+
+            var activeCat = 'all';
+
+            function applyFilters() {
+              var q = searchInput.value.toLowerCase().trim();
+              var sortVal = sortSelect.value;
+
+              var cardsArr = Array.from(cards);
+
+              // Sort
+              cardsArr.sort(function (a, b) {
+                if (sortVal === 'popular') return parseInt(b.dataset.backers) - parseInt(a.dataset.backers);
+                if (sortVal === 'newest')  return parseInt(a.dataset.newest)  - parseInt(b.dataset.newest);
+                if (sortVal === 'funded')  return parseInt(b.dataset.funded)  - parseInt(a.dataset.funded);
+                if (sortVal === 'ending') {
+                  var da = parseInt(a.dataset.days) || 999;
+                  var db = parseInt(b.dataset.days) || 999;
+                  return da - db;
+                }
+                return 0;
+              });
+
+              // Re-append in sorted order
+              cardsArr.forEach(function (c) { grid.appendChild(c); });
+
+              // Show/hide
+              var visible = 0;
+              cardsArr.forEach(function (card) {
+                var catMatch = activeCat === 'all' || card.dataset.cat === activeCat;
+                var nameMatch = !q || card.dataset.name.toLowerCase().indexOf(q) !== -1;
+                if (catMatch && nameMatch) {
+                  card.classList.remove('hidden');
+                  visible++;
+                } else {
+                  card.classList.add('hidden');
+                }
+              });
+
+              visibleCount.textContent = visible;
+              noResults.style.display = visible === 0 ? 'block' : 'none';
+            }
+
+            pills.forEach(function (pill) {
+              pill.addEventListener('click', function () {
+                pills.forEach(function (p) { p.classList.remove('active'); });
+                this.classList.add('active');
+                activeCat = this.dataset.cat;
+                applyFilters();
+              });
+            });
+
+            searchInput.addEventListener('input', applyFilters);
+            sortSelect.addEventListener('change', applyFilters);
+
+            applyFilters();
+          })();
+        </script>
+
+    </div>
+
+    <!-- footer begin -->
+    <footer class="text-light section-dark">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-12">
+                    <div class="d-lg-flex align-items-center justify-content-between text-center">
+                        <div>
+                            <h3 class="fs-20">Address</h3>
+                            121 AI Blvd, San Francisco<br>
+                            BCA 94107
+                        </div>
+                        <div>
+                            <img src="images/logo.webp" class="w-150px" alt=""><br>
+                            <div class="social-icons mb-sm-30 mt-4">
+                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                            </div>
+
+                        </div>
+                        <div>
+                            <h3 class="fs-20">Contact Us</h3>
+                            T. +1 123 456 789<br>
+                            M. contact@aivent.com
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+        </div>
+        <div class="subfooter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        Copyright 2026 - AIvent by Designesia
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- footer end -->
+    
+    <!-- Javascript Files
+    ================================================== -->
+    <script src="js/vendors.js"></script>
+    <script src="js/designesia.js"></script>
+    <script src="js/countdown-custom.js"></script>
+    <script src="js/custom-marquee.js"></script>
+    <script>
+      (function () {
+        var btn = document.getElementById('theme-toggle');
+        function applyTheme(dark) {
+          if (dark) {
+            document.body.classList.add('dark-scheme');
+            btn.innerHTML = '&#9788;'; /* ☼ sun → switch to light */
+            btn.title = 'Light mode руу солих';
+          } else {
+            document.body.classList.remove('dark-scheme');
+            btn.innerHTML = '&#9790;'; /* ☾ moon → switch to dark */
+            btn.title = 'Dark mode руу солих';
+          }
+        }
+        var saved = localStorage.getItem('dsif-theme');
+        applyTheme(saved !== 'light');
+        btn.addEventListener('click', function () {
+          var isDark = document.body.classList.contains('dark-scheme');
+          localStorage.setItem('dsif-theme', isDark ? 'light' : 'dark');
+          applyTheme(!isDark);
+        });
+      })();
+    </script>
+
+</body>
+
+</html>
