@@ -1344,32 +1344,44 @@
 
     </div>
 
-    <!-- Mobile Bottom Navigation -->
+    <!-- Magic Mobile Bottom Navigation -->
     <nav id="mobile-bottom-nav">
-      <a class="mob-nav-item active" href="index.html" data-label="Нүүр">
-        <i class="fa fa-home"></i>
+      <a class="mob-nav-item active" href="index.html">
+        <div class="mnav-icon-wrap">
+          <i class="fa fa-home"></i>
+        </div>
         <span>Нүүр</span>
       </a>
-      <a class="mob-nav-item" href="tusul.html" data-label="Төсөл">
-        <i class="fa fa-folder-open"></i>
+      <a class="mob-nav-item" href="tusul.html">
+        <div class="mnav-icon-wrap">
+          <i class="fa fa-folder-open"></i>
+        </div>
         <span>Төсөл</span>
       </a>
-      <a class="mob-nav-item" href="#section-speakers" data-label="Оролцогчид">
-        <i class="fa fa-users"></i>
+      <a class="mob-nav-item" href="#section-speakers">
+        <div class="mnav-icon-wrap">
+          <i class="fa fa-users"></i>
+        </div>
         <span>Оролцогчид</span>
       </a>
-      <a class="mob-nav-item" href="#section-schedule" data-label="Хөтөлбөр">
-        <i class="fa fa-calendar-alt"></i>
+      <a class="mob-nav-item" href="#section-schedule">
+        <div class="mnav-icon-wrap">
+          <i class="fa fa-calendar-alt"></i>
+        </div>
         <span>Хөтөлбөр</span>
       </a>
-      <a class="mob-nav-item" href="#section-venue" data-label="Байршил">
-        <i class="fa fa-location-dot"></i>
+      <a class="mob-nav-item" href="#section-venue">
+        <div class="mnav-icon-wrap">
+          <i class="fa fa-location-dot"></i>
+        </div>
         <span>Байршил</span>
       </a>
+      <!-- sliding indicator -->
+      <div id="mnav-indicator"></div>
     </nav>
 
     <style>
-      /* Mobile bottom nav — shown only on mobile */
+      /* ── Magic Navigation Menu ── */
       #mobile-bottom-nav {
         display: none;
         position: fixed;
@@ -1377,95 +1389,158 @@
         left: 0;
         right: 0;
         z-index: 9999;
-        background: rgba(10,10,10,0.97);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border-top: 1px solid rgba(255,255,255,0.1);
-        box-shadow: 0 -2px 12px rgba(0,0,0,0.3);
-        padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+        height: calc(64px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        background: rgba(14,14,14,0.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
         flex-direction: row;
-        justify-content: space-around;
         align-items: center;
+        justify-content: space-around;
       }
       body:not(.dark-scheme) #mobile-bottom-nav {
-        background: rgba(255,255,255,0.97);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border-top: 1px solid rgba(0,0,0,0.1);
-        box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+        background: rgba(248,249,250,0.97);
+        border-top: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
       }
+
+      /* Sliding pill indicator */
+      #mnav-indicator {
+        position: absolute;
+        bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+        height: 48px;
+        width: calc(20% - 12px);
+        border-radius: 16px;
+        background: linear-gradient(135deg, #4bac48 0%, #3d9940 100%);
+        box-shadow: 0 4px 16px rgba(75,172,72,0.4);
+        transition: left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+        z-index: 0;
+        left: 6px;
+      }
+      body:not(.dark-scheme) #mnav-indicator {
+        box-shadow: 0 4px 16px rgba(75,172,72,0.3);
+      }
+
+      /* Nav items */
       .mob-nav-item {
+        position: relative;
+        z-index: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         flex: 1;
-        gap: 3px;
-        color: rgba(255,255,255,0.55) !important;
+        gap: 2px;
         text-decoration: none !important;
-        font-size: 9px;
-        letter-spacing: 0.3px;
-        padding: 6px 6px 5px;
-        margin: 0 4px;
-        border-radius: 10px;
-        background: rgba(255,255,255,0.07);
-        transition: color 0.2s, background 0.2s;
+        color: rgba(255,255,255,0.4) !important;
+        transition: color 0.25s;
+        padding: 4px 0;
       }
       body:not(.dark-scheme) .mob-nav-item {
-        color: rgba(0,0,0,0.45) !important;
-        background: rgba(0,0,0,0.05);
+        color: rgba(0,0,0,0.35) !important;
+      }
+
+      /* Icon bubble */
+      .mnav-icon-wrap {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    background 0.25s;
       }
       .mob-nav-item i {
-        font-size: 20px;
+        font-size: 18px;
         line-height: 1;
+        transition: color 0.25s;
       }
       .mob-nav-item span {
         font-size: 9px;
-        line-height: 1.2;
+        letter-spacing: 0.2px;
+        line-height: 1;
         color: inherit !important;
+        transition: color 0.25s, opacity 0.25s;
+        opacity: 0.7;
       }
-      .mob-nav-item.active,
-      .mob-nav-item:hover {
-        color: #4bac48 !important;
-        background: rgba(75,172,72,0.15);
+
+      /* Active state */
+      .mob-nav-item.active {
+        color: #fff !important;
       }
-      body:not(.dark-scheme) .mob-nav-item.active,
-      body:not(.dark-scheme) .mob-nav-item:hover {
-        color: #4bac48 !important;
-        background: rgba(75,172,72,0.1);
+      body:not(.dark-scheme) .mob-nav-item.active {
+        color: #fff !important;
       }
+      .mob-nav-item.active .mnav-icon-wrap {
+        transform: translateY(-6px) scale(1.15);
+      }
+      .mob-nav-item.active span {
+        opacity: 1;
+        font-weight: 600;
+      }
+
       /* Show only on mobile */
       @media (max-width: 991px) {
         #mobile-bottom-nav { display: flex; }
-        /* Add padding to body so content isn't hidden behind nav */
         body { padding-bottom: 70px; }
       }
     </style>
 
     <script>
-      // Highlight active mobile nav item based on current page/hash
+      // Magic Navigation — active highlight + sliding indicator
       (function() {
-        var items = document.querySelectorAll('.mob-nav-item');
-        var path = window.location.pathname;
-        var hash = window.location.hash;
+        var nav    = document.getElementById('mobile-bottom-nav');
+        var indic  = document.getElementById('mnav-indicator');
+        var items  = document.querySelectorAll('.mob-nav-item');
+        var path   = window.location.pathname;
+        var hash   = window.location.hash;
+
+        function setActive(activeItem) {
+          items.forEach(function(it) { it.classList.remove('active'); });
+          if (!activeItem) return;
+          activeItem.classList.add('active');
+          // Move indicator
+          var idx = Array.prototype.indexOf.call(items, activeItem);
+          var navW = nav.offsetWidth;
+          var itemW = navW / items.length;
+          indic.style.left = (idx * itemW + 6) + 'px';
+          indic.style.width = (itemW - 12) + 'px';
+        }
+
+        // Determine initial active
+        var initial = null;
         items.forEach(function(item) {
-          item.classList.remove('active');
           var href = item.getAttribute('href');
-          if (hash && href === hash) {
-            item.classList.add('active');
-          } else if (!hash && (href === 'index.html' || href === '/' || href === path)) {
-            item.classList.add('active');
-          } else if (path.includes('tusul') && href === 'tusul.html') {
-            item.classList.add('active');
-          }
+          if (hash && href === hash) { initial = item; }
+          else if (!hash && (href === 'index.html' || href === '/' || href === path)) { initial = item; }
+          else if (path.includes('tusul') && href === 'tusul.html') { initial = item; }
         });
-        // Update active on hash change
+        if (!initial) initial = items[0];
+        setActive(initial);
+
+        // Click
+        items.forEach(function(item) {
+          item.addEventListener('click', function() { setActive(item); });
+        });
+
+        // Hash change
         window.addEventListener('hashchange', function() {
           var h = window.location.hash;
+          var found = null;
           items.forEach(function(item) {
-            item.classList.remove('active');
-            if (item.getAttribute('href') === h) item.classList.add('active');
+            if (item.getAttribute('href') === h) found = item;
           });
+          if (found) setActive(found);
+        });
+
+        // Resize — re-position indicator
+        window.addEventListener('resize', function() {
+          var active = document.querySelector('.mob-nav-item.active');
+          if (active) setActive(active);
         });
       })();
     </script>
