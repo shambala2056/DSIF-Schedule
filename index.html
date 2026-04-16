@@ -86,21 +86,34 @@
       #theme-toggle:hover { background: rgba(255,255,255,0.3); }
       body:not(.dark-scheme) #theme-toggle { background: rgba(0,0,0,0.1); color: #333; }
       body:not(.dark-scheme) #theme-toggle:hover { background: rgba(0,0,0,0.2); }
-      /* Mobile: larger circle toggle */
+      /* Mobile: fixed circle toggle */
       @media (max-width: 991px) {
+        #theme-toggle,
+        body:not(.dark-scheme) #theme-toggle,
+        body.dark-scheme #theme-toggle {
+          width: 42px !important;
+          height: 42px !important;
+          min-width: 42px !important;
+          min-height: 42px !important;
+          max-width: 42px !important;
+          max-height: 42px !important;
+          border-radius: 50% !important;
+          font-size: 22px !important;
+          padding: 0 !important;
+          flex-shrink: 0 !important;
+          box-sizing: border-box !important;
+        }
         #theme-toggle {
-          width: 42px;
-          height: 42px;
-          font-size: 22px;
-          background: rgba(255,255,255,0.2);
-          border: 2px solid rgba(255,255,255,0.3);
-          box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+          background: rgba(255,255,255,0.2) !important;
+          border: 2px solid rgba(255,255,255,0.3) !important;
+          color: #fff !important;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
         }
         body:not(.dark-scheme) #theme-toggle {
           background: rgba(255,255,255,0.9) !important;
           border: 2px solid rgba(0,0,0,0.12) !important;
           color: #333 !important;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
         }
       }
       body:not(.dark-scheme) #menu-btn,
