@@ -1532,23 +1532,16 @@
         transition: background 0.2s, color 0.2s;
         cursor: pointer;
       }
-      #section-schedule .d-tab-nav li.active-tab {
-        background: rgba(75,172,72,0.15) !important;
-        border-bottom: 2px solid #4bac48 !important;
+      #section-schedule .d-tab-nav li.active-tab,
+      body:not(.dark-scheme) #section-schedule .d-tab-nav li.active-tab {
+        background: #4bac48 !important;
         border-color: transparent !important;
       }
       #section-schedule .d-tab-nav li.active-tab h3,
-      #section-schedule .d-tab-nav li.active-tab {
-        color: #4bac48 !important;
-      }
-      body:not(.dark-scheme) #section-schedule .d-tab-nav li.active-tab {
-        background: rgba(75,172,72,0.1) !important;
-        border-color: transparent !important;
-        border-bottom: 2px solid #4bac48 !important;
-      }
+      #section-schedule .d-tab-nav li.active-tab,
       body:not(.dark-scheme) #section-schedule .d-tab-nav li.active-tab h3,
       body:not(.dark-scheme) #section-schedule .d-tab-nav li.active-tab {
-        color: #4bac48 !important;
+        color: #ffffff !important;
       }
 
       /* Schedule section — row hover highlight */
