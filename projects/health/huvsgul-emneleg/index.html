@@ -759,6 +759,33 @@
       body:not(.dark-scheme) .em-footer { background: #ffffff; color: #555; border-top-color: #e6e6e6; }
       body:not(.dark-scheme) .em-footer .footer-bottom { border-top-color: #eee; color: #888; }
 
+      /* LIGHT MODE — safety overrides for any remaining white text */
+      body:not(.dark-scheme) .em-section h1,
+      body:not(.dark-scheme) .em-section h2,
+      body:not(.dark-scheme) .em-section h3,
+      body:not(.dark-scheme) .em-section h4,
+      body:not(.dark-scheme) .em-section h5,
+      body:not(.dark-scheme) .em-section h6 { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-section p,
+      body:not(.dark-scheme) .em-section li,
+      body:not(.dark-scheme) .em-section td:not(.r),
+      body:not(.dark-scheme) .em-section div:not(.stat-value):not(.stat-label):not(.bar-amount):not(.section-num) { color: #333; }
+      body:not(.dark-scheme) .em-section strong { color: #1a1a1a; }
+      /* Keep accent text visible in both modes */
+      body:not(.dark-scheme) .section-num { color: #29ABE2 !important; }
+      body:not(.dark-scheme) .em-section .accent,
+      body:not(.dark-scheme) .em-section em { color: #29ABE2 !important; }
+      /* Cost table header/footer keep white text on coloured bg */
+      body:not(.dark-scheme) .cost thead th,
+      body:not(.dark-scheme) .cost tfoot td { color: #fff !important; }
+      /* Bar fill text on light mode */
+      body:not(.dark-scheme) .bar-fill { color: #fff; }
+
+      /* DARK MODE — ensure highlighted text uses blue accent */
+      body.dark-scheme .em-section em,
+      body.dark-scheme .em-section .accent { color: #29ABE2; }
+      body.dark-scheme .section-num { color: #29ABE2; }
+
       /* Print */
       @media print {
         .page-header { position: static; }
