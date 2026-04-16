@@ -1,0 +1,14 @@
+name: No Deploy
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+
+jobs:
+  skip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip deployment
+        run: echo "Deployment is disabled for this repository."
