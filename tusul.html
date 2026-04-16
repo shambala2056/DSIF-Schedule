@@ -56,6 +56,72 @@
       #theme-toggle:hover { background: rgba(255,255,255,0.3); }
       body:not(.dark-scheme) #theme-toggle { background: rgba(0,0,0,0.1); color: #333; }
       body:not(.dark-scheme) #theme-toggle:hover { background: rgba(0,0,0,0.2); }
+
+      /* =====================================================
+         LIGHT MODE OVERRIDES
+         ===================================================== */
+      body:not(.dark-scheme),
+      body:not(.dark-scheme) .bg-dark,
+      body:not(.dark-scheme) .bg-dark-1,
+      body:not(.dark-scheme) .section-dark {
+        background-color: #f4f6f8 !important;
+      }
+      body:not(.dark-scheme) .text-light,
+      body:not(.dark-scheme) h1, body:not(.dark-scheme) h2,
+      body:not(.dark-scheme) h3, body:not(.dark-scheme) h4,
+      body:not(.dark-scheme) h5, body:not(.dark-scheme) h6 {
+        color: #1a1a1a !important;
+      }
+      body:not(.dark-scheme) p,
+      body:not(.dark-scheme) li { color: #444 !important; }
+      body:not(.dark-scheme) a { color: #1a1a1a !important; }
+
+      /* Header */
+      body:not(.dark-scheme) header.transparent {
+        background: rgba(255,255,255,0.94) !important;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      }
+      body:not(.dark-scheme) header #mainmenu li a { color: #1a1a1a !important; }
+      body:not(.dark-scheme) #mainmenu ul.mega,
+      body:not(.dark-scheme) #mainmenu ul.mega .sb-menu { background:#fff !important; }
+      body:not(.dark-scheme) #mainmenu ul.mega h6,
+      body:not(.dark-scheme) #mainmenu ul.mega a { color:#1a1a1a !important; }
+
+      /* Project cards on light */
+      body:not(.dark-scheme) .pcard {
+        background: #ffffff !important;
+        border-color: rgba(0,0,0,0.1) !important;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07) !important;
+      }
+      body:not(.dark-scheme) .pcard-progress-wrap { background: rgba(0,0,0,0.1) !important; }
+      body:not(.dark-scheme) .pcard-badge { background: rgba(0,0,0,0.55) !important; }
+      body:not(.dark-scheme) .pstat-lbl { color: #666 !important; opacity:1 !important; }
+
+      /* Filter bar */
+      body:not(.dark-scheme) #project-search {
+        background: rgba(0,0,0,0.05) !important;
+        border-color: rgba(0,0,0,0.15) !important;
+        color: #1a1a1a !important;
+      }
+      body:not(.dark-scheme) #sort-select {
+        background: rgba(0,0,0,0.05) !important;
+        border-color: rgba(0,0,0,0.15) !important;
+        color: #1a1a1a !important;
+      }
+      body:not(.dark-scheme) #result-count { color: #555 !important; }
+      body:not(.dark-scheme) nav[aria-label="breadcrumb"] { color: #555 !important; }
+
+      /* Footer */
+      body:not(.dark-scheme) footer.text-light {
+        background-color: #ffffff !important;
+        border-top: 1px solid rgba(0,0,0,0.08);
+      }
+      body:not(.dark-scheme) .subfooter {
+        background-color: #e8ecf0 !important;
+        color: #555 !important;
+      }
+      body:not(.dark-scheme) .social-icons a { color: #444 !important; }
     </style>
 
 </head>

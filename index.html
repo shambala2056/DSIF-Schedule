@@ -56,6 +56,176 @@
       #theme-toggle:hover { background: rgba(255,255,255,0.3); }
       body:not(.dark-scheme) #theme-toggle { background: rgba(0,0,0,0.1); color: #333; }
       body:not(.dark-scheme) #theme-toggle:hover { background: rgba(0,0,0,0.2); }
+
+      /* =====================================================
+         LIGHT MODE OVERRIDES
+         ===================================================== */
+      /* Background */
+      body:not(.dark-scheme),
+      body:not(.dark-scheme) .bg-dark,
+      body:not(.dark-scheme) .bg-dark-1,
+      body:not(.dark-scheme) .bg-dark-2,
+      body:not(.dark-scheme) .bg-dark-3,
+      body:not(.dark-scheme) .section-dark {
+        background-color: #f4f6f8 !important;
+      }
+      /* Alternate section tint */
+      body:not(.dark-scheme) #section-about,
+      body:not(.dark-scheme) #section-schedule,
+      body:not(.dark-scheme) footer {
+        background-color: #ffffff !important;
+      }
+
+      /* Text */
+      body:not(.dark-scheme) .text-light,
+      body:not(.dark-scheme) .text-light h1,
+      body:not(.dark-scheme) .text-light h2,
+      body:not(.dark-scheme) .text-light h3,
+      body:not(.dark-scheme) .text-light h4,
+      body:not(.dark-scheme) .text-light h5,
+      body:not(.dark-scheme) .text-light h6,
+      body:not(.dark-scheme) .text-light p,
+      body:not(.dark-scheme) .text-light li,
+      body:not(.dark-scheme) .text-light span,
+      body:not(.dark-scheme) .text-light div,
+      body:not(.dark-scheme) h1,
+      body:not(.dark-scheme) h2,
+      body:not(.dark-scheme) h3,
+      body:not(.dark-scheme) h4,
+      body:not(.dark-scheme) h5 {
+        color: #1a1a1a !important;
+      }
+      body:not(.dark-scheme) p,
+      body:not(.dark-scheme) li,
+      body:not(.dark-scheme) .op-6 {
+        color: #444 !important;
+        opacity: 1 !important;
+      }
+      body:not(.dark-scheme) .text-light a,
+      body:not(.dark-scheme) a {
+        color: #1a1a1a !important;
+      }
+
+      /* Borders */
+      body:not(.dark-scheme) .border-white-bottom-op-2 {
+        border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+      }
+      body:not(.dark-scheme) .border-white-op-3 {
+        border-color: rgba(0,0,0,0.12) !important;
+      }
+
+      /* Cards / boxes */
+      body:not(.dark-scheme) .bg-dark-2,
+      body:not(.dark-scheme) .hover-bg-color {
+        background-color: #ffffff !important;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important;
+      }
+      body:not(.dark-scheme) .bg-blur {
+        background: rgba(255,255,255,0.85) !important;
+        backdrop-filter: blur(8px);
+      }
+      body:not(.dark-scheme) .sw-overlay {
+        background: rgba(240,244,248,0.7) !important;
+      }
+
+      /* Subtitle badge */
+      body:not(.dark-scheme) .subtitle.s2 {
+        color: #4bac48 !important;
+      }
+      body:not(.dark-scheme) .subtitle {
+        color: #4bac48 !important;
+      }
+
+      /* Schedule tabs */
+      body:not(.dark-scheme) .de-tab.plain .d-tab-nav li {
+        color: #444 !important;
+        border-color: rgba(0,0,0,0.1) !important;
+      }
+      body:not(.dark-scheme) .de-tab.plain .d-tab-nav li.active-tab {
+        border-color: var(--accent-color) !important;
+        color: #1a1a1a !important;
+      }
+
+      /* Countdown */
+      body:not(.dark-scheme) .countdown-container,
+      body:not(.dark-scheme) [class*="countdown"] {
+        color: #1a1a1a !important;
+      }
+
+      /* Footer */
+      body:not(.dark-scheme) footer.text-light {
+        background-color: #ffffff !important;
+        border-top: 1px solid rgba(0,0,0,0.08);
+      }
+      body:not(.dark-scheme) .subfooter {
+        background-color: #e8ecf0 !important;
+        color: #555 !important;
+      }
+
+      /* Social icons */
+      body:not(.dark-scheme) .social-icons a {
+        color: #444 !important;
+        border-color: rgba(0,0,0,0.15) !important;
+      }
+
+      /* Header transparent on light */
+      body:not(.dark-scheme) header.transparent {
+        background: rgba(255,255,255,0.92) !important;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      }
+      body:not(.dark-scheme) header #mainmenu li a,
+      body:not(.dark-scheme) header #mainmenu li a:hover {
+        color: #1a1a1a !important;
+      }
+      body:not(.dark-scheme) header.smaller {
+        background: rgba(255,255,255,0.97) !important;
+      }
+
+      /* Mega menu on light */
+      body:not(.dark-scheme) #mainmenu ul.mega,
+      body:not(.dark-scheme) #mainmenu ul.mega .sb-menu {
+        background: #ffffff !important;
+        color: #1a1a1a !important;
+      }
+      body:not(.dark-scheme) #mainmenu ul.mega h6,
+      body:not(.dark-scheme) #mainmenu ul.mega a {
+        color: #1a1a1a !important;
+      }
+
+      /* Gradient edges hide on light */
+      body:not(.dark-scheme) .gradient-edge-top,
+      body:not(.dark-scheme) .gradient-edge-bottom {
+        opacity: 0 !important;
+      }
+
+      /* Jarallax/hero overlay lighter */
+      body:not(.dark-scheme) #section-hero .sw-overlay {
+        background: rgba(244,246,248,0.55) !important;
+      }
+
+      /* Speakers section cards */
+      body:not(.dark-scheme) .hover-bg-color.hover-text-light:hover {
+        color: #fff !important;
+      }
+      body:not(.dark-scheme) .hover-bg-color.hover-text-light:hover h4,
+      body:not(.dark-scheme) .hover-bg-color.hover-text-light:hover p {
+        color: #fff !important;
+      }
+
+      /* Venue section map */
+      body:not(.dark-scheme) #section-venue {
+        background-color: #f4f6f8 !important;
+      }
+
+      /* Marquee / ticker */
+      body:not(.dark-scheme) [class*="marquee"],
+      body:not(.dark-scheme) [class*="ticker"] {
+        background: #e8ecf0 !important;
+        color: #1a1a1a !important;
+      }
+
+      /* Cat pills in tusul.html stay unaffected (scoped by page) */
     </style>
 
 </head>
