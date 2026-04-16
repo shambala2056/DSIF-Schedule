@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,30 +11,69 @@
     <meta content="" name="author" >
     <!-- CSS Files
     ================================================== -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
     <link href="css/vendors.css" rel="stylesheet" type="text/css" >
     <link href="css/style.css" rel="stylesheet" type="text/css" >
     <!-- color scheme -->
     <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
     <style>
+      /* Montserrat global font */
+      * { font-family: 'Montserrat', sans-serif !important; }
+
+      /* Keep icon fonts intact — the global Montserrat rule above must not override icon glyphs */
+      .fa, .fas, .far, .fal, .fab,
+      .fa-solid, .fa-regular, .fa-brands, .fa-light, .fa-thin, .fa-duotone,
+      [class^="fa-"], [class*=" fa-"] {
+        font-family: "Font Awesome 6 Free", "FontAwesome" !important;
+      }
+      .fab, .fa-brands, i[class*="fa-brands"] {
+        font-family: "Font Awesome 6 Brands" !important;
+      }
+      [class^="icofont-"], [class*=" icofont-"] {
+        font-family: "IcoFont" !important;
+      }
+      [class^="elegant"], [class*=" elegant"], .arrow_carrot-right, .arrow_carrot-left {
+        font-family: "ElegantIcons" !important;
+      }
+
       /* Brand accent (yellow) overrides */
       :root { --accent-color:#FFC107; --mainmenu-font-weight:400; }
+      .text-light h1, .text-light h2,
+      .dark-scheme h1, .dark-scheme h2 {
+        -webkit-text-fill-color: unset !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        background: none !important;
+      }
+      body.dark-scheme {
+        --bg-dark-1: #0a0a0a !important;
+        --bg-dark-2: #111111 !important;
+        --bg-dark-3: #0d0d0d !important;
+        --bg-dark-1-rgb: 10,10,10 !important;
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark,
+      body.dark-scheme .bg-dark-1,
+      body.dark-scheme .section-dark { background-color: #0a0a0a !important; }
+      body.dark-scheme .bg-dark-2 { background-color: #111111 !important; }
+      body.dark-scheme header,
+      body.dark-scheme header.smaller { background: #0a0a0a !important; }
+
       * { letter-spacing: 1px; }
       .btn-main { background: var(--primary-color) !important; }
       .btn-main:hover { background: var(--secondary-color) !important; }
       h1 em, h2 em, h3 em { color: var(--accent-color); font-style: normal; }
       .id-color-accent { color: var(--accent-color); }
-      /* gradient-edge-top.color → #4bac48 */
       .gradient-edge-top.color {
-        background: linear-gradient(180deg, rgba(75,172,72,1) 0%, rgba(75,172,72,0) 100%) !important;
+        background: linear-gradient(180deg, rgba(79,173,235,1) 0%, rgba(79,173,235,0) 100%) !important;
       }
-      /* gradient-edge-bottom.color → #57ab48 */
       .gradient-edge-bottom.color {
         background: linear-gradient(0deg, rgba(87,171,72,1) 0%, rgba(87,171,72,0) 100%) !important;
       }
-      /* hero section buttons */
       .btn-hero { background: #4bac48 !important; }
       .btn-hero:hover, .btn-hero:focus { background: #45abe1 !important; }
+
       /* theme toggle button */
       #theme-toggle {
         display: inline-flex;
@@ -56,6 +95,38 @@
       #theme-toggle:hover { background: rgba(255,255,255,0.3); }
       body:not(.dark-scheme) #theme-toggle { background: rgba(0,0,0,0.1); color: #333; }
       body:not(.dark-scheme) #theme-toggle:hover { background: rgba(0,0,0,0.2); }
+      @media (max-width: 991px) {
+        #theme-toggle,
+        body:not(.dark-scheme) #theme-toggle,
+        body.dark-scheme #theme-toggle {
+          width: 42px !important;
+          height: 42px !important;
+          min-width: 42px !important;
+          min-height: 42px !important;
+          max-width: 42px !important;
+          max-height: 42px !important;
+          border-radius: 50% !important;
+          font-size: 22px !important;
+          padding: 0 !important;
+          flex-shrink: 0 !important;
+          box-sizing: border-box !important;
+        }
+        #theme-toggle {
+          background: rgba(255,255,255,0.2) !important;
+          border: 2px solid rgba(255,255,255,0.3) !important;
+          color: #fff !important;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
+        }
+        body:not(.dark-scheme) #theme-toggle {
+          background: rgba(255,255,255,0.9) !important;
+          border: 2px solid rgba(0,0,0,0.12) !important;
+          color: #333 !important;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+        }
+      }
+      body:not(.dark-scheme) #menu-btn,
+      body:not(.dark-scheme) #menu-btn:before { color: #1a1a1a !important; }
+      body:not(.dark-scheme) #menu-btn:hover { color: #000 !important; }
 
       /* =====================================================
          LIGHT MODE OVERRIDES
@@ -63,30 +134,81 @@
       body:not(.dark-scheme),
       body:not(.dark-scheme) .bg-dark,
       body:not(.dark-scheme) .bg-dark-1,
+      body:not(.dark-scheme) .bg-dark-2,
+      body:not(.dark-scheme) .bg-dark-3,
       body:not(.dark-scheme) .section-dark {
         background-color: #f4f6f8 !important;
       }
+      body:not(.dark-scheme) footer { background-color: #ffffff !important; }
+
       body:not(.dark-scheme) .text-light,
-      body:not(.dark-scheme) h1, body:not(.dark-scheme) h2,
-      body:not(.dark-scheme) h3, body:not(.dark-scheme) h4,
-      body:not(.dark-scheme) h5, body:not(.dark-scheme) h6 {
+      body:not(.dark-scheme) .text-light h1,
+      body:not(.dark-scheme) .text-light h2,
+      body:not(.dark-scheme) .text-light h3,
+      body:not(.dark-scheme) .text-light h4,
+      body:not(.dark-scheme) .text-light h5,
+      body:not(.dark-scheme) .text-light h6,
+      body:not(.dark-scheme) .text-light p,
+      body:not(.dark-scheme) .text-light li,
+      body:not(.dark-scheme) .text-light span,
+      body:not(.dark-scheme) .text-light div,
+      body:not(.dark-scheme) h1,
+      body:not(.dark-scheme) h2,
+      body:not(.dark-scheme) h3,
+      body:not(.dark-scheme) h4,
+      body:not(.dark-scheme) h5 {
         color: #1a1a1a !important;
       }
       body:not(.dark-scheme) p,
-      body:not(.dark-scheme) li { color: #444 !important; }
+      body:not(.dark-scheme) li,
+      body:not(.dark-scheme) .op-6 {
+        color: #444 !important;
+        opacity: 1 !important;
+      }
+      body:not(.dark-scheme) .text-light a,
       body:not(.dark-scheme) a { color: #1a1a1a !important; }
 
+      body:not(.dark-scheme) .border-white-bottom-op-2 {
+        border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+      }
+      body:not(.dark-scheme) .border-white-op-3 {
+        border-color: rgba(0,0,0,0.12) !important;
+      }
+
+      body:not(.dark-scheme) .bg-dark-2,
+      body:not(.dark-scheme) .hover-bg-color {
+        background-color: #ffffff !important;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important;
+      }
+      body:not(.dark-scheme) .bg-blur {
+        background: rgba(255,255,255,0.85) !important;
+        backdrop-filter: blur(8px);
+      }
+      body:not(.dark-scheme) .sw-overlay {
+        background: rgba(240,244,248,0.7) !important;
+      }
+
+      body:not(.dark-scheme) .subtitle.s2,
+      body:not(.dark-scheme) .subtitle { color: #4bac48 !important; }
+
       /* Header */
-      body:not(.dark-scheme) header.transparent {
-        background: rgba(255,255,255,0.94) !important;
+      body:not(.dark-scheme) header.transparent,
+      body:not(.dark-scheme) header.smaller {
+        background: rgba(255,255,255,0.97) !important;
         backdrop-filter: blur(8px);
         box-shadow: 0 2px 12px rgba(0,0,0,0.08);
       }
-      body:not(.dark-scheme) header #mainmenu li a { color: #1a1a1a !important; }
+      body:not(.dark-scheme) header #mainmenu li a,
+      body:not(.dark-scheme) header #mainmenu li a:hover { color: #1a1a1a !important; }
       body:not(.dark-scheme) #mainmenu ul.mega,
-      body:not(.dark-scheme) #mainmenu ul.mega .sb-menu { background:#fff !important; }
+      body:not(.dark-scheme) #mainmenu ul.mega .sb-menu {
+        background: #ffffff !important; color: #1a1a1a !important;
+      }
       body:not(.dark-scheme) #mainmenu ul.mega h6,
-      body:not(.dark-scheme) #mainmenu ul.mega a { color:#1a1a1a !important; }
+      body:not(.dark-scheme) #mainmenu ul.mega a { color: #1a1a1a !important; }
+
+      body:not(.dark-scheme) .gradient-edge-top,
+      body:not(.dark-scheme) .gradient-edge-bottom { opacity: 0 !important; }
 
       /* Project cards on light */
       body:not(.dark-scheme) .pcard {
@@ -98,7 +220,7 @@
       body:not(.dark-scheme) .pcard-badge { background: rgba(0,0,0,0.55) !important; }
       body:not(.dark-scheme) .pstat-lbl { color: #666 !important; opacity:1 !important; }
 
-      /* Filter bar */
+      /* Filter bar on light */
       body:not(.dark-scheme) #project-search {
         background: rgba(0,0,0,0.05) !important;
         border-color: rgba(0,0,0,0.15) !important;
@@ -111,17 +233,6 @@
       }
       body:not(.dark-scheme) #result-count { color: #555 !important; }
       body:not(.dark-scheme) nav[aria-label="breadcrumb"] { color: #555 !important; }
-
-      /* Footer */
-      body:not(.dark-scheme) footer.text-light {
-        background-color: #ffffff !important;
-        border-top: 1px solid rgba(0,0,0,0.08);
-      }
-      body:not(.dark-scheme) .subfooter {
-        background-color: #e8ecf0 !important;
-        color: #555 !important;
-      }
-      body:not(.dark-scheme) .social-icons a { color: #444 !important; }
     </style>
 
 </head>
@@ -139,218 +250,47 @@
         <div id="de-loader"></div>
         <!-- page preloader close -->
 
-        <header class="transparent">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="de-flex">
-                            <div class="de-flex-col">
-                                <!-- logo begin -->
-                                <div id="logo">
-                                    <a href="index.html">
-                                        <img class="logo-main" src="images/logo.webp" alt="" >
-                                        <img class="logo-scroll" src="images/logo.webp" alt="" >
-                                        <img class="logo-mobile" src="images/logo.webp" alt="" >
-                                    </a>
-                                </div>
-                                <!-- logo close -->
-                            </div>
-
-                            <div class="de-flex-col">
-                                <div class="de-flex-col header-col-mid">
-                                    <ul id="mainmenu">
-
-                                        <li><a class="menu-item" href="#section-about">ЗОРИЛГО</a></li>
-                                                                                <li><a class="menu-item active" href="#section-hero">ТӨСӨЛ</a>
-                                            <ul class="mega">
-                                                <li>
-                                                    <div class="container">
-                                                        <div class="sb-menu p-4">
-                                                            <div class="row g-3">
-
-
-                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                        <a class="p-0" href="tusul.html?cat=energy">
-                                                                            <img src="images/demo/homepage-2.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <h6 class="mt-3"><a href="tusul.html?cat=energy" style="color:inherit;text-decoration:none;">ЭРЧИМ ХҮЧ</a></h6>
-                                                                </div>
-
-                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                        <a class="p-0" href="tusul.html?cat=mining">
-                                                                            <img src="images/demo/homepage-3.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <h6 class="mt-3"><a href="tusul.html?cat=mining" style="color:inherit;text-decoration:none;">УУЛ УУРХАЙ</a></h6>
-                                                                </div>
-
-                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                        <a class="p-0" href="tusul.html?cat=environment">
-                                                                            <img src="images/demo/homepage-4.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <h6 class="mt-3"><a href="tusul.html?cat=environment" style="color:inherit;text-decoration:none;">БАЙГАЛЬ ОРЧИН</a></h6>
-                                                                </div>
-
-                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                        <a class="p-0" href="tusul.html?cat=infra">
-                                                                            <img src="images/demo/homepage-5.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <h6 class="mt-3"><a href="tusul.html?cat=infra" style="color:inherit;text-decoration:none;">ДЭД БҮТЭЦ</a></h6>
-                                                                </div>
-
-                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                        <a class="p-0" href="tusul.html?cat=edu">
-                                                                            <img src="images/demo/homepage-6.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <h6 class="mt-3"><a href="tusul.html?cat=edu" style="color:inherit;text-decoration:none;">БОЛОВСРОЛ</a></h6>
-                                                                </div>
-
-                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                        <a class="p-0" href="tusul.html?cat=culture">
-                                                                            <img src="images/demo/homepage-7.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <h6 class="mt-3"><a href="tusul.html?cat=culture" style="color:inherit;text-decoration:none;">СОЁЛ</a></h6>
-                                                                </div>
-
-                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                        <a class="p-0" href="tusul.html?cat=health">
-                                                                            <img src="images/demo/homepage-8.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <h6 class="mt-3"><a href="tusul.html?cat=health" style="color:inherit;text-decoration:none;">ЭРҮҮЛ МЭНД</a></h6>
-                                                                </div>
-
-                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                        <a class="p-0" href="tusul.html?cat=social">
-                                                                            <img src="images/demo/homepage-9.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <h6 class="mt-3"><a href="tusul.html?cat=social" style="color:inherit;text-decoration:none;">НИЙГЭМ</a></h6>
-                                                                </div>
-
-                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                        <a class="p-0" href="tusul.html?cat=agri">
-                                                                            <img src="images/demo/homepage-10.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                        </a>
-                                                                    </div>
-                                                                    <h6 class="mt-3"><a href="tusul.html?cat=agri" style="color:inherit;text-decoration:none;">ХӨДӨӨ АЖ АХУЙ</a></h6>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li><a class="menu-item" href="#section-speakers">ОНЦЛОХ ОРОЛЦОГЧИД</a></li>
-                                        <li><a class="menu-item" href="#section-schedule">ХӨТӨЛБӨР</a></li>
-                                        <!-- <li><a class="menu-item" href="#section-tickets">B2B</a></li> -->
-                                        <li><a class="menu-item" href="#section-venue">БАЙРШИЛ</a></li>
-                                        <!-- <li><a class="menu-item" href="#section-faq">FAQ</a></li> -->
-                                        <!-- <li><a class="menu-item" href="news.html">Pages</a>
-                                            <ul>
-                                                <li><a class="menu-item" href="tickets.html">Tickets Style 1</a></li>
-                                                <li><a class="menu-item" href="tickets-2.html">Tickets Style 2</a></li>
-                                                <li><a class="menu-item" href="news.html">News</a></li>
-                                                <li><a class="menu-item" href="news-single.html">News Single</a></li>
-                                                <li><a class="menu-item" href="contact.html">Contact</a>
-                                            </ul>
-                                        </li> -->
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="de-flex-col">
-                                <button id="theme-toggle" title="Toggle dark/light mode">&#9788;</button>
-                                <!-- <a class="btn-main fx-slide w-100" href="tickets-2.html"><span>Buy Tickets</span></a> -->
-
-                                <div class="menu_side_area">
-                                    <span id="menu-btn"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
+        <!-- HEADER — loaded from header.html -->
+        <div id="site-header-placeholder"></div>
+        <script src="js/site-header.js" data-base=""></script>
  
-      
-
-    
-
-   
-
-     
-
-   
-
- 
- 
+        
 
         <!-- Projects Discovery Page -->
         <section class="bg-dark section-dark text-light" style="padding-top:100px;min-height:100vh;" aria-label="section-projects">
           <div class="container-fluid px-4 px-lg-5">
 
-            <!-- Page Title -->
-            <div class="row mb-4">
-              <div class="col-12">
-                <nav aria-label="breadcrumb" style="font-size:13px;opacity:.6;">
-                  <span>Нүүр</span> <span class="mx-2">/</span> <span>Төслүүд</span>
-                </nav>
-                <h2 class="mt-2 mb-0">Бүх төслүүд</h2>
+ 
+
+            <!-- Sticky filter bar: pills + search + sort all stick together on scroll -->
+            <div id="sticky-filter">
+              <div class="d-flex gap-2" id="cat-pills">
+                <button class="cat-pill active" data-cat="all">Бүгд</button>
+                <button class="cat-pill" data-cat="energy">Эрчим хүч</button>
+                <button class="cat-pill" data-cat="mining">Уул уурхай</button>
+                <button class="cat-pill" data-cat="environment">Байгаль орчин</button>
+                <button class="cat-pill" data-cat="infra">Дэд бүтэц</button>
+                <button class="cat-pill" data-cat="edu">Боловсрол</button>
+                <button class="cat-pill" data-cat="culture">Соёл</button>
+                <button class="cat-pill" data-cat="health">Эрүүл мэнд</button>
+                <button class="cat-pill" data-cat="social">Нийгэм</button>
+                <button class="cat-pill" data-cat="agri">Хөдөө аж ахуй</button>
               </div>
-            </div>
-
-            <!-- Filter Bar -->
-            <div class="row align-items-center mb-4 gy-3" id="filter-bar">
-
-              <!-- Category Pills -->
-              <div class="col-lg-8 col-md-7">
-                <div class="d-flex flex-wrap gap-2" id="cat-pills">
-                  <button class="cat-pill active" data-cat="all">Бүгд</button>
-                  <button class="cat-pill" data-cat="energy">Эрчим хүч</button>
-                  <button class="cat-pill" data-cat="mining">Уул уурхай</button>
-                  <button class="cat-pill" data-cat="environment">Байгаль орчин</button>
-                  <button class="cat-pill" data-cat="infra">Дэд бүтэц</button>
-                  <button class="cat-pill" data-cat="edu">Боловсрол</button>
-                  <button class="cat-pill" data-cat="culture">Соёл</button>
-                  <button class="cat-pill" data-cat="health">Эрүүл мэнд</button>
-                  <button class="cat-pill" data-cat="social">Нийгэм</button>
-                  <button class="cat-pill" data-cat="agri">Хөдөө аж ахуй</button>
+              <div class="filter-controls">
+                <div class="project-search-wrap">
+                  <button type="button" class="search-toggle" aria-label="Хайх" title="Хайх">
+                    <i class="fa fa-search"></i>
+                  </button>
+                  <input type="text" id="project-search" placeholder="Хайх…" autocomplete="off">
                 </div>
+                <select id="sort-select"
+                  style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;outline:none;cursor:pointer;">
+                  <option value="popular">Алдартай</option>
+                  <option value="newest">Шинэ</option>
+                  <option value="funded">Санхүүжилт</option>
+                  <option value="ending">Дуусах</option>
+                </select>
               </div>
-
-              <!-- Sort + Search -->
-              <div class="col-lg-4 col-md-5">
-                <div class="d-flex align-items-center gap-2 justify-content-md-end">
-                  <div class="project-search-wrap" style="position:relative;flex:1;max-width:220px;">
-                    <input type="text" id="project-search" placeholder="Хайх…" autocomplete="off"
-                      style="width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:7px 12px 7px 34px;color:#fff;font-size:13px;outline:none;">
-                    <i class="fa fa-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.5;font-size:13px;"></i>
-                  </div>
-                  <select id="sort-select"
-                    style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;outline:none;cursor:pointer;">
-                    <option value="popular">Алдартай</option>
-                    <option value="newest">Шинэ</option>
-                    <option value="funded">Санхүүжилт</option>
-                    <option value="ending">Дуусах</option>
-                  </select>
-                </div>
-              </div>
-
             </div>
 
             <!-- Stats Row -->
@@ -743,32 +683,117 @@
 
         <!-- Styles for project cards -->
         <style>
-          /* Category pills */
+          /* Fixed filter bar — sits below the main header (loaded from header.html).
+             Slightly off-white in light mode / slightly lighter black in dark mode
+             so it visibly stands out from the page background.
+             Always one row: controls fixed on the left, pills scroll horizontally. */
+          #sticky-filter {
+            position: fixed;
+            top: 85px;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: #1a1a1a;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 10px 24px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: nowrap;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+          }
+          body:not(.dark-scheme) #sticky-filter {
+            background: #e8ecf0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+          }
+          /* Controls stay on the left of row 1; pills fill the remaining width and
+             wrap to additional rows when they can't all fit in the viewport. */
+          #sticky-filter {
+            gap: 8px;
+          }
+          #sticky-filter .filter-controls {
+            order: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+            align-self: flex-start;
+          }
+          #sticky-filter #cat-pills {
+            order: 2;
+            flex: 1 1 auto;
+            min-width: 0;
+            display: flex;
+            gap: 6px 4px;
+            flex-wrap: wrap !important;
+            overflow: visible;
+            justify-content: flex-start;
+            align-items: center;
+          }
+
+          /* Tablet — keep the same row layout, just tighter padding */
+          @media (max-width: 991px) {
+            #sticky-filter {
+              top: 70px;
+              padding: 8px 16px;
+              gap: 6px;
+            }
+          }
+          /* Phone */
+          @media (max-width: 640px) {
+            #sticky-filter { padding: 7px 12px; gap: 6px; }
+            #sticky-filter .cat-pill {
+              padding: 4px 10px;
+              font-size: 11px;
+              border-radius: 40px;
+            }
+            #sticky-filter .search-toggle {
+              width: 32px !important;
+              height: 32px !important;
+              font-size: 12px !important;
+            }
+            #sticky-filter #project-search { height: 32px; }
+            #sticky-filter .project-search-wrap.expanded #project-search { width: 160px; }
+            #sticky-filter #sort-select {
+              font-size: 11px !important;
+              padding: 5px 8px !important;
+            }
+          }
+          /* Extra-narrow phone */
+          @media (max-width: 400px) {
+            #sticky-filter { padding: 6px 10px; gap: 5px; }
+            #sticky-filter .cat-pill { padding: 3px 8px; font-size: 10px; }
+            #sticky-filter .project-search-wrap.expanded #project-search { width: 120px; }
+          }
+
+          /* Fallback reservation — JS refines this on load/resize */
+          section[aria-label="section-projects"] {
+            padding-top: 160px !important;
+          }
           .cat-pill {
-            background: rgba(255,255,255,.08);
-            border: 1px solid rgba(255,255,255,.18);
-            color: rgba(255,255,255,.75);
+            background: transparent;
+            border: none;
+            color: #fff;
             border-radius: 50px;
-            padding: 6px 16px;
+            padding: 7px 16px;
             font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             cursor: pointer;
             transition: all .2s;
             white-space: nowrap;
+            flex-shrink: 0;
           }
-          .cat-pill:hover { background: rgba(255,255,255,.16); color: #fff; }
-          .cat-pill.active {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
-            color: #000;
-            font-weight: 600;
-          }
-          body:not(.dark-scheme) .cat-pill {
-            background: rgba(0,0,0,.06);
-            border-color: rgba(0,0,0,.15);
-            color: #444;
-          }
-          body:not(.dark-scheme) .cat-pill:hover { background: rgba(0,0,0,.12); color: #000; }
-          body:not(.dark-scheme) .cat-pill.active { background: var(--accent-color); color: #000; border-color: var(--accent-color); }
+          .cat-pill:hover { color: #4bac48; }
+          .cat-pill.active { color: #4bac48; }
+          body:not(.dark-scheme) .cat-pill { background: transparent; color: #000; }
+          body:not(.dark-scheme) .cat-pill:hover { color: #4bac48; }
+          body:not(.dark-scheme) .cat-pill.active { color: #4bac48; }
 
           /* Project card */
           .pcard {
@@ -881,14 +906,87 @@
             letter-spacing: 1px;
           }
 
-          /* Search input focus */
+          /* Search — collapsed icon expands to input on click */
+          .project-search-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            height: 36px;
+          }
+          .search-toggle {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,.08);
+            color: #fff;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: background .2s, color .2s;
+            padding: 0;
+            flex-shrink: 0;
+          }
+          .search-toggle:hover { background: rgba(255,255,255,.18); }
+          .search-toggle i { pointer-events: none; }
+          /* Input expands RIGHTWARD from the toggle button; icon stays fixed on the left.
+             Solid background + z-index so the field clearly overlays the pills area. */
+          #project-search {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 36px;
+            opacity: 0;
+            pointer-events: none;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,.25);
+            border-radius: 18px;
+            padding: 0 14px 0 40px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            transition: width .28s ease, opacity .2s ease;
+            box-sizing: border-box;
+            z-index: 3;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          }
+          .project-search-wrap.expanded #project-search {
+            width: 240px;
+            opacity: 1;
+            pointer-events: auto;
+          }
+          .project-search-wrap.expanded .search-toggle {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: transparent;
+            pointer-events: none;
+            z-index: 4;
+          }
           #project-search:focus {
             border-color: var(--accent-color) !important;
           }
+          body:not(.dark-scheme) .search-toggle {
+            background: rgba(0,0,0,.06);
+            color: #333;
+          }
+          body:not(.dark-scheme) .search-toggle:hover {
+            background: rgba(0,0,0,.12);
+          }
           body:not(.dark-scheme) #project-search {
-            background: rgba(0,0,0,.05) !important;
-            border-color: rgba(0,0,0,.2) !important;
+            background: #ffffff !important;
+            border-color: rgba(0,0,0,.25) !important;
             color: #333 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
+          }
+          body:not(.dark-scheme) .project-search-wrap.expanded .search-toggle {
+            color: #333;
+          }
+          @media (max-width: 480px) {
+            .project-search-wrap.expanded #project-search { width: 180px; }
           }
           body:not(.dark-scheme) #sort-select {
             background: rgba(0,0,0,.05) !important;
@@ -916,6 +1014,44 @@
             var grid = document.getElementById('project-grid');
             var noResults = document.getElementById('no-results');
             var visibleCount = document.getElementById('visible-count');
+
+            // Reserve section space equal to the fixed filter bar's actual height
+            var stickyFilter = document.getElementById('sticky-filter');
+            var projectsSection = document.querySelector('[aria-label="section-projects"]');
+            function adjustFilterSpacing() {
+              if (!stickyFilter || !projectsSection) return;
+              var headerOffset = window.matchMedia('(max-width: 991px)').matches ? 70 : 85;
+              var pad = stickyFilter.offsetHeight + headerOffset + 20;
+              projectsSection.style.paddingTop = pad + 'px';
+            }
+            adjustFilterSpacing();
+            window.addEventListener('resize', adjustFilterSpacing);
+            window.addEventListener('load', adjustFilterSpacing);
+            if (window.ResizeObserver && stickyFilter) {
+              new ResizeObserver(adjustFilterSpacing).observe(stickyFilter);
+            }
+
+            // Collapsible search: icon-only by default, expands to input on click
+            var searchWrap = document.querySelector('.project-search-wrap');
+            var searchToggle = searchWrap && searchWrap.querySelector('.search-toggle');
+            if (searchToggle && searchWrap && searchInput) {
+              searchToggle.addEventListener('click', function () {
+                searchWrap.classList.add('expanded');
+                setTimeout(function () { searchInput.focus(); }, 50);
+              });
+              searchInput.addEventListener('blur', function () {
+                if (!searchInput.value) {
+                  searchWrap.classList.remove('expanded');
+                }
+              });
+              searchInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                  searchInput.value = '';
+                  searchInput.dispatchEvent(new Event('input'));
+                  searchInput.blur();
+                }
+              });
+            }
 
             // Read initial category from URL ?cat=xxx
             var activeCat = new URLSearchParams(window.location.search).get('cat') || 'all';
@@ -1060,45 +1196,174 @@
 
     </div>
 
-    <!-- footer begin -->
-    <footer class="text-light section-dark">
-        <div class="container">
-            <div class="row g-4 align-items-center">
-                <div class="col-md-12">
-                    <div class="d-lg-flex align-items-center justify-content-between text-center">
-                        <div>
-                            <h3 class="fs-20">Address</h3>
-                            121 AI Blvd, San Francisco<br>
-                            BCA 94107
-                        </div>
-                        <div>
-                            <img src="images/logo.webp" class="w-150px" alt=""><br>
-                            <div class="social-icons mb-sm-30 mt-4">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            </div>
+    <!-- Magic Mobile Bottom Navigation -->
+    <nav id="mobile-bottom-nav">
+      <a class="mob-nav-item" href="index.html">
+        <div class="mnav-icon-wrap"><i class="fa fa-home"></i></div>
+        <span>Нүүр</span>
+      </a>
+      <a class="mob-nav-item active" href="tusul.html">
+        <div class="mnav-icon-wrap"><i class="fa fa-folder-open"></i></div>
+        <span>Төсөл</span>
+      </a>
+      <a class="mob-nav-item" href="index.html#section-schedule">
+        <div class="mnav-icon-wrap"><i class="fa fa-calendar-alt"></i></div>
+        <span>Хөтөлбөр</span>
+      </a>
+      <a class="mob-nav-item" href="index.html#section-venue">
+        <div class="mnav-icon-wrap"><i class="fa fa-location-dot"></i></div>
+        <span>Байршил</span>
+      </a>
+      <a class="mob-nav-item" href="sudalgaa.html">
+        <div class="mnav-icon-wrap"><i class="fa fa-clipboard-list"></i></div>
+        <span>Судалгаа</span>
+      </a>
+    </nav>
 
-                        </div>
-                        <div>
-                            <h3 class="fs-20">Contact Us</h3>
-                            T. +1 123 456 789<br>
-                            M. contact@aivent.com
+    <style>
+      #mobile-bottom-nav {
+        display: none;
+        position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+        height: calc(64px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        background: rgba(14,14,14,0.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
+        flex-direction: row; align-items: center; justify-content: space-around;
+      }
+      body:not(.dark-scheme) #mobile-bottom-nav {
+        background: rgba(248,249,250,0.97);
+        border-top: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+      }
+      .mob-nav-item {
+        position: relative; z-index: 1;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        flex: 1; gap: 2px; text-decoration: none !important;
+        color: rgba(255,255,255,0.4) !important;
+        transition: color 0.25s; padding: 4px 0;
+      }
+      body:not(.dark-scheme) .mob-nav-item { color: rgba(0,0,0,0.35) !important; }
+      .mnav-icon-wrap {
+        width: 32px; height: 32px;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 50%;
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s;
+      }
+      .mob-nav-item i { font-size: 18px; line-height: 1; transition: color 0.25s; }
+      .mob-nav-item span {
+        font-size: 9px; letter-spacing: 0.2px; line-height: 1;
+        color: inherit !important; transition: color 0.25s, opacity 0.25s; opacity: 0.7;
+      }
+      .mob-nav-item.active { color: var(--accent-color) !important; }
+      body:not(.dark-scheme) .mob-nav-item.active { color: var(--accent-color) !important; }
+      .mob-nav-item.active .mnav-icon-wrap { transform: translateY(-6px) scale(1.15); }
+      .mob-nav-item.active span { opacity: 1; font-weight: 600; }
+      @media (max-width: 991px) {
+        #mobile-bottom-nav { display: flex; }
+        body { padding-bottom: 70px; }
+      }
+    </style>
+
+    <!-- footer begin -->
+    <footer class="text-light section-dark dsif-footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer-brand">
+                        <img src="images/logo.webp" class="w-150px mb-3" alt="DSIF">
+                        <p class="footer-desc">
+                            Ногоон хөгжил — Тогтвортой хөрөнгө оруулалтын форум 2026.
+                            Дорноговь аймгийн эдийн засгийн өсөлт, ногоон технологи,
+                            хөрөнгө оруулалтын боломжуудыг нэгтгэсэн үндэсний хэмжээний арга хэмжээ.
+                        </p>
+                        <div class="social-icons mt-3">
+                            <a href="https://www.facebook.com/DGZDTG" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
                         </div>
                     </div>
-                </div>                    
-            </div>
-        </div>
-        <div class="subfooter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        Copyright 2026 - AIvent by Designesia
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <h3 class="footer-title">ФОРУМ</h3>
+                    <ul class="footer-nav">
+                        <li><a href="index.html#section-about">ЗОРИЛГО</a></li>
+                        <li><a href="index.html#section-schedule">ХӨТӨЛБӨР</a></li>
+                        <li><a href="index.html#section-speakers">ИЛТГЭГЧИД</a></li>
+                        <li><a href="index.html#section-venue">ТӨЛӨВЛӨЛТ · БАЙРШИЛ</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-4">
+                    <h3 class="footer-title">САЛБАРУУД</h3>
+                    <ul class="footer-nav">
+                        <li><a href="tusul.html?cat=energy">Эрчим хүч</a></li>
+                        <li><a href="tusul.html?cat=mining">Уул уурхай</a></li>
+                        <li><a href="tusul.html?cat=agri">Хөдөө аж ахуй</a></li>
+                        <li><a href="tusul.html?cat=infra">Дэд бүтэц</a></li>
+                        <li><a href="tusul.html?cat=edu">Боловсрол</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <h3 class="footer-title">ХОЛБОО БАРИХ</h3>
+                    <div class="footer-contact">
+                        <p><i class="fa-solid fa-location-dot"></i> ДОРНОГОВЬ АЙМАГ, САЙНШАНД ХОТ, СПОРТЫН ОРДОН</p>
+                        <p><i class="fa-solid fa-envelope"></i> <a href="mailto:forum@dornogovi.gov.mn">FORUM@DORNOGOVI.GOV.MN</a></p>
+                        <p><i class="fa-solid fa-globe"></i> <a href="https://www.dornogovi.one" target="_blank" rel="noopener">WWW.DORNOGOVI.ONE</a></p>
+                        <p><i class="fa-solid fa-phone"></i>
+                            <a href="tel:+97677006933">77006933</a>,
+                            <a href="tel:+97691116933">91116933</a>,
+                            <a href="tel:+97695111149">95111149</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="subfooter">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        © НОГООН ХӨГЖИЛ ФОРУМ 2026 · ДОРНОГОВЬ АЙМАГ · САЙНШАНД СУМ
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <span class="sdg-pill">SDG 8</span>
+                        <span class="sdg-pill">SDG 9</span>
+                        <span class="sdg-pill">SDG 13</span>
+                        <span class="sdg-pill">SDG 17</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+          .dsif-footer { padding-top: 60px; padding-bottom: 24px; }
+          .dsif-footer .footer-desc { font-size: 13px; line-height: 1.7; opacity: 0.75; margin-bottom: 0; }
+          .dsif-footer .footer-title { font-size: 14px; font-weight: 700; letter-spacing: 2px; color: #4bac48; text-transform: uppercase; margin-bottom: 18px; }
+          .dsif-footer .footer-nav { list-style: none; padding: 0; margin: 0; }
+          .dsif-footer .footer-nav li { margin-bottom: 10px; }
+          .dsif-footer .footer-nav a { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; transition: color 0.2s, opacity 0.2s; text-decoration: none; color: inherit; }
+          .dsif-footer .footer-nav a:hover { color: #4bac48; opacity: 1; }
+          .dsif-footer .footer-contact p { font-size: 13px; line-height: 1.6; margin-bottom: 10px; opacity: 0.85; display: flex; align-items: flex-start; gap: 10px; }
+          .dsif-footer .footer-contact i { color: #4bac48; margin-top: 4px; min-width: 14px; }
+          .dsif-footer .footer-contact a { color: inherit; text-decoration: none; transition: color 0.2s; word-break: break-word; }
+          .dsif-footer .footer-contact a:hover { color: #4bac48; }
+          .dsif-footer .social-icons a { width: 36px; height: 36px; border-radius: 50%; background: rgba(75,172,72,0.12); color: #4bac48; display: inline-flex; align-items: center; justify-content: center; margin-right: 8px; transition: background 0.2s, color 0.2s; }
+          .dsif-footer .social-icons a:hover { background: #4bac48; color: #fff; }
+          .dsif-footer .subfooter { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px; margin-top: 40px; font-size: 12px; opacity: 0.75; letter-spacing: 1px; }
+          .dsif-footer .sdg-pill { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 4px 10px; border: 1px solid rgba(75,172,72,0.4); color: #4bac48; border-radius: 999px; margin-left: 6px; }
+          body:not(.dark-scheme) .dsif-footer .subfooter { border-top-color: rgba(0,0,0,0.08); }
+          @media (max-width: 767px) {
+            .dsif-footer { padding-top: 40px; }
+            .dsif-footer .subfooter { text-align: center; }
+            .dsif-footer .sdg-pill { margin: 4px 3px 0; }
+          }
+        </style>
     </footer>
     <!-- footer end -->
     
