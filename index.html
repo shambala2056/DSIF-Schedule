@@ -169,17 +169,15 @@
       }
 
       /* Header transparent on light */
-      body:not(.dark-scheme) header.transparent {
-        background: rgba(255,255,255,0.92) !important;
+      body:not(.dark-scheme) header.transparent,
+      body:not(.dark-scheme) header.smaller {
+        background: rgba(75,172,72,0.95) !important;
         backdrop-filter: blur(8px);
-        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
       }
       body:not(.dark-scheme) header #mainmenu li a,
       body:not(.dark-scheme) header #mainmenu li a:hover {
-        color: #1a1a1a !important;
-      }
-      body:not(.dark-scheme) header.smaller {
-        background: rgba(255,255,255,0.97) !important;
+        color: #fff !important;
       }
 
       /* Mega menu on light */
