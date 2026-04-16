@@ -1377,16 +1377,22 @@
         left: 0;
         right: 0;
         z-index: 9999;
-        background: #0a0a0a;
+        background: rgba(10,10,10,0.97);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border-top: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 -2px 12px rgba(0,0,0,0.3);
         padding: 8px 0 max(8px, env(safe-area-inset-bottom));
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
       }
       body:not(.dark-scheme) #mobile-bottom-nav {
-        background: #ffffff;
+        background: rgba(255,255,255,0.97);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border-top: 1px solid rgba(0,0,0,0.1);
+        box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
       }
       .mob-nav-item {
         display: flex;
