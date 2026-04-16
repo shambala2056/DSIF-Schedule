@@ -1343,16 +1343,25 @@
     <script>
       (function () {
         var btn = document.getElementById('theme-toggle');
+        var heroHeadings = document.querySelectorAll('.hero-heading');
+
+        function applyHeroColor(dark) {
+          heroHeadings.forEach(function(el) {
+            el.style.color = dark ? '' : '#57ab48';
+          });
+        }
+
         function applyTheme(dark) {
           if (dark) {
             document.body.classList.add('dark-scheme');
-            btn.innerHTML = '&#9788;'; /* ☼ sun → switch to light */
+            btn.innerHTML = '&#9788;';
             btn.title = 'Light mode руу солих';
           } else {
             document.body.classList.remove('dark-scheme');
-            btn.innerHTML = '&#9790;'; /* ☾ moon → switch to dark */
+            btn.innerHTML = '&#9790;';
             btn.title = 'Dark mode руу солих';
           }
+          applyHeroColor(dark);
         }
         var saved = localStorage.getItem('dsif-theme');
         applyTheme(saved !== 'light');
