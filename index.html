@@ -240,6 +240,10 @@
       body:not(.dark-scheme) #section-hero .btn-line span {
         color: #fff !important;
       }
+      /* Countdown bar labels → black on light mode */
+      body:not(.dark-scheme) .countdown-label {
+        color: #1a1a1a !important;
+      }
       /* Hero headings → green on light mode */
       body:not(.dark-scheme) .hero-heading,
       body:not(.dark-scheme) .text-light .hero-heading,
@@ -478,13 +482,13 @@
                         </div>
                         <div class="row g-4 justify-content-center align-items-center relative z-2 text-center">
                             <div class="col-lg-3 text-center">
-                                <h4 class="mb-0" style="font-weight:200">ТОГТВОРТОЙ ӨСӨЛТ</h4>
+                                <h4 class="mb-0 countdown-label" style="font-weight:200">ТОГТВОРТОЙ ӨСӨЛТ</h4>
                             </div>
                             <div class="col-lg-4 text-center">
                                 <div id="defaultCountdown" class="pt-2"></div>
                             </div>
                             <div class="col-lg-3 text-center">
-                                <h4 class="mb-0" style="font-weight:200">ХӨГЖЛИЙН ХӨДӨЛГҮҮР</h4>
+                                <h4 class="mb-0 countdown-label" style="font-weight:200">ХӨГЖЛИЙН ХӨДӨЛГҮҮР</h4>
                             </div>
                         </div>
                     </div>
