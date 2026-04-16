@@ -478,61 +478,14 @@
                 </div>
               </div>
 
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="health" data-name="Хөвсгөл сумын эмнэлэг" data-funded="0" data-days="0" data-backers="0" data-newest="1">
-                <a href="projects/health/huvsgul-emneleg/index.html" style="text-decoration:none;color:inherit;display:block;">
-                  <div class="pcard h-100">
-                    <div class="pcard-img-wrap">
-                      <img src="projects/health/huvsgul-emneleg/thumbnail.jpg" alt="Хөвсгөл сумын эмнэлэг" class="pcard-img">
-                    </div>
-                    <div class="pcard-body">
-                      <h5 class="pcard-title">Хөвсгөл сумын эмнэлгийн дээвэр & фасад засвар</h5>
-                      <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Дорноговь аймаг, Хөвсгөл сум</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="health" data-name="Олон Овоо Багийн Эмнэлэг" data-funded="0" data-days="0" data-backers="0" data-newest="2">
-                <a href="projects/health/olon-owoo-emneleg/index.html" style="text-decoration:none;color:inherit;display:block;">
-                  <div class="pcard h-100">
-                    <div class="pcard-img-wrap">
-                      <img src="projects/health/olon-owoo-emneleg/thumbnail.jpg" alt="Олон Овоо Багийн Эмнэлэг" class="pcard-img">
-                    </div>
-                    <div class="pcard-body">
-                      <h5 class="pcard-title">Олон Овоо багт анхан шатны эмнэлэг барих төсөл</h5>
-                      <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Дорноговь аймаг, Даланжаргалан сум</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="health" data-name="Тарианы Памп" data-funded="0" data-days="0" data-backers="0" data-newest="3">
-                <a href="тарианы_памп_proposal.html" style="text-decoration:none;color:inherit;display:block;">
-                  <div class="pcard h-100">
-                    <div class="pcard-img-wrap">
-                      <img src="images/projects/тарианы_памп.jpg" alt="Хяналтын монитор ба тарианы памп" class="pcard-img">
-                    </div>
-                    <div class="pcard-body">
-                      <h5 class="pcard-title">Хяналтын Монитор ба Тарианы Памп Шинэчлэл</h5>
-                      <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Дорноговь аймгийн Нэгдсэн эмнэлэг</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="health" data-name="Болор Солих Мэс Засал" data-funded="0" data-days="0" data-backers="0" data-newest="4">
-                <a href="projects/health/болор-солих/index.html" style="text-decoration:none;color:inherit;display:block;">
-                  <div class="pcard h-100">
-                    <div class="pcard-img-wrap">
-                      <img src="projects/health/болор-солих/thumbnail.jpg" alt="Болор Солих Мэс Засал" class="pcard-img">
-                    </div>
-                    <div class="pcard-body">
-                      <h5 class="pcard-title">Болор Солих Мэс Засал Орон Нутагтаа Нэвтрүүлэх</h5>
-                      <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Дорноговь аймгийн Нэгдсэн эмнэлэг</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
+              <!-- ╔══════════════════════════════════════════════════════════════╗
+                   ║  ЭРҮҮЛ МЭНДИЙН ТӨСЛҮҮД — автомат ачаалагддаг               ║
+                   ║  Шинэ төсөл нэмэхийн тулд:                                 ║
+                   ║    1. projects/health/{slug}/ фолдер үүсгэ                  ║
+                   ║    2. index.html, thumbnail.jpg, meta.json нэмэ             ║
+                   ║    3. projects/health/manifest.json жагсаалтад нэм         ║
+                   ╚══════════════════════════════════════════════════════════════╝ -->
+              <div id="health-cards-anchor" style="display:none;"></div>
 
               <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="culture" data-name="Соёл урлаг" data-funded="55" data-days="22" data-backers="189" data-newest="7">
                 <div class="pcard h-100">
@@ -954,9 +907,10 @@
 
         <!-- Filter & Sort JS -->
         <script>
+          var refreshFilters; // exposed so health card loader can trigger a re-filter after async insert
+
           (function () {
             var pills = document.querySelectorAll('.cat-pill');
-            var cards = document.querySelectorAll('.project-card');
             var searchInput = document.getElementById('project-search');
             var sortSelect = document.getElementById('sort-select');
             var grid = document.getElementById('project-grid');
@@ -976,7 +930,8 @@
               var q = searchInput.value.toLowerCase().trim();
               var sortVal = sortSelect.value;
 
-              var cardsArr = Array.from(cards);
+              // Re-query every time so dynamically added cards (health, energy, etc.) are always included
+              var cardsArr = Array.from(document.querySelectorAll('.project-card'));
 
               // Sort
               cardsArr.sort(function (a, b) {
@@ -1037,9 +992,69 @@
             searchInput.addEventListener('input', applyFilters);
             sortSelect.addEventListener('change', applyFilters);
 
+            // Expose for async card loaders
+            refreshFilters = applyFilters;
+
             // Init
             setActivePill(activeCat);
             applyFilters();
+          })();
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             HEALTH PROJECT CARD LOADER
+             Reads projects/health/manifest.json → each slug's meta.json
+             Generates cards identical to the hardcoded pcard format.
+             To add a new health project:
+               1. Create projects/health/{slug}/
+               2. Add index.html, thumbnail.jpg, meta.json
+               3. Append slug to projects/health/manifest.json
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+          (function () {
+            var anchor = document.getElementById('health-cards-anchor');
+            if (!anchor) return;
+
+            fetch('projects/health/manifest.json')
+              .then(function (r) { return r.json(); })
+              .then(function (slugs) {
+                return Promise.all(slugs.map(function (slug) {
+                  return fetch('projects/health/' + encodeURIComponent(slug) + '/meta.json')
+                    .then(function (r) { return r.json(); });
+                }));
+              })
+              .then(function (metas) {
+                metas.forEach(function (meta) {
+                  var col = document.createElement('div');
+                  col.className = 'col-xl-3 col-lg-4 col-md-6 project-card';
+                  col.dataset.cat    = 'health';
+                  col.dataset.name   = meta.title;
+                  col.dataset.funded = meta.funded;
+                  col.dataset.days   = meta.days;
+                  col.dataset.backers = meta.backers;
+                  col.dataset.newest  = meta.newest;
+                  col.innerHTML =
+                    '<a href="projects/health/' + meta.slug + '/index.html" style="text-decoration:none;color:inherit;display:block;">' +
+                      '<div class="pcard h-100">' +
+                        '<div class="pcard-img-wrap">' +
+                          '<img src="projects/health/' + meta.slug + '/thumbnail.jpg" alt="' + meta.title + '" class="pcard-img" loading="lazy">' +
+                        '</div>' +
+                        '<div class="pcard-body">' +
+                          '<h5 class="pcard-title">' + meta.title + '</h5>' +
+                          '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + meta.creator + '</p>' +
+                        '</div>' +
+                      '</div>' +
+                    '</a>';
+                  anchor.parentNode.insertBefore(col, anchor);
+                });
+                anchor.remove();
+                // Re-run filter/sort so health cards obey the active category & count updates
+                if (typeof refreshFilters === 'function') refreshFilters();
+              })
+              .catch(function (e) {
+                console.warn('Health card loader failed:', e);
+                if (anchor) anchor.remove();
+              });
           })();
         </script>
 
