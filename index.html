@@ -1327,6 +1327,119 @@
 
     </div>
 
+    <!-- Mobile Bottom Navigation -->
+    <nav id="mobile-bottom-nav">
+      <a class="mob-nav-item active" href="index.html" data-label="Нүүр">
+        <i class="fa fa-home"></i>
+        <span>Нүүр</span>
+      </a>
+      <a class="mob-nav-item" href="tusul.html" data-label="Төсөл">
+        <i class="fa fa-folder-open"></i>
+        <span>Төсөл</span>
+      </a>
+      <a class="mob-nav-item" href="#section-speakers" data-label="Оролцогчид">
+        <i class="fa fa-users"></i>
+        <span>Оролцогчид</span>
+      </a>
+      <a class="mob-nav-item" href="#section-schedule" data-label="Хөтөлбөр">
+        <i class="fa fa-calendar-alt"></i>
+        <span>Хөтөлбөр</span>
+      </a>
+      <a class="mob-nav-item" href="#section-venue" data-label="Байршил">
+        <i class="fa fa-location-dot"></i>
+        <span>Байршил</span>
+      </a>
+    </nav>
+
+    <style>
+      /* Mobile bottom nav — shown only on mobile */
+      #mobile-bottom-nav {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        background: #0a0a0a;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+      }
+      body:not(.dark-scheme) #mobile-bottom-nav {
+        background: #ffffff;
+        border-top: 1px solid rgba(0,0,0,0.1);
+      }
+      .mob-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        gap: 4px;
+        color: rgba(255,255,255,0.5) !important;
+        text-decoration: none !important;
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        padding: 4px 0;
+        transition: color 0.2s;
+      }
+      body:not(.dark-scheme) .mob-nav-item {
+        color: rgba(0,0,0,0.4) !important;
+      }
+      .mob-nav-item i {
+        font-size: 20px;
+        line-height: 1;
+      }
+      .mob-nav-item span {
+        font-size: 10px;
+        color: inherit !important;
+      }
+      .mob-nav-item.active,
+      .mob-nav-item:hover {
+        color: #4bac48 !important;
+      }
+      body:not(.dark-scheme) .mob-nav-item.active,
+      body:not(.dark-scheme) .mob-nav-item:hover {
+        color: #4bac48 !important;
+      }
+      /* Show only on mobile */
+      @media (max-width: 991px) {
+        #mobile-bottom-nav { display: flex; }
+        /* Add padding to body so content isn't hidden behind nav */
+        body { padding-bottom: 70px; }
+      }
+    </style>
+
+    <script>
+      // Highlight active mobile nav item based on current page/hash
+      (function() {
+        var items = document.querySelectorAll('.mob-nav-item');
+        var path = window.location.pathname;
+        var hash = window.location.hash;
+        items.forEach(function(item) {
+          item.classList.remove('active');
+          var href = item.getAttribute('href');
+          if (hash && href === hash) {
+            item.classList.add('active');
+          } else if (!hash && (href === 'index.html' || href === '/' || href === path)) {
+            item.classList.add('active');
+          } else if (path.includes('tusul') && href === 'tusul.html') {
+            item.classList.add('active');
+          }
+        });
+        // Update active on hash change
+        window.addEventListener('hashchange', function() {
+          var h = window.location.hash;
+          items.forEach(function(item) {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === h) item.classList.add('active');
+          });
+        });
+      })();
+    </script>
+
     <!-- footer begin -->
     <footer class="text-light section-dark">
         <div class="container">
