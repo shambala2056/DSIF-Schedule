@@ -6,6 +6,7 @@
 
 # Per-project folders: admin + the project's contributor must approve
 /projects/health/huvsgul-emneleg/    @shambala2056
+/projects/health/olon-owoo-emneleg/  @shambala2056
 
 # Add new project folders below with format:
 #   /projects/<sector>/<project-name>/    @shambala2056 @<project-contributor>

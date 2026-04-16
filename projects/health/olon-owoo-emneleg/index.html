@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <title>Олон Овоо Багийн Эмнэлэг — DSIF 2026</title>
+    <link rel="icon" href="../../../images/icon.webp" type="image/gif" sizes="16x16">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="AIvent" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
+    <!-- CSS Files
+    ================================================== -->
+    <link href="../../../css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
+    <link href="../../../css/vendors.css" rel="stylesheet" type="text/css">
+    <link href="../../../css/style.css" rel="stylesheet" type="text/css">
+    <!-- color scheme -->
+    <link id="colors" href="../../../css/colors/scheme-01.css" rel="stylesheet" type="text/css">
+    <style>
+      /* Brand accent (blue) overrides */
+      :root { --accent-color:#29ABE2; --mainmenu-font-weight:400; }
+      /* Remove webkit gradient text fill from headings */
+      .text-light h1,
+      .text-light h2,
+      .dark-scheme h1,
+      .dark-scheme h2 {
+        -webkit-text-fill-color: unset !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        background: none !important;
+      }
+      /* Dark theme → black base */
+      body.dark-scheme {
+        --bg-dark-1: #0a0a0a !important;
+        --bg-dark-2: #111111 !important;
+        --bg-dark-3: #0d0d0d !important;
+        --bg-dark-1-rgb: 10,10,10 !important;
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark,
+      body.dark-scheme .bg-dark-1,
+      body.dark-scheme .section-dark {
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark-2 {
+        background-color: #111111 !important;
+      }
+      body.dark-scheme header,
+      body.dark-scheme header.smaller {
+        background: #0a0a0a !important;
+      }
+      * { letter-spacing: 1px; }
+      .btn-main { background: var(--primary-color) !important; }
+      .btn-main:hover { background: var(--secondary-color) !important; }
+      h1 em, h2 em, h3 em { color: var(--accent-color); font-style: normal; }
+      .id-color-accent { color: var(--accent-color); }
+      .btn-hero { background: #4bac48 !important; }
+      .btn-hero:hover, .btn-hero:focus { background: #45abe1 !important; }
+
+      /* ===============================================
+         PAGE-SPECIFIC: Олон Овоо эмнэлэг
+         Palette mapped to AIvent:
+           accent (blue)   #29ABE2
+           green           #4bac48
+           muted grey      rgba(255,255,255,0.55)
+         =============================================== */
+
+      /* Back button in header */
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        background: #4bac48;
+        color: #fff !important;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none !important;
+        transition: background 0.25s;
+      }
+      .back-btn:hover { background: #29ABE2; color: #0a0a0a !important; }
+
+      /* Header (simple) */
+      body { text-transform: uppercase; }
+      .page-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #0a0a0a;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+      html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+      .em-section { scroll-margin-top: 72px; }
+      .page-header .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+      .page-header .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .page-header .logo-area img { height: 40px; width: auto; }
+      .page-header .logo-area .brand-text {
+        color: #fff;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .page-nav {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        flex: 1;
+        justify-content: center;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .page-nav::-webkit-scrollbar { display: none; }
+      .page-nav a {
+        padding: 8px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.6);
+        text-decoration: none;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+      }
+      .page-nav a:hover { color: #29ABE2; border-bottom-color: #29ABE2; }
+      body:not(.dark-scheme) .page-nav a { color: #444; }
+      body:not(.dark-scheme) .page-nav a:hover { color: #0a0a0a; border-bottom-color: #29ABE2; }
+      @media (max-width: 768px) {
+        .page-nav { justify-content: flex-start; }
+        .page-nav a { padding: 6px 8px; font-size: 10px; }
+      }
+      .page-header .logo-area .brand-text small {
+        display: block;
+        color: rgba(255,255,255,0.5);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        margin-top: 2px;
+      }
+
+      /* Hero */
+      .emneleg-hero {
+        position: relative;
+        background: #0a0a0a;
+        color: #fff;
+        padding: 0;
+        overflow: hidden;
+      }
+      .emneleg-hero .sw-overlay { display: none; }
+      .emneleg-hero .hero-bg-img {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/7;
+        background-image: url('thumbnail.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: 0;
+      }
+      .emneleg-hero .container { position: relative; z-index: 2; }
+      .emneleg-hero .hero-stamp {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        font-size: 10px;
+        color: rgba(255,255,255,0.45);
+        text-align: right;
+        line-height: 1.8;
+        letter-spacing: 0.08em;
+        z-index: 3;
+      }
+      .emneleg-hero .hero-tag {
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+      }
+      .emneleg-hero h1 {
+        font-size: clamp(28px, 5vw, 52px);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        max-width: 820px;
+        margin-bottom: 1.5rem;
+        color: #fff !important;
+      }
+      .emneleg-hero h1 em { color: #4bac48; font-style: normal; }
+      .emneleg-hero .hero-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: rgba(255,255,255,0.65);
+      }
+      .emneleg-hero .hero-meta strong {
+        display: block;
+        color: #29ABE2;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+
+      /* Price band */
+      .price-band {
+        background: linear-gradient(90deg, #4bac48 0%, #57ab48 100%);
+        color: #fff;
+        padding: 10px 0;
+      }
+      .price-band .inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .price-band .std-label {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-weight: 700;
+        opacity: 0.95;
+        margin-right: 6px;
+      }
+      .price-band .price-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.85;
+        margin-bottom: 4px;
+      }
+      .price-band .price-number {
+        font-size: clamp(32px, 5vw, 52px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .price-band .price-sub {
+        font-size: 11px;
+        opacity: 0.8;
+        margin-top: 4px;
+      }
+      .price-band .price-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .price-band .pbadge {
+        padding: 6px 14px;
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 4px;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        background: rgba(255,255,255,0.12);
+      }
+
+      /* Section styling for dark AIvent look */
+      .em-section {
+        padding: 28px 0 40px;
+        color: #fff;
+      }
+      .em-section.alt { background: #111111 !important; }
+      .em-section + .em-section { border-top: 1px solid rgba(255,255,255,0.06); }
+
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .section-num {
+        font-size: 11px;
+        color: #29ABE2;
+        letter-spacing: 0.15em;
+        font-weight: 600;
+      }
+      .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #fff;
+      }
+      .section-sub {
+        font-size: 13px;
+        font-weight: 700;
+        color: #29ABE2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 1.5rem 0 0.75rem;
+      }
+      .section-lead {
+        font-size: 13px;
+        line-height: 1.75;
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 1.25rem;
+        max-width: 900px;
+      }
+
+      /* Stats grid */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 3rem;
+      }
+      .stat-cell {
+        background: #0a0a0a;
+        padding: 1.5rem;
+      }
+      .stat-cell.accent { background: #4bac48; color: #fff; }
+      .stat-label {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.55);
+        margin-bottom: 8px;
+      }
+      .stat-cell.accent .stat-label { color: rgba(255,255,255,0.85); }
+      .stat-value {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: #fff;
+      }
+      .stat-unit {
+        font-size: 11px;
+        color: rgba(255,255,255,0.5);
+        margin-top: 4px;
+      }
+      .stat-cell.accent .stat-unit { color: rgba(255,255,255,0.8); }
+
+      /* Info / KV table */
+      .cost-wrap { overflow-x: auto; }
+      table.cost {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        color: #fff;
+      }
+      .cost thead tr { background: #29ABE2; color: #0a0a0a; }
+      .cost th {
+        padding: 12px 16px;
+        text-align: left;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .cost th.r, .cost td.r { text-align: right; }
+      .cost tbody tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .cost tbody tr:hover { background: rgba(255,255,255,0.04); }
+      .cost td { padding: 10px 16px; color: rgba(255,255,255,0.85); }
+      .cost td.kv-key {
+        color: #29ABE2;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        width: 36%;
+        background: rgba(255,255,255,0.03);
+      }
+      .cost tr.hl td.kv-val { color: #ff9a6c; font-weight: 700; }
+
+      /* Features / works list */
+      .works {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: #0d0d0d;
+      }
+      .work-item {
+        display: grid;
+        grid-template-columns: 60px 1fr;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        transition: background 0.15s;
+      }
+      .work-item:last-child { border-bottom: none; }
+      .work-item:hover { background: rgba(41,171,226,0.05); }
+      .work-num {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 1.25rem 0;
+        font-size: 12px;
+        color: #29ABE2;
+        font-weight: 600;
+        border-right: 1px solid rgba(255,255,255,0.08);
+      }
+      .work-body { padding: 1.25rem 1.5rem; }
+      .work-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #fff; }
+      .work-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.65; }
+
+      /* Info cards */
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .info-card {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem;
+        background: #111111;
+      }
+      .info-card-title {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-weight: 700;
+      }
+      .info-row2 { display: flex; flex-direction: column; gap: 12px; }
+      .info-item-label {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 2px;
+      }
+      .info-item-val { font-size: 14px; font-weight: 500; color: #fff; }
+
+      /* Machines grid (used for partners/stats) */
+      .machines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .machine-cell {
+        background: #0d0d0d;
+        padding: 1rem 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .machine-cell:hover { background: #151515; }
+      .machine-name { font-size: 13px; font-weight: 500; color: #fff; }
+      .machine-code { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+      .machine-cost { font-size: 12px; color: #4bac48; text-align: right; white-space: nowrap; font-weight: 600; }
+
+      /* Norms / targets list */
+      .norms-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 8px;
+      }
+      .norm-item {
+        display: flex;
+        gap: 10px;
+        padding: 12px 16px;
+        background: #111111;
+        border-left: 3px solid #29ABE2;
+        font-size: 13px;
+        line-height: 1.55;
+        color: rgba(255,255,255,0.78);
+      }
+      .norm-n { font-size: 11px; color: #29ABE2; min-width: 22px; padding-top: 1px; font-weight: 700; }
+
+      /* Docs / stat-card grid */
+      .docs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 12px;
+      }
+      .doc-card {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        background: #111111;
+        transition: border-color 0.2s;
+        text-align: center;
+      }
+      .doc-card:hover { border-color: #29ABE2; }
+      .doc-name { font-size: 24px; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+      .doc-detail { font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+      .doc-sub { font-size: 10px; color: rgba(255,255,255,0.45); }
+
+      /* Bar chart */
+      .bar-chart { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+      .bar-row { display: flex; align-items: center; gap: 12px; }
+      .bar-label {
+        font-size: 11px;
+        color: rgba(255,255,255,0.65);
+        width: 170px;
+        flex-shrink: 0;
+        text-align: right;
+      }
+      .bar-track {
+        flex: 1;
+        height: 26px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        position: relative;
+        overflow: visible;
+      }
+      .bar-fill {
+        height: 100%;
+        background: #29ABE2;
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 10px;
+        color: #fff;
+        font-weight: 600;
+        transition: width 1s ease;
+        white-space: nowrap;
+        overflow: visible;
+      }
+      .bar-fill { background: #29ABE2; }
+      .bar-row:nth-child(1) .bar-fill { opacity: 1; }
+      .bar-row:nth-child(2) .bar-fill { opacity: 0.88; }
+      .bar-row:nth-child(3) .bar-fill { opacity: 0.76; }
+      .bar-row:nth-child(4) .bar-fill { opacity: 0.64; }
+      .bar-row:nth-child(5) .bar-fill { opacity: 0.52; }
+      .bar-row:nth-child(6) .bar-fill { opacity: 0.42; }
+      .bar-row:nth-child(7) .bar-fill { opacity: 0.33; }
+      .bar-row:nth-child(8) .bar-fill { opacity: 0.25; }
+      .bar-amount {
+        font-size: 11px;
+        width: 60px;
+        flex-shrink: 0;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      /* Rationale cards */
+      .rationale-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .rationale-problem, .rationale-benefit {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem;
+        background: #111111;
+      }
+      .rationale-problem { border-left: 4px solid #d66a3d; }
+      .rationale-benefit { border-left: 4px solid #4bac48; }
+      .rblock-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .problem-list, .benefit-list { display: flex; flex-direction: column; gap: 14px; }
+      .problem-item, .benefit-item { display: flex; gap: 12px; align-items: flex-start; }
+      .prob-icon, .ben-icon { display: none; }
+      .prob-red { background: rgba(214,106,61,0.2); color: #ff9a6c; }
+      .prob-amber { background: rgba(255,193,7,0.18); color: #29ABE2; }
+      .ben-icon { background: rgba(75,172,72,0.2); color: #7fd47c; }
+      .prob-text, .ben-text { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+      .prob-text strong, .ben-text strong { color: #fff; }
+
+      /* Goal / quote box */
+      .goal-box {
+        background: #111111;
+        border-left: 4px solid #4bac48;
+        padding: 1.5rem 2rem;
+        font-size: 14px;
+        line-height: 1.85;
+        color: rgba(255,255,255,0.82);
+      }
+
+      /* Budget display */
+      .budget-display {
+        background: #111111;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 3rem 2rem;
+        text-align: center;
+      }
+      .budget-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+      }
+      .budget-amount {
+        font-size: clamp(32px, 5vw, 52px);
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.02em;
+        line-height: 1;
+      }
+      .budget-words {
+        font-size: 12px;
+        color: rgba(255,255,255,0.55);
+        margin-top: 1rem;
+      }
+
+      /* Results list */
+      .results-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0;
+        margin: 0;
+      }
+      .results-list li {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        background: #111111;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-left: 3px solid #29ABE2;
+        padding: 14px 18px;
+        font-size: 13px;
+        line-height: 1.65;
+        color: rgba(255,255,255,0.78);
+      }
+      .res-num {
+        min-width: 26px;
+        height: 26px;
+        background: #29ABE2;
+        color: #0a0a0a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      /* Conclusion */
+      .conclusion-box {
+        background: #111111;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-left: 4px solid #4bac48;
+        padding: 2rem 2.5rem;
+      }
+      .conclusion-quote {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #29ABE2;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      .conclusion-body {
+        font-size: 13px;
+        color: rgba(255,255,255,0.7);
+        line-height: 1.75;
+      }
+      .cta-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.5rem; }
+      .btn-primary {
+        background: #4bac48;
+        color: #fff;
+        border: none;
+        padding: 10px 22px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .btn-primary:hover { background: #29ABE2; color: #0a0a0a; }
+      .btn-secondary {
+        background: transparent;
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.25);
+        padding: 10px 22px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .btn-secondary:hover { border-color: #29ABE2; color: #29ABE2; }
+
+      /* Sign boxes */
+      .sign-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .sign-box {
+        background: #111111;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem 1.75rem;
+      }
+      .sign-role {
+        font-size: 10px;
+        color: #29ABE2;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .sign-name { font-size: 14px; color: #fff; font-weight: 600; margin-bottom: 1rem; }
+      .sign-line { height: 1px; background: rgba(255,255,255,0.12); margin: 1rem 0; }
+      .sign-footer { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.45); gap: 1rem; flex-wrap: wrap; }
+
+      /* Footer */
+      .em-footer {
+        background: #0a0a0a;
+        color: rgba(255,255,255,0.6);
+        padding: 50px 0 30px;
+        font-size: 12px;
+        line-height: 1.9;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        text-align: center;
+      }
+      .em-footer .footer-logo {
+        color: #29ABE2;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 14px;
+        margin-bottom: 0.5rem;
+      }
+      .em-footer .footer-quote {
+        font-size: 12px;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 1.5rem;
+      }
+      .em-footer .footer-div {
+        width: 36px;
+        height: 1px;
+        background: rgba(255,255,255,0.12);
+        margin: 1rem auto;
+      }
+      .em-footer .footer-meta { font-size: 11px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .emneleg-hero h1,
+      .emneleg-hero .hero-tag,
+      .emneleg-hero .hero-meta { animation: fadeUp 0.6s ease both; }
+      .emneleg-hero .hero-tag { animation-delay: 0.1s; }
+      .emneleg-hero h1 { animation-delay: 0.2s; }
+      .emneleg-hero .hero-meta { animation-delay: 0.4s; }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .info-grid, .rationale-grid, .sign-row { grid-template-columns: 1fr; }
+        .work-item { grid-template-columns: 50px 1fr; }
+        .emneleg-hero { padding: 80px 0 60px; }
+        .emneleg-hero .hero-stamp { position: static; text-align: left; margin-bottom: 1rem; }
+        .page-header .logo-area .brand-text { font-size: 11px; }
+        .bar-label { width: 110px; font-size: 10px; }
+      }
+
+      /* Light mode overrides for this page */
+      body:not(.dark-scheme) { background-color: #f4f6f8 !important; color: #1a1a1a; }
+      body:not(.dark-scheme) .page-header { background: #ffffff !important; border-bottom: 1px solid rgba(0,0,0,0.08); }
+      body:not(.dark-scheme) .page-header .logo-area .brand-text { color: #1a1a1a; }
+      body:not(.dark-scheme) .page-header .logo-area .brand-text small { color: #666; }
+      body:not(.dark-scheme) .em-section { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-section.alt { background: #ffffff !important; }
+      body:not(.dark-scheme) .section-title { color: #1a1a1a; }
+      body:not(.dark-scheme) .section-lead { color: #444; }
+      body:not(.dark-scheme) .stat-cell { background: #ffffff; }
+      body:not(.dark-scheme) .stat-value { color: #1a1a1a; }
+      body:not(.dark-scheme) .stat-label { color: #666; }
+      body:not(.dark-scheme) .stat-unit { color: #888; }
+      body:not(.dark-scheme) .stats-grid { background: #d9dde2; border-color: #d9dde2; }
+      body:not(.dark-scheme) .works { background: #ffffff; border-color: #d9dde2; }
+      body:not(.dark-scheme) .work-item { border-bottom-color: #eee; }
+      body:not(.dark-scheme) .work-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .work-desc { color: #555; }
+      body:not(.dark-scheme) .work-num { border-right-color: #eee; }
+      body:not(.dark-scheme) .cost { color: #1a1a1a; }
+      body:not(.dark-scheme) .cost td { color: #333; }
+      body:not(.dark-scheme) .cost tbody tr { border-bottom-color: #eee; }
+      body:not(.dark-scheme) .cost tbody tr:hover { background: #f7f5f0; }
+      body:not(.dark-scheme) .cost td.kv-key { background: #faf8f3; }
+      body:not(.dark-scheme) .info-card { background: #ffffff; border-color: #e6e6e6; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+      body:not(.dark-scheme) .info-item-val { color: #1a1a1a; }
+      body:not(.dark-scheme) .info-item-label { color: #666; }
+      body:not(.dark-scheme) .machine-cell { background: #ffffff; }
+      body:not(.dark-scheme) .machine-cell:hover { background: #f7f5f0; }
+      body:not(.dark-scheme) .machine-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .machine-code { color: #777; }
+      body:not(.dark-scheme) .machines-grid { background: #d9dde2; border-color: #d9dde2; }
+      body:not(.dark-scheme) .norm-item { background: #ffffff; color: #333; }
+      body:not(.dark-scheme) .doc-card { background: #ffffff; border-color: #e6e6e6; }
+      body:not(.dark-scheme) .doc-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .doc-detail { color: #777; }
+      body:not(.dark-scheme) .rationale-problem,
+      body:not(.dark-scheme) .rationale-benefit,
+      body:not(.dark-scheme) .goal-box,
+      body:not(.dark-scheme) .budget-display,
+      body:not(.dark-scheme) .conclusion-box,
+      body:not(.dark-scheme) .sign-box { background: #ffffff; border-color: #e6e6e6; }
+      body:not(.dark-scheme) .goal-box { color: #333; }
+      body:not(.dark-scheme) .budget-amount { color: #1a1a1a; }
+      body:not(.dark-scheme) .conclusion-body { color: #555; }
+      body:not(.dark-scheme) .sign-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .results-list li { background: #ffffff; border-color: #e6e6e6; color: #333; }
+      body:not(.dark-scheme) .prob-text, body:not(.dark-scheme) .ben-text { color: #444; }
+      body:not(.dark-scheme) .prob-text strong, body:not(.dark-scheme) .ben-text strong { color: #1a1a1a; }
+      body:not(.dark-scheme) .bar-track { background: #eee; border-color: #ddd; }
+      body:not(.dark-scheme) .bar-label { color: #555; }
+      body:not(.dark-scheme) .bar-amount { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-footer { background: #ffffff; color: #555; border-top-color: #e6e6e6; }
+
+      /* Print */
+      @media print {
+        .page-header { position: static; }
+        .emneleg-hero { padding: 2rem 0; }
+      }
+    </style>
+</head>
+
+<body class="dark-scheme">
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="container">
+    <div class="header-inner">
+      <nav class="page-nav">
+        <a href="#general">Ерөнхий</a>
+        <a href="#building">Барилга</a>
+        <a href="#rationale">Яагаад</a>
+        <a href="#location">Байршил</a>
+        <a href="#population">Хүн ам</a>
+        <a href="#problem">Асуудал</a>
+        <a href="#goal">Зорилго</a>
+        <a href="#budget">Төсөв</a>
+        <a href="#partners">Хамтрагч</a>
+        <a href="#results">Үр дүн</a>
+        <a href="#conclusion">Дүгнэлт</a>
+      </nav>
+      <a href="../../../tusul.html?cat=health" class="back-btn">
+        <span>Буцах</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="emneleg-hero section-dark text-light">
+  <div class="hero-bg-img"></div>
+</section>
+
+<!-- 1. GENERAL INFO -->
+<section id="general" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Ерөнхий мэдээлэл</span>
+    </div>
+
+    <div class="cost-wrap">
+      <table class="cost">
+        <tbody>
+          <tr><td class="kv-key">Төслийн нэр</td><td>Олон Овоо Багт Анхан Шатны Эмнэлэг Барих Төсөл</td></tr>
+          <tr><td class="kv-key">Мэдүүлэг гаргасан огноо</td><td>2026 он</td></tr>
+          <tr><td class="kv-key">Хэрэгжих байршил</td><td>Дорноговь аймаг, Даланжаргалан сум, Олон Овоо баг</td></tr>
+          <tr><td class="kv-key">Нийт төсөв</td><td>2,600,000,000 ₮ (Хоёр тэрбум зургаан зуун сая төгрөг)</td></tr>
+          <tr><td class="kv-key">Шууд хамрагдах хүн ам</td><td>629 хүн (243 өрх) + хөдөлгөөнт хүн ам</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stats-grid" style="margin-top:2rem">
+      <div class="stat-cell accent">
+        <div class="stat-label">Нийт төсөв</div>
+        <div class="stat-value">2,600M</div>
+        <div class="stat-unit">төгрөг</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Шууд хамрагдагч</div>
+        <div class="stat-value">629</div>
+        <div class="stat-unit">иргэн (243 өрх)</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Хэрэгжих он</div>
+        <div class="stat-value">2026</div>
+        <div class="stat-unit">он</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. BUILDING -->
+<section id="building" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Эмнэлгийн барилгын танилцуулга</span>
+    </div>
+    <p class="section-lead">Барилга нь Монгол орны уур амьсгал, газар нутгийн онцлогт тохирсон, орчин үеийн дизайнтай байна. Олон Овоо багийн анхан шатны эмнэлгийн барилгын гадна талын хэлбэр, орчны тохижилт, яаралтай тусламжийн машины зогсоол зэрэг үндсэн элементүүдийг бүрэн агуулна.</p>
+
+    <div class="section-sub">2.1 Барилгын үндсэн онцлогууд</div>
+    <div class="works">
+      <div class="work-item">
+        <div class="work-num">2.1</div>
+        <div class="work-body">
+          <div class="work-name">Барилгын давхар</div>
+          <div class="work-desc">2 давхар (үндсэн блок) + нэмэлт 2 жигүүр</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">2.2</div>
+        <div class="work-body">
+          <div class="work-name">Яаралтай тусламж</div>
+          <div class="work-desc">24 цагийн үйлчилгээтэй</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">2.3</div>
+        <div class="work-body">
+          <div class="work-name">Эмнэлгийн өрөөнүүд</div>
+          <div class="work-desc">Үзлэгийн өрөө, хагалгааны өрөө, эм тариа</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">2.4</div>
+        <div class="work-body">
+          <div class="work-name">Орон сууц</div>
+          <div class="work-desc">Эмч, эмнэлгийн ажилтны орон сууцтай</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">2.5</div>
+        <div class="work-body">
+          <div class="work-name">Дэд бүтэц</div>
+          <div class="work-desc">Цахилгаан, цэвэр ус, халаалттай</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">2.6</div>
+        <div class="work-body">
+          <div class="work-name">Зогсоол</div>
+          <div class="work-desc">Яаралтай тусламжийн машины тусгай зогсоол</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. RATIONALE -->
+<section id="rationale" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Яагаад энэ төслийг дэмжих вэ?</span>
+    </div>
+    <p class="section-lead">Олон Овоо баг нь Монгол орны хамгийн стратегийн ач холбогдолтой зангилааны нэг бөгөөд анхан шатны эрүүл мэндийн тусламжийн хүртээмжийг нэмэгдүүлэх нь тулгамдсан асуудал юм. Энэ төсөл нь зөвхөн барилга биш — иргэдийн эрүүл мэндийн эрхийг хамгаалах, бүс нутгийн хөгжлийг дэмжих бодит хөрөнгө оруулалт.</p>
+
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-label">Шууд хамрагдагч иргэд</div>
+        <div class="stat-value">629</div>
+        <div class="stat-unit">хүн</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Зам тээврийн осол</div>
+        <div class="stat-value">36%</div>
+        <div class="stat-unit">осол гэмтлийн</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Аймгийн төвөөс зай</div>
+        <div class="stat-value">156</div>
+        <div class="stat-unit">км</div>
+      </div>
+      <div class="stat-cell accent">
+        <div class="stat-label">Ажиллаж буй компани</div>
+        <div class="stat-value">14+</div>
+        <div class="stat-unit">аж ахуйн нэгж</div>
+      </div>
+    </div>
+
+    <div class="rationale-grid">
+      <div class="rationale-benefit">
+        <div class="rblock-label">Эрүүл мэндийн хүртээмж</div>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Аймгийн эмнэлэгт хүрэхэд <strong>156 км</strong> туулах шаардлагатай байдаг нь яаралтай тусламжийн хугацааг алдуулдаг. Олон Овоо багт шинэ эмнэлэг нэмэгдвэл цаг алдахгүй тусламж үзүүлэх боломж бүрдэнэ.</div>
+          </div>
+        </div>
+      </div>
+      <div class="rationale-benefit">
+        <div class="rblock-label">Эдийн засгийн өсөлт</div>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text"><strong>14 компани</strong>, аялал жуулчлал, уул уурхайн хөгжилтэй хослуулан эмнэлэг нь тус бүс нутгийн ажиллах хүчний сонирхлыг нэмэгдүүлж, бизнесийн орчныг сайжруулна.</div>
+          </div>
+        </div>
+      </div>
+      <div class="rationale-benefit" style="grid-column: 1 / -1">
+        <div class="rblock-label">Бүс нутгийн хөгжил</div>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text"><strong>Ази-Европыг холбосон</strong> стратегийн зангилаа болох Олон Овоо багт эрүүл мэндийн дэд бүтэц бий болох нь урт хугацааны хөгжлийн тулгуур болно.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. LOCATION -->
+<section id="location" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Байршлын тодорхойлолт</span>
+    </div>
+
+    <div class="section-sub">4.1 Даланжаргалан сум</div>
+    <p class="section-lead">Даланжаргалан сум нь 404,500 га газар нутагтай, нийслэл Улаанбаатараас 300 км, аймгийн төв Сайншандаас 156 км-т оршдог. Нутгийн баруун болон хойд талаараа Дундговь, Говьсүмбэр, Хэнтий аймгуудтай хиллэж, Ази-Европ тивийг холбосон авто болон төмөр зам дайран өнгөрдөг стратегийн байршил юм.</p>
+
+    <div class="section-sub">4.2 Олон Овоо баг — Стратегийн зангилаа</div>
+    <div class="cost-wrap">
+      <table class="cost">
+        <tbody>
+          <tr><td class="kv-key">Сумын төвөөс зай</td><td>12 км хойш</td></tr>
+          <tr><td class="kv-key">Улаанбаатараас зай</td><td>300 км</td></tr>
+          <tr><td class="kv-key">Аймгийн төвөөс зай</td><td>156 км</td></tr>
+          <tr><td class="kv-key">Төмөр зам</td><td>Улаанбаатар—Бээжин гол чиглэл дайрдаг</td></tr>
+          <tr><td class="kv-key">Байгалийн нөөц газар</td><td>Их Нартын хад байгалийн нөөцөөс 15 км</td></tr>
+          <tr><td class="kv-key">Аялал жуулчлал (2024)</td><td>Гадаадын 200+, дотоодын 600+ аялагч</td></tr>
+          <tr><td class="kv-key">Ажиллаж буй компани</td><td>14 аж ахуйн нэгж (МАК цемент, Штайнколе г.м.)</td></tr>
+          <tr><td class="kv-key">Дэд бүтэц</td><td>Цахилгаан, интернет, банкны үйлчилгээ бүрэн</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 5. POPULATION -->
+<section id="population" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Хүн амын мэдээлэл (2024 он)</span>
+    </div>
+
+    <div class="docs-grid">
+      <div class="doc-card">
+        <div class="doc-name">243</div>
+        <div class="doc-detail">Нийт өрхийн тоо</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-name">629</div>
+        <div class="doc-detail">Нийт хүн ам</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-name">305</div>
+        <div class="doc-detail">Эрэгтэй</div>
+        <div class="doc-sub">48.5%</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-name">324</div>
+        <div class="doc-detail">Эмэгтэй</div>
+        <div class="doc-sub">51.5%</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-name">69</div>
+        <div class="doc-detail">0–15 насны хүүхэд</div>
+        <div class="doc-sub">11.0%</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-name">371</div>
+        <div class="doc-detail">16–59 насны насанд хүрэгч</div>
+        <div class="doc-sub">59.0%</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-name">51</div>
+        <div class="doc-detail">60+ насны ахмадууд</div>
+        <div class="doc-sub">8.1%</div>
+      </div>
+    </div>
+
+    <!-- BAR CHART: population distribution -->
+    <div style="margin-top:2.5rem">
+      <p style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#29ABE2;margin-bottom:1.25rem;font-weight:600">Хүн амын бүтэц — нийт 629 иргэн</p>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">16–59 насны</div>
+          <div class="bar-track"><div class="bar-fill" style="width:59%">371 хүн</div></div>
+          <div class="bar-amount">59.0%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Эмэгтэй</div>
+          <div class="bar-track"><div class="bar-fill" style="width:51.5%">324 хүн</div></div>
+          <div class="bar-amount">51.5%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Эрэгтэй</div>
+          <div class="bar-track"><div class="bar-fill" style="width:48.5%">305 хүн</div></div>
+          <div class="bar-amount">48.5%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">0–15 насны хүүхэд</div>
+          <div class="bar-track"><div class="bar-fill" style="width:11%">69 хүн</div></div>
+          <div class="bar-amount">11.0%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">60+ ахмадууд</div>
+          <div class="bar-track"><div class="bar-fill" style="width:8.1%">51 хүн</div></div>
+          <div class="bar-amount">8.1%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="goal-box" style="margin-top:2rem">
+      <div style="font-size:11px;font-weight:700;color:#29ABE2;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.75rem">Хүн амын онцлог</div>
+      Зам тээвэр, уул уурхай, аялал жуулчлалтай холбоотой хөдөлгөөнт хүн ам өндөр бөгөөд энэ нь эрүүл мэндийн тусламжийн эрэлтийг улам нэмэгдүүлдэг.
+    </div>
+  </div>
+</section>
+
+<!-- 6. PROBLEM -->
+<section id="problem" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Асуудлын тодорхойлолт</span>
+    </div>
+
+    <div class="section-sub">6.1 Эрүүл мэндийн тусламжийн хүртээмж хязгаарлагдмал байдал</div>
+    <p class="section-lead">Олон Овоо баг нь сумын эрүүл мэндийн төвөөс 12 км, аймгийн төвөөс 156 км-т оршдог тул яаралтай тусламжийн хүртээмж хязгаарлагдмал байдаг. Уул уурхай, зам тээврийн эрчимтэй үйл ажиллагаа нь байнгын эрсдэлийн орчин бүрдүүлдэг. Аймгийн эмнэлэгт хүрэхэд дунджаар 30–45 минут зарцуулдаг нь яаралтай тусламжийн "алтан цаг"-ийг алдуулдаг.</p>
+
+    <div class="section-sub">6.2 Зам тээврийн осол гэмтлийн статистик (2023–2025)</div>
+    <div class="cost-wrap">
+      <table class="cost">
+        <tbody>
+          <tr><td class="kv-key">Нийт бүртгэгдсэн осол гэмтэл</td><td class="kv-val">338 тохиолдол</td></tr>
+          <tr class="hl"><td class="kv-key">Зам тээврийн осол</td><td class="kv-val">123 тохиолдол (36.4%)</td></tr>
+          <tr><td class="kv-key">Байршлын ангилал</td><td class="kv-val">Үндэсний "Хар цэг" бүртгэлд орсон</td></tr>
+          <tr><td class="kv-key">Хамгийн том эрсдэл</td><td class="kv-val">Цаг алдсанаас болж яаралтай тусламж хожимдох</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 7. GOAL -->
+<section id="goal" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Төслийн зорилго</span>
+    </div>
+
+    <div class="section-sub">7.1 Ерөнхий зорилго</div>
+    <div class="goal-box">
+      Эрүүл мэндийн тэргүүлэх чиглэл болох эмнэлгийн тусламж үйлчилгээ, яаралтай тусламжийг цаг алдалгүй хүргэж, олон нийтэд эрүүл амьдралын хэв маягийг сурталчлан, иргэдэд эрүүл мэндийн боловсрол олгох, өвчлөл эмгэгийг бууруулж, хөдөөгийн хүн амд чирэгдэлгүй тусламжийг түргэн шуурхай үзүүлэх.
+    </div>
+
+    <div class="section-sub">7.2 Тусгай зорилтууд</div>
+    <div class="norms-list">
+      <div class="norm-item"><span class="norm-n">1</span>Олон Овоо багт анхан шатны эрүүл мэндийн тусламж үйлчилгээний барилга барих</div>
+      <div class="norm-item"><span class="norm-n">2</span>Зам тээвэр, уул уурхайтай холбоотой осол гэмтлийн яаралтай тусламжийг газар дээр нь үзүүлэх</div>
+      <div class="norm-item"><span class="norm-n">3</span>Байнгын ажиллагаатай эрүүл мэндийн мэргэжилтнүүдтэй тус бүс нутгийг хангах</div>
+      <div class="norm-item"><span class="norm-n">4</span>Нийгмийн эрүүл мэндийн боловсролын үйл ажиллагааг тогтмолжуулах</div>
+      <div class="norm-item"><span class="norm-n">5</span>Хүн амын эрүүл мэндийн мэдээллийг нэгдсэн байдлаар бүртгэх системийг бий болгох</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. BUDGET -->
+<section id="budget" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">Санхүүжилт ба төсөв</span>
+    </div>
+    <div class="budget-display">
+      <div class="budget-label">Нийт төсөв</div>
+      <div class="budget-amount">2,600,000,000 ₮</div>
+      <div class="budget-words">Хоёр тэрбум зургаан зуун сая төгрөг</div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. PARTNERS -->
+<section id="partners" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-title">Хамтран ажиллах байгууллагууд</span>
+    </div>
+    <div class="machines-grid">
+      <div class="machine-cell">
+        <div><div class="machine-name">Дорноговь аймгийн ЗДТГ</div><div class="machine-code">Засаг Даргын Тамгын газар</div></div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Дорноговь Эрүүл мэндийн газар</div><div class="machine-code">Аймгийн</div></div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Даланжаргалан сумын ЗДТГ</div><div class="machine-code">Засаг Даргын Тамгын газар</div></div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Даланжаргалан Эрүүл мэндийн төв</div><div class="machine-code">Сумын</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. RESULTS -->
+<section id="results" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <span class="section-title">Хүлээгдэж буй үр дүн</span>
+    </div>
+    <ul class="results-list">
+      <li><div class="res-num">1</div>Алслагдсан бүс нутгийн хүн амд үзүүлэх эмнэлгийн тусламж үйлчилгээний чанар, хүртээмж нэмэгдэнэ.</li>
+      <li><div class="res-num">2</div>Зам тээвэр, уул уурхайтай холбоотой осол гэмтлийн яаралтай тусламжийг цаг алдалгүй үзүүлснээр нас баралтыг бууруулна.</li>
+      <li><div class="res-num">3</div>Олон Овоо багт ажиллаж, амьдарч байгаа иргэдэд төрийн үйлчилгээг ойртуулж, иргэдийн сэтгэл ханамж сайжирна.</li>
+      <li><div class="res-num">4</div>Нийгмийн эрүүл мэндийн тусламж үйлчилгээний хүртээмж нэмэгдэж, хүн амын дундаж наслалт нэмэгдэнэ.</li>
+      <li><div class="res-num">5</div>Шинэ ажлын байр бий болж (эмч, сувилагч, туслах ажилтан), иргэдийн амьдралын чанарт эерэг өөрчлөлт гарна.</li>
+      <li><div class="res-num">6</div>Аялал жуулчлал болон уул уурхайн компаниудад ажиллаж буй гадаадын мэргэжилтнүүдэд ч эрүүл мэндийн үйлчилгээ хүрэх болно.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 11. CONCLUSION -->
+<section id="conclusion" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <span class="section-title">Дүгнэлт ба уриалга</span>
+    </div>
+    <div class="conclusion-box">
+      <div class="conclusion-quote">"Эрүүл мэндийн тусламжийн чанар, хүртээмжийг нэмэгдүүлэх — иргэдийн аюулгүй байдлыг хамгаалах хамгийн бодит хөрөнгө оруулалт."</div>
+      <p class="conclusion-body">Та энэхүү төслийг дэмжснээр Дорноговь аймгийн 629 иргэний эрүүл мэндийн эрхийг хамгаалахад хувь нэмрээ оруулна. Хөрөнгө оруулалт нь олон нийтийн итгэл, бизнесийн орчны сайжрал, ажлын байрны нэмэгдэл зэрэг олон давуу талыг бий болгоно.</p>
+      <div class="cta-buttons">
+        <button class="btn-primary">Дэмжлэг илэрхийлэх</button>
+        <button class="btn-secondary">Дэлгэрэнгүй мэдээлэл авах</button>
+      </div>
+    </div>
+
+    <!-- SIGNATURES -->
+    <div class="sign-row" style="margin-top:2rem">
+      <div class="sign-box">
+        <div class="sign-role">Мэдүүлэг гаргасан</div>
+        <div class="sign-name">Даланжаргалан сумын Засаг дарга</div>
+        <div class="sign-line"></div>
+        <div class="sign-footer">
+          <span>Гарын үсэг: _______________</span>
+          <span>Огноо: ____/____/2026</span>
+        </div>
+      </div>
+      <div class="sign-box">
+        <div class="sign-role">Баталгаажуулсан</div>
+        <div class="sign-name">Дорноговь аймгийн Засаг дарга</div>
+        <div class="sign-line"></div>
+        <div class="sign-footer">
+          <span>Гарын үсэг: _______________</span>
+          <span>Огноо: ____/____/2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="em-footer text-light">
+  <div class="container">
+    <div class="footer-logo">Олон Овоо Багийн Эмнэлэг</div>
+    <div class="footer-quote">"Эрүүл мэндийн тусламж — хамгийн бодит хөрөнгө оруулалт"</div>
+    <div class="footer-div"></div>
+    <div class="footer-meta">Дорноговь аймаг · Даланжаргалан сум · Олон Овоо баг · DSIF 2026</div>
+  </div>
+</footer>
+
+<!-- Javascript Files
+================================================== -->
+<script src="../../../js/vendors.js"></script>
+<script src="../../../js/designesia.js"></script>
+
+</body>
+</html>
