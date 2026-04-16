@@ -526,9 +526,35 @@
             <div class="container">
                 <div class="row  gx-5 align-items-center justify-content-between">
                     <div class="col-lg-5">
-                        <div class="wow scaleIn" style="height:100%;min-height:320px;">
-                            <img src="images/misc/c1.webp" class="w-100 h-100" style="object-fit:cover;object-position:center;border-radius:6px;" alt="">
+                        <div class="wow scaleIn" id="about-slider" style="position:relative;height:100%;min-height:320px;border-radius:6px;overflow:hidden;">
+                            <img src="images/misc/c1.webp" class="about-slide active-slide" alt="">
+                            <img src="images/misc/c2.webp" class="about-slide" alt="">
+                            <img src="images/misc/c3.webp" class="about-slide" alt="">
                         </div>
+                        <style>
+                          .about-slide {
+                            position: absolute;
+                            inset: 0;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            object-position: center;
+                            opacity: 0;
+                            transition: opacity 1s ease-in-out;
+                          }
+                          .about-slide.active-slide { opacity: 1; }
+                        </style>
+                        <script>
+                          (function(){
+                            var slides = document.querySelectorAll('.about-slide');
+                            var cur = 0;
+                            setInterval(function(){
+                              slides[cur].classList.remove('active-slide');
+                              cur = (cur + 1) % slides.length;
+                              slides[cur].classList.add('active-slide');
+                            }, 3500);
+                          })();
+                        </script>
                     </div>
 
                     <div class="col-lg-6">
