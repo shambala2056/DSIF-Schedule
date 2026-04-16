@@ -112,6 +112,26 @@
         letter-spacing: 0.1em;
         text-transform: uppercase;
       }
+      #theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 18px;
+        line-height: 1;
+        transition: background 0.3s;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+      #theme-toggle:hover { background: rgba(255,255,255,0.3); }
+      body:not(.dark-scheme) #theme-toggle { background: rgba(0,0,0,0.1); color: #333; }
+      body:not(.dark-scheme) #theme-toggle:hover { background: rgba(0,0,0,0.2); }
       .page-nav {
         display: flex;
         align-items: center;
@@ -763,12 +783,30 @@
         <a href="#norms">Норм</a>
         <a href="#docs">Баримт</a>
       </nav>
+      <button id="theme-toggle" title="Toggle dark/light mode">&#9788;</button>
       <a href="../../../tusul.html?cat=health" class="back-btn">
         <span>Буцах</span>
       </a>
     </div>
   </div>
 </header>
+
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  function applyTheme(dark){
+    if(dark){document.body.classList.add('dark-scheme');btn.innerHTML='&#9788;';btn.title='Light mode руу солих';}
+    else{document.body.classList.remove('dark-scheme');btn.innerHTML='&#9790;';btn.title='Dark mode руу солих';}
+  }
+  var saved=localStorage.getItem('dsif-theme');
+  applyTheme(saved!=='light');
+  btn.addEventListener('click',function(){
+    var isDark=document.body.classList.contains('dark-scheme');
+    localStorage.setItem('dsif-theme',isDark?'light':'dark');
+    applyTheme(!isDark);
+  });
+})();
+</script>
 
 <!-- HERO -->
 <section class="emneleg-hero section-dark text-light">
