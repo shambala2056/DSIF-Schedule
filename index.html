@@ -1,1031 +1,1471 @@
 <!DOCTYPE html>
-<html lang="mn">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>НОГООН ХӨГЖИЛ — ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ ФОРУМ 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>AIvent - AI Event, Conference and Meetup Website Template</title>
+    <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
+    <meta content="AIvent" name="description" >
+    <meta content="" name="keywords" >
+    <meta content="" name="author" >
+    <!-- CSS Files
+    ================================================== -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
+    <link href="css/vendors.css" rel="stylesheet" type="text/css" >
+    <link href="css/style.css" rel="stylesheet" type="text/css" >
+    <!-- color scheme -->
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
+    <style>
+      /* Brand accent (yellow) overrides */
+      :root { --accent-color:#FFC107; --mainmenu-font-weight:400; }
+      .btn-main { background: var(--primary-color) !important; }
+      .btn-main:hover { background: var(--secondary-color) !important; }
+      h1 em, h2 em, h3 em { color: var(--accent-color); font-style: normal; }
+      .id-color-accent { color: var(--accent-color); }
+      /* gradient-edge-top.color → #4bac48 */
+      .gradient-edge-top.color {
+        background: linear-gradient(180deg, rgba(75,172,72,1) 0%, rgba(75,172,72,0) 100%) !important;
+      }
+      /* gradient-edge-bottom.color → #57ab48 */
+      .gradient-edge-bottom.color {
+        background: linear-gradient(0deg, rgba(87,171,72,1) 0%, rgba(87,171,72,0) 100%) !important;
+      }
+      /* hero section buttons */
+      .btn-hero { background: #4bac48 !important; }
+      .btn-hero:hover, .btn-hero:focus { background: #45abe1 !important; }
+      /* theme toggle button */
+      #theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 18px;
+        line-height: 1;
+        transition: background 0.3s;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      #theme-toggle:hover { background: rgba(255,255,255,0.3); }
+      body:not(.dark-scheme) #theme-toggle { background: rgba(0,0,0,0.1); color: #333; }
+      body:not(.dark-scheme) #theme-toggle:hover { background: rgba(0,0,0,0.2); }
+    </style>
 
-<!-- Firebase SDK -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
-  authDomain: "dsif-shedule.firebaseapp.com",
-  projectId: "dsif-shedule",
-  storageBucket: "dsif-shedule.firebasestorage.app",
-  messagingSenderId: "973476131387",
-  appId: "1:973476131387:web:b045fde8fe7f363b3b621e"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-window._dsifSaveRegistration = async function(data) {
-  const regNum = 'DSIF-2026-' + (Math.floor(Math.random() * 9000) + 1000);
-  const docName = (data.lastname + ' ' + data.firstname).trim() || regNum;
-  await setDoc(doc(db, "registrations", docName), { ...data, regNumber: regNum, registeredAt: serverTimestamp() });
-  return regNum;
-};
-</script>
-
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;color:#1a1a1a;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-
-:root{
-  --green:#00b352;--green-dark:#009944;--green-light:#00d964;
-  --bg:#ffffff;--bg-card:#f4f4f4;--bg-hover:#00b352;
-  --border:rgba(0,0,0,.08);--text:#1a1a1a;--text-dim:rgba(0,0,0,.45);
-}
-
-/* ── HERO ── */
-.hero{position:relative;min-height:55vh;display:flex;flex-direction:column;justify-content:flex-start;padding:80px 0 0}
-.hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.15) 30%,transparent 50%,rgba(0,179,82,.1) 70%,rgba(0,179,82,.3) 85%,rgba(255,255,255,.7) 95%,#ffffff 100%)}
-.hero-content{position:relative;z-index:1;padding:0 60px;width:100%;display:flex;flex-direction:column;flex:1}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid rgba(0,179,82,.3);background:rgba(0,179,82,.08);margin-bottom:24px}
-.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero-tag-text{font-size:.75rem;font-weight:600;letter-spacing:3px;color:var(--green);text-transform:uppercase}
-.hero-logo{height:auto;width:min(380px,65%);margin-top:auto;margin-bottom:20px;display:block}
-.hero-title{font-size:clamp(2.8rem,6vw,5.5rem);font-weight:800;line-height:.95;letter-spacing:-2px;margin-bottom:16px;text-transform:uppercase}
-.hero-title .accent{color:var(--green)}
-.hero-meta{display:flex;align-items:center;gap:28px;padding-bottom:28px;flex-wrap:wrap;justify-content:flex-start;width:100%}
-.hero-meta-item{display:flex;align-items:center;gap:10px}
-.hero-meta-icon{width:38px;height:38px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
-.hero-meta-icon svg{width:16px;height:16px;stroke:var(--green);fill:none;stroke-width:1.5}
-.hero-meta-label{font-size:.65rem;letter-spacing:2px;color:rgba(255,255,255,.7);text-transform:uppercase}
-.hero-meta-value{font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.5px}
-
-/* ── NAV BAR (inside hero top) ── */
-.topbar{position:absolute;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px}
-.topbar-logo{height:28px;filter:brightness(0) invert(1);opacity:.7}
-.topbar-btn{padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none}
-.topbar-btn:hover{background:var(--green);border-color:var(--green);color:#fff}
-
-/* ── TICKER ── */
-.ticker{position:relative;width:100%;height:52px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:#fff;display:flex;align-items:center;overflow:hidden;z-index:10}
-.ticker-badge{flex-shrink:0;height:100%;padding:0 24px 0 60px;display:flex;align-items:center;border-right:1px solid var(--border);font-size:.7rem;font-weight:700;letter-spacing:3px;color:var(--green);background:rgba(0,179,82,.04);white-space:nowrap;gap:10px}
-.ticker-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-.ticker-track{flex:1;overflow:hidden}
-.ticker-inner{display:inline-flex;gap:0;white-space:nowrap;font-size:.72rem;font-weight:500;letter-spacing:.5px;color:var(--text-dim)}
-.ticker-item{display:inline-flex;align-items:center;padding:0 32px;border-right:1px solid var(--border);gap:12px}
-.ticker-item:hover{color:#1a1a1a}
-
-/* ── SECTION ── */
-.section{padding:72px 60px;max-width:1400px;margin:0 auto}
-.section-label{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:600;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px}
-.section-label::before{content:'';width:40px;height:1px;background:var(--green)}
-.section-title{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;letter-spacing:-1px;margin-bottom:36px;text-transform:uppercase;line-height:1.1}
-
-/* ── DAY TABS ── */
-.day-switcher{display:flex;gap:2px;margin-bottom:36px;background:var(--bg-card);padding:4px;width:fit-content}
-.day-btn{padding:14px 36px;font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;color:var(--text-dim);background:transparent;border:none;cursor:pointer;transition:all .25s;text-transform:uppercase}
-.day-btn.active{background:var(--green);color:#fff}
-.day-btn:hover:not(.active){color:#1a1a1a;background:rgba(0,0,0,.06)}
-
-/* ── SCHEDULE CARDS ── */
-.sched-grid{display:flex;flex-direction:column;gap:2px}
-.sched-block{margin-bottom:20px}
-.sched-block-title{font-size:.6rem;font-weight:700;letter-spacing:4px;color:#1a1a1a;text-transform:uppercase;padding:14px 0;border-bottom:1px solid rgba(0,179,82,.25);margin-bottom:2px;display:flex;align-items:center;gap:12px}
-.sched-block-title::before{content:'';width:8px;height:8px;background:#1a1a1a}
-.sched-row{display:grid;grid-template-columns:160px 1fr;background:var(--bg-card);border-bottom:1px solid var(--border);transition:all .2s;cursor:default}
-.sched-row:hover{background:#00b352}
-.sched-row:hover .sched-name{color:#fff}
-.sched-row:hover .sched-time{color:#fff;border-right-color:rgba(255,255,255,.2)}
-.sched-row.is-break{background:rgba(0,179,82,.06);border-left:2px solid var(--green)}
-.sched-row.is-break:hover{background:#00b352;border-left-color:#00b352}
-.sched-time{padding:16px 24px;display:flex;align-items:center;font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:600;color:var(--green);letter-spacing:1px;border-right:1px solid var(--border)}
-.sched-info{padding:16px 28px;display:flex;align-items:center}
-.sched-name{font-size:.82rem;font-weight:300;color:var(--text);letter-spacing:.3px;line-height:1.5;text-transform:uppercase}
-
-/* ── CTA ── */
-.cta-section{position:relative;padding:80px 60px;text-align:center;overflow:hidden}
-.cta-bg{position:absolute;inset:0;z-index:0}
-.cta-bg img{width:100%;height:100%;object-fit:cover}
-.cta-bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,rgba(0,179,82,.16) 5%,rgba(0,100,46,.12) 10%,rgba(0,50,25,.1) 16%,rgba(0,0,0,.22) 26%,rgba(0,0,0,.28) 50%,rgba(0,0,0,.22) 74%,rgba(0,50,25,.1) 84%,rgba(0,100,46,.12) 90%,rgba(0,179,82,.16) 95%,#ffffff 100%)}
-.cta-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
-.cta-badge{display:inline-block;padding:8px 24px;border:1px solid rgba(0,179,82,.35);font-size:.6rem;font-weight:700;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:24px}
-.cta-h{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:.95;letter-spacing:-2px;text-transform:uppercase;margin-bottom:16px;color:#fff}
-.cta-h em{font-style:normal;color:var(--green)}
-.cta-p{font-size:.8rem;font-weight:400;color:rgba(255,255,255,.75);line-height:1.9;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto;text-transform:none}
-.cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-g{padding:16px 48px;background:var(--green);color:#fff;font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all .25s;text-decoration:none}
-.btn-g:hover{background:var(--green-light);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,179,82,.25)}
-.btn-o{padding:16px 48px;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .25s;text-decoration:none}
-.btn-o:hover{border-color:rgba(255,255,255,.4);color:#fff;transform:translateY(-2px)}
-
-/* ── FOOTER ── */
-.footer-wrap{position:relative;background:var(--green);border-top:none}
-.site-footer{padding:48px 60px 28px;max-width:1400px;margin:0 auto;position:relative;z-index:1}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;margin-bottom:36px}
-.footer-brand-logo{height:36px;margin-bottom:16px;display:block}
-.footer-brand-text{font-size:.78rem;font-weight:300;color:rgba(255,255,255,.8);line-height:1.9;max-width:340px;text-transform:none}
-.footer-heading{font-size:.6rem;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase;margin-bottom:16px}
-.footer-list{list-style:none}
-.footer-list li{margin-bottom:8px}
-.footer-list a{font-size:.75rem;font-weight:400;color:rgba(255,255,255,.8);text-decoration:none;transition:color .2s;text-transform:uppercase;letter-spacing:.5px}
-.footer-list a:hover{color:#fff}
-.footer-bar{padding-top:24px;border-top:1px solid rgba(255,255,255,.2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.footer-copy{font-size:.65rem;color:rgba(255,255,255,.6);letter-spacing:.5px;text-transform:uppercase}
-.footer-tags{display:flex;gap:6px}
-.footer-tags span{padding:4px 12px;border:1px solid rgba(255,255,255,.3);font-size:.55rem;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.6);text-transform:uppercase}
-
-/* ── PDF BUTTON ── */
-.sched-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:36px;flex-wrap:wrap}
-.sched-header .day-switcher{margin-bottom:0}
-.pdf-btn{display:flex;align-items:center;gap:8px;padding:14px 24px;font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;color:rgba(0,0,0,.45);background:transparent;border:1px solid rgba(0,0,0,.12);cursor:pointer;transition:all .25s;text-transform:uppercase;white-space:nowrap}
-.pdf-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
-.pdf-btn:hover{border-color:var(--green);color:var(--green)}
-
-.print-title,.print-date{display:none}
-
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  .hero{min-height:60vh}
-  .hero-bg img{object-position:70% 25%}
-  .hero-content,.topbar,.section,.site-footer{padding-left:24px;padding-right:24px}
-  .topbar{padding:16px 24px}
-  .cta-section{padding:64px 24px}
-  .footer-top{grid-template-columns:1fr 1fr;gap:28px}
-  .hero-meta{gap:16px}
-  .sched-row{grid-template-columns:120px 1fr}
-}
-@media(max-width:640px){
-  .hero{padding:60px 0 40px}
-  .hero-content{padding-left:16px;padding-right:16px;display:flex;flex-direction:column;flex:1}
-  .hero-title{font-size:2.2rem;letter-spacing:-1px}
-  .hero-meta{margin-top:auto}
-  .topbar{padding:12px 16px}
-  .section{padding:48px 16px}
-  .day-switcher{width:100%}
-  .day-btn{flex:1;padding:10px 14px;font-size:.58rem}
-  .sched-row{grid-template-columns:1fr;gap:0}
-  .sched-time{border-right:none;border-bottom:1px solid var(--border);padding:10px 16px}
-  .sched-info{padding:10px 16px}
-  .cta-section{padding:48px 16px}
-  .site-footer{padding:32px 16px 20px}
-  .footer-top{grid-template-columns:1fr;gap:20px}
-  .hero-meta{flex-direction:column;align-items:flex-start;gap:10px}
-  .ticker{height:32px}
-  .ticker-badge{padding:0 12px 0 16px;font-size:.45rem;letter-spacing:2px;gap:6px}
-  .ticker-dot{width:4px;height:4px}
-  .ticker-inner{font-size:.45rem}
-  .ticker-item{padding:0 16px;gap:6px}
-}
-
-/* ── MODAL ── */
-.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.7);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
-.modal-overlay.open{opacity:1;pointer-events:all}
-.modal-box{width:100%;max-width:520px;background:#111;border:1px solid rgba(255,255,255,.08);max-height:90vh;display:flex;flex-direction:column;box-shadow:0 40px 100px rgba(0,0,0,.5)}
-.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border)}
-.modal-head-title{font-size:.78rem;font-weight:700;letter-spacing:2px;color:#fff;text-transform:uppercase}
-.modal-close{width:32px;height:32px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:#666;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.modal-close:hover{background:rgba(255,255,255,.1);color:#fff}
-.modal-body{padding:24px;overflow-y:auto;flex:1}
-.form-group{margin-bottom:16px}
-.form-label{display:block;font-size:.55rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.5);margin-bottom:6px;text-transform:uppercase}
-.form-input{width:100%;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.5px;outline:none;transition:all .2s}
-.form-input:focus{border-color:var(--green);background:rgba(0,179,82,.04)}
-.form-input::placeholder{color:rgba(255,255,255,.2);font-weight:400}
-.form-input option{background:#111;color:#fff}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-check{display:flex;align-items:flex-start;gap:8px;font-size:.65rem;color:var(--text-dim);line-height:1.5;margin-top:8px;text-transform:none}
-.form-check input{margin-top:2px;accent-color:var(--green)}
-.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
-.modal-btn-submit{padding:12px 36px;background:var(--green);color:#fff;font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s}
-.modal-btn-submit:hover{background:var(--green-light)}
-#reg-success{display:none;padding:40px 24px;text-align:center}
-.success-icon{width:56px;height:56px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--green);margin:0 auto 16px}
-@media(max-width:540px){.form-row{grid-template-columns:1fr}.modal-box{max-height:96vh}}
-/* ── PDF COVER ── */
-/* windowWidth:800 → 1px=0.2375mm, A4 content(273mm)=1150px */
-.pdf-cover{display:none;flex-direction:column;width:100%;height:1150px;background-color:#0a0a0a;background-image:url('hero-bg.jpg');background-size:cover;background-position:center center;background-repeat:no-repeat;page-break-after:always;break-after:always;padding:48px 40px 40px;position:relative;overflow:hidden;box-sizing:border-box}
-.pdf-cover-bg-overlay{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,transparent 0%,transparent 55%,rgba(0,179,82,.12) 68%,rgba(0,179,82,.55) 85%,rgba(0,140,65,.82) 100%)}
-.pdf-cover-logo{position:absolute;top:500px;left:84px;width:632px;height:auto;display:block;z-index:1}
-.pdf-cover-body{position:absolute;top:660px;left:84px;width:632px;z-index:1;padding-bottom:8px}
-.pdf-cover-title{font-size:4.5rem;font-weight:800;line-height:.9;letter-spacing:0;color:#fff;text-transform:uppercase;margin-bottom:24px;width:100%}
-.pdf-cover-title .accent{color:#00b352}
-.pdf-cover-sub{font-size:.9rem;color:rgba(255,255,255,.6);letter-spacing:3px;text-transform:uppercase}
-/* ── PDF MODE ── */
-.pdf-mode{background:#fff!important;padding:0!important;max-width:100%!important}
-.pdf-mode .section-label,.pdf-mode .section-title{display:none!important}
-.pdf-day-header{display:none;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:2px solid #00b352;margin-bottom:10px}
-.pdf-day-header-title{font-size:.8rem;font-weight:800;letter-spacing:3px;color:#111;text-transform:uppercase}
-.pdf-day-header-meta{text-align:right}
-.pdf-day-header-date{font-size:.78rem;font-weight:700;color:#00b352;letter-spacing:2px}
-.pdf-day-header-day{font-size:.55rem;font-weight:600;color:#888;letter-spacing:2px;text-transform:uppercase}
-.pdf-mode .pdf-day-header{display:flex}
-#sched-all-days{display:contents}
-.pdf-mode #sched-all-days{display:block;padding:14px 28px 0}
-.pdf-mode #sched-day2,.pdf-mode #sched-day3{margin-top:18px}
-.pdf-mode .sched-block{margin-bottom:10px}
-.pdf-mode .sched-block-title{page-break-after:avoid;break-after:avoid;color:#00b352!important;border-bottom-color:#00b352!important;background:none!important}
-.pdf-mode .sched-block-title::before{background:#00b352!important}
-.pdf-mode .sched-row{background:#fff!important;border-bottom-color:#e8e8e8!important;page-break-inside:avoid;break-inside:avoid}
-.pdf-mode .sched-row.is-break{background:#f2fbf5!important;border-left-color:#00b352!important}
-.pdf-mode .sched-time{color:#00b352!important;border-right-color:#e8e8e8!important}
-.pdf-mode .sched-name{color:#1a1a1a!important}
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
-<body>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg">
-    <img src="sens.jpg" alt="">
-    <div class="hero-gradient"></div>
-  </div>
+<body class="dark-scheme">
 
-  <div class="topbar">
-    <div></div>
-    <!-- <a href="javascript:void(0)" class="topbar-btn open-reg">БҮРТГҮҮЛЭХ</a> -->
-  </div>
+    <div id="wrapper">
 
-  <div class="hero-content">
+        <div class="float-text show-on-scroll">
+            <span><a href="#">Scroll to top</a></span>
+        </div>
+        <div class="scrollbar-v show-on-scroll"></div>
 
-    <img src="dsif-logo.png" alt="DSIF 2026" class="hero-logo">
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <div class="hero-meta-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-        <div>
-          <div class="hero-meta-label">ОГНОО</div>
-          <div class="hero-meta-value">2026.04.26 — 27</div>
-        </div>
-      </div>
-      <div class="hero-meta-item">
-        <div class="hero-meta-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <div>
-          <div class="hero-meta-label">БАЙРШИЛ</div>
-          <div class="hero-meta-value">САЙНШАНД, ДОРНОГОВЬ</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        <!-- page preloader begin -->
+        <div id="de-loader"></div>
+        <!-- page preloader close -->
 
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-badge"><span class="ticker-dot"></span>МЭДЭЭЛЭЛ</div>
-  <div class="ticker-track" id="ticker-track">
-    <div class="ticker-inner" id="ticker-inner"></div>
-  </div>
-</div>
+        <header class="transparent">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="de-flex">
+                            <div class="de-flex-col">
+                                <!-- logo begin -->
+                                <div id="logo">
+                                    <a href="index.html">
+                                        <img class="logo-main" src="images/logo.webp" alt="" >
+                                        <img class="logo-scroll" src="images/logo.webp" alt="" >
+                                        <img class="logo-mobile" src="images/logo.webp" alt="" >
+                                    </a>
+                                </div>
+                                <!-- logo close -->
+                            </div>
 
-<!-- SCHEDULE -->
-<section class="section" id="schedule">
-  <div class="section-label">ХӨТӨЛБӨР</div>
-  <h2 class="section-title">ФОРУМЫН ХУВААРЬ</h2>
+                            <div class="de-flex-col">
+                                <div class="de-flex-col header-col-mid">
+                                    <ul id="mainmenu">
 
-  <!-- PDF Cover -->
-  <div class="pdf-cover" id="pdf-cover">
-    <div class="pdf-cover-bg-overlay"></div>
-    <img src="dsif-logo.png" alt="DSIF 2026" class="pdf-cover-logo">
-    <div class="pdf-cover-body">
-      <div class="pdf-cover-title"><span class="accent">ХӨТӨЛБӨР</span></div>
-      <div class="pdf-cover-sub">2026.04.26 — 27 &nbsp;·&nbsp; САЙНШАНД, ДОРНОГОВЬ</div>
-    </div>
-  </div>
-  <div class="sched-header">
-    <div class="day-switcher">
-      <button class="day-btn active" onclick="switchDay(1)" id="tab-day1">1-Р ӨДӨР 04.26</button>
-      <button class="day-btn" onclick="switchDay(2)" id="tab-day2">2-Р ӨДӨР 04.27</button>
-      <button class="day-btn" onclick="switchDay(3)" id="tab-day3">УУЛЗАЛТЫН ХӨТӨЛБӨР</button>
-    </div>
-    <button class="pdf-btn" onclick="printSchedule()">
-      <svg viewBox="0 0 24 24"><path d="M12 16l-4-4h2.5V4h3v8H16l-4 4z"/><path d="M4 18h16v2H4z"/></svg>
-      PDF ТАТАХ
-    </button>
-  </div>
+                                        <li><a class="menu-item" href="#section-about">ФОРУМЫН ТУХАЙ</a></li>
+                                                                                <li><a class="menu-item active" href="#section-hero">ТӨСӨЛ</a>
+                                            <ul class="mega">
+                                                <li>
+                                                    <div class="container">
+                                                        <div class="sb-menu p-4">
+                                                            <div class="row g-3">
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-1.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">НОГООН ЭДИЙН ЗАСАГ</h6>
+                                                                </div>
 
-  <div id="sched-all-days">
-  <!-- DAY 1 -->
-  <div id="sched-day1" class="sched-day">
-    <div class="pdf-day-header">
-      <div class="pdf-day-header-title">ФОРУМЫН ХӨТӨЛБӨР</div>
-      <div class="pdf-day-header-meta">
-        <div class="pdf-day-header-date">2026.04.26</div>
-        <div class="pdf-day-header-day">1-Р ӨДӨР</div>
-      </div>
-    </div>
-    <div class="sched-grid">
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-2.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">ЭРЧИМ ХҮЧ</h6>
+                                                                </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">НЭЭЛТ</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">08:30 — 09:00</div>
-          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:00 — 09:10</div>
-          <div class="sched-info"><div class="sched-name">НЭЭЛТИЙН ҮГ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:10 — 09:30</div>
-          <div class="sched-info"><div class="sched-name">МЭНДЧИЛГЭЭ</div></div>
-        </div>
-      </div>
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-3.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">УУЛ УУРХАЙ</h6>
+                                                                </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ЭДИЙН ЗАСАГ, НОГООН ХӨГЖИЛ</div>
-        <div class="sched-row">
-          <div class="sched-time">09:30 — 10:10</div>
-          <div class="sched-info"><div class="sched-name">ФОРУМЫН ЗОРИЛГО, ХҮЛЭЭГДЭЖ БУЙ ҮР ДҮН — ДОРНОГОВЬ АЙМГИЙН ЭДИЙН ЗАСГИЙН ӨНӨӨГИЙН БАЙДАЛ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:10 — 10:25</div>
-          <div class="sched-info"><div class="sched-name">ДОРНОГОВЬ — БОЛОМЖ, ИРЭЭДҮЙ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:25 — 10:45</div>
-          <div class="sched-info"><div class="sched-name">НОГООН ЭДИЙН ЗАСАГ — ДОРНОГОВЬ АЙМГИЙН ХӨРӨНГӨ ОРУУЛАЛТЫН ОРЧИН</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:45 — 11:05</div>
-          <div class="sched-info"><div class="sched-name">НИЙГМИЙН ОРОЛЦОО БА ОРОН НУТГИЙН ИРГЭД ХӨРӨНГӨ ОРУУЛАЛТААС ЯМАР ҮР ШИМ ХҮРТЭХ ВЭ?</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:05 — 11:20</div>
-          <div class="sched-info"><div class="sched-name">ТОГТВОРТОЙ ХАА — ХОРШОО 2.0</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:20 — 11:40</div>
-          <div class="sched-info"><div class="sched-name">ХОНИНЫ НООС — ТОЙРОГ ЭДИЙН ЗАСАГ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:40 — 11:55</div>
-          <div class="sched-info"><div class="sched-name">УХААЛАГ ХУДАГ 2.0 — МАЛЧДЫН БҮТЭЭЛЧ ҮЙЛДВЭРЛЭЛИЙН ТӨВ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:55 — 12:15</div>
-          <div class="sched-info"><div class="sched-name">ДОРНОГОВЬ ПЛАТФОРМ — ЦАХИМ ТЕХНОЛОГИ БА НОГООН ХӨГЖИЛ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:15 — 12:30</div>
-          <div class="sched-info"><div class="sched-name">ДОРНОГОВЬ АЙМГИЙН АЯЛАЛ ЖУУЛЧЛАЛ БА ТҮҮНИЙГ ДАГАСАН ДЭД БҮТЭЦ</div></div>
-        </div>
-      </div>
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-4.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">БАЙГАЛЬ ОРЧИН</h6>
+                                                                </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ЗАВСАРЛАГА</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">12:30 — 13:45</div>
-          <div class="sched-info"><div class="sched-name">ҮДИЙН ХООЛ, NETWORKING</div></div>
-        </div>
-      </div>
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-5.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">ДЭД БҮТЭЦ</h6>
+                                                                </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ХӨРӨНГӨ ОРУУЛАЛТ, ГЭРЭЭ БАЙГУУЛАЛТ</div>
-        <div class="sched-row">
-          <div class="sched-time">13:45 — 14:05</div>
-          <div class="sched-info"><div class="sched-name">БОЛОВСРОЛ, СОЁЛЫН САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">14:05 — 14:25</div>
-          <div class="sched-info"><div class="sched-name">НОГООН ХӨГЖИЛ — УХААЛАГ ХОТ ТӨЛӨВЛӨЛТ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">14:25 — 14:45</div>
-          <div class="sched-info"><div class="sched-name">БОЛОВСРОЛ, СОЁЛЫН САЛБАРЫН САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
-        </div>
-        <div class="sched-row is-break">
-          <div class="sched-time">14:45 — 15:00</div>
-          <div class="sched-info"><div class="sched-name">COFFEE BREAK</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:00 — 15:20</div>
-          <div class="sched-info"><div class="sched-name">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:20 — 15:40</div>
-          <div class="sched-info"><div class="sched-name">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРЫН САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:40 — 16:30</div>
-          <div class="sched-info"><div class="sched-name">УУЛ УУРХАЙ БА ХҮНД ҮЙЛДВЭРЛЭЛИЙН ЖИШИГ ТӨСЛҮҮД — ESG СТАНДАРТ, SDG ЗОРИЛТУУД</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">16:30 — 17:00</div>
-          <div class="sched-info"><div class="sched-name">ДҮГНЭЛТ, ХААЛТ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">17:30 — 18:30</div>
-          <div class="sched-info"><div class="sched-name">ААН-ТЭЙ НИЙГМИЙН ХАРИУЦЛАГЫН ГЭРЭЭ БАЙГУУЛАХ</div></div>
-        </div>
-      </div>
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-6.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">БОЛОВСРОЛ</h6>
+                                                                </div>
 
-    </div>
-  </div>
+                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-6.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">СОЁЛ</h6>
+                                                                </div>
 
-  <!-- DAY 2 -->
-  <div id="sched-day2" class="sched-day" style="display:none">
-    <div class="pdf-day-header">
-      <div class="pdf-day-header-title">ФОРУМЫН ХӨТӨЛБӨР</div>
-      <div class="pdf-day-header-meta">
-        <div class="pdf-day-header-date">2026.04.27</div>
-        <div class="pdf-day-header-day">2-Р ӨДӨР</div>
-      </div>
-    </div>
-    <div class="sched-grid">
+                                                                                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-6.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">ЭРҮҮЛ МЭНД</h6>
+                                                                </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">НЭЭЛТ</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">08:30 — 09:00</div>
-          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:00 — 09:15</div>
-          <div class="sched-info"><div class="sched-name">ФОРУМЫН ЗОРИЛГО, ХҮЛЭЭГДЭЖ БУЙ ҮР ДҮН</div></div>
-        </div>
-      </div>
+                                                                                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-6.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">НИЙГЭМ</h6>
+                                                                </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ЭРЧИМ ХҮЧ, БАЙГАЛЬ ОРЧИН, ГАДААДЫН ХӨРӨНГӨ ОРУУЛАЛТ</div>
-        <div class="sched-row">
-          <div class="sched-time">09:15 — 09:35</div>
-          <div class="sched-info"><div class="sched-name">ГАДААДЫН ХӨРӨНГӨ ОРУУЛАЛТЫН БОЛОМЖ БА ДОРНОГОВЬ АЙМАГ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:35 — 09:55</div>
-          <div class="sched-info"><div class="sched-name">ЭРЧИМ ХҮЧНИЙ ИРЭЭДҮЙН ЧИГ ХАНДЛАГА БА ДОРНОГОВЬ АЙМАГ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:55 — 10:20</div>
-          <div class="sched-info"><div class="sched-name">ЦӨЛЖИЛТ БА УУР АМЬСГАЛЫН ӨӨРЧЛӨЛТ — МОНГОЛ УЛСЫН НОГООН ХӨГЖЛИЙН БОДЛОГО БА СОР 17</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:20 — 10:40</div>
-          <div class="sched-info"><div class="sched-name">КАРБОН КРЕДИТ БА БУСАД КРЕДИТИЙН СИСТЕМҮҮД</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:40 — 11:00</div>
-          <div class="sched-info"><div class="sched-name">ХАРИУЦЛАГАТАЙ УУЛ УУРХАЙ БА УСНЫ МЕНЕЖМЕНТ — ХӨВ ЦӨӨРӨМ БАЙГУУЛАХ НЬ</div></div>
-        </div>
-      </div>
+                                                                                                                                <div class="col-lg-2 col-md-4 col-sm-6 text-center">
+                                                                    <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
+                                                                        <a class="p-0" href="index.html">
+                                                                            <img src="images/demo/homepage-6.webp" class="w-100 relative hover-scale-1-1" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                    <h6 class="mt-3">ХӨДӨӨ АЖ АХУЙ</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a class="menu-item" href="#section-speakers">ОНЦЛОХ ОРОЛЦОГЧИД</a></li>
+                                        <li><a class="menu-item" href="#section-schedule">ХӨТӨЛБӨР</a></li>
+                                        <!-- <li><a class="menu-item" href="#section-tickets">B2B</a></li> -->
+                                        <li><a class="menu-item" href="#section-venue">БАЙРШИЛ</a></li>
+                                        <!-- <li><a class="menu-item" href="#section-faq">FAQ</a></li> -->
+                                        <!-- <li><a class="menu-item" href="news.html">Pages</a>
+                                            <ul>
+                                                <li><a class="menu-item" href="tickets.html">Tickets Style 1</a></li>
+                                                <li><a class="menu-item" href="tickets-2.html">Tickets Style 2</a></li>
+                                                <li><a class="menu-item" href="news.html">News</a></li>
+                                                <li><a class="menu-item" href="news-single.html">News Single</a></li>
+                                                <li><a class="menu-item" href="contact.html">Contact</a>
+                                            </ul>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                            </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ДЭД БҮТЭЦ, БАЙГАЛЬ ОРЧИН, ГЭРЭЭ БАЙГУУЛАЛТ</div>
-        <div class="sched-row">
-          <div class="sched-time">11:00 — 11:20</div>
-          <div class="sched-info"><div class="sched-name">ДЭД БҮТЭЦ, БАЙГАЛЬ ОРЧНЫ САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:20 — 12:20</div>
-          <div class="sched-info"><div class="sched-name">ДЭД БҮТЭЦ, БАЙГАЛЬ ОРЧНЫ САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:20 — 12:40</div>
-          <div class="sched-info"><div class="sched-name">ДҮГНЭЛТ, ХААЛТ</div></div>
-        </div>
-      </div>
+                            <div class="de-flex-col">
+                                <button id="theme-toggle" title="Toggle dark/light mode">&#9788;</button>
+                                <!-- <a class="btn-main fx-slide w-100" href="tickets-2.html"><span>Buy Tickets</span></a> -->
 
-      <div class="sched-block">
-        <div class="sched-block-title">ЗАВСАРЛАГА, ЧӨЛӨӨТ ЦАГ</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">12:40 — 14:00</div>
-          <div class="sched-info"><div class="sched-name">ҮДИЙН ХООЛ, NETWORKING</div></div>
-        </div>
-        <div class="sched-row is-break">
-          <div class="sched-time">14:00 — 19:00</div>
-          <div class="sched-info"><div class="sched-name">ЧӨЛӨӨТ ЦАГ — ОРОЙН ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛД БЭЛТГЭХ</div></div>
-        </div>
-      </div>
-
-      <div class="sched-block">
-        <div class="sched-block-title">ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ</div>
-        <div class="sched-row">
-          <div class="sched-time">19:00 — 23:00</div>
-          <div class="sched-info" style="flex-direction:column;align-items:flex-start">
-            <div class="sched-name">НОГООН ХӨГЖИЛ ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ — ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ</div>
-            <div style="margin-top:10px;display:flex;flex-direction:column;gap:3px">
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Боловсролын салбарт хийсэн хөрөнгө оруулалт</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Эмнэлэг, эрүүл мэндийн салбарт хийсэн хөрөнгө оруулалт</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Тогтвортой хөгжлийг дэмжигч байгууллага</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Ногоон хөгжлийг дэмжигч байгууллага</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Нийгмийн шилдэг коммунити</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Хөдөө аж ахуйн шилдэг үйлдвэрлэгч</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Ногоон эрчим хүчний шилдэг төсөл</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Шилдэг стартап</div>
+                                <div class="menu_side_area">
+                                    <span id="menu-btn"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </header>
+
+        <section id="section-hero" class="section-dark no-top no-bottom text-light jarallax relative mh-800" data-video-src="mp4:video/2.mp4">
+            <div class="gradient-edge-top op-6 h-50 color"></div>
+            <div class="gradient-edge-bottom"></div>
+            <div class="sw-overlay op-8"></div>
+            <div class="abs abs-centered z-2 w-80">
+                <div class="container wow scaleIn" data-wow-duration="3s">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <!-- <div class="subtitle">хамтын ажиллагаа  |  хөрөнгө оруулалт  |  хөгжил дэвшил</div> -->
+                            <h2 class="fs-120 text-uppercase fs-sm-12vw mb-4 lh-1">НОГООН ХӨГЖИЛ</h2>
+                            <h2 class="fs-110 text-uppercase fs-sm-12vw mb-4 lh-1">ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ </h2>
+                            <h1 class="fs-100 text-uppercase fs-sm-12vw mb-4 lh-1">ФОРУМ 2026</h1>
+                            <div class="d-block d-md-flex justify-content-center">
+                                <div class="d-flex justify-content-center align-items-center mx-4">
+                                    <i class="fa fa-calendar id-color me-3"></i>
+                                    <h4 class="mb-0" style="font-weight:300">2026.04.26-27</h4>
+                                </div>
+
+                                <div class="d-flex justify-content-center align-items-center mx-4">
+                                    <i class="fa fa-location-pin id-color me-3"></i>
+                                    <h4 class="mb-0" style="font-weight:300">ДОРНОГОВЬ, САЙНШАНД</h4>
+                                </div>
+                            </div>
+
+                            <div class="spacer-single"></div>
+
+                            <a class="btn-main btn-hero mx-2 fx-slide" href="#section-schedule"><span>Хөтөлбөр</span></a>
+                            <a class="btn-main btn-line btn-hero mx-2 fx-slide" href="https://maps.google.com/?q=44.885408,110.139780" target="_blank" rel="noopener"><span>Байршил</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="abs w-100 start-0 bottom-0 z-3">
+                <div class="container">
+                    
+                    <div class="sm-hide border-white-op-3 p-40 py-4 rounded-1 bg-blur relative overflow-hidden wow fadeInUp">
+                        <div class="gradient-edge-bottom color start-0 h-50 op-5">
+                            
+                            
+                        </div>
+                        <div class="row g-4 justify-content-between align-items-center relative z-2">
+                            <div class="col-lg-3">
+                                <h4 class="mb-0"> </h4>
+                                <h4 class="mb-0"> </h4>
+                            </div>
+                            <div class="col-lg-4">
+                                <div id="defaultCountdown" class="pt-2"></div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="d-flex">
+                                    <!-- <i class="fs-60 icofont-google-map id-color"></i> -->
+                                    <div class="ms-3">
+                                        <h4 class="mb-0"> <br> </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-about" class="bg-dark section-dark text-light">
+            <div class="container">
+                <div class="row  gx-5 align-items-center justify-content-between">
+                    <div class="col-lg-6">
+                          <div class="me-lg-5 pe-lg-5 py-5 my-5">
+                              <div class="subtitle wow fadeInUp" data-wow-delay=".2s">About the Event</div>
+                              <h2 class="wow fadeInUp" data-wow-delay=".4s">A Global Gathering of AI Innovators</h2>
+                              <p class="wow fadeInUp" data-wow-delay=".6s">Join thought leaders, developers, researchers, and founders as we explore how artificial intelligence is reshaping industries, creativity, and the future
+                              of work.</p>
+
+                              <ul class="ul-check">
+                                  <li class="wow fadeInUp" data-wow-delay=".8s">5 days of keynotes, workshops, and networking</li>
+                                  <li class="wow fadeInUp" data-wow-delay=".9s">50 world-class speakers</li>
+                                  <li class="wow fadeInUp" data-wow-delay="1s">Startup showcase and live demos</li>
+                              </ul>
+
+                          </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="wow scaleIn">
+                            <img src="images/misc/c1.webp" class="w-100 rotate-animation" alt="">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+       
+
+        <section id="section-why-attend" class="bg-dark section-dark text-light">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-6 offset-lg-3 text-center">
+                        <div class="subtitle wow fadeInUp mb-3">Why Attend</div>
+                        <h2 class="wow fadeInUp" data-wow-delay=".2s">What You’ll Gain</h2>
+                        <p class="lead mb-0 wow fadeInUp">Hear from global AI pioneers, industry disruptors, and bold thinkers shaping the future across every domain.</p>
+                    </div>
+                </div>
+
+                <div class="spacer-single"></div>
+
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="hover">
+                            <div class="bg-dark-2 relative rounded-1 overflow-hidden hover-bg-color hover-text-light wow scale-in-mask">
+                                <div class="abs p-40 bottom-0 z-2">
+                                    <div class="relative wow fadeInUp">
+                                        <h4>Cutting-Edge Knowledge</h4>
+                                        <p class="mb-0">Stay ahead of the curve with insights from AI leaders shaping tomorrow’s technology.</p>
+                                    </div>
+                                </div>
+                                <div class="gradient-edge-bottom h-100"></div>
+                                <img src="images/misc/s3.webp" class="w-100 hover-scale-1-1" alt="">
+                                <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="hover">
+                            <div class="bg-dark-2 relative rounded-1 overflow-hidden hover-bg-color hover-text-light wow scale-in-mask">
+                                <div class="abs p-40 bottom-0 z-2">
+                                    <div class="relative wow fadeInUp">
+                                        <h4>Hands-On Learning</h4>
+                                        <p class="mb-0">Join live workshops and labs to build practical skills in AI and machine learning.</p>
+                                    </div>
+                                </div>
+                                <div class="gradient-edge-bottom h-100"></div>
+                                <img src="images/misc/s4.webp" class="w-100 hover-scale-1-1" alt="">
+                                <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="hover">
+                            <div class="bg-dark-2 relative rounded-1 overflow-hidden hover-bg-color hover-text-light wow scale-in-mask">
+                                <div class="abs p-40 bottom-0 z-2">
+                                    <div class="relative wow fadeInUp">
+                                        <h4>Global Networking</h4>
+                                        <p class="mb-0">Meet developers, founders, and researchers from around the world to collaborate and grow.</p>
+                                    </div>
+                                </div>
+                                <div class="gradient-edge-bottom h-100"></div>
+                                <img src="images/misc/s5.webp" class="w-100 hover-scale-1-1" alt="">
+                                <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="hover">
+                            <div class="bg-dark-2 relative rounded-1 overflow-hidden hover-bg-color hover-text-light wow scale-in-mask">
+                                <div class="abs p-40 bottom-0 z-2">
+                                    <div class="relative wow fadeInUp">
+                                        <h4>Startup Showcase</h4>
+                                        <p class="mb-0">Explore the latest AI tools and ideas from promising startups and research labs.</p>
+                                    </div>
+                                </div>
+                                <div class="gradient-edge-bottom h-100"></div>
+                                <img src="images/misc/s6.webp" class="w-100 hover-scale-1-1" alt="">
+                                <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="hover">
+                            <div class="bg-dark-2 relative rounded-1 overflow-hidden hover-bg-color hover-text-light wow scale-in-mask">
+                                <div class="abs p-40 bottom-0 z-2">
+                                    <div class="relative wow fadeInUp">
+                                        <h4>AI Career Boost</h4>
+                                        <p class="mb-0">Access exclusive job fairs, mentorship sessions, and recruiting events to grow your career.</p>
+                                    </div>
+                                </div>
+                                <div class="gradient-edge-bottom h-100"></div>
+                                <img src="images/misc/s7.webp" class="w-100 hover-scale-1-1" alt="">
+                                <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="hover">
+                            <div class="bg-dark-2 relative rounded-1 overflow-hidden hover-bg-color hover-text-light wow scale-in-mask">
+                                <div class="abs p-40 bottom-0 z-2">
+                                    <div class="relative wow fadeInUp">
+                                        <h4>Ethics & Future</h4>
+                                        <p class="mb-0">Engage in vital conversations around AI ethics, policy, and the future of intelligence.</p>
+                                    </div>
+                                </div>
+                                <div class="gradient-edge-bottom h-100"></div>
+                                <img src="images/misc/s8.webp" class="w-100 hover-scale-1-1" alt="">
+                                <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-dark section-dark text-light pt-80 relative jarallax" aria-label="section">
+            <img src="images/background/2.webp" class="jarallax-img" alt="">
+            <div class="gradient-edge-top"></div>
+            <div class="gradient-edge-bottom"></div>
+            <div class="sw-overlay op-8"></div>
+            <div class="container relative z-4">
+                <div class="row align-items-center g-5">
+                    <div class="col-md-4">
+                        <div class="relative w-100 d-inline-block pe-5">
+                            <div class="abs bg-color w-80px h-80px rounded-1 text-center end-0 z-2 wow scaleIn">
+                                <i class="icofont-quote-left text-white fs-40 d-block pt-3"></i>
+                            </div>
+                            <img src="images/misc/s9.webp" class="w-100 rounded-1 wow scale-in-mask" alt="">
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <h3 class="fs-32 mb-4 wow fadeInUp">“Artificial intelligence is advancing rapidly, and while it offers immense opportunity, it also poses significant risks. If not properly regulated and aligned with human values, AI could become a fundamental threat to civilization.”</h3>
+
+                        <span>Elon Musk</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-speakers" class="bg-dark section-dark text-light">
+            <div class="container">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-6 relative z-3">
+                          <div class="text-center">
+                              <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Speakers</div>
+                              <h2 class="wow fadeInUp" data-wow-delay=".2s">Meet the Visionaries</h2>
+                              <p class="lead wow fadeInUp">Whether it's a quick refresh or a deep clean transformation, our expert touch leaves your home or office shining.</p>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask">
+                            <img src="images/team/1.webp" class="w-100 hover-scale-1-1" alt="">
+                            <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            <div class="abs w-100 start-0 bottom-0 z-3">
+                                <div class="bg-blur p-4 m-4 rounded-1 text-light text-center relative z-2">
+                                    <h3 class="mb-0">Joshua Henry</h3>
+                                    <span>Chief AI Scientist, OpenAI</span>
+                                </div>
+                                <div class="gradient-edge-bottom h-100 op-8"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask">
+                            <img src="images/team/2.webp" class="w-100 hover-scale-1-1" alt="">
+                            <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            <div class="abs w-100 start-0 bottom-0 z-3">
+                                <div class="bg-blur p-4 m-4 rounded-1 text-light text-center relative z-2">
+                                    <h3 class="mb-0">Leila Zhang</h3>
+                                    <span>VP of Machine Learning, Google</span>
+                                </div>
+                                <div class="gradient-edge-bottom h-100 op-8"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask">
+                            <img src="images/team/3.webp" class="w-100 hover-scale-1-1" alt="">
+                            <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            <div class="abs w-100 start-0 bottom-0 z-3">
+                                <div class="bg-blur p-4 m-4 rounded-1 text-light text-center relative z-2">
+                                    <h3 class="mb-0">Carlos Rivera</h3>
+                                    <span>Founder & CEO, NeuralCore</span>
+                                </div>
+                                <div class="gradient-edge-bottom h-100 op-8"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-dark section-dark pt-80 relative jarallax" aria-label="section">
+            <img src="images/background/1.webp" class="jarallax-img" alt="">
+            <div class="gradient-edge-top"></div>
+            <div class="gradient-edge-bottom"></div>
+            <div class="sw-overlay op-8"></div>
+            <div class="container">
+                <div class="row g-4">
+
+                    <div class="col-md-12 wow fadeInUp">
+                        <div class="owl-6 no-alpha owl-carousel owl-theme wow mask-right">
+                            <img src="images/logo-light/1.webp" class="w-100 px-4" alt="">
+                            <img src="images/logo-light/2.webp" class="w-100 px-4" alt="">
+                            <img src="images/logo-light/3.webp" class="w-100 px-4" alt="">
+                            <img src="images/logo-light/4.webp" class="w-100 px-4" alt="">
+                            <img src="images/logo-light/5.webp" class="w-100 px-4" alt="">
+                            <img src="images/logo-light/6.webp" class="w-100 px-4" alt="">
+                            <img src="images/logo-light/7.webp" class="w-100 px-4" alt="">
+                            <img src="images/logo-light/8.webp" class="w-100 px-4" alt="">
+                            <img src="images/logo-light/9.webp" class="w-100 px-4" alt="">
+                            <img src="images/logo-light/10.webp" class="w-100 px-4" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-schedule" class="bg-dark section-dark text-light">
+            <div class="container">
+              <div class="row g-4 gx-5 justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <div class="subtitle s2 mb-3 wow fadeInUp" data-wow-delay=".0s">Event Schedule</div>
+                    <h2 class="wow fadeInUp" data-wow-delay=".2s">5 Days of AI Excellence</h2>
+                </div>
+              </div>
+              <div class="row g-4 gx-5 justify-content-center wow fadeInUp">
+                <div class="col-lg-12">
+                    <div class="de-tab plain">
+                        <ul class="d-tab-nav mb-4 pb-4 d-flex justify-content-between">
+                            <li class="active-tab">
+                                <h3>Day 1</h3>
+                                Oct 1, 2026
+                            </li>
+                            <li>
+                                <h3>Day 2</h3>
+                                Oct 2, 2026
+                            </li>
+                            <li>
+                                <h3>Day 3</h3>
+                                Oct 3, 2026
+                            </li>
+                            <li>
+                                <h3>Day 4</h3>
+                                Oct 5, 2026
+                            </li>
+                            <li>
+                                <h3>Day 5</h3>
+                                Oct 5, 2026
+                            </li>
+                        </ul>
+                        <ul class="d-tab-content pt-3 wow fadeInUp">   
+                            <!-- day 1 -->                        
+                            <li>
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            08:00 – 10:00 AM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/1.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Joshua Henry</h5>
+                                                    AI Research Lead, DeepTech Labs
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Opening Keynote – The State of AI 2026</h3>
+                                            <p class="fs-15 mb-0">Kick off the event with an insightful overview of where artificial intelligence is headed. Ava will explore breakthroughs, global shifts, and what’s next in deep learning, generative models, and AI ethics.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            12:00 – 14:00 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/2.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Leila Zhang</h5>
+                                                    VP of Machine Learning, Google
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Building Human-Centered AI Products</h3>
+                                            <p class="fs-15 mb-0">This session covers how to design AI solutions that prioritize usability, fairness, and real-world impact. Bring your laptop—hands-on UX exercises included.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            16:00 – 18:00 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/3.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Carlos Rivera</h5>
+                                                    Founder & CEO, NeuralCore
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: AI Policy & Regulation – A Global Overview</h3>
+                                            <p class="fs-15 mb-0">Learn how nations and organizations are approaching AI governance, including frameworks for data privacy, bias mitigation, and accountability in model deployment.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            20:00 – 22:00 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/4.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Maria Gonzalez</h5>
+                                                    Founder & CEO, SynthCore AI
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Building a Startup with AI at the Core</h3>
+                                            <p class="fs-15 mb-0">Marco shares his journey launching an AI-first startup. Discover tips on tech stacks, team-building, funding, and scaling responsibly.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+                            </li>
+
+                            <!-- day 2 -->
+                            <li>
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            09:00 – 10:30 AM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/5.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Leila Zhang</h5>
+                                                    Head of AI Strategy, VisionFlow
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Ethical AI — From Theory to Practice</h3>
+                                            <p class="fs-15 mb-0">Explore how leading companies are implementing fairness, accountability, and transparency in real-world AI systems across healthcare and finance.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            11:00 – 12:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/6.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Lisa Zhang</h5>
+                                                    AI Ethics Researcher, FairAI Group
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Bias in Data — Hidden Dangers in AI Pipelines</h3>
+                                            <p class="fs-15 mb-0">Lisa dives deep into the causes of bias in training data and showcases methods to detect and mitigate harm before deployment.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            14:00 – 15:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/7.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Markus Blom</h5>
+                                                    CTO, SynthMind AI
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Generative Models Beyond Text</h3>
+                                            <p class="fs-15 mb-0">A practical tour of the next generation of multimodal models generating images, video, and even 3D environments with AI.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            16:00 – 17:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/8.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Priya Natarajan</h5>
+                                                    Lead Engineer, CogniWare
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Workshop: Building AI-Powered Interfaces</h3>
+                                            <p class="fs-15 mb-0">Learn how to embed conversational AI into web and mobile apps using modern open-source frameworks and API-first design.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                            </li>
+
+                            <!-- day 3 -->
+                            <li>
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            09:00 – 10:30 AM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/9.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Sofia Romero</h5>
+                                                    ML Engineer, NeuronEdge
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Transformers in 2026 — What's Next?</h3>
+                                            <p class="fs-15 mb-0">A technical session diving into the future of transformer architectures, memory optimization, and scaling challenges.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            11:00 – 12:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/10.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Tomás Eriksson</h5>
+                                                    Founder, RealSim AI
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Synthetic Data Generation for Training</h3>
+                                            <p class="fs-15 mb-0">Tomás shares tools and techniques for creating high-quality synthetic datasets that speed up training and reduce risk.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            14:00 – 15:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/11.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Aisha Mensah</h5>
+                                                    Senior AI Strategist, Datavine
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Panel: AI Regulation & Global Policy Outlook</h3>
+                                            <p class="fs-15 mb-0">Top voices discuss the global AI policy landscape, upcoming legislation, and how it will shape the future of AI deployment.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            16:00 – 17:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/12.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Leo Tanaka</h5>
+                                                    Robotics Engineer, MetaForm
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Embodied AI in Robotics</h3>
+                                            <p class="fs-15 mb-0">Discover how AI is powering next-gen robotics for manufacturing, logistics, and autonomous mobility through real-time interaction models.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                            </li>
+
+                            <!-- day 4 -->
+                            <li>
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            09:00 – 10:30 AM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/13.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Nina Köhler</h5>
+                                                    Chief Product Officer, SynthOS
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: AI in Product Design — From Concept to Launch</h3>
+                                            <p class="fs-15 mb-0">Nina shares how AI is revolutionizing product development, from ideation to real-time user feedback integration.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            11:00 – 12:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/14.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Emmanuel Ruiz</h5>
+                                                    CEO, NextCore Analytics
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Scaling AI Infrastructure for Enterprise</h3>
+                                            <p class="fs-15 mb-0">Explore key considerations when deploying and managing scalable, secure, and cost-effective AI systems in the enterprise space.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            14:00 – 15:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/15.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Isabelle Chen</h5>
+                                                    Head of Language Models, LumoAI
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Multilingual AI — Global Challenges & Innovations</h3>
+                                            <p class="fs-15 mb-0">How modern LLMs are overcoming linguistic bias, translation errors, and dialect diversity in global applications.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            16:00 – 17:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/16.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Connor Walsh</h5>
+                                                    Cloud AI Architect, SkyStack
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Workshop: Building AI Pipelines in the Cloud</h3>
+                                            <p class="fs-15 mb-0">Hands-on session building a full AI workflow using serverless tech, vector databases, and model deployment strategies.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+                                
+                            </li>
+
+                            <!-- day 5 -->
+                            <li>
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            09:00 – 10:30 AM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/17.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Elena Greco</h5>
+                                                    Ethics Advisor, Global AI Forum
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Ethical Design in AI — A Human-Centered Approach</h3>
+                                            <p class="fs-15 mb-0">A deep dive into responsible AI, highlighting bias mitigation, fairness, transparency, and global implications of autonomous systems.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            11:00 – 12:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/18.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Marcus Dlamini</h5>
+                                                    Founder, EduAI Labs
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Personalized Learning with AI</h3>
+                                            <p class="fs-15 mb-0">Explore how AI-driven platforms are transforming education with adaptive learning paths and dynamic content delivery.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="border-white-bottom-op-2 pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            14:00 – 15:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/19.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Lara Nguyen</h5>
+                                                    GenAI Director, NovaSynth
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Session: Creative AI — From Text to Video</h3>
+                                            <p class="fs-15 mb-0">Lara demonstrates how generative AI is transforming content creation, with real-time demos in video, audio, and image generation.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                                <!-- schedule item begin -->
+                                <div class="pb-5 mb-5">
+                                    <div class="row g-4 align-items-center">
+                                        <div class="col-md-2">
+                                            16:00 – 17:30 PM
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="d-flex align-items-center">
+                                                <img src="images/team/20.webp" class="w-100px rounded-1 me-4" alt="">
+                                                <div>
+                                                    <h5 class="mb-0">Dr. Hassan Al-Mansour</h5>
+                                                    Lead Data Scientist, FutureVision
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3>Closing Keynote: AI & Humanity — Co-Evolution or Collapse?</h3>
+                                            <p class="fs-15 mb-0">A visionary closing on AI’s long-term trajectory, human-AI collaboration, and the existential questions we must answer now.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- schedule item end -->
+
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <section id="section-tickets" class="bg-dark section-dark text-light pt-80 relative jarallax" aria-label="section">
+            <img src="images/background/7.webp" class="jarallax-img" alt="">
+            <div class="gradient-edge-top"></div>
+            <div class="gradient-edge-bottom"></div>
+            <div class="sw-overlay op-7"></div>
+
+            <div class="container relative z-2">
+                <div class="row g-4 gx-5 justify-content-center">
+                  <div class="col-lg-6 text-center">
+                      <div class="subtitle s2 mb-3 wow fadeInUp" data-wow-delay=".0s">Ticket Options</div>
+                      <h2 class="wow fadeInUp" data-wow-delay=".2s">Choose Your Pass</h2>
+                      <p class="lead wow fadeInUp" data-wow-delay=".4s">Select the perfect ticket for your needs and gain access to exclusive sessions, workshops, and more.</p>
+                  </div>
+                </div>
+
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="owl-carousel owl-theme owl-3-dots wow mask-right">
+                            <!-- ticket item begin -->
+                            <div class="item">
+                                <div class="d-ticket">
+                                    <img src="images/logo.webp" class="w-80px mb-4" alt="">
+                                    <img src="images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
+                                    <img src="images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
+                                    <h2>Standard</h2>
+                                    <h4 class="mb-4">$299</h4>
+                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                </div>
+
+                                <div class="relative overflow-hidden">
+                                    <div class="py-4 z-2">
+                                        <ul class="ul-check mb-4">
+                                            <li>Access to keynotes and sessions.</li>
+                                            <li>Admission to exhibitions and demos.</li>
+                                            <li>Networking opportunities.</li>
+                                            <li>Digital materials and session recordings.</li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a> -->
+                                    
+                                </div>
+                            </div>
+                            <!-- ticket item end -->
+
+                            <!-- ticket item begin -->
+                            <div class="item">
+                                <div class="d-ticket">
+                                    <img src="images/logo.webp" class="w-80px mb-4" alt="">
+                                    <img src="images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
+                                    <img src="images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
+                                    <h2>VIP</h2>
+                                    <h4 class="mb-4">$699</h4>
+                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                </div>
+                                <div class="relative">
+                                    <div class="py-4 z-2">
+                                        <ul class="ul-check mb-4">
+                                            <li>All Standard benefits.</li>
+                                            <li>VIP lounge access and exclusive events.</li>
+                                            <li>Front-row seating and priority workshop access.</li>
+                                            <li>VIP swag bag and exclusive content.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a> -->
+                            </div>
+                            <!-- ticket item end -->
+
+                            <!-- ticket item begin -->
+                            <div class="item">
+                                <div class="d-ticket s2">
+                                    <img src="images/logo.webp" class="w-80px mb-4" alt="">
+                                    <img src="images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
+                                    <img src="images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
+                                    <h2>Full Access</h2>
+                                    <h4 class="mb-4">$1199</h4>
+                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                </div>
+                                <div class="relative">
+                                    <div class="py-4 z-2">
+                                        <ul class="ul-check mb-4">
+                                            <li>All VIP benefits.</li>
+                                            <li>Access to all workshops and breakout sessions.</li>
+                                            <li>Personalized session scheduling.</li>
+                                            <li>Speaker meet-and-greet and after-party access.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a> -->
+                            </div>
+                            <!-- ticket item end -->
+
+                            <!-- ticket item begin -->
+                            <div class="item">
+                                <div class="d-ticket s2">
+                                    <img src="images/logo.webp" class="w-80px mb-4" alt="">
+                                    <img src="images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
+                                    <img src="images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
+                                    <h2>Exclusive Access</h2>
+                                    <h4 class="mb-4">$2499</h4>
+                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                </div>
+                                <div class="relative">
+                                    <div class="py-4 z-2">
+                                        <ul class="ul-check mb-4">
+                                            <li>All Full Access Pass benefits.</li>
+                                            <li>Private one-on-one sessions with speakers.</li>
+                                            <li>Priority access to all events and workshops.</li>
+                                            <li>Exclusive VIP gala and after-party invitations.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a>
+                            </div>
+                            <!-- ticket item end -->
+
+                            <!-- ticket item begin -->
+                            <div class="item">
+                                <div class="d-ticket s3">
+                                    <img src="images/logo.webp" class="w-80px mb-4" alt="">
+                                    <img src="images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
+                                    <img src="images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
+                                    <h2>Student</h2>
+                                    <h4 class="mb-4">$149</h4>
+                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                </div>
+                                <div class="relative">
+                                    <div class="py-4 z-2">
+                                        <ul class="ul-check mb-4">
+                                            <li>Access to keynotes and workshops.</li>
+                                            <li>Student-specific networking events.</li>
+                                            <li>Discounted online resources post-event.</li>
+                                            <li>Special student meetups for networking.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a>
+                            </div>
+                            <!-- ticket item end -->
+
+                            <!-- ticket item begin -->
+                            <div class="item">
+                                <div class="d-ticket s3">
+                                    <img src="images/logo.webp" class="w-80px mb-4" alt="">
+                                    <img src="images/misc/barcode.webp" class="w-20 p-2 abs abs-middle end-0 me-2" alt="">
+                                    <img src="images/logo-big-white.webp" class="w-40 abs abs-centered me-4 op-2" alt="">
+                                    <h2>Virtual</h2>
+                                    <h4 class="mb-4">$99</h4>
+                                    <div class="fs-14">October 1 to 5 - 10:00 AM</div>
+                                </div>
+                                <div class="relative">
+                                    <div class="py-4 z-2">
+                                        <ul class="ul-check mb-4">
+                                            <li>Live-streamed keynotes and workshops.</li>
+                                            <li>On-demand access to recorded sessions.</li>
+                                            <li>Interactive Q&A with speakers.</li>
+                                            <li>Virtual networking and digital swag.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <a class="btn-main fx-slide w-100" href="tickets.html"><span>Buy Ticket</span></a>
+                            </div>
+                            <!-- ticket item end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-venue" class="bg-dark section-dark text-light pt-80 relative jarallax" aria-label="section">
+          <div class="container relative z-2">
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Event Location</div>
+                    <h2 class="wow fadeInUp" data-wow-delay=".2s">Location & Venue</h2>
+                    <p class="lead wow fadeInUp" data-wow-delay=".6s">Join us in the heart of innovation at San Francisco Tech Pavilion—surrounded by top hotels, transit, and culture.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-sm-6">
+                    <img src="images/misc/l1.webp" class="w-100 rounded-1 wow scale-in-mask" alt="">
+                </div>
+
+                <div class="col-sm-6">
+                    <img src="images/misc/l2.webp" class="w-100 rounded-1 wow scale-in-mask" alt="">
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="col-lg-4 col-md-6 mb-sm-30">
+                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".2s">
+                        <i class="fs-60 id-color icofont-google-map"></i>
+                        <div class="ms-3">
+                            <h4 class="mb-0">Address</h4>
+                            <p>121 AI Blvd, San Francisco, CA 94107</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-sm-30">
+                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".4s">
+                        <i class="fs-60 id-color icofont-phone"></i>
+                        <div class="ms-3">
+                            <h4 class="mb-0">Phone</h4>
+                            <p>Call: +1 123 456 789</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-sm-30">
+                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".6s">
+                        <i class="fs-60 id-color icofont-envelope"></i>
+                        <div class="ms-3">
+                            <h4 class="mb-0">Email</h4>
+                            <p>contact@aivent.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
           </div>
-        </div>
-      </div>
+        </section>
+
+        <section  id="section-faq" class="bg-dark section-dark text-light">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-5">
+                        <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Everything You Need to Know</div>
+                        <h2 class="wow fadeInUp" data-wow-delay=".2s">Frequently Asked Questions</h2>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="accordion s2 wow fadeInUp">
+                            <div class="accordion-section">
+                                <div class="accordion-section-title" data-tab="#accordion-a1">
+                                    What is the AI Summit 2026?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a1">
+                                    The AI Summit 2026 is a premier event gathering leading AI experts, thought leaders, and innovators. It features keynotes, workshops, panels, and networking opportunities focusing on the latest advancements in artificial intelligence.
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a2">
+                                    When and where will the event be held?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a2">
+                                    The AI Summit 2026 will take place from **[Event Dates]** at **[Event Location]**. More details about the venue and directions will be provided closer to the event.
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a3">
+                                    How can I register for the event?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a3">
+                                    You can register for the AI Summit 2026 through our official website. Simply choose your ticket type and fill out the registration form.
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a4">
+                                    What ticket options are available?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a4">
+                                    We offer a range of ticket options, including Standard, VIP, Full Access Pass, Student, and Virtual tickets. You can find more details about each ticket type on our [Tickets Page](#).
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a5">
+                                    Can I transfer my ticket to someone else?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a5">
+                                    Tickets are non-transferable. If you are unable to attend, please contact our support team for assistance.
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a6">
+                                    Will there be virtual participation?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a6">
+                                    Yes! For those who can’t attend in person, we offer a **Virtual Ticket**. This provides access to live-streamed sessions, workshops, and networking opportunities online.
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-dark section-dark text-light pt-80 relative jarallax" aria-label="section">
+            <img src="images/background/3.webp" class="jarallax-img" alt="">
+            <div class="gradient-edge-top"></div>
+            <div class="gradient-edge-bottom"></div>
+            <div class="sw-overlay op-8"></div>
+          <div class="container relative z-2">
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Stay in the Loop</div>
+                    <h2 class="wow fadeInUp" data-wow-delay=".2s">Join the Future of Innovation</h2>
+                    <p class="wow fadeInUp" data-wow-delay=".4s">
+                      Making better things takes time. Drop us your email to stay in the know as we work to reduce our environmental impact. We'll share other exciting news and exclusive offers, too.
+                    </p>
+                </div>
+            </div>
+
+            <form class="row justify-content-center">
+              <div class="col-md-6 col-lg-4 mb-3 wow fadeInUp" data-wow-delay=".6s">
+                <input type="email" class="form-control form-control-lg text-center" placeholder="Enter Your Email Address" required>
+              </div>
+              <div class="col-auto mb-3 wow fadeInUp" data-wow-delay=".6s">
+                <button type="submit" class="btn bg-color text-light btn-lg px-4">SIGN UP</button>
+              </div>
+
+              <div class="col-12 text-center wow fadeInUp" data-wow-delay=".8s">
+                <div class="form-check d-flex justify-content-center mb-2">
+                  <input class="form-check-input me-2" type="checkbox" value="" id="updatesCheck" checked>
+                  <label class="form-check-label" for="updatesCheck">
+                    Keep me updated on other news and exclusive offers
+                  </label>
+                </div>
+                <p class="small text-muted wow fadeInUp" data-wow-delay="1s">
+                  Note: You can opt-out at any time. See our <a href="#" class="text-decoration-underline">Privacy Policy</a> and <a href="#" class="text-decoration-underline">Terms</a>.
+                </p>
+              </div>
+            </form>
+          </div>
+        </section>
 
     </div>
-  </div>
 
-  <!-- MEETINGS -->
-  <div id="sched-day3" class="sched-day" style="display:none">
-    <div class="pdf-day-header">
-      <div class="pdf-day-header-title">УУЛЗАЛТЫН ХӨТӨЛБӨР</div>
-      <div class="pdf-day-header-meta">
-        <div class="pdf-day-header-date">2026.04.26 — 27</div>
-        <div class="pdf-day-header-day">УУЛЗАЛТЫН ХӨТӨЛБӨР</div>
-      </div>
-    </div>
-    <div class="sched-grid">
+    <!-- footer begin -->
+    <footer class="text-light section-dark">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-12">
+                    <div class="d-lg-flex align-items-center justify-content-between text-center">
+                        <div>
+                            <h3 class="fs-20">Address</h3>
+                            121 AI Blvd, San Francisco<br>
+                            BCA 94107
+                        </div>
+                        <div>
+                            <img src="images/logo.webp" class="w-150px" alt=""><br>
+                            <div class="social-icons mb-sm-30 mt-4">
+                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                            </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">1-Р ӨДӨР 04.26</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">08:30 — 09:00</div>
-          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ — B2B УУЛЗАЛТЫН МАЯГТ ХҮЛЭЭН АВАХ</div></div>
+                        </div>
+                        <div>
+                            <h3 class="fs-20">Contact Us</h3>
+                            T. +1 123 456 789<br>
+                            M. contact@aivent.com
+                        </div>
+                    </div>
+                </div>                    
+            </div>
         </div>
-        <div class="sched-row">
-          <div class="sched-time">10:25 — 11:00</div>
-          <div class="sched-info">
-            <div class="sched-name">БАНК, ТоС, НОГООН САНХҮҮЖИЛТ, ОЁДОЛ, ХӨНГӨН ҮЙЛДВЭРИЙН САЛБАРЫН ХААЛТТАЙ ХЭЛЭЛЦҮҮЛЭГ</div>
-          </div>
+        <div class="subfooter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        Copyright 2026 - AIvent by Designesia
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="sched-row">
-          <div class="sched-time">10:25 — 11:00</div>
-          <div class="sched-info">
-            <div class="sched-name">ЭРЧИМ ХҮЧНИЙ ХӨРӨНГӨ ОРУУЛАГЧТАЙ НАРИЙВЧИЛСАН УУЛЗАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:05 — 12:32</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — ЖИЖИГЛЭН ХУДАЛДАА, ЛОГИСТИКИЙН МЭРГЭЖИЛТЭН</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:32 — 12:59</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — АЯЛАЛ ЖУУЛЧЛАЛ, ДЭД БҮТЦИЙН ХӨРӨНГӨ ОРУУЛАГЧ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:59 — 13:30</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — ОЁДОЛ, ХОРШОО, НОГООН САНХҮҮЖИЛТ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">13:30 — 14:00</div>
-          <div class="sched-info">
-            <div class="sched-name">БОЛОВСРОЛ, СОЁЛЫН САЛБАРЫН MOU УРЬДЧИЛСАН ЗОХИЦУУЛАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">14:15 — 15:10</div>
-          <div class="sched-info">
-            <div class="sched-name">ГАДААДЫН ХӨРӨНГӨ ОРУУЛАГЧТАЙ НАРИЙВЧИЛСАН УУЛЗАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:10 — 15:25</div>
-          <div class="sched-info">
-            <div class="sched-name">B2B ШУУРХАЙ УУЛЗАЛТ — 3 ЗЭРЭГЦЭХ ШИРЭЭ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:25 — 16:00</div>
-          <div class="sched-info">
-            <div class="sched-name">УУЛ УУРХАЙН ESG ГЭРЭЭНИЙ УРЬДЧИЛСАН ЗОХИЦУУЛАЛТ</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="sched-block">
-        <div class="sched-block-title">2-Р ӨДӨР 04.27</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">08:30 — 09:00</div>
-          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ — B2B УУЛЗАЛТЫН МАЯГТ ХҮЛЭЭН АВАХ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:00 — 09:40</div>
-          <div class="sched-info">
-            <div class="sched-name">ЭРЧИМ ХҮЧНИЙ ХӨРӨНГӨ ОРУУЛАГЧТАЙ НАРИЙВЧИЛСАН УУЛЗАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:40 — 10:00</div>
-          <div class="sched-info">
-            <div class="sched-name">ДЭД БҮТЦИЙН ТӨСЛҮҮДИЙН ТЕХНИК ХЭЛЭЛЦҮҮЛЭГ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:40 — 11:20</div>
-          <div class="sched-info">
-            <div class="sched-name">ЛОГИСТИК, ДЭД БҮТЦИЙН ХӨРӨНГӨ ОРУУЛАГЧТАЙ НАРИЙВЧИЛСАН УУЛЗАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:20 — 11:40</div>
-          <div class="sched-info">
-            <div class="sched-name">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРЫН MOU УРЬДЧИЛСАН ЗОХИЦУУЛАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:30 — 12:57</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — УУЛ УУРХАЙН ДАГАЛДАХ БИЗНЕС, НИЙГМИЙН ХАРИУЦЛАГЫН ГЭРЭЭ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:57 — 13:24</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — ЖИЖИГЛЭН ХУДАЛДАА, ЗАМЫН-ҮҮД КОРИДОРЫН МЭРГЭЖИЛТЭН</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">13:24 — 14:00</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — АЯЛАЛ ЖУУЛЧЛАЛ, ОРОН НУТГИЙН БИЗНЕСИЙН ДЭМЖЛЭГИЙН САН</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:30 — 13:30</div>
-          <div class="sched-info">
-            <div class="sched-name">"ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН АЖЛЫН ХЭСЭГ"-ИЙН АНХНЫ ХУРАЛ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">14:00 — 18:00</div>
-          <div class="sched-info">
-            <div class="sched-name">SITE VISIT — АЖ ҮЙЛДВЭРИЙН ПАРК, НАРНЫ ЦАХИЛГААН СТАНЦ, ЛОГИСТИК ТЕРМИНАЛТАЙ ТАНИЛЦАХ АЯЛАЛ</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  </div><!-- /sched-all-days -->
-
-</section>
-
-<!-- CTA -->
-<!-- CTA section temporarily hidden
-<section class="cta-section">
-  <div class="cta-bg">
-    <img src="zam-1.jpg" alt="">
-    <div class="cta-bg-overlay"></div>
-  </div>
-  <div class="cta-inner">
-    <div class="cta-badge">БҮРТГЭЛ НЭЭЛТТЭЙ</div>
-    <h2 class="cta-h">ФОРУМД<br><em>ОРОЛЦОХ</em></h2>
-    <p class="cta-p">Тогтвортой хөрөнгө оруулалт, ногоон хөгжлийн ирээдүйг хамтдаа бүтээх энэхүү үйл явдалд та болон таны байгууллагыг урьж байна.</p>
-    <div class="cta-buttons">
-      <a href="javascript:void(0)" class="btn-g open-reg">БҮРТГҮҮЛЭХ</a>
-      <a href="#schedule" class="btn-o">ХӨТӨЛБӨР ХАРАХ</a>
-    </div>
-  </div>
-</section>
--->
-
-<!-- FOOTER -->
-<div class="footer-wrap">
-<footer class="site-footer">
-  <div class="footer-top">
-    <div>
-      <img src="dsif-logo.png" alt="DSIF" class="footer-brand-logo">
-      <p class="footer-brand-text">Дорноговь аймгийн "Тогтвортой бодлого — Тасралтгүй хөгжил" хөтөлбөрийн хүрээнд сэргээгдэх эрчим хүч, байгаль орчин, хөдөө аж ахуй, аялал жуулчлал, дэд бүтцийн салбарт хөрөнгө оруулалт татах форум.</p>
-    </div>
-    <div>
-      <div class="footer-heading">САЛБАРУУД</div>
-      <ul class="footer-list">
-        <li><a href="#">НОГООН ЭДИЙН ЗАСАГ</a></li>
-        <li><a href="#">ЭРЧИМ ХҮЧ</a></li>
-        <li><a href="#">УУЛ УУРХАЙ</a></li>
-        <li><a href="#">БАЙГАЛЬ ОРЧИН</a></li>
-        <li><a href="#">ДЭД БҮТЭЦ</a></li>
-        <li><a href="#">БОЛОВСРОЛ</a></li>
-        <li><a href="#">СОЁЛ</a></li>
-        <li><a href="#">ЭРҮҮЛ МЭНД</a></li>
-        <li><a href="#">НИЙГЭМ</a></li>
-        <li><a href="#">ХӨДӨӨ АЖ АХУЙ</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-heading">ФОРУМ</div>
-      <ul class="footer-list">
-        <li><a href="#">ЗОРИЛГО</a></li>
-        <li><a href="#schedule">ХӨТӨЛБӨР</a></li>
-        <li><a href="#">ИЛТГЭГЧИД</a></li>
-        <li><a href="#">ОРОЛЦОГЧИД</a></li>
-        <!-- <li><a href="javascript:void(0)" class="open-reg">БҮРТГЭЛ</a></li> -->
-      </ul>
-    </div>
-    <div>
-      <div class="footer-heading">ХОЛБОО БАРИХ</div>
-      <ul class="footer-list">
-        <li><a href="#">ДОРНОГОВЬ АЙМАГ, САЙНШАНД ХОТ</a></li>
-        <li><a href="mailto:forum@dornogovi.gov.mn">FORUM@DORNOGOVI.GOV.MN</a></li>
-        <li><a href="https://www.dornogovi.one">WWW.DORNOGOVI.ONE</a></li>
-        <li><a href="tel:+97677006933">77006933</a></li>
-        <li><a href="tel:+97691116933">91116933</a></li>
-        <li><a href="tel:+97695111149">95111149</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bar">
-    <div class="footer-copy">&copy; 2026 НОГООН ХӨГЖИЛ ФОРУМ &middot; ДОРНОГОВЬ АЙМАГ</div>
-    <div class="footer-tags"><span>SDG 8</span><span>SDG 9</span><span>SDG 13</span><span>SDG 17</span></div>
-  </div>
-</footer>
-</div><!-- /footer-wrap -->
-
-<!-- REGISTRATION MODAL -->
-<div id="reg-modal" class="modal-overlay">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div class="modal-head-title">ФОРУМД БҮРТГҮҮЛЭХ</div>
-      <button class="modal-close" onclick="closeModal()">&#10005;</button>
-    </div>
-    <div id="reg-form-wrap" class="modal-body">
-      <form id="reg-form" novalidate>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">ОВОГ</label><input id="f-lastname" type="text" class="form-input" placeholder="Овог" required></div>
-          <div class="form-group"><label class="form-label">НЭР</label><input id="f-firstname" type="text" class="form-input" placeholder="Нэр" required></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">УТАС</label><input id="f-phone" type="tel" class="form-input" placeholder="+976 XXXX XXXX" required></div>
-          <div class="form-group"><label class="form-label">И-МЭЙЛ</label><input id="f-email" type="email" class="form-input" placeholder="name@example.com" required></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">БАЙГУУЛЛАГА</label><input id="f-org" type="text" class="form-input" placeholder="Байгууллагын нэр" required></div>
-          <div class="form-group"><label class="form-label">АЛБАН ТУШААЛ</label><input id="f-role" type="text" class="form-input" placeholder="Албан тушаал" required></div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">САЛБАР</label>
-          <select id="f-sector" class="form-input" required>
-            <option value="">— СОНГОНО УУ —</option>
-            <option>НОГООН ЭДИЙН ЗАСАГ</option><option>ЭРЧИМ ХҮЧ</option><option>УУЛ УУРХАЙ</option><option>БАЙГАЛЬ ОРЧИН</option><option>ДЭД БҮТЭЦ</option><option>БОЛОВСРОЛ</option><option>СОЁЛ</option><option>ЭРҮҮЛ МЭНД</option><option>НИЙГЭМ</option><option>ХӨДӨӨ АЖ АХУЙ</option><option>БУСАД</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">ОРОЛЦОХ ХЭЛБЭР</label>
-          <select id="f-participate" class="form-input" required>
-            <option value="">— СОНГОНО УУ —</option>
-            <option>ХӨРӨНГӨ ОРУУЛАГЧ</option><option>B2B УУЛЗАЛТ</option><option>ИЛТГЭГЧ / ПАНЕЛИСТ</option><option>ЗОЧИН</option><option>ХЭВЛЭЛ МЭДЭЭЛЭЛ</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">БУУДАЛЫН ЗАХИАЛГА</label>
-          <div style="display:flex;gap:12px;margin-bottom:8px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:.65rem;color:rgba(255,255,255,.7);cursor:pointer"><input type="radio" name="hotel" id="f-hotel-yes" value="yes" style="accent-color:var(--green)"> Тийм</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:.65rem;color:rgba(255,255,255,.7);cursor:pointer"><input type="radio" name="hotel" id="f-hotel-no" value="no" checked style="accent-color:var(--green)"> Үгүй</label>
-          </div>
-          <div id="hotel-count-wrap" style="display:none">
-            <input id="f-hotel-count" type="number" class="form-input" min="1" max="20" placeholder="Хэдэн хүн?" style="width:140px">
-          </div>
-        </div>
-        <div class="form-group"><label class="form-label">НЭМЭЛТ ТЭМДЭГЛЭЛ</label><textarea id="f-notes" class="form-input" rows="3" placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical"></textarea></div>
-        <label class="form-check"><input type="checkbox" id="f-agree" required> Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна</label>
-      </form>
-    </div>
-    <div id="reg-success"></div>
-    <div class="modal-foot" id="modal-foot">
-      <button class="modal-btn-submit" type="submit" form="reg-form">ИЛГЭЭХ</button>
-    </div>
-  </div>
-</div>
-
-<script>
-/* Ticker */
-(function(){
-  const items=[
-    {label:'ЗАМЫН-ҮҮД БООМТ',value:'18.3M ТОНН/ЖИЛ',color:'var(--green)'},
-    {label:'ХӨРӨНГӨ ОРУУЛАЛТ',value:'50+ БЭЛЭН ТӨСӨЛ',color:'#f0c040'},
-    {label:'ЧӨЛӨӨТ БҮС',value:'900 ГА',color:'#00bcd4'},
-    {label:'ЗӨВШӨӨРӨЛ',value:'231 ИДЭВХТЭЙ',color:'var(--green)'},
-    {label:'ТХЗ',value:'8 9 13 17',color:'#f0c040'},
-    {label:'ФОРУМ',value:'2026.04.26–27 · САЙНШАНД',color:'#00bcd4'},
-    {label:'ОРОЛЦОГЧ',value:'500+',color:'#e74c3c'},
-    {label:'B2B УУЛЗАЛТ',value:'100+',color:'var(--green)'},
-    {label:'САНАМЖ БИЧИГ',value:'30+',color:'#f0c040'},
-    {label:'ТРАНС-МОНГОЛЫН ТӨМӨР ЗАМ',value:'10.3M ТН',color:'#00bcd4'},
-    {label:'ЭКСПОРТЫН ХУВЬ',value:'87%',color:'#e74c3c'},
-    {label:'ХАЙГУУЛЫН ЗӨВШӨӨРӨЛ',value:'136',color:'var(--green)'},
-  ];
-  const inner=document.getElementById('ticker-inner');
-  if(!inner)return;
-  function build(){
-    inner.innerHTML='';
-    [...items,...items,...items].forEach(item=>{
-      const s=document.createElement('span');
-      s.className='ticker-item';
-      s.innerHTML=`<span style="color:${item.color};font-weight:700;letter-spacing:1px">${item.label}</span><span style="color:rgba(0,0,0,.2)">·</span><span style="color:rgba(0,0,0,.65)">${item.value}</span>`;
-      inner.appendChild(s);
-    });
-  }
-  build();
-  let x=0,speed=0.5,halfW=0,paused=false;
-  function calcHalf(){halfW=inner.scrollWidth/3}
-  function tick(){
-    if(!paused){x-=speed;if(Math.abs(x)>=halfW)x=0;inner.style.transform=`translateX(${x}px)`}
-    requestAnimationFrame(tick);
-  }
-  const track=document.getElementById('ticker-track');
-  if(track){
-    // hover pause disabled
-
-  }
-  window.addEventListener('load',()=>{calcHalf();tick()});
-  window.addEventListener('resize',calcHalf);
-})();
-
-/* PDF download — canvas-slice approach */
-async function printSchedule(){
-  const schedule=document.getElementById('schedule');
-  const schedHeader=schedule.querySelector('.sched-header');
-  const cover=document.getElementById('pdf-cover');
-  const days=schedule.querySelectorAll('.sched-day');
-  const savedDays=Array.from(days).map(d=>d.style.display);
-
-  // Prepare DOM
-  days.forEach(d=>d.style.display='block');
-  schedHeader.style.visibility='hidden';
-  cover.style.display='flex';
-  schedule.classList.add('pdf-mode');
-  // Hide built-in day headers (we add proper per-page headers below)
-  schedule.querySelectorAll('.pdf-day-header').forEach(h=>h.style.display='none');
-  await new Promise(r=>setTimeout(r,400));
-
-  // Position cover logo+text: horizontally centered, anchored near bottom
-  const coverLogoEl=cover.querySelector('.pdf-cover-logo');
-  const coverTitleEl=cover.querySelector('.pdf-cover-title');
-  const coverBodyEl=cover.querySelector('.pdf-cover-body');
-  if(coverLogoEl&&coverTitleEl&&coverBodyEl){
-    const coverW=800,coverH=1150,logoW=632;
-    coverTitleEl.style.letterSpacing='14px';
-    await new Promise(r=>setTimeout(r,50));
-    const bodyH=coverBodyEl.offsetHeight,logoH=coverLogoEl.offsetHeight;
-    const leftPos=Math.round((coverW-logoW)/2);
-    const bodyTop=coverH-72-bodyH;
-    coverLogoEl.style.top=(bodyTop-18-logoH)+'px';
-    coverLogoEl.style.left=leftPos+'px';
-    coverBodyEl.style.top=bodyTop+'px';
-    coverBodyEl.style.left=leftPos+'px';
-  }
-
-  const {jsPDF}=window.jspdf;
-  const pdf=new jsPDF({format:'a4',orientation:'portrait',unit:'mm'});
-  const mg=10,pgW=210,pgH=297,cW=pgW-2*mg,cH=pgH-2*mg;
-  const hdrMm=12; // page header height in mm
-  const contentMm=cH-hdrMm;
-
-  // pxPerMm at scale:2, windowWidth:800
-  const pxPerMm=(800*2)/cW;
-  const contentPageHpx=Math.round(contentMm*pxPerMm);
-
-  // Pre-process logo: all pixels → black (fully black silhouette)
-  const blackLogoUrl=await new Promise(res=>{
-    const img=new Image();img.crossOrigin='anonymous';
-    img.onload=()=>{
-      const c=document.createElement('canvas');
-      c.width=img.naturalWidth;c.height=img.naturalHeight;
-      const ctx=c.getContext('2d');ctx.drawImage(img,0,0);
-      const d=ctx.getImageData(0,0,c.width,c.height);
-      for(let i=0;i<d.data.length;i+=4){
-        if(d.data[i+3]>10){d.data[i]=0;d.data[i+1]=0;d.data[i+2]=0;}
-      }
-      ctx.putImageData(d,0,0);res(c.toDataURL('image/png'));
-    };
-    img.onerror=()=>res(null);img.src='dsif-logo.png';
-  });
-
-  // Build page header canvas
-  async function makeHeader(){
-    const el=document.createElement('div');
-    el.style.cssText='position:absolute;top:0;left:-9999px;width:800px;height:50px;display:flex;align-items:center;padding:0 8px;background:#fff;font-family:Montserrat,sans-serif;box-sizing:border-box;border-bottom:3px solid #00b352';
-    const logoImg=document.createElement('img');
-    logoImg.src=blackLogoUrl||'dsif-logo.png';
-    logoImg.style.cssText='height:32px;width:auto;display:block';
-    el.appendChild(logoImg);
-    document.body.appendChild(el);
-    await new Promise(r=>setTimeout(r,80));
-    const c=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',windowWidth:800,logging:false,useCORS:true});
-    document.body.removeChild(el);
-    return c;
-  }
-
-  // All days in one canvas (continuous flow, no forced page breaks)
-  const allDaysEl=document.getElementById('sched-all-days');
-  const canvas=await html2canvas(allDaysEl,{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:800,logging:false});
-  const hdrCanvas=await makeHeader();
-  const hdrData=hdrCanvas.toDataURL('image/png');
-  const hdrMmH=hdrCanvas.height/pxPerMm;
-  const contentH=cH-hdrMmH;
-  const pageHpx=Math.round(contentH*pxPerMm);
-
-  let yPx=0;let pgCount=0;
-  while(yPx<canvas.height){
-    if(pgCount>0)pdf.addPage();pgCount++;
-    pdf.addImage(hdrData,'PNG',mg,mg,cW,hdrMmH);
-    const sliceH=Math.min(pageHpx,canvas.height-yPx);
-    const sc=document.createElement('canvas');
-    sc.width=canvas.width;sc.height=pageHpx;
-    const ctx=sc.getContext('2d');
-    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sc.width,sc.height);
-    ctx.drawImage(canvas,0,yPx,canvas.width,sliceH,0,0,canvas.width,sliceH);
-    pdf.addImage(sc.toDataURL('image/jpeg',0.93),'JPEG',mg,mg+hdrMmH,cW,contentH);
-    yPx+=pageHpx;
-  }
-
-  pdf.save('DSIF-Forum-2026.pdf');
-
-  // Restore
-  days.forEach((d,i)=>d.style.display=savedDays[i]);
-  schedHeader.style.visibility='';
-  cover.style.display='none';
-  schedule.classList.remove('pdf-mode');
-  schedule.querySelectorAll('.pdf-day-header').forEach(h=>h.style.display='');
-}
-
-/* Day switch */
-function switchDay(n){
-  document.querySelectorAll('.sched-day').forEach(d=>d.style.display='none');
-  document.querySelectorAll('.day-btn').forEach(t=>t.classList.remove('active'));
-  document.getElementById('sched-day'+n).style.display='block';
-  document.getElementById('tab-day'+n).classList.add('active');
-}
-
-/* Modal */
-function openModal(){document.getElementById('reg-modal').classList.add('open');document.body.style.overflow='hidden'}
-function closeModal(){document.getElementById('reg-modal').classList.remove('open');document.body.style.overflow=''}
-document.getElementById('reg-modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-document.querySelectorAll('.open-reg').forEach(btn=>{btn.addEventListener('click',e=>{e.preventDefault();openModal()})});
-document.querySelectorAll('input[name="hotel"]').forEach(r=>{r.addEventListener('change',()=>{document.getElementById('hotel-count-wrap').style.display=document.getElementById('f-hotel-yes').checked?'block':'none'})});
-
-/* Form submit */
-document.getElementById('reg-form').addEventListener('submit',async function(e){
-  e.preventDefault();
-  const btn=document.querySelector('.modal-btn-submit');
-  btn.textContent='ИЛГЭЭЖ БАЙНА...';btn.disabled=true;
-  const data={
-    lastname:document.getElementById('f-lastname')?.value.trim()||'',
-    firstname:document.getElementById('f-firstname')?.value.trim()||'',
-    phone:document.getElementById('f-phone')?.value.trim()||'',
-    email:document.getElementById('f-email')?.value.trim()||'',
-    org:document.getElementById('f-org')?.value.trim()||'',
-    role:document.getElementById('f-role')?.value.trim()||'',
-    sector:document.getElementById('f-sector')?.value||'',
-    participate:document.getElementById('f-participate')?.value||'',
-    notes:document.getElementById('f-notes')?.value.trim()||'',
-    hotel:document.getElementById('f-hotel-yes')?.checked?'Тийм':'Үгүй',
-    hotelCount:document.getElementById('f-hotel-yes')?.checked?(document.getElementById('f-hotel-count')?.value||''):'',
-  };
-  try{
-    let regNum;
-    if(typeof window._dsifSaveRegistration==='function'){
-      regNum=await window._dsifSaveRegistration(data);
-    }else{
-      console.warn('Firebase not loaded, waiting 2s...');
-      await new Promise(r=>setTimeout(r,2000));
-      if(typeof window._dsifSaveRegistration==='function'){
-        regNum=await window._dsifSaveRegistration(data);
-      }else{
-        throw new Error('Firebase модуль ачаалагдсангүй. Хуудсаа дахин ачаалаад оролдоно уу.');
-      }
-    }
-    showSuccess(data,regNum);
-  }catch(err){
-    console.error('Registration error:',err);
-    btn.textContent='ИЛГЭЭХ';btn.disabled=false;
-    alert('Алдаа гарлаа: '+err.message);
-  }
-});
-
-function showSuccess(d,regNum){
-  document.getElementById('reg-form-wrap').style.display='none';
-  document.getElementById('modal-foot').style.display='none';
-  const suc=document.getElementById('reg-success');
-  suc.innerHTML=`
-    <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="22" height="22"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <h3 style="font-size:1.1rem;font-weight:800;letter-spacing:2px;color:#fff;margin-bottom:8px;text-transform:uppercase">АМЖИЛТТАЙ БҮРТГЭГДЛЭЭ!</h3>
-    <p style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:6px">Бүртгэлийн дугаар: <strong style="color:var(--green)">${regNum}</strong></p>
-    <p style="font-size:.65rem;color:rgba(255,255,255,.25);margin-bottom:24px">Баталгаажуулах и-мэйл илгээгдэнэ.</p>
-    <div style="text-align:left;border:1px solid rgba(255,255,255,.08);padding:16px;margin-bottom:24px">
-      <div style="font-size:.52rem;color:var(--green);letter-spacing:2px;margin-bottom:12px;font-weight:700;text-transform:uppercase">БҮРТГЭЛИЙН МЭДЭЭЛЭЛ</div>
-      ${[['ОВОГ, НЭР',d.lastname+' '+d.firstname],['УТАС',d.phone],['И-МЭЙЛ',d.email],['БАЙГУУЛЛАГА',d.org],['САЛБАР',d.sector]].filter(r=>r[1].trim()).map(([k,v])=>`<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="font-size:.55rem;color:rgba(255,255,255,.3);min-width:100px;letter-spacing:1px;text-transform:uppercase">${k}</span><span style="font-size:.7rem;font-weight:600;color:#fff">${v}</span></div>`).join('')}
-    </div>
-    <button class="btn-g" onclick="closeModal()" style="padding:12px 32px;font-size:.65rem;cursor:pointer">ХААХ</button>`;
-  suc.style.display='block';
-}
-
-// Recolor logo: white pixels → black, colored pixels stay
-function recolorLogoWhiteToBlack(imgEl){
-  const img=new Image();
-  img.crossOrigin='anonymous';
-  img.onload=()=>{
-    const c=document.createElement('canvas');
-    c.width=img.naturalWidth;c.height=img.naturalHeight;
-    const ctx=c.getContext('2d');
-    ctx.drawImage(img,0,0);
-    const d=ctx.getImageData(0,0,c.width,c.height);
-    for(let i=0;i<d.data.length;i+=4){
-      const r=d.data[i],g=d.data[i+1],b=d.data[i+2],a=d.data[i+3];
-      if(a>10){
-        const max=Math.max(r,g,b),min=Math.min(r,g,b);
-        const sat=max===0?0:(max-min)/max;
-        const br=(r+g+b)/3;
-        if(br>160&&sat<0.25){
-          d.data[i]=0;d.data[i+1]=0;d.data[i+2]=0;
+    </footer>
+    <!-- footer end -->
+    
+    <!-- Javascript Files
+    ================================================== -->
+    <script src="js/vendors.js"></script>
+    <script src="js/designesia.js"></script>
+    <script src="js/countdown-custom.js"></script>
+    <script src="js/custom-marquee.js"></script>
+    <script>
+      (function () {
+        var btn = document.getElementById('theme-toggle');
+        function applyTheme(dark) {
+          if (dark) {
+            document.body.classList.add('dark-scheme');
+            btn.innerHTML = '&#9788;'; /* ☼ sun → switch to light */
+            btn.title = 'Light mode руу солих';
+          } else {
+            document.body.classList.remove('dark-scheme');
+            btn.innerHTML = '&#9790;'; /* ☾ moon → switch to dark */
+            btn.title = 'Dark mode руу солих';
+          }
         }
-      }
-    }
-    ctx.putImageData(d,0,0);
-    imgEl.src=c.toDataURL('image/png');
-  };
-  img.src=imgEl.src;
-}
-// footer logo kept white
-</script>
+        var saved = localStorage.getItem('dsif-theme');
+        applyTheme(saved !== 'light');
+        btn.addEventListener('click', function () {
+          var isDark = document.body.classList.contains('dark-scheme');
+          localStorage.setItem('dsif-theme', isDark ? 'light' : 'dark');
+          applyTheme(!isDark);
+        });
+      })();
+    </script>
+
 </body>
+
 </html>

@@ -1,6 +1,9 @@
 :root {
-  --primary-color: #764DF0;
-  --primary-color-rgb: 118, 77, 240;
-  --secondary-color: #442490;
-  --secondary-color-rgb: 68, 36, 144;
+  /* Brand colors from logo */
+  --primary-color: #29ABE2;
+  --primary-color-rgb: 41, 171, 226;
+  --secondary-color: #4bac48;
+  --secondary-color-rgb: 75, 172, 72;
+  --accent-color: #FFC107;
+  --accent-color-rgb: 255, 193, 7;
 }

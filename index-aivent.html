@@ -33,6 +33,9 @@ window._dsifSaveRegistration = async function(data) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+<!-- Montserrat font -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
 <!-- AIvent CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="css/vendors.css" rel="stylesheet" type="text/css">
@@ -41,10 +44,14 @@ window._dsifSaveRegistration = async function(data) {
 
 <style>
 /* ── DSIF overrides & custom components ── */
-:root { --green:#00b352; --green-dark:#007a38; }
-
-/* Montserrat */
-body { font-family: 'Montserrat', sans-serif !important; }
+:root {
+  --green:#4bac48; --green-dark:#378a35;
+  --body-font:'Montserrat',sans-serif;
+  --heading-font:'Montserrat',sans-serif;
+  --mainmenu-font:'Montserrat',sans-serif;
+  --btn-font-family:'Montserrat',sans-serif;
+}
+*,*::before,*::after { font-family:'Montserrat',sans-serif !important; }
 
 /* Hero video background text */
 #section-hero .subtitle { font-family: 'Montserrat', sans-serif; letter-spacing: 4px; font-size: .75rem; color: var(--green); text-transform: uppercase; }
@@ -159,6 +166,8 @@ body { font-family: 'Montserrat', sans-serif !important; }
   .sched-row { grid-template-columns: 120px 1fr; }
   .sector-nav-inner { padding: 0 20px; }
 }
+.map-link{display:inline-flex;align-items:center;gap:12px;padding:18px 36px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;text-decoration:none;color:#fff;transition:background .2s}
+.map-link:hover{background:rgba(255,255,255,.12)}
 </style>
 </head>
 
@@ -178,27 +187,26 @@ body { font-family: 'Montserrat', sans-serif !important; }
             <div class="de-flex-col">
               <div id="logo">
                 <a href="index.html">
-                  <img class="logo-main" src="dsif-logo.png" alt="DSIF 2026" style="height:36px;width:auto">
+        
                   <img class="logo-scroll" src="dsif-logo.png" alt="DSIF 2026" style="height:30px;width:auto">
-                  <img class="logo-mobile" src="dsif-logo.png" alt="DSIF 2026" style="height:28px;width:auto">
+                  
                 </a>
               </div>
             </div>
             <div class="de-flex-col">
               <div class="de-flex-col header-col-mid">
                 <ul id="mainmenu">
-                  <li><a class="menu-item" href="#section-about">Форумын тухай</a></li>
-                  <li><a class="menu-item" href="#section-schedule">Хөтөлбөр</a></li>
-                  <li><a class="menu-item" href="#section-sectors">Салбарууд</a></li>
-                  <li><a class="menu-item" href="#section-venue">Байршил</a></li>
-                  <li><a class="menu-item" href="projects.html">Төслүүд</a></li>
+                  <!-- <li><a class="menu-item" href="#section-about">Форумын тухай</a></li> -->
+                  <li><a class="menu-item" href="#section-schedule">ХӨТӨЛБӨР</a></li>
+
+                  <li><a class="menu-item" href="projects.html">ТӨСЛҮҮД</a></li>
                 </ul>
               </div>
             </div>
-            <div class="de-flex-col">
+            <!-- <div class="de-flex-col">
               <a class="btn-main fx-slide" href="register.html"><span>Бүртгүүлэх</span></a>
               <div class="menu_side_area"><span id="menu-btn"></span></div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -206,7 +214,7 @@ body { font-family: 'Montserrat', sans-serif !important; }
   </header>
 
   <!-- ── HERO ── -->
-  <section id="section-hero" class="section-dark no-top no-bottom text-light jarallax relative mh-800" data-video-src="mp4:video/2.mp4">
+  <section id="section-hero" class="section-dark no-top no-bottom text-light jarallax relative mh-800" data-video-src="mp4:video/2.mp4" data-speed="0.2">
     <div class="gradient-edge-top op-6 h-50 color"></div>
     <div class="gradient-edge-bottom"></div>
     <div class="sw-overlay op-7"></div>
@@ -214,21 +222,21 @@ body { font-family: 'Montserrat', sans-serif !important; }
       <div class="container wow scaleIn" data-wow-duration="3s">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <div class="subtitle">Тогтвортой бодлого — Тасралтгүй хөгжил</div>
-            <h1 class="fs-120 text-uppercase fs-sm-12vw mb-4 lh-1">DSIF 2026</h1>
-            <div class="d-block d-md-flex justify-content-center">
+           
+            <img src="dsif-logo.png" alt="DSIF 2026" style="height:40%;width:auto;margin-bottom:1.5rem">
+            <div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
               <div class="d-flex justify-content-center align-items-center mx-4">
-                <i class="fa fa-calendar id-color me-3"></i>
-                <h4 class="mb-0">2026.04.26 — 27</h4>
+                <i class="fas fa-calendar id-color me-3"></i>
+                <h5 class="mb-0">2026.04.26 — 27</h5>
               </div>
               <div class="d-flex justify-content-center align-items-center mx-4">
-                <i class="fa fa-location-pin id-color me-3"></i>
+                <i class="fas fa-location-dot id-color me-3"></i>
                 <h4 class="mb-0">Сайншанд, Дорноговь</h4>
               </div>
             </div>
             <div class="spacer-single"></div>
-            <a class="btn-main mx-2 fx-slide" href="register.html"><span>Бүртгүүлэх</span></a>
-            <a class="btn-main btn-line mx-2 fx-slide" href="#section-schedule"><span>Хөтөлбөр харах</span></a>
+            <a class="btn-main mx-2 fx-slide" href="https://maps.google.com/?q=44.885408,110.139780" target="_blank" rel="noopener"><span>Байршил</span></a>
+            <a class="btn-main btn-line mx-2 fx-slide" href="#section-schedule"><span>Хөтөлбөр</span></a>
           </div>
         </div>
       </div>
@@ -239,21 +247,11 @@ body { font-family: 'Montserrat', sans-serif !important; }
         <div class="sm-hide border-white-op-3 p-40 py-4 rounded-1 bg-blur relative overflow-hidden wow fadeInUp">
           <div class="gradient-edge-bottom color start-0 h-50 op-5"></div>
           <div class="row g-4 justify-content-between align-items-center relative z-2">
-            <div class="col-lg-3">
-              <h2 class="mb-0">Яарна уу!</h2>
-              <h4 class="mb-0">Суудлаа урьдчилж захиалаарай</h4>
-            </div>
+ 
             <div class="col-lg-4">
               <div id="defaultCountdown" class="pt-2"></div>
             </div>
-            <div class="col-lg-4">
-              <div class="d-flex">
-                <i class="fs-60 icofont-google-map id-color"></i>
-                <div class="ms-3">
-                  <h4 class="mb-0">Сайншанд, Дорноговь аймаг,<br>Монгол Улс</h4>
-                </div>
-              </div>
-            </div>
+ 
           </div>
         </div>
       </div>
@@ -526,7 +524,7 @@ body { font-family: 'Montserrat', sans-serif !important; }
           <h2 class="wow fadeInUp" data-wow-delay=".2s">Форумд оролцох</h2>
           <p class="lead wow fadeInUp" data-wow-delay=".4s">Тогтвортой хөрөнгө оруулалт, ногоон хөгжлийн ирээдүйг хамтдаа бүтээх энэхүү үйл явдалд та болон таны байгууллагыг урьж байна.</p>
           <div class="spacer-half"></div>
-          <a class="btn-main mx-2 fx-slide wow fadeInUp" href="register.html" data-wow-delay=".6s"><span>Бүртгүүлэх</span></a>
+          <a class="btn-main mx-2 fx-slide wow fadeInUp" href="#section-venue" data-wow-delay=".6s"><span>Байршил</span></a>
           <a class="btn-main btn-line mx-2 fx-slide wow fadeInUp" href="#section-schedule" data-wow-delay=".7s"><span>Хөтөлбөр харах</span></a>
         </div>
       </div>
@@ -543,6 +541,20 @@ body { font-family: 'Montserrat', sans-serif !important; }
           <p class="lead wow fadeInUp" data-wow-delay=".4s">Дорноговь аймгийн төв Сайншанд хотод 2026 оны 04 дүгээр сарын 26–27-нд зохион байгуулагдана.</p>
         </div>
       </div>
+      <!-- Map link -->
+      <div class="row g-4 mt-2 mb-4 wow fadeInUp">
+        <div class="col-12 text-center">
+          <a href="https://maps.google.com/?q=44.885408,110.139780" target="_blank" rel="noopener" class="map-link">
+            <i class="fa fa-location-pin id-color" style="font-size:1.6rem"></i>
+            <div style="text-align:left">
+              <div style="font-size:.65rem;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:3px">Байршил харах</div>
+              <div style="font-size:.85rem;font-weight:500">Сайншанд хот, Дорноговь аймаг</div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.45);margin-top:2px">Google Maps-д нээх →</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
       <div class="row g-4 mt-3">
         <div class="col-lg-4 col-md-6 mb-sm-30">
           <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".2s">

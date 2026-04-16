@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSIF 2026 — Хяналтын Монитор Төсөл | Дорноговь аймаг</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F0EDE6;
+  --surface:#FFFFFF;
+  --border:#DDD9D0;
+  --border2:#E8E4DC;
+  --text:#18150F;
+  --text2:#58544E;
+  --text3:#98948E;
+  --green:#0A6640;
+  --green-light:#E6F5EE;
+  --green-mid:#1D9E75;
+  --green-border:#9DD8BE;
+  --red:#B83232;
+  --blue:#1B4F8A;
+  --blue-light:#EBF2FF;
+  --amber:#C8860A;
+  --amber-light:#FFF4DC;
+  --shadow:0 1px 4px rgba(0,0,0,.08),0 6px 20px rgba(0,0,0,.06);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.65;min-height:100vh}
+
+/* ── HEADER ── */
+header{background:#18150F;color:#fff;position:sticky;top:0;z-index:300;border-bottom:3px solid var(--amber)}
+.header-inner{max-width:960px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:54px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:30px;height:30px;background:var(--amber);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#18150F;letter-spacing:-.5px;flex-shrink:0}
+.logo-text{font-weight:600;font-size:14px;color:#fff;letter-spacing:.01em}
+.header-right{display:flex;align-items:center;gap:8px}
+.hbadge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:5px;padding:3px 10px;font-size:11px;font-weight:500;color:rgba(255,255,255,.8);letter-spacing:.04em}
+.hbadge.hl{background:var(--amber);border-color:var(--amber);color:#18150F;font-weight:700}
+.save-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:500;color:rgba(255,255,255,.75);cursor:pointer;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:5px}
+.save-btn:hover{background:rgba(255,255,255,.16);color:#fff}
+.save-indicator{width:7px;height:7px;border-radius:50%;background:#4ADE80;flex-shrink:0;transition:background .3s}
+.save-indicator.saving{background:var(--amber);animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── HERO ── */
+.hero{background:#18150F;color:#fff;padding:2.25rem 1.5rem 1.75rem}
+.hero-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center}
+.hero-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:.6rem}
+.hero-title{font-size:clamp(18px,3.5vw,26px);font-weight:700;line-height:1.2;letter-spacing:-.02em;margin-bottom:.7rem}
+.hero-title em{color:var(--amber);font-style:normal}
+.hero-desc{font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;max-width:520px}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:200px}
+.hstat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.75rem 1rem;text-align:center}
+.hstat-val{font-size:18px;font-weight:700;color:#fff;font-family:'IBM Plex Mono',monospace;letter-spacing:-.03em}
+.hstat-val small{font-size:12px;color:var(--amber);font-family:'IBM Plex Sans',sans-serif;font-weight:600;margin-left:3px}
+.hstat-lbl{font-size:10px;color:rgba(255,255,255,.4);margin-top:3px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+
+/* ── PROGRESS BAR ── */
+.prog-wrap{background:#18150F;padding:0 1.5rem 1.25rem}
+.prog-inner{max-width:960px;margin:0 auto}
+.prog-steps{display:flex;align-items:center}
+.ps{display:flex;align-items:center;gap:7px;cursor:pointer;padding:4px 0}
+.ps-num{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:rgba(255,255,255,.3);flex-shrink:0;transition:all .25s}
+.ps-label{font-size:11px;color:rgba(255,255,255,.35);font-weight:500;transition:all .25s;white-space:nowrap}
+.ps.done .ps-num{background:var(--green-mid);border-color:var(--green-mid);color:#fff}
+.ps.done .ps-label{color:rgba(255,255,255,.65)}
+.ps.active .ps-num{background:var(--amber);border-color:var(--amber);color:#18150F;font-weight:800}
+.ps.active .ps-label{color:#fff;font-weight:600}
+.ps-line{flex:1;height:1px;background:rgba(255,255,255,.1);margin:0 6px}
+.prog-bar-wrap{height:2px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:10px;overflow:hidden}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--green-mid),#4ADE80);border-radius:2px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+
+/* ── LAYOUT ── */
+.wrap{max-width:960px;margin:0 auto;padding:1.75rem 1.5rem 5rem}
+.two-col{display:grid;grid-template-columns:1fr 300px;gap:1.25rem;align-items:start}
+.main-col{min-width:0}
+.side-col{}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:1.1rem}
+.card-hd{padding:.875rem 1.25rem;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:9px;background:#FAFAF8}
+.card-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.card-icon.g{background:var(--green-light)}
+.card-icon.b{background:var(--blue-light)}
+.card-icon.a{background:var(--amber-light)}
+.card-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text2)}
+.card-bd{padding:1.25rem}
+
+/* ── PREFILL NOTICE ── */
+.prefill-notice{background:linear-gradient(135deg,#E6F5EE,#F0FBF5);border:1px solid var(--green-border);border-radius:var(--r);padding:.875rem 1.1rem;display:flex;gap:10px;align-items:flex-start;margin-bottom:1.25rem;font-size:13px;color:var(--green)}
+.prefill-notice strong{display:block;font-weight:700;margin-bottom:2px}
+
+/* ── FORM ── */
+.sec{margin-bottom:1.5rem}
+.slbl{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);padding-bottom:8px;border-bottom:2px solid var(--border2);margin-bottom:1.1rem;display:flex;align-items:center;gap:7px}
+.slbl::before{content:'';display:block;width:3px;height:11px;background:var(--green-mid);border-radius:2px;flex-shrink:0}
+.fld{margin-bottom:.95rem}
+.fld>label{display:block;font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:5px}
+.req{color:var(--red);margin-left:1px}
+.hint{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.5}
+.prefilled{background:#FFFBEE !important;border-color:#E8C84A !important}
+.prefilled:focus{background:#fff !important;border-color:var(--green-mid) !important}
+.invalid{border-color:var(--red) !important;background:#FEF8F8 !important}
+
+input[type=text],input[type=number],input[type=tel],input[type=email],input[type=url],select,textarea{
+  width:100%;font-size:13.5px;color:var(--text);background:#fff;
+  border:1px solid var(--border);border-radius:8px;padding:8px 12px;
+  outline:none;font-family:inherit;transition:border-color .15s,box-shadow .15s;line-height:1.55}
+input:focus,select:focus,textarea:focus{border-color:var(--green-mid);box-shadow:0 0 0 3px rgba(29,158,117,.1)}
+textarea{resize:vertical;min-height:76px;line-height:1.65}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+
+/* ── SECTOR GRID ── */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px}
+.sb{display:flex;align-items:center;gap:7px;padding:8px 11px;border:1.5px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:12.5px;color:var(--text2);transition:all .14s;user-select:none}
+.sb:hover{border-color:#b0aca4}
+.sb.on{border-color:var(--green-mid);background:var(--green-light);color:var(--green);font-weight:600}
+.si{font-size:15px;width:18px;text-align:center;flex-shrink:0}
+
+/* ── SECTOR EXTRA BOX ── */
+.sqbox{background:#F5FCF8;border:1.5px solid var(--green-border);border-radius:var(--r);padding:1.1rem;margin-top:.875rem;display:none;animation:fadeIn .2s ease}
+.sqbox.on{display:block}
+.sqtitle{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:1rem;padding-bottom:7px;border-bottom:1px solid var(--green-border)}
+.badge-s{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;background:var(--green-light);color:var(--green);border:1px solid var(--green-border);margin-bottom:.7rem;letter-spacing:.05em;text-transform:uppercase}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* ── RADIO GROUPS ── */
+.rg{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ro{display:flex;align-items:center;gap:5px;padding:6px 12px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;font-size:12.5px;color:var(--text2);transition:all .14s;user-select:none}
+.ro:hover{border-color:#aaa}
+.ro input[type=radio]{display:none}
+.ro.on-s{border-color:var(--green-mid);background:var(--green-light);color:var(--green);font-weight:600}
+.ro.on-s::before{content:'✓';font-size:9px;font-weight:900;margin-right:1px}
+.ro.on-p{border-color:var(--blue);background:var(--blue-light);color:var(--blue);font-weight:600}
+.ro.on-p::before{content:'✓';font-size:9px;font-weight:900;margin-right:1px}
+
+/* ── CHAR COUNT ── */
+.cc{font-size:11px;color:var(--text3);text-align:right;margin-top:3px}
+.cc.warn{color:var(--red)}
+
+/* ── ERROR BOX ── */
+.err-box{background:#FEF2F2;border:1px solid #FBBEBE;border-radius:8px;padding:9px 13px;font-size:13px;color:#991B1B;margin-bottom:1rem;display:none}
+.err-box.on{display:block}
+
+/* ── INFO BOX ── */
+.ibox{background:#F5FCF8;border:1px solid var(--green-border);border-radius:8px;padding:12px 15px;font-size:12.5px;color:var(--text2);line-height:1.65;margin-top:.875rem}
+.ibox b{color:var(--green);font-weight:700}
+
+/* ── BUDGET PANEL ── */
+.budget-panel{background:#18150F;border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.1rem;display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.bp-item{}
+.bp-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px}
+.bp-value{font-size:16px;font-weight:700;color:#fff;font-family:'IBM Plex Mono',monospace;letter-spacing:-.02em}
+.bp-value small{font-size:11px;color:var(--amber);font-family:'IBM Plex Sans',sans-serif;font-weight:600;margin-left:3px}
+.bp-accent{color:var(--amber)}
+
+/* ── EQUIP TABLE ── */
+.etable{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:.5rem}
+.etable th{background:#F5F3EF;padding:7px 11px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);border-bottom:2px solid var(--border2)}
+.etable td{padding:9px 11px;border-bottom:1px solid var(--border2);vertical-align:top}
+.etable tr:last-child td{border-bottom:none}
+.etable .tr-total td{background:var(--green-light);font-weight:700;color:var(--green);border-top:2px solid var(--green-border)}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:12px;white-space:nowrap}
+
+/* ── TYPE CARDS ── */
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:.875rem 0}
+.tcard{border:2px solid var(--border);border-radius:var(--r);padding:1rem;cursor:pointer;background:var(--surface);transition:all .15s;position:relative;overflow:hidden}
+.tcard::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:transparent;transition:background .15s}
+.tcard.sel-s{border-color:var(--green-mid);background:var(--green-light)}
+.tcard.sel-s::after{background:var(--green-mid)}
+.tcard.sel-p{border-color:var(--blue);background:var(--blue-light)}
+.tcard.sel-p::after{background:var(--blue)}
+.ticon{font-size:22px;margin-bottom:6px}
+.tname{font-size:14px;font-weight:700;margin-bottom:3px}
+.tcard.sel-s .tname{color:var(--green)}
+.tcard.sel-p .tname{color:var(--blue)}
+.tdesc{font-size:11.5px;color:var(--text2);line-height:1.5}
+.t-check{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;background:var(--green-mid);color:#fff;display:none;align-items:center;justify-content:center;font-size:10px;font-weight:900}
+.tcard.sel-s .t-check,.tcard.sel-p .t-check{display:flex}
+.tcard.sel-p .t-check{background:var(--blue)}
+
+/* ── SIDEBAR WIDGETS ── */
+.side-sticky{position:sticky;top:70px}
+.ai-widget{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:1rem}
+.ai-hd{background:linear-gradient(135deg,#18150F,#2C2820);padding:.875rem 1rem;display:flex;align-items:center;gap:8px}
+.ai-hd-icon{width:28px;height:28px;border-radius:6px;background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.ai-hd-title{font-size:12px;font-weight:700;color:#fff}
+.ai-hd-sub{font-size:10px;color:rgba(255,255,255,.45);margin-top:1px}
+.ai-body{padding:1rem}
+.ai-msg-wrap{min-height:100px;max-height:260px;overflow-y:auto;margin-bottom:.875rem;display:flex;flex-direction:column;gap:8px}
+.ai-bubble{border-radius:8px;padding:8px 11px;font-size:12.5px;line-height:1.55;animation:fadeIn .2s ease}
+.ai-bubble.bot{background:#F5F3EF;color:var(--text);border-bottom-left-radius:3px}
+.ai-bubble.user{background:var(--green-mid);color:#fff;text-align:right;border-bottom-right-radius:3px;align-self:flex-end}
+.ai-bubble.thinking{background:#F5F3EF;color:var(--text3);font-style:italic}
+.ai-input-wrap{display:flex;gap:6px}
+.ai-input{flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:12.5px;font-family:inherit;outline:none;background:#fff;transition:border-color .15s}
+.ai-input:focus{border-color:var(--green-mid);box-shadow:0 0 0 2px rgba(29,158,117,.12)}
+.ai-send{background:var(--green-mid);color:#fff;border:none;border-radius:7px;padding:7px 12px;font-size:12.5px;cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s;flex-shrink:0;display:flex;align-items:center;gap:4px}
+.ai-send:hover{background:var(--green)}
+.ai-send:disabled{opacity:.5;cursor:not-allowed}
+.ai-suggestions{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem}
+.ai-sug{background:#F5F3EF;border:1px solid var(--border2);border-radius:5px;padding:4px 9px;font-size:11px;color:var(--text2);cursor:pointer;transition:all .13s;user-select:none}
+.ai-sug:hover{background:var(--green-light);border-color:var(--green-border);color:var(--green)}
+
+/* ── CHECKLIST WIDGET ── */
+.chk-widget{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:1rem}
+.chk-hd{background:#F5F3EF;padding:.75rem 1rem;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text2);display:flex;justify-content:space-between;align-items:center}
+.chk-progress{font-size:12px;font-weight:700;color:var(--green-mid);font-family:'IBM Plex Mono',monospace}
+.chk-list{padding:.75rem 1rem;display:flex;flex-direction:column;gap:5px}
+.chk-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text2)}
+.chk-item.done{color:var(--green)}
+.chk-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;transition:all .2s}
+.chk-item.done .chk-dot{background:var(--green-mid);border-color:var(--green-mid);color:#fff}
+
+/* ── NAV BUTTONS ── */
+.pg{display:none}.pg.on{display:block}
+.brow{display:flex;justify-content:space-between;align-items:center;margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--border2);gap:10px}
+.bprev{background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:9px 18px;font-size:13.5px;cursor:pointer;color:var(--text2);font-family:inherit;transition:all .15s;font-weight:500}
+.bprev:hover{background:#F5F3EF;border-color:#aaa}
+.bnext{background:var(--text);color:#fff;border:none;border-radius:8px;padding:9px 22px;font-size:13.5px;cursor:pointer;font-weight:600;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:7px}
+.bnext:hover{background:#333;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.bsub{background:var(--green-mid);color:#fff;border:none;border-radius:8px;padding:9px 22px;font-size:13.5px;cursor:pointer;font-weight:700;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:7px}
+.bsub:hover{background:var(--green);transform:translateY(-1px);box-shadow:0 4px 14px rgba(29,158,117,.4)}
+
+/* ── DONE PAGE ── */
+.done-wrap{text-align:center;padding:2.5rem 1.5rem}
+.done-icon{width:64px;height:64px;border-radius:50%;background:var(--green-light);border:3px solid var(--green-mid);display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem;font-size:24px}
+.done-title{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.done-sub{font-size:13.5px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto}
+.sum-card{background:var(--green-light);border:1px solid var(--green-border);border-radius:var(--r);padding:1.1rem;margin:1.25rem 0;text-align:left}
+.sum-row{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;font-size:12.5px;border-bottom:1px solid #D8EFE4;gap:10px}
+.sum-row:last-child{border:none}
+.sum-row span:first-child{color:var(--text2);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;flex-shrink:0}
+.sum-row span:last-child{color:var(--text);font-weight:600;text-align:right}
+.print-btn{display:inline-flex;align-items:center;gap:7px;margin-top:1rem;padding:9px 20px;background:#fff;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s}
+.print-btn:hover{background:#F5F3EF;border-color:#aaa}
+.new-btn{display:inline-flex;align-items:center;gap:7px;margin-top:.75rem;padding:9px 22px;background:var(--text);border:none;border-radius:8px;font-size:13.5px;font-weight:600;color:#fff;cursor:pointer;font-family:inherit;transition:all .15s;text-decoration:none}
+.new-btn:hover{background:#333}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:2rem 1rem;font-size:12px;color:var(--text3);border-top:1px solid var(--border2);margin-top:2rem}
+footer a{color:var(--green-mid);text-decoration:none;font-weight:600}
+
+/* ── PRINT ── */
+@media print{
+  header,footer,.side-col,.brow,.prog-wrap,nav{display:none!important}
+  .two-col{grid-template-columns:1fr!important}
+  .card,.wrap{box-shadow:none!important;border:1px solid #ddd!important}
+  .hero{background:#fff!important;color:#000!important;padding:1rem 0!important}
+  .hero-title,.hero-label,.hero-desc,.hero-stats{color:#000!important}
+  body{background:#fff!important;font-size:13px}
+  .pg{display:block!important}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  .two-col{grid-template-columns:1fr}
+  .side-col{order:-1}
+  .side-sticky{position:static}
+  .type-grid{grid-template-columns:1fr}
+  .row2,.row3{grid-template-columns:1fr}
+  .brow{flex-direction:column-reverse}
+  .bprev,.bnext,.bsub{width:100%;justify-content:center}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-stats{display:none}
+  .budget-panel{grid-template-columns:1fr 1fr}
+  .header-right .hbadge{display:none}
+  .ps-label{display:none}
+  .etable{font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">DS</div>
+      <div class="logo-text">DSIF 2026 · Дорноговь аймаг</div>
+    </div>
+    <div class="header-right">
+      <span class="hbadge">2026.04.26–27</span>
+      <span class="hbadge">Сайншанд</span>
+      <span class="hbadge hl">🤝 Нийгмийн төсөл</span>
+      <button class="save-btn" onclick="saveData()" id="saveBtn">
+        <span class="save-indicator" id="saveInd"></span>
+        Хадгалах
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-label">🏥 Эрүүл мэндийн салбар · Нийгмийн төсөл · DSIF 2026</div>
+      <div class="hero-title">Нэгдсэн эмнэлгийн <em>хяналтын монитор,</em><br>тарианы памп шинэчлэх төсөл</div>
+      <div class="hero-desc">Дорноговь аймгийн Нэгдсэн эмнэлэгт хуучирч, ашиглалтын шаардлага хангахгүй болсон хяналтын тоног төхөөрөмжийг орчин үеийн стандартад нийцүүлэн шинэчлэх нийгмийн чухал ач холбогдолтой төсөл.</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-val">250M<small>₮</small></div>
+        <div class="hstat-lbl">Нийт төсөв</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">40<small>ш</small></div>
+        <div class="hstat-lbl">Тоног төхөөрөмж</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">80K<small>+</small></div>
+        <div class="hstat-lbl">Хамрах иргэд</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">14<small>сум</small></div>
+        <div class="hstat-lbl">Хамрах хүрээ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-wrap">
+  <div class="prog-inner">
+    <div class="prog-steps" id="progSteps"></div>
+    <div class="prog-bar-wrap"><div class="prog-bar" id="progBar" style="width:25%"></div></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+<div class="two-col">
+
+<!-- ═══ LEFT COLUMN ═══ -->
+<div class="main-col">
+
+<!-- ── PAGE 1 ── -->
+<div class="pg on" id="pg1">
+  <div class="prefill-notice">
+    <span style="font-size:18px;flex-shrink:0">📋</span>
+    <div>
+      <strong>Төслийн мэдээлэл автоматаар бөглөгдлөө</strong>
+      Дорноговь аймгийн Нэгдсэн эмнэлгийн баримт бичгийн дагуу урьдчилан бөглөгдсөн. Шаардлагатай бол засварлаж болно.
+    </div>
+  </div>
+
+  <!-- Төслийн ангилал -->
+  <div class="card">
+    <div class="card-hd"><div class="card-icon g">🗂</div><div class="card-title">Төслийн ангилал</div></div>
+    <div class="card-bd">
+      <div class="type-grid">
+        <div class="tcard" id="tcp" onclick="pickType('p')">
+          <div class="t-check">✓</div>
+          <div class="ticon">💼</div>
+          <div class="tname">Ашгийн төсөл</div>
+          <div class="tdesc">Хувийн хэвшлийн хөрөнгө оруулалт, орлого бүтээх зорилготой бизнесийн төсөл</div>
+        </div>
+        <div class="tcard sel-s" id="tcs" onclick="pickType('s')">
+          <div class="t-check">✓</div>
+          <div class="ticon">🤝</div>
+          <div class="tname">Нийгмийн төсөл</div>
+          <div class="tdesc">Орон нутгийн хөгжил, нийтийн үйлчилгээ, нийгмийн асуудал шийдвэрлэх зорилготой</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Салбар -->
+  <div class="card">
+    <div class="card-hd"><div class="card-icon g">🏥</div><div class="card-title">Салбарын ангилал</div></div>
+    <div class="card-bd">
+      <div class="err-box" id="err1">Заавал бөглөх (<span style="color:var(--red)">*</span>) талбаруудыг бөглөнө үү.</div>
+      <div class="fld">
+        <label>Аль салбарт хамаарах вэ? <span class="req">*</span></label>
+        <div class="sgrid" id="sgrid">
+          <div class="sb" data-v="energy" onclick="pickSector(this)"><span class="si">⚡</span>Эрчим хүч</div>
+          <div class="sb" data-v="mining" onclick="pickSector(this)"><span class="si">⛏</span>Уул уурхай</div>
+          <div class="sb" data-v="green"  onclick="pickSector(this)"><span class="si">🌱</span>Ногоон эд. засаг</div>
+          <div class="sb" data-v="nature" onclick="pickSector(this)"><span class="si">🌿</span>Байгаль орчин</div>
+          <div class="sb" data-v="infra"  onclick="pickSector(this)"><span class="si">🏗</span>Дэд бүтэц</div>
+          <div class="sb" data-v="edu"    onclick="pickSector(this)"><span class="si">📚</span>Боловсрол</div>
+          <div class="sb on" data-v="health" onclick="pickSector(this)"><span class="si">🏥</span>Эрүүл мэнд</div>
+          <div class="sb" data-v="agri"   onclick="pickSector(this)"><span class="si">🌾</span>Хөдөө аж ахуй</div>
+        </div>
+        <input type="hidden" id="sv" value="health">
+      </div>
+      <div class="sqbox on" id="sqbox"></div>
+    </div>
+  </div>
+
+  <!-- Үндсэн мэдээлэл -->
+  <div class="card">
+    <div class="card-hd"><div class="card-icon g">📝</div><div class="card-title">Төслийн үндсэн мэдээлэл</div></div>
+    <div class="card-bd">
+      <div class="fld">
+        <label>Төслийн нэр <span class="req">*</span></label>
+        <input type="text" id="pname" class="prefilled" value="Нэгдсэн эмнэлгийн үйлчлүүлэгчийн дэргэдэх хяналтын монитор, тарианы пампыг шинэчлэх төсөл">
+      </div>
+      <div class="fld">
+        <label>Товч тайлбар <span class="req">*</span></label>
+        <textarea id="pshort" rows="3" class="prefilled" onkeyup="cc(this,'cc1',200)">Дорноговь аймгийн Нэгдсэн эмнэлэгт хуучирч, ашиглалтын шаардлага хангахгүй болсон хяналтын монитор 30ш, тарианы памп 10ш-ийг нэн яаралтай шинэчлэх нийгмийн төсөл.</textarea>
+        <div class="cc" id="cc1">189 / 200</div>
+      </div>
+      <div class="fld">
+        <label>Дэлгэрэнгүй тайлбар</label>
+        <textarea rows="5" class="prefilled" id="pdesc" onkeyup="cc(this,'cc2',800)">Нэгдсэн эмнэлэг нь нарийн мэргэшлийн 80 гаруй эмч, 100 гаруй сувилагч, 100 орчим ажилтантайгаар үйл ажиллагаа явуулдаг. Хяналтын монитор нь өвчтөний амин чухал үзүүлэлтүүдийг (зүрхний цохилт, артерийн даралт, CO₂, хүчилтөрөгч) бодит хугацаанд тасралтгүй хянаж, эмнэлзүйн шийдвэр гаргахад тусалдаг. Ашиглалтын хугацаа дуусч, доголдол гарсан тохиолдолд өвчтөний биеийн байдлыг буруу үнэлж, оношилгоо эмчилгээний алдаа гарах эрсдэл өндөр байна. Иймд яаралтай түргэн тусламж, эрчимт эмчилгээ, эх барих тасгийн монитор болон пампуудыг Mindray брэндийн, нэгдсэн сүлжээнд холбогдох боломжтой тоног төхөөрөмжөөр шинэчлэх шаардлагатай байна.</textarea>
+        <div class="cc" id="cc2">580 / 800</div>
+      </div>
+      <div class="row2">
+        <div class="fld">
+          <label>Хэрэгжүүлэх байршил <span class="req">*</span></label>
+          <select id="ploc" class="prefilled">
+            <option value="">— Сонгоно уу —</option>
+            <option selected>Сайншанд хот</option>
+            <option>Замын-Үүд</option><option>Даланжаргалан сум</option>
+            <option>Айраг сум</option><option>Хатанбулаг сум</option>
+            <option>Эрдэнэ сум</option><option>Дэлгэрэх сум</option>
+            <option>Өргөн сум</option><option>Сайхандулаан сум</option>
+            <option>Аймгийн хэмжээнд</option><option>Тодруулах шаардлагатай</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Хэрэгжилтийн үе шат <span class="req">*</span></label>
+          <select id="pstage" class="prefilled">
+            <option value="">— Сонгоно уу —</option>
+            <option>Санаа / Судалгаа</option>
+            <option>ТЭЗҮ бэлэн</option>
+            <option selected>Хэрэгжилтэд бэлэн</option>
+            <option>Хэрэгжиж эхэлсэн</option>
+          </select>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Хэрэгжилтийн хугацаа <span class="req">*</span></label>
+        <div class="rg" id="rg-dur">
+          <label class="ro on-s" onclick="sel(this,'rg-dur')"><input type="radio" name="dur" checked>1 жил хүртэл</label>
+          <label class="ro" onclick="sel(this,'rg-dur')"><input type="radio" name="dur">1–3 жил</label>
+          <label class="ro" onclick="sel(this,'rg-dur')"><input type="radio" name="dur">3–5 жил</label>
+          <label class="ro" onclick="sel(this,'rg-dur')"><input type="radio" name="dur">5 жилээс дээш</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brow">
+    <div></div>
+    <button class="bnext" onclick="go(2)">Санхүүгийн мэдээлэл →</button>
+  </div>
+</div>
+
+<!-- ── PAGE 2 ── -->
+<div class="pg" id="pg2">
+
+  <!-- Budget -->
+  <div class="card">
+    <div class="card-hd"><div class="card-icon a">💰</div><div class="card-title">Санхүүгийн мэдээлэл — нийгмийн төсөл</div></div>
+    <div class="card-bd">
+      <div class="budget-panel">
+        <div class="bp-item">
+          <div class="bp-label">Нийт төсөв</div>
+          <div class="bp-value bp-accent">250,000,000<small>₮</small></div>
+        </div>
+        <div class="bp-item">
+          <div class="bp-label">Тоног төхөөрөмж</div>
+          <div class="bp-value">40<small>ш</small></div>
+        </div>
+        <div class="bp-item">
+          <div class="bp-label">Монитор 30ш</div>
+          <div class="bp-value">210M<small>₮</small></div>
+        </div>
+        <div class="bp-item">
+          <div class="bp-label">Памп 10ш</div>
+          <div class="bp-value">40M<small>₮</small></div>
+        </div>
+      </div>
+
+      <div class="fld">
+        <label>Нэн шаардлагатай тоног төхөөрөмжийн жагсаалт</label>
+        <table class="etable">
+          <thead><tr>
+            <th>Тоног төхөөрөмж</th>
+            <th>Онцлог шинж</th>
+            <th>Нэгж үнэ</th>
+            <th>Тоо</th>
+            <th>Нийт</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Хяналтын монитор</strong><br><span style="font-size:11px;color:var(--text2)">Mindray брэнд</span></td>
+              <td style="font-size:11.5px;line-height:1.5">ECG, SpO₂, NIBP, CO₂; хүүхэд & том хүн; сүлжээнд холбогдоно; 1–1000 мл/цаг; KVO функц; дохиоллын систем</td>
+              <td class="mono">7,000,000 ₮</td>
+              <td class="mono" style="text-align:center">30</td>
+              <td class="mono"><strong>210,000,000 ₮</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Тарианы памп</strong></td>
+              <td style="font-size:11.5px;line-height:1.5">Нарийн тун тохируулга; автомат шахалт; 2+ оролттой; аюулгүйн дохиолол</td>
+              <td class="mono">4,000,000 ₮</td>
+              <td class="mono" style="text-align:center">10</td>
+              <td class="mono"><strong>40,000,000 ₮</strong></td>
+            </tr>
+            <tr class="tr-total">
+              <td colspan="3"><strong>НИЙТ ДҮН</strong></td>
+              <td class="mono" style="text-align:center"><strong>40</strong></td>
+              <td class="mono"><strong>250,000,000 ₮</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec" style="margin-top:1.25rem">
+        <div class="slbl">Санхүүжилтийн мэдээлэл</div>
+        <div class="fld">
+          <label>Нийт хэрэгцээт төсөв <span class="req">*</span></label>
+          <div style="display:flex;gap:8px">
+            <input type="number" value="250000000" class="prefilled" style="flex:1">
+            <select style="width:105px" class="prefilled"><option selected>MNT (₮)</option><option>USD ($)</option><option>CNY (¥)</option><option>EUR (€)</option></select>
+          </div>
+          <div class="hint">Нийт хэрэгжүүлэхэд шаардлагатай дүн</div>
+        </div>
+        <div class="fld">
+          <label>Санхүүжилтийн эх үүсвэр <span class="req">*</span></label>
+          <div class="rg" id="rg-src">
+            <label class="ro on-s" onclick="sel(this,'rg-src')"><input type="radio" name="src" checked>Засгийн газрын санхүүжилт</label>
+            <label class="ro" onclick="sel(this,'rg-src')"><input type="radio" name="src">ОУ байгууллагын грант</label>
+            <label class="ro" onclick="sel(this,'rg-src')"><input type="radio" name="src">Хувийн хэвшлийн ивээн тэтгэлэг</label>
+            <label class="ro" onclick="sel(this,'rg-src')"><input type="radio" name="src">Хоршоо / Орон нутгийн сан</label>
+            <label class="ro" onclick="sel(this,'rg-src')"><input type="radio" name="src">Холимог эх үүсвэр</label>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="fld">
+            <label>Санхүүжилт бэлэн байдал</label>
+            <div class="rg" id="rg-pct">
+              <label class="ro" onclick="sel(this,'rg-pct')"><input type="radio" name="pct">Бүрэн бэлэн</label>
+              <label class="ro" onclick="sel(this,'rg-pct')"><input type="radio" name="pct">50% дээш</label>
+              <label class="ro on-s" onclick="sel(this,'rg-pct')"><input type="radio" name="pct" checked>50% доош</label>
+              <label class="ro" onclick="sel(this,'rg-pct')"><input type="radio" name="pct">Огт байхгүй</label>
+            </div>
+          </div>
+          <div class="fld">
+            <label>CSR санхүүжилтэд тохирох уу?</label>
+            <div class="rg" id="rg-csr">
+              <label class="ro on-s" onclick="sel(this,'rg-csr')"><input type="radio" name="csr" checked>Тийм</label>
+              <label class="ro" onclick="sel(this,'rg-csr')"><input type="radio" name="csr">Хэсэгчилсэн</label>
+              <label class="ro" onclick="sel(this,'rg-csr')"><input type="radio" name="csr">Үгүй</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="slbl">Нийгмийн үр нөлөө</div>
+        <div class="row3">
+          <div class="fld">
+            <label>Хамрах иргэдийн тоо <span class="req">*</span></label>
+            <input type="number" value="80000" class="prefilled">
+            <div class="hint">14 сумын хүн ам</div>
+          </div>
+          <div class="fld">
+            <label>Хамрах сумын тоо</label>
+            <input type="number" value="14" class="prefilled" min="1" max="14">
+          </div>
+          <div class="fld">
+            <label>Хуучин тоног тоо</label>
+            <input type="number" value="40" class="prefilled">
+            <div class="hint">Шинэчлэгдэх ш</div>
+          </div>
+        </div>
+        <div class="fld">
+          <label>SDG зорилттой уялдаа <span class="req">*</span></label>
+          <select class="prefilled">
+            <option value="">— Сонгоно уу —</option>
+            <option>SDG 1 — Ядуурал</option>
+            <option selected>SDG 3 — Эрүүл мэнд</option>
+            <option>SDG 6 — Цэвэр ус</option>
+            <option>SDG 7 — Эрчим хүч</option>
+            <option>SDG 8 — Ажлын байр</option>
+            <option>SDG 9 — Дэд бүтэц</option>
+            <option>SDG 11 — Тогтвортой хот</option>
+            <option>SDG 13 — Уур амьсгал</option>
+            <option>Хэд хэдэн зорилт</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Нийгмийн үр нөлөөг хэрхэн хэмжих вэ? <span class="req">*</span></label>
+          <textarea rows="3" class="prefilled" onkeyup="cc(this,'cc3',400)">Монитор доголдлын тоо; оношилгоо алдааны хэмжээ; 24/7 хяналтын хувь; өвчтөний сэтгэл ханамж; эмчлэгдсэн өвчтөний тоо; дотоод шилжилтийн бууралт.</textarea>
+          <div class="cc" id="cc3">185 / 400</div>
+        </div>
+        <div class="fld">
+          <label>Тогтвортой байдал — төсөл дууссаны дараа</label>
+          <div class="rg" id="rg-sust">
+            <label class="ro" onclick="sel(this,'rg-sust')"><input type="radio" name="sust">Орон нутаг хариуцна</label>
+            <label class="ro on-s" onclick="sel(this,'rg-sust')"><input type="radio" name="sust" checked>Засгийн газар хариуцна</label>
+            <label class="ro" onclick="sel(this,'rg-sust')"><input type="radio" name="sust">Тодорхойгүй</label>
+            <label class="ro" onclick="sel(this,'rg-sust')"><input type="radio" name="sust">Нэг удаагийн</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brow">
+    <button class="bprev" onclick="go(1)">← Буцах</button>
+    <button class="bnext" onclick="go(3)">Техник мэдээлэл →</button>
+  </div>
+</div>
+
+<!-- ── PAGE 3 ── -->
+<div class="pg" id="pg3">
+  <div class="card">
+    <div class="card-hd"><div class="card-icon b">⚙️</div><div class="card-title">Техник & хэрэгжилтийн мэдээлэл</div></div>
+    <div class="card-bd">
+      <div class="sec">
+        <div class="slbl">Тоног төхөөрөмжийн техникийн үзүүлэлт</div>
+        <div class="fld">
+          <label>Хяналтын монитор — техникийн шаардлага</label>
+          <textarea rows="3" class="prefilled" onkeyup="cc(this,'ccT1',400)">Mindray брэнд: олон параметрт (ECG, SpO₂, NIBP, CO₂), өндөр нягтралтай 12" дэлгэц, мэдрэгчтэй удирдлага, Li-Ion батарей ≥4 цаг, нэгдсэн сүлжээнд холбогдоно, хүүхэд/том хүний тохиргоо, 1–1000 мл/цаг хяналт, KVO функц.</textarea>
+          <div class="cc" id="ccT1">250 / 400</div>
+        </div>
+        <div class="fld">
+          <label>Тарианы памп — техникийн шаардлага</label>
+          <textarea rows="2" class="prefilled" onkeyup="cc(this,'ccT2',300)">Нарийн тун & хурд тохируулга; 2+ тариа зэрэг шахах оролт; аюулгүйн дохиолол; Mindray эсвэл тэнцүү брэнд; гарантийн хугацаа ≥2 жил.</textarea>
+          <div class="cc" id="ccT2">185 / 300</div>
+        </div>
+        <div class="row2">
+          <div class="fld">
+            <label>Суурилуулах тасгууд</label>
+            <input type="text" class="prefilled" value="ЯТТ, эрчимт эмчилгээ, эх барих, нярайн, мэс засал">
+          </div>
+          <div class="fld">
+            <label>Гарантийн хугацаа</label>
+            <div class="rg" id="rg-warranty">
+              <label class="ro" onclick="sel(this,'rg-warranty')"><input type="radio" name="warranty">1 жил</label>
+              <label class="ro on-s" onclick="sel(this,'rg-warranty')"><input type="radio" name="warranty" checked>2 жил</label>
+              <label class="ro" onclick="sel(this,'rg-warranty')"><input type="radio" name="warranty">3 жил+</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="slbl">Хэрэгжилтийн хуваарь</div>
+        <div class="fld">
+          <label>Үе шатны төлөвлөгөө</label>
+          <textarea rows="4" class="prefilled" onkeyup="cc(this,'ccT3',500)">1-р үе шат (1–2 сар): Тендер зарлах, нийлүүлэгч сонгох, гэрээ байгуулах.
+2-р үе шат (3–4 сар): Тоног төхөөрөмж нийлүүлэх, суурилуулах, холболт хийх.
+3-р үе шат (5-р сар): Хүлээн авах, туршилтын ажиллагаа, эмч сувилагч нарт сургалт.
+Тасралтгүй: Нийлүүлэгчийн техник дэмжлэг, гарантийн үйлчилгээ.</textarea>
+          <div class="cc" id="ccT3">340 / 500</div>
+        </div>
+        <div class="row2">
+          <div class="fld">
+            <label>Хэрэгжүүлэх байгууллага / Баг</label>
+            <textarea rows="2" class="prefilled">Нэгдсэн эмнэлэг — Дэмжих алба. Дарга: Б.Энх-Амгалан. 80+ эмч, 100+ сувилагч, 100+ ажилтан.</textarea>
+          </div>
+          <div class="fld">
+            <label>Хамтрагч байгууллагууд</label>
+            <textarea rows="2" class="prefilled">Аймгийн Засаг дарга, Эрүүл мэндийн газар, ЭМ нийгмийн хамгааллын яам, Mindray дистрибьютер.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="slbl">Тайлагнал & эрсдэлийн удирдлага</div>
+        <div class="row2">
+          <div class="fld">
+            <label>Тайлагналын давтамж</label>
+            <div class="rg" id="rg-rep">
+              <label class="ro on-s" onclick="sel(this,'rg-rep')"><input type="radio" name="rep" checked>Улирал тутам</label>
+              <label class="ro" onclick="sel(this,'rg-rep')"><input type="radio" name="rep">Жил тутам</label>
+              <label class="ro" onclick="sel(this,'rg-rep')"><input type="radio" name="rep">Гэрээний дагуу</label>
+            </div>
+          </div>
+          <div class="fld">
+            <label>Хяналт хэн хийх вэ?</label>
+            <input type="text" class="prefilled" value="Засаг дарга, Эрүүл мэндийн газар, Эмнэлгийн удирдлага">
+          </div>
+        </div>
+        <div class="fld">
+          <label>Эрсдэл & шийдвэрлэх арга зам</label>
+          <textarea rows="3" class="prefilled" onkeyup="cc(this,'cc5',400)">① Тендерийн хугацаа хэтрэх → тендерийн хороотой урьдчилан зохицуулах. ② Нийлүүлэлт хойшлох → гэрээнд торгуулийн заалт тусгах. ③ Гарантийн асуудал → Mindray албан ёсны дистрибьютертэй гэрээ байгуулах. ④ Техникийн дэмжлэг → Улаанбаатараас 24/7 алсын дэмжлэг.</textarea>
+          <div class="cc" id="cc5">285 / 400</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brow">
+    <button class="bprev" onclick="go(2)">← Буцах</button>
+    <button class="bnext" onclick="go(4)">Холбоо барих →</button>
+  </div>
+</div>
+
+<!-- ── PAGE 4 ── -->
+<div class="pg" id="pg4">
+  <div class="card">
+    <div class="card-hd"><div class="card-icon g">👤</div><div class="card-title">Байгууллагын мэдээлэл</div></div>
+    <div class="card-bd">
+      <div class="row2">
+        <div class="fld">
+          <label>Байгууллагын нэр <span class="req">*</span></label>
+          <input type="text" id="org" class="prefilled" value="Дорноговь аймгийн Нэгдсэн эмнэлэг">
+        </div>
+        <div class="fld">
+          <label>Байгууллагын хэлбэр</label>
+          <select class="prefilled">
+            <option value="">— Сонгоно уу —</option>
+            <option>ХХК</option><option>ТББ / Сан</option><option>Хоршоо</option>
+            <option selected>Төрийн байгууллага</option>
+            <option>Хувь хүн / Стартап</option><option>Гадаадын компани</option><option>ОУ-ын байгууллага</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="fld">
+          <label>Холбоо барих хүний нэр <span class="req">*</span></label>
+          <input type="text" id="cname" class="prefilled" value="Б.Энх-Амгалан">
+        </div>
+        <div class="fld">
+          <label>Албан тушаал</label>
+          <input type="text" class="prefilled" value="Дэмжих албаны дарга">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="fld">
+          <label>Утас <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="+976 99xxxxxx">
+        </div>
+        <div class="fld">
+          <label>И-мэйл <span class="req">*</span></label>
+          <input type="email" id="cemail" placeholder="info@hospital.mn">
+        </div>
+      </div>
+      <div class="fld">
+        <label>Вэбсайт</label>
+        <input type="url" placeholder="https://www.hospital.mn">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hd"><div class="card-icon a">🎯</div><div class="card-title">Форумд оролцох зорилго</div></div>
+    <div class="card-bd">
+      <div class="fld">
+        <label>Гол зорилго <span class="req">*</span></label>
+        <div class="rg" id="rg-goal">
+          <label class="ro" onclick="sel(this,'rg-goal')"><input type="radio" name="goal">Хөрөнгө оруулагч олох</label>
+          <label class="ro" onclick="sel(this,'rg-goal')"><input type="radio" name="goal">Бизнес түнш олох</label>
+          <label class="ro" onclick="sel(this,'rg-goal')"><input type="radio" name="goal">МОУ байгуулах</label>
+          <label class="ro" onclick="sel(this,'rg-goal')"><input type="radio" name="goal">Танилцуулах / Сурталчлах</label>
+          <label class="ro on-s" onclick="sel(this,'rg-goal')"><input type="radio" name="goal" checked>Грант / Санхүүжилт хайх</label>
+        </div>
+      </div>
+      <div class="fld">
+        <label>B2B уулзалтын хүсэлт</label>
+        <textarea rows="2" class="prefilled">Mindray-н Монгол дахь албан ёсны дистрибьютер болон эрүүл мэндийн тоног төхөөрөмжийн нийлүүлэгч компаниудтай уулзахыг хүсэж байна.</textarea>
+      </div>
+      <div class="fld">
+        <label>Нэмэлт тэмдэглэл</label>
+        <textarea rows="2" placeholder="Бусад санал, хүсэлт..."></textarea>
+      </div>
+      <div class="ibox">
+        <b>Маягт илгээсний дараа:</b> Ажлын хэсэг таны мэдээллийг хянан үзэж, <strong>3 ажлын өдрийн дотород</strong> и-мэйл болон утсаар холбогдоно.
+      </div>
+    </div>
+  </div>
+  <div class="brow">
+    <button class="bprev" onclick="go(3)">← Буцах</button>
+    <button class="bsub" onclick="doSubmit()">✓ Илгээх</button>
+  </div>
+</div>
+
+<!-- ── DONE PAGE ── -->
+<div class="pg" id="pgdone">
+  <div class="card">
+    <div class="done-wrap">
+      <div class="done-icon">✓</div>
+      <div class="done-title">Амжилттай илгээгдлээ!</div>
+      <div class="done-sub">Таны төслийн мэдээлэл хүлээн авлаа.<br>Ажлын хэсэг 3 ажлын өдрийн дотород и-мэйл болон утсаар холбогдоно.</div>
+      <div class="sum-card" id="summary"></div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="print-btn" onclick="window.print()">🖨 Хэвлэх / PDF хадгалах</button>
+        <a href="#" onclick="location.reload();return false;" class="new-btn">Шинэ төсөл бүртгэх</a>
+      </div>
+      <div style="margin-top:1.5rem;font-size:11.5px;color:var(--text3)">DSIF 2026 · Дорноговь аймаг · dornogovi.one</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main-col -->
+
+<!-- ═══ RIGHT COLUMN ═══ -->
+<div class="side-col">
+<div class="side-sticky">
+
+  <!-- AI Assistant -->
+  <div class="ai-widget">
+    <div class="ai-hd">
+      <div class="ai-hd-icon">🤖</div>
+      <div>
+        <div class="ai-hd-title">DSIF AI Туслагч</div>
+        <div class="ai-hd-sub">Төслийн асуултад хариулна</div>
+      </div>
+    </div>
+    <div class="ai-body">
+      <div class="ai-suggestions">
+        <div class="ai-sug" onclick="askAI('Энэ төслийн давуу тал юу вэ?')">Давуу тал</div>
+        <div class="ai-sug" onclick="askAI('Mindray монитор хэр сайн вэ?')">Mindray мэдээлэл</div>
+        <div class="ai-sug" onclick="askAI('Санхүүжилт хэрхэн хайх вэ?')">Санхүүжилт</div>
+        <div class="ai-sug" onclick="askAI('SDG 3 зорилтод хэрхэн нийцэх вэ?')">SDG уялдаа</div>
+      </div>
+      <div class="ai-msg-wrap" id="aiMsgs">
+        <div class="ai-bubble bot">Сайн уу! Би DSIF 2026-ын AI туслагч. Хяналтын монитор, тарианы памп шинэчлэх төслийн талаар асуулт байвал тусалъя. 💬</div>
+      </div>
+      <div class="ai-input-wrap">
+        <input class="ai-input" id="aiQ" placeholder="Асуулт бичнэ үү..." onkeydown="if(event.key==='Enter')askAI()">
+        <button class="ai-send" id="aiBtn" onclick="askAI()">Илгээх</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="chk-widget">
+    <div class="chk-hd">
+      <span>Гүйцэтгэлийн жагсаалт</span>
+      <span class="chk-progress" id="chkProg">0/8</span>
+    </div>
+    <div class="chk-list" id="chkList">
+      <div class="chk-item done" data-id="c1"><div class="chk-dot">✓</div><span>Төслийн ангилал сонгосон</span></div>
+      <div class="chk-item done" data-id="c2"><div class="chk-dot">✓</div><span>Салбар тодорхойлсон</span></div>
+      <div class="chk-item done" data-id="c3"><div class="chk-dot">✓</div><span>Төслийн нэр, тайлбар</span></div>
+      <div class="chk-item done" data-id="c4"><div class="chk-dot">✓</div><span>Санхүүгийн мэдээлэл</span></div>
+      <div class="chk-item done" data-id="c5"><div class="chk-dot">✓</div><span>Тоног төхөөрөмжийн жагсаалт</span></div>
+      <div class="chk-item done" data-id="c6"><div class="chk-dot">✓</div><span>Техникийн үзүүлэлт</span></div>
+      <div class="chk-item" data-id="c7"><div class="chk-dot"></div><span>Утас & и-мэйл оруулсан</span></div>
+      <div class="chk-item" data-id="c8"><div class="chk-dot"></div><span>Форумын зорилго тодорхойлсон</span></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</div><!-- /two-col -->
+</div><!-- /wrap -->
+
+<footer>
+  DSIF 2026 · Дорноговь аймгийн хөрөнгө оруулалтын форум · 2026.04.26–27 · Сайншанд<br>
+  <a href="https://dornogovi.one">dornogovi.one</a> · info@forum2026.mn
+</footer>
+
+<script>
+var PT = 's';
+var currentPage = 1;
+
+// ── AI CHAT ──
+var AI_URL = 'https://api.anthropic.com/v1/messages';
+var aiHistory = [];
+
+async function askAI(preset) {
+  var input = document.getElementById('aiQ');
+  var btn = document.getElementById('aiBtn');
+  var q = preset || input.value.trim();
+  if (!q) return;
+  input.value = '';
+
+  appendMsg(q, 'user');
+  appendMsg('Бодож байна...', 'thinking');
+  btn.disabled = true;
+
+  var sysPrompt = `Та DSIF 2026 форумын AI туслагч. Дорноговь аймгийн Нэгдсэн эмнэлгийн "Хяналтын монитор болон тарианы памп шинэчлэх" нийгмийн төслийн мэдээлэгч. 
+
+Төслийн товч мэдээлэл:
+- Нийт: 250,000,000 ₮ (монитор 30ш x 7M = 210M₮, памп 10ш x 4M = 40M₮)
+- Mindray брэнд монитор: ECG, SpO₂, NIBP, CO₂, 1-1000 мл/цаг, KVO функц
+- Хамрах: 80,000+ иргэн, 14 сум
+- SDG 3 зорилттой уялдаатай
+- Засгийн газрын санхүүжилт хайж байна
+
+Монгол хэлээр товч, мэдлэгтэй, урам зориг өгөх байдлаар хариулна. 2-4 өгүүлбэрт хариулна.`;
+
+  aiHistory.push({role:'user', content: q});
+
+  try {
+    var resp = await fetch(AI_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: sysPrompt,
+        messages: aiHistory
+      })
+    });
+    var data = await resp.json();
+    var txt = data.content && data.content[0] && data.content[0].text || 'Уучлаарай, алдаа гарлаа.';
+    aiHistory.push({role:'assistant', content: txt});
+    removeThinking();
+    appendMsg(txt, 'bot');
+  } catch(e) {
+    removeThinking();
+    appendMsg('Холболтын алдаа гарлаа. Дахин оролдоно уу.', 'bot');
+  }
+  btn.disabled = false;
+}
+
+function appendMsg(text, type) {
+  var wrap = document.getElementById('aiMsgs');
+  var d = document.createElement('div');
+  d.className = 'ai-bubble ' + type;
+  d.textContent = text;
+  wrap.appendChild(d);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+function removeThinking() {
+  var t = document.querySelector('.ai-bubble.thinking');
+  if (t) t.remove();
+}
+
+// ── PROGRESS ──
+function renderProgress(cur) {
+  var steps = [['1','Үндсэн'],['2','Санхүү'],['3','Техник'],['4','Холбоо']];
+  var h = '';
+  steps.forEach(function(s, i) {
+    var n = i + 1;
+    var cls = n < cur ? 'done' : n === cur ? 'active' : '';
+    h += '<div class="ps ' + cls + '"><div class="ps-num">' + (n < cur ? '✓' : s[0]) + '</div><div class="ps-label">' + s[1] + '</div></div>';
+    if (i < 3) h += '<div class="ps-line"></div>';
+  });
+  document.getElementById('progSteps').innerHTML = h;
+  document.getElementById('progBar').style.width = (cur / 4 * 100) + '%';
+}
+
+// ── NAVIGATION ──
+function go(n) {
+  document.querySelectorAll('.pg').forEach(function(p) { p.classList.remove('on'); });
+  if (n === 'done') {
+    document.getElementById('pgdone').classList.add('on');
+    window.scrollTo(0, 0);
+    return;
+  }
+  document.getElementById('pg' + n).classList.add('on');
+  currentPage = n;
+  renderProgress(n);
+  updateChecklist();
+  window.scrollTo(0, 0);
+}
+
+// ── FORM INTERACTIONS ──
+function pickType(t) {
+  PT = t;
+  document.getElementById('tcp').className = 'tcard' + (t === 'p' ? ' sel-p' : '');
+  document.getElementById('tcs').className = 'tcard' + (t === 's' ? ' sel-s' : '');
+}
+
+function sel(el, rgId) {
+  var rg = document.getElementById(rgId);
+  if (!rg) return;
+  rg.querySelectorAll('.ro').forEach(function(r) { r.classList.remove('on-s','on-p'); });
+  el.classList.add(PT === 'p' ? 'on-p' : 'on-s');
+  updateChecklist();
+}
+
+var SQ = {
+  health:{lbl:'🏥 Эрүүл мэнд — нэмэлт асуулт',items:[
+    {t:'sel',l:'Эрүүл мэндийн чиглэл',r:1,pre:1,opts:['Эмнэлгийн байгууламж / Шинэ корпус','Тоног төхөөрөмж шинэчлэлт','Телемедицин / Цахим эрүүл мэнд','Эх барих, нярайн тусламж','Мэргэшсэн оношилгоо','Нийгмийн эрүүл мэндийн хөтөлбөр','Сувилал / Нөхөн сэргэлтийн төв']},
+    {t:'txt',l:'Хүртэх хүн амын тоо',h:'80,000+ иргэн, 14 сум',pre:'Дорноговь аймгийн 14 сумын нийт 80,000 гаруй иргэн'},
+    {t:'rad',l:'Аймгийн нэгдсэн эмнэлэгтэй хамтрах уу?',nm:'h1',r:1,pre:0,opts:['Тийм','Үгүй — бие даасан','Тодруулах шаардлагатай']},
+    {t:'sel',l:'Эмч, мэргэжилтний хангамж',pre:0,opts:['Дотоодоос гаргана','Гадаадаас авчирна','Хоёулаа','Тодорхойгүй']},
+    {t:'rad',l:'Үйлчилгээний загвар',nm:'h2',pre:1,opts:['Ашгийн','Нийгмийн / Хөнгөлөлттэй','Хосолсон загвар']},
+    {t:'txt',l:'Тусгай мэргэшил / Онцлог тасаг',h:'ЯТТ, эрчимт эмчилгээ, эх барих',pre:'Яаралтай түргэн тусламж, эрчимт эмчилгээ, эх барих, 24/7 тасралтгүй хяналт'}
+  ]}
+};
+
+function buildSQ(key) {
+  var def = SQ[key]; if (!def) return '';
+  var h = '<div class="badge-s">' + def.lbl + '</div><div class="sqtitle">Салбарт тохирсон нэмэлт асуулт</div>';
+  def.items.forEach(function(f, i) {
+    var uid = 'sq' + key + i;
+    h += '<div class="fld"><label>' + f.l + (f.r ? '<span class="req">*</span>' : '') + '</label>';
+    if (f.t === 'txt') {
+      var pv = f.pre !== undefined ? f.pre : '';
+      h += '<input type="text" class="prefilled" value="' + pv + '" placeholder="' + (f.h||'') + '">';
+    } else if (f.t === 'sel') {
+      h += '<select class="prefilled"><option value="">— Сонгоно уу —</option>';
+      f.opts.forEach(function(o, oi) { h += '<option' + (oi===f.pre?' selected':'') + '>' + o + '</option>'; });
+      h += '</select>';
+    } else if (f.t === 'rad') {
+      var nm = f.nm || uid;
+      h += '<div class="rg" id="rg_' + uid + '">';
+      f.opts.forEach(function(o, oi) {
+        var s = oi===f.pre;
+        h += '<label class="ro' + (s?' on-s':'') + '" onclick="sel(this,\'rg_' + uid + '\')"><input type="radio" name="' + nm + '"' + (s?' checked':'') + '>' + o + '</label>';
+      });
+      h += '</div>';
+    }
+    h += '</div>';
+  });
+  return h;
+}
+
+function pickSector(el) {
+  document.querySelectorAll('#sgrid .sb').forEach(function(b) { b.classList.remove('on'); });
+  el.classList.add('on');
+  document.getElementById('sv').value = el.getAttribute('data-v');
+  var sq = document.getElementById('sqbox');
+  sq.innerHTML = buildSQ(el.getAttribute('data-v'));
+  sq.classList.add('on');
+}
+
+function cc(el, outId, max) {
+  var c = el.value.length;
+  var out = document.getElementById(outId);
+  if (out) {
+    out.textContent = c + ' / ' + max;
+    out.className = 'cc' + (c > max * 0.9 ? ' warn' : '');
+  }
+}
+
+// ── CHECKLIST ──
+function updateChecklist() {
+  var phone = document.getElementById('phone');
+  var email = document.getElementById('cemail');
+  var goal  = document.querySelector('#rg-goal .on-s');
+  var c7done = phone && phone.value.length > 5 && email && email.value.includes('@');
+  var c8done = !!goal;
+  setCheck('c7', c7done);
+  setCheck('c8', c8done);
+  var total = document.querySelectorAll('.chk-item.done').length;
+  document.getElementById('chkProg').textContent = total + '/8';
+}
+
+function setCheck(id, done) {
+  var el = document.querySelector('[data-id=' + id + ']');
+  if (!el) return;
+  el.className = 'chk-item' + (done ? ' done' : '');
+  el.querySelector('.chk-dot').textContent = done ? '✓' : '';
+}
+
+// ── SAVE ──
+var saveTimer;
+function saveData() {
+  var ind = document.getElementById('saveInd');
+  ind.className = 'save-indicator saving';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function() {
+    try {
+      var d = {
+        pname: (document.getElementById('pname')||{}).value,
+        org: (document.getElementById('org')||{}).value,
+        cname: (document.getElementById('cname')||{}).value,
+        saved: new Date().toISOString()
+      };
+      sessionStorage.setItem('dsif_draft', JSON.stringify(d));
+    } catch(e) {}
+    ind.className = 'save-indicator';
+    ind.style.background = '#4ADE80';
+    setTimeout(function(){ ind.style.background = ''; }, 2000);
+  }, 600);
+}
+
+// Auto-save on input
+document.addEventListener('input', function(e) {
+  if (e.target.tagName !== 'BUTTON') saveData();
+  updateChecklist();
+});
+
+// ── SUBMIT ──
+function doSubmit() {
+  var pname  = (document.getElementById('pname')||{}).value || '—';
+  var org    = (document.getElementById('org')||{}).value || '—';
+  var cname  = (document.getElementById('cname')||{}).value || '—';
+  var phone  = (document.getElementById('phone')||{}).value || '—';
+  var cemail = (document.getElementById('cemail')||{}).value || '—';
+
+  var sum = document.getElementById('summary');
+  if (sum) {
+    sum.innerHTML = [
+      ['АНГИЛАЛ','🤝 Нийгмийн төсөл'],
+      ['САЛБАР','🏥 Эрүүл мэнд'],
+      ['ТӨСЛИЙН НЭР', pname],
+      ['НИЙТ ТӨСӨВ','250,000,000 ₮'],
+      ['ТОНОГ ТӨХӨӨРӨМЖ','Монитор 30ш + Памп 10ш'],
+      ['БАЙГУУЛЛАГА', org],
+      ['ХОЛБОО БАРИХ', cname],
+      ['УТАС', phone],
+      ['И-МЭЙЛ', cemail],
+      ['ИЛГЭЭСЭН ОГНОО', new Date().toLocaleString('mn-MN')]
+    ].map(function(r){ return '<div class="sum-row"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('');
+  }
+  go('done');
+}
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', function() {
+  renderProgress(1);
+  var sq = document.getElementById('sqbox');
+  sq.innerHTML = buildSQ('health');
+  sq.classList.add('on');
+  document.querySelectorAll('textarea').forEach(function(ta) {
+    var attr = ta.getAttribute('onkeyup');
+    if (attr) {
+      var m = attr.match(/cc\(this,'([^']+)',(\d+)\)/);
+      if (m) cc(ta, m[1], parseInt(m[2]));
+    }
+  });
+  updateChecklist();
+});
+</script>
+</body>
+</html>

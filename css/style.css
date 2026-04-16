@@ -113,8 +113,8 @@ Table of content:
   /* mainmenu */
   --mainmenu-font: var(--body-font);
   --mainmenu-font-size: 15px;
-  --mainmenu-font-weight: 700;
-  --mainmenu-letter-spacing: 0;
+  --mainmenu-font-weight: 400;
+  --mainmenu-letter-spacing: 1px;
   --mainmenu-text-transform: none;
   /* header logo */
   --logo-width: 120px;
@@ -324,7 +324,7 @@ header.smaller #mainmenu ul ul {
 header.smaller {
   position: fixed;
   top: 0px;
-  background: var(--bg-dark-1);
+  background: #4bac48;
   -webkit-backdrop-filter: blur(10px);
   -o-backdrop-filter: blur(10px);
   -moz-backdrop-filter: blur(10px);
