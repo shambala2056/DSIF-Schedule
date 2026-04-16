@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <title>Болор Солих Мэс Засал — DSIF 2026</title>
+    <link rel="icon" href="../../../images/icon.webp" type="image/gif" sizes="16x16">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="AIvent" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
+    <!-- CSS Files
+    ================================================== -->
+    <link href="../../../css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
+    <link href="../../../css/vendors.css" rel="stylesheet" type="text/css">
+    <link href="../../../css/style.css" rel="stylesheet" type="text/css">
+    <!-- color scheme -->
+    <link id="colors" href="../../../css/colors/scheme-01.css" rel="stylesheet" type="text/css">
+    <style>
+      /* Brand accent (blue) overrides */
+      :root { --accent-color:#29ABE2; --mainmenu-font-weight:400; }
+      /* Remove webkit gradient text fill from headings */
+      .text-light h1,
+      .text-light h2,
+      .dark-scheme h1,
+      .dark-scheme h2 {
+        -webkit-text-fill-color: unset !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        background: none !important;
+      }
+      /* Dark theme → black base */
+      body.dark-scheme {
+        --bg-dark-1: #0a0a0a !important;
+        --bg-dark-2: #111111 !important;
+        --bg-dark-3: #0d0d0d !important;
+        --bg-dark-1-rgb: 10,10,10 !important;
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark,
+      body.dark-scheme .bg-dark-1,
+      body.dark-scheme .section-dark {
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark-2 {
+        background-color: #111111 !important;
+      }
+      body.dark-scheme header,
+      body.dark-scheme header.smaller {
+        background: #0a0a0a !important;
+      }
+      * { letter-spacing: 1px; }
+      .btn-main { background: var(--primary-color) !important; }
+      .btn-main:hover { background: var(--secondary-color) !important; }
+      h1 em, h2 em, h3 em { color: var(--accent-color); font-style: normal; }
+      .id-color-accent { color: var(--accent-color); }
+      .btn-hero { background: #4bac48 !important; }
+      .btn-hero:hover, .btn-hero:focus { background: #45abe1 !important; }
+
+      /* ===============================================
+         PAGE-SPECIFIC: Болор Солих Мэс Засал
+         Palette mapped to AIvent:
+           accent (blue)   #29ABE2
+           green           #4bac48
+           muted grey      rgba(255,255,255,0.55)
+         =============================================== */
+
+      /* Back button in header */
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        background: #4bac48;
+        color: #fff !important;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none !important;
+        transition: background 0.25s;
+      }
+      .back-btn:hover { background: #29ABE2; color: #0a0a0a !important; }
+
+      /* Header (simple) */
+      body { text-transform: uppercase; }
+      .page-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #0a0a0a;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+      html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+      .em-section { scroll-margin-top: 72px; }
+      .page-header .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+      .page-header .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .page-header .logo-area img { height: 40px; width: auto; }
+      .page-header .logo-area .brand-text {
+        color: #fff;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      #theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 18px;
+        line-height: 1;
+        transition: background 0.3s;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+      #theme-toggle:hover { background: rgba(255,255,255,0.3); }
+      body:not(.dark-scheme) #theme-toggle { background: rgba(0,0,0,0.1); color: #333; }
+      body:not(.dark-scheme) #theme-toggle:hover { background: rgba(0,0,0,0.2); }
+      .page-nav {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        flex: 1;
+        justify-content: center;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .page-nav::-webkit-scrollbar { display: none; }
+      .page-nav a {
+        padding: 8px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.6);
+        text-decoration: none;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+      }
+      .page-nav a:hover { color: #29ABE2; border-bottom-color: #29ABE2; }
+      body:not(.dark-scheme) .page-nav a { color: #444; }
+      body:not(.dark-scheme) .page-nav a:hover { color: #0a0a0a; border-bottom-color: #29ABE2; }
+      @media (max-width: 768px) {
+        .page-nav { justify-content: flex-start; }
+        .page-nav a { padding: 6px 8px; font-size: 10px; }
+      }
+      .page-header .logo-area .brand-text small {
+        display: block;
+        color: rgba(255,255,255,0.5);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        margin-top: 2px;
+      }
+
+      /* Hero */
+      .emneleg-hero {
+        position: relative;
+        background: #0a0a0a;
+        color: #fff;
+        padding: 0;
+        overflow: hidden;
+      }
+      .emneleg-hero .sw-overlay { display: none; }
+      .emneleg-hero .hero-bg-img {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/7;
+        background-image: url('thumbnail.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: 0;
+      }
+      .emneleg-hero .container { position: relative; z-index: 2; }
+      .emneleg-hero .hero-stamp {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        font-size: 10px;
+        color: rgba(255,255,255,0.45);
+        text-align: right;
+        line-height: 1.8;
+        letter-spacing: 0.08em;
+        z-index: 3;
+      }
+      .emneleg-hero .hero-tag {
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+      }
+      .emneleg-hero h1 {
+        font-size: clamp(28px, 5vw, 52px);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        max-width: 820px;
+        margin-bottom: 1.5rem;
+        color: #fff !important;
+      }
+      .emneleg-hero h1 em { color: #4bac48; font-style: normal; }
+      .emneleg-hero .hero-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: rgba(255,255,255,0.65);
+      }
+      .emneleg-hero .hero-meta strong {
+        display: block;
+        color: #29ABE2;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+
+      /* Price band */
+      .price-band {
+        background: linear-gradient(90deg, #4bac48 0%, #57ab48 100%);
+        color: #fff;
+        padding: 10px 0;
+      }
+      .price-band .inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .price-band .std-label {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-weight: 700;
+        opacity: 0.95;
+        margin-right: 6px;
+      }
+      .price-band .price-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.85;
+        margin-bottom: 4px;
+      }
+      .price-band .price-number {
+        font-size: clamp(32px, 5vw, 52px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .price-band .price-sub {
+        font-size: 11px;
+        opacity: 0.8;
+        margin-top: 4px;
+      }
+      .price-band .price-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .price-band .pbadge {
+        padding: 6px 14px;
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 4px;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        background: rgba(255,255,255,0.12);
+      }
+
+      /* Section styling for dark AIvent look */
+      .em-section {
+        padding: 28px 0 40px;
+        color: #fff;
+      }
+      .em-section.alt { background: #111111 !important; }
+      .em-section + .em-section { border-top: 1px solid rgba(255,255,255,0.06); }
+
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .section-num {
+        font-size: 11px;
+        color: #29ABE2;
+        letter-spacing: 0.15em;
+        font-weight: 600;
+      }
+      .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #fff;
+      }
+      .section-sub {
+        font-size: 13px;
+        font-weight: 700;
+        color: #29ABE2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 1.5rem 0 0.75rem;
+      }
+      .section-lead {
+        font-size: 13px;
+        line-height: 1.75;
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 1.25rem;
+        max-width: 900px;
+      }
+
+      /* Stats grid */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 3rem;
+      }
+      .stat-cell {
+        background: #0a0a0a;
+        padding: 1.5rem;
+      }
+      .stat-cell.accent { background: #4bac48; color: #fff; }
+      .stat-label {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.55);
+        margin-bottom: 8px;
+      }
+      .stat-cell.accent .stat-label { color: rgba(255,255,255,0.85); }
+      .stat-value {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: #fff;
+      }
+      .stat-unit {
+        font-size: 11px;
+        color: rgba(255,255,255,0.5);
+        margin-top: 4px;
+      }
+      .stat-cell.accent .stat-unit { color: rgba(255,255,255,0.8); }
+
+      /* Info / KV table */
+      .cost-wrap { overflow-x: auto; }
+      table.cost {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        color: #fff;
+      }
+      .cost thead tr { background: #29ABE2; color: #0a0a0a; }
+      .cost th {
+        padding: 12px 16px;
+        text-align: left;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .cost th.r, .cost td.r { text-align: right; }
+      .cost tbody tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .cost tbody tr:hover { background: rgba(255,255,255,0.04); }
+      .cost td { padding: 10px 16px; color: rgba(255,255,255,0.85); }
+      .cost td.kv-key {
+        color: #29ABE2;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        width: 36%;
+        background: rgba(255,255,255,0.03);
+      }
+      .cost tr.hl td.kv-val { color: #ff9a6c; font-weight: 700; }
+
+      /* Features / works list */
+      .works {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: #0d0d0d;
+      }
+      .work-item {
+        display: grid;
+        grid-template-columns: 60px 1fr;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        transition: background 0.15s;
+      }
+      .work-item:last-child { border-bottom: none; }
+      .work-item:hover { background: rgba(41,171,226,0.05); }
+      .work-num {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 1.25rem 0;
+        font-size: 12px;
+        color: #29ABE2;
+        font-weight: 600;
+        border-right: 1px solid rgba(255,255,255,0.08);
+      }
+      .work-body { padding: 1.25rem 1.5rem; }
+      .work-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #fff; }
+      .work-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.65; }
+
+      /* Info cards */
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .info-card {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem;
+        background: #111111;
+      }
+      .info-card-title {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-weight: 700;
+      }
+      .info-row2 { display: flex; flex-direction: column; gap: 12px; }
+      .info-item-label {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 2px;
+      }
+      .info-item-val { font-size: 14px; font-weight: 500; color: #fff; }
+
+      /* Machines grid (used for partners/stats) */
+      .machines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .machine-cell {
+        background: #0d0d0d;
+        padding: 1rem 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .machine-cell:hover { background: #151515; }
+      .machine-name { font-size: 13px; font-weight: 500; color: #fff; }
+      .machine-code { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+      .machine-cost { font-size: 12px; color: #4bac48; text-align: right; white-space: nowrap; font-weight: 600; }
+
+      /* Norms / targets list */
+      .norms-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 8px;
+      }
+      .norm-item {
+        display: flex;
+        gap: 10px;
+        padding: 12px 16px;
+        background: #111111;
+        border-left: 3px solid #29ABE2;
+        font-size: 13px;
+        line-height: 1.55;
+        color: rgba(255,255,255,0.78);
+      }
+      .norm-n { font-size: 11px; color: #29ABE2; min-width: 22px; padding-top: 1px; font-weight: 700; }
+
+      /* Docs / stat-card grid */
+      .docs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 12px;
+      }
+      .doc-card {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        background: #111111;
+        transition: border-color 0.2s;
+        text-align: center;
+      }
+      .doc-card:hover { border-color: #29ABE2; }
+      .doc-name { font-size: 24px; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+      .doc-detail { font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+      .doc-sub { font-size: 10px; color: rgba(255,255,255,0.45); }
+
+      /* Bar chart */
+      .bar-chart { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+      .bar-row { display: flex; align-items: center; gap: 12px; }
+      .bar-label {
+        font-size: 11px;
+        color: rgba(255,255,255,0.65);
+        width: 170px;
+        flex-shrink: 0;
+        text-align: right;
+      }
+      .bar-track {
+        flex: 1;
+        height: 26px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        position: relative;
+        overflow: visible;
+      }
+      .bar-fill {
+        height: 100%;
+        background: #29ABE2;
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 10px;
+        color: #fff;
+        font-weight: 600;
+        transition: width 1s ease;
+        white-space: nowrap;
+        overflow: visible;
+      }
+      .bar-fill { background: #29ABE2; }
+      .bar-row:nth-child(1) .bar-fill { opacity: 1; }
+      .bar-row:nth-child(2) .bar-fill { opacity: 0.88; }
+      .bar-row:nth-child(3) .bar-fill { opacity: 0.76; }
+      .bar-row:nth-child(4) .bar-fill { opacity: 0.64; }
+      .bar-row:nth-child(5) .bar-fill { opacity: 0.52; }
+      .bar-row:nth-child(6) .bar-fill { opacity: 0.42; }
+      .bar-row:nth-child(7) .bar-fill { opacity: 0.33; }
+      .bar-row:nth-child(8) .bar-fill { opacity: 0.25; }
+      .bar-amount {
+        font-size: 11px;
+        width: 60px;
+        flex-shrink: 0;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      /* Rationale cards */
+      .rationale-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .rationale-problem, .rationale-benefit {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem;
+        background: #111111;
+      }
+      .rationale-problem { border-left: 4px solid #d66a3d; }
+      .rationale-benefit { border-left: 4px solid #4bac48; }
+      .rblock-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .problem-list, .benefit-list { display: flex; flex-direction: column; gap: 14px; }
+      .problem-item, .benefit-item { display: flex; gap: 12px; align-items: flex-start; }
+      .prob-icon, .ben-icon { display: none; }
+      .prob-red { background: rgba(214,106,61,0.2); color: #ff9a6c; }
+      .prob-amber { background: rgba(255,193,7,0.18); color: #29ABE2; }
+      .ben-icon { background: rgba(75,172,72,0.2); color: #7fd47c; }
+      .prob-text, .ben-text { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+      .prob-text strong, .ben-text strong { color: #fff; }
+
+      /* Goal / quote box */
+      .goal-box {
+        background: #111111;
+        border-left: 4px solid #4bac48;
+        padding: 1.5rem 2rem;
+        font-size: 14px;
+        line-height: 1.85;
+        color: rgba(255,255,255,0.82);
+      }
+
+      /* Budget display */
+      .budget-display {
+        background: #111111;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 3rem 2rem;
+        text-align: center;
+      }
+      .budget-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+      }
+      .budget-amount {
+        font-size: clamp(32px, 5vw, 52px);
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.02em;
+        line-height: 1;
+      }
+      .budget-words {
+        font-size: 12px;
+        color: rgba(255,255,255,0.55);
+        margin-top: 1rem;
+      }
+
+      /* Results list */
+      .results-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0;
+        margin: 0;
+      }
+      .results-list li {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        background: #111111;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-left: 3px solid #29ABE2;
+        padding: 14px 18px;
+        font-size: 13px;
+        line-height: 1.65;
+        color: rgba(255,255,255,0.78);
+      }
+      .res-num {
+        min-width: 26px;
+        height: 26px;
+        background: #29ABE2;
+        color: #0a0a0a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      /* Conclusion */
+      .conclusion-box {
+        background: #111111;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-left: 4px solid #4bac48;
+        padding: 2rem 2.5rem;
+      }
+      .conclusion-quote {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #29ABE2;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      .conclusion-body {
+        font-size: 13px;
+        color: rgba(255,255,255,0.7);
+        line-height: 1.75;
+      }
+      .cta-buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.5rem; }
+      .btn-primary {
+        background: #4bac48;
+        color: #fff;
+        border: none;
+        padding: 10px 22px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .btn-primary:hover { background: #29ABE2; color: #0a0a0a; }
+      .btn-secondary {
+        background: transparent;
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.25);
+        padding: 10px 22px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .btn-secondary:hover { border-color: #29ABE2; color: #29ABE2; }
+
+      /* Sign boxes */
+      .sign-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .sign-box {
+        background: #111111;
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem 1.75rem;
+      }
+      .sign-role {
+        font-size: 10px;
+        color: #29ABE2;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .sign-name { font-size: 14px; color: #fff; font-weight: 600; margin-bottom: 1rem; }
+      .sign-line { height: 1px; background: rgba(255,255,255,0.12); margin: 1rem 0; }
+      .sign-footer { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.45); gap: 1rem; flex-wrap: wrap; }
+
+      /* Footer */
+      .em-footer {
+        background: #0a0a0a;
+        color: rgba(255,255,255,0.6);
+        padding: 50px 0 30px;
+        font-size: 12px;
+        line-height: 1.9;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        text-align: center;
+      }
+      .em-footer .footer-logo {
+        color: #29ABE2;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 14px;
+        margin-bottom: 0.5rem;
+      }
+      .em-footer .footer-quote {
+        font-size: 12px;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 1.5rem;
+      }
+      .em-footer .footer-div {
+        width: 36px;
+        height: 1px;
+        background: rgba(255,255,255,0.12);
+        margin: 1rem auto;
+      }
+      .em-footer .footer-meta { font-size: 11px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .emneleg-hero h1,
+      .emneleg-hero .hero-tag,
+      .emneleg-hero .hero-meta { animation: fadeUp 0.6s ease both; }
+      .emneleg-hero .hero-tag { animation-delay: 0.1s; }
+      .emneleg-hero h1 { animation-delay: 0.2s; }
+      .emneleg-hero .hero-meta { animation-delay: 0.4s; }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .info-grid, .rationale-grid, .sign-row { grid-template-columns: 1fr; }
+        .work-item { grid-template-columns: 50px 1fr; }
+        .emneleg-hero { padding: 80px 0 60px; }
+        .emneleg-hero .hero-stamp { position: static; text-align: left; margin-bottom: 1rem; }
+        .page-header .logo-area .brand-text { font-size: 11px; }
+        .bar-label { width: 110px; font-size: 10px; }
+      }
+
+      /* Light mode overrides for this page */
+      body:not(.dark-scheme) { background-color: #f4f6f8 !important; color: #1a1a1a; }
+      body:not(.dark-scheme) .page-header { background: #ffffff !important; border-bottom: 1px solid rgba(0,0,0,0.08); }
+      body:not(.dark-scheme) .page-header .logo-area .brand-text { color: #1a1a1a; }
+      body:not(.dark-scheme) .page-header .logo-area .brand-text small { color: #666; }
+      body:not(.dark-scheme) .em-section { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-section.alt { background: #ffffff !important; }
+      body:not(.dark-scheme) .section-title { color: #1a1a1a; }
+      body:not(.dark-scheme) .section-lead { color: #444; }
+      body:not(.dark-scheme) .stat-cell { background: #ffffff; }
+      body:not(.dark-scheme) .stat-value { color: #1a1a1a; }
+      body:not(.dark-scheme) .stat-label { color: #666; }
+      body:not(.dark-scheme) .stat-unit { color: #888; }
+      body:not(.dark-scheme) .stats-grid { background: #d9dde2; border-color: #d9dde2; }
+      body:not(.dark-scheme) .works { background: #ffffff; border-color: #d9dde2; }
+      body:not(.dark-scheme) .work-item { border-bottom-color: #eee; }
+      body:not(.dark-scheme) .work-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .work-desc { color: #555; }
+      body:not(.dark-scheme) .work-num { border-right-color: #eee; }
+      body:not(.dark-scheme) .cost { color: #1a1a1a; }
+      body:not(.dark-scheme) .cost td { color: #333; }
+      body:not(.dark-scheme) .cost tbody tr { border-bottom-color: #eee; }
+      body:not(.dark-scheme) .cost tbody tr:hover { background: #f7f5f0; }
+      body:not(.dark-scheme) .cost td.kv-key { background: #faf8f3; }
+      body:not(.dark-scheme) .info-card { background: #ffffff; border-color: #e6e6e6; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+      body:not(.dark-scheme) .info-item-val { color: #1a1a1a; }
+      body:not(.dark-scheme) .info-item-label { color: #666; }
+      body:not(.dark-scheme) .machine-cell { background: #ffffff; }
+      body:not(.dark-scheme) .machine-cell:hover { background: #f7f5f0; }
+      body:not(.dark-scheme) .machine-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .machine-code { color: #777; }
+      body:not(.dark-scheme) .machines-grid { background: #d9dde2; border-color: #d9dde2; }
+      body:not(.dark-scheme) .norm-item { background: #ffffff; color: #333; }
+      body:not(.dark-scheme) .doc-card { background: #ffffff; border-color: #e6e6e6; }
+      body:not(.dark-scheme) .doc-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .doc-detail { color: #777; }
+      body:not(.dark-scheme) .rationale-problem,
+      body:not(.dark-scheme) .rationale-benefit,
+      body:not(.dark-scheme) .goal-box,
+      body:not(.dark-scheme) .budget-display,
+      body:not(.dark-scheme) .conclusion-box,
+      body:not(.dark-scheme) .sign-box { background: #ffffff; border-color: #e6e6e6; }
+      body:not(.dark-scheme) .goal-box { color: #333; }
+      body:not(.dark-scheme) .budget-amount { color: #1a1a1a; }
+      body:not(.dark-scheme) .conclusion-body { color: #555; }
+      body:not(.dark-scheme) .sign-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .results-list li { background: #ffffff; border-color: #e6e6e6; color: #333; }
+      body:not(.dark-scheme) .prob-text, body:not(.dark-scheme) .ben-text { color: #444; }
+      body:not(.dark-scheme) .prob-text strong, body:not(.dark-scheme) .ben-text strong { color: #1a1a1a; }
+      body:not(.dark-scheme) .bar-track { background: #eee; border-color: #ddd; }
+      body:not(.dark-scheme) .bar-label { color: #555; }
+      body:not(.dark-scheme) .bar-amount { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-footer,
+      body:not(.dark-scheme) .em-footer.text-light { background: #ffffff !important; color: #333 !important; border-top-color: #e6e6e6; }
+      body:not(.dark-scheme) .em-footer .footer-col,
+      body:not(.dark-scheme) .em-footer .footer-col div,
+      body:not(.dark-scheme) .em-footer .footer-col span { color: #333 !important; }
+      body:not(.dark-scheme) .em-footer .footer-col-title { color: #29ABE2 !important; }
+      body:not(.dark-scheme) .em-footer .footer-bottom { border-top-color: #eee; color: #888 !important; }
+
+      /* LIGHT MODE — safety overrides for any remaining white text */
+      body:not(.dark-scheme) .em-section h1,
+      body:not(.dark-scheme) .em-section h2,
+      body:not(.dark-scheme) .em-section h3,
+      body:not(.dark-scheme) .em-section h4,
+      body:not(.dark-scheme) .em-section h5,
+      body:not(.dark-scheme) .em-section h6 { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-section p,
+      body:not(.dark-scheme) .em-section li,
+      body:not(.dark-scheme) .em-section td:not(.r),
+      body:not(.dark-scheme) .em-section div:not(.stat-value):not(.stat-label):not(.bar-amount):not(.section-num) { color: #333; }
+      body:not(.dark-scheme) .em-section strong { color: #1a1a1a; }
+      body:not(.dark-scheme) .section-num { color: #29ABE2 !important; }
+      body:not(.dark-scheme) .em-section .accent,
+      body:not(.dark-scheme) .em-section em { color: #29ABE2 !important; }
+      body:not(.dark-scheme) .bar-fill { color: #fff; }
+
+      /* DARK MODE — ensure highlighted text uses blue accent */
+      body.dark-scheme .em-section em,
+      body.dark-scheme .em-section .accent { color: #29ABE2; }
+      body.dark-scheme .section-num { color: #29ABE2; }
+
+      /* Print */
+      @media print {
+        .page-header { position: static; }
+        .emneleg-hero { padding: 2rem 0; }
+      }
+    </style>
+</head>
+
+<body class="dark-scheme">
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="container">
+    <div class="header-inner">
+      <nav class="page-nav">
+        <a href="#general">Ерөнхий</a>
+        <a href="#equipment">Тоног</a>
+        <a href="#rationale">Яагаад</a>
+        <a href="#stats">Статистик</a>
+        <a href="#problem">Асуудал</a>
+        <a href="#goal">Зорилго</a>
+        <a href="#budget">Төсөв</a>
+        <a href="#partners">Хамтрагч</a>
+        <a href="#results">Үр дүн</a>
+        <a href="#conclusion">Дүгнэлт</a>
+      </nav>
+      <button id="theme-toggle" title="Toggle dark/light mode">&#9788;</button>
+      <a href="../../../tusul.html?cat=health" class="back-btn">
+        <span>Буцах</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+(function(){
+  var btn=document.getElementById('theme-toggle');
+  function applyTheme(dark){
+    if(dark){document.body.classList.add('dark-scheme');btn.innerHTML='&#9788;';btn.title='Light mode руу солих';}
+    else{document.body.classList.remove('dark-scheme');btn.innerHTML='&#9790;';btn.title='Dark mode руу солих';}
+  }
+  var saved=localStorage.getItem('dsif-theme');
+  applyTheme(saved!=='light');
+  btn.addEventListener('click',function(){
+    var isDark=document.body.classList.contains('dark-scheme');
+    localStorage.setItem('dsif-theme',isDark?'light':'dark');
+    applyTheme(!isDark);
+  });
+})();
+</script>
+
+<!-- HERO -->
+<section class="emneleg-hero section-dark text-light">
+  <div class="hero-bg-img"></div>
+</section>
+
+<!-- 1. GENERAL INFO -->
+<section id="general" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Ерөнхий мэдээлэл</span>
+    </div>
+
+    <div class="cost-wrap">
+      <table class="cost">
+        <tbody>
+          <tr><td class="kv-key">Төслийн нэр</td><td>Болор Солих Мэс Засал Орон Нутагтаа Нэвтрүүлэх Төсөл</td></tr>
+          <tr><td class="kv-key">Мэдүүлэг гаргасан огноо</td><td>2026 он</td></tr>
+          <tr><td class="kv-key">Хэрэгжих байршил</td><td>Дорноговь аймгийн Нэгдсэн эмнэлэг</td></tr>
+          <tr><td class="kv-key">Нийт төсөв</td><td>258,600,000 ₮ (Хоёр зуун тавин найман сая зургаан зуун мянган төгрөг)</td></tr>
+          <tr><td class="kv-key">Тоног төхөөрөмжийн өртөг</td><td>34,800,000 ₮</td></tr>
+          <tr><td class="kv-key">Жилд хамрагдах өвчтөн</td><td>1,000+ болор цайх өвчтөн</td></tr>
+          <tr><td class="kv-key">Холбоо барих</td><td>А.Ундраа — 91995920 | А.Уянга — 96068860</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="stats-grid" style="margin-top:2rem">
+      <div class="stat-cell accent">
+        <div class="stat-label">Нийт төсөв</div>
+        <div class="stat-value">258.6M</div>
+        <div class="stat-unit">төгрөг</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Мэс заслын амжилтын хувь</div>
+        <div class="stat-value">95%</div>
+        <div class="stat-unit">дэлхийн дундаж</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">2026 онд хийх мэс засал</div>
+        <div class="stat-value">7</div>
+        <div class="stat-unit">тохиолдол</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Жилд хамрагдах өвчтөн</div>
+        <div class="stat-value">1,000+</div>
+        <div class="stat-unit">болор цайх өвчтөн</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. EQUIPMENT -->
+<section id="equipment" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Тоног төхөөрөмжийн танилцуулга</span>
+    </div>
+    <p class="section-lead">Болор солих мэс засал (катаракт) нь орчин үеийн тоног төхөөрөмж шаарддаг нарийн мэс засал юм. Дараах 12 төрлийн тоног төхөөрөмж нь мэс заслын бүрэн цикл хэрэгжүүлэхэд шаардлагатай.</p>
+
+    <div class="section-sub">2.1 Мэс заслын үндсэн тоног төхөөрөмж</div>
+    <div class="works">
+      <div class="work-item">
+        <div class="work-num">01</div>
+        <div class="work-body">
+          <div class="work-name">Phaco Машин</div>
+          <div class="work-desc">Хагалгааны гол тоног төхөөрөмж — ультра дуут долгионоор болор цайсан булчирхайг буулгадаг</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">02</div>
+        <div class="work-body">
+          <div class="work-name">Хагалгааны Хэрэгсэл</div>
+          <div class="work-desc">Болор солих мэс засалд ашиглах мэс заслын хэрэгслүүдийн багц</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">03</div>
+        <div class="work-body">
+          <div class="work-name">A/B Сканнер</div>
+          <div class="work-desc">Нүдний хэмжилт хийх, мэс заслын өмнөх оношлогооны тоног</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">04</div>
+        <div class="work-body">
+          <div class="work-name">Коагулятор</div>
+          <div class="work-desc">Судас цусны коагуляци хийх цахилгаан хэрэгсэл</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">05</div>
+        <div class="work-body">
+          <div class="work-name">Микроскоп</div>
+          <div class="work-desc">Мэс заслын томруулах микроскоп — нарийн нүдний хагалгаанд зориулсан</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">06</div>
+        <div class="work-body">
+          <div class="work-name">Хагалгааны Ширээ</div>
+          <div class="work-desc">Өвчтнийг байрлуулах тусгай хагалгааны ширээ</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">07</div>
+        <div class="work-body">
+          <div class="work-name">Эмчийн Сандал</div>
+          <div class="work-desc">Мэс засалч эмчийн ажлын сандал — эрготехникийн шаардлага хангасан</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">08</div>
+        <div class="work-body">
+          <div class="work-name">Зовхины Набор (×2)</div>
+          <div class="work-desc">Зовхи нэвтрэлтийн хэрэгслүүдийн 2 иж бүрдэл набор</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">09</div>
+        <div class="work-body">
+          <div class="work-name">Scrub Sink</div>
+          <div class="work-desc">Мэс заслын өмнөх гар угаалтын тусгай угаалтуур</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">10</div>
+        <div class="work-body">
+          <div class="work-name">Хагалгааны Гэрэл</div>
+          <div class="work-desc">Хагалгааны өрөөний дээврийн тусгай гэрэлтүүлэг</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">11</div>
+        <div class="work-body">
+          <div class="work-name">Конденсор</div>
+          <div class="work-desc">Нүдний судал ба торлог бүрхэвч шалгах нүдний дурангийн конденсор</div>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">12</div>
+        <div class="work-body">
+          <div class="work-name">Нэмэлт Хэрэгслүүд</div>
+          <div class="work-desc">Мэс заслын дагалдах тоног — аспирацийн хэрэгсэл, мэдээ алдуулах тоног</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. RATIONALE -->
+<section id="rationale" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Яагаад энэ төслийг дэмжих вэ?</span>
+    </div>
+    <p class="section-lead">Болор цайх өвчин (катаракт) нь дэлхийд харалган болох хамгийн гол шалтгаан бөгөөд Монгол оронд жил бүр мянга гаруй өвчтөн бүртгэгддэг. Орон нутагт энэхүү мэс заслыг нэвтрүүлснээр иргэд Улаанбаатар хүрэх зам, зардал, цагаа хэмнэж, хурдан эдгэрэх боломжтой болно.</p>
+
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-label">Жилийн өвчтөн</div>
+        <div class="stat-value">1,000+</div>
+        <div class="stat-unit">болор цайх өвчтөн</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Амжилтын хувь</div>
+        <div class="stat-value">95%</div>
+        <div class="stat-unit">дэлхийн дундаж</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">2026 онд хийх</div>
+        <div class="stat-value">7</div>
+        <div class="stat-unit">мэс засал</div>
+      </div>
+      <div class="stat-cell accent">
+        <div class="stat-label">Тоног өртөг</div>
+        <div class="stat-value">34.8M</div>
+        <div class="stat-unit">төгрөг</div>
+      </div>
+    </div>
+
+    <div class="rationale-grid">
+      <div class="rationale-benefit">
+        <div class="rblock-label">Иргэдийн хэмнэлт</div>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Улаанбаатарт хийлгэж байсан мэс заслыг орон нутагтаа хийлгэснээр өвчтөн бүр <strong>зам тээвэр, байр, цагийн зардал</strong>-аа хэмнэнэ. Ялангуяа ахмад настнуудад энэ ач холбогдол маш өндөр.</div>
+          </div>
+        </div>
+      </div>
+      <div class="rationale-benefit">
+        <div class="rblock-label">Харааны чанар сэргэнэ</div>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Болор солих мэс засал нь <strong>95% амжилттай</strong> бөгөөд өвчтөн мэс заслын дараа харааныхаа чанарыг сэргээн амьдралын чанараа дээшлүүлнэ.</div>
+          </div>
+        </div>
+      </div>
+      <div class="rationale-benefit" style="grid-column: 1 / -1">
+        <div class="rblock-label">Бүс нутгийн эрүүл мэндийн дэд бүтэц</div>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Дорноговь аймагт анх удаа болор солих мэс засал хийгдэх бөгөөд <strong>орон нутгийн мэргэжилтнүүдийн ур чадварыг</strong> дээшлүүлэх, ирээдүйд бие даасан үйлчилгээ явуулах суурийг тавина.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. STATISTICS -->
+<section id="stats" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Өвчтний статистик</span>
+    </div>
+
+    <div class="docs-grid">
+      <div class="doc-card">
+        <div class="doc-name">1,000+</div>
+        <div class="doc-detail">Жилийн болор цайх өвчтөн</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-name">95%</div>
+        <div class="doc-detail">Мэс заслын амжилтын хувь</div>
+        <div class="doc-sub">Дэлхийн дундаж</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-name">7</div>
+        <div class="doc-detail">2026 онд хийх мэс засал</div>
+        <div class="doc-sub">Эхний жил</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-name">12</div>
+        <div class="doc-detail">Шаардлагатай тоног төрөл</div>
+      </div>
+    </div>
+
+    <div style="margin-top:2.5rem">
+      <p style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#29ABE2;margin-bottom:1.25rem;font-weight:600">Цаг хугацааны төлөвлөгөө</p>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">2025 — Санаачилга</div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%">Төсөл боловсруулах, тоног бэлтгэх</div></div>
+          <div class="bar-amount">100%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">2026 — Амжилт</div>
+          <div class="bar-track"><div class="bar-fill" style="width:70%">7 мэс засал хийх</div></div>
+          <div class="bar-amount">7 мэс</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Ирээдүй — Бүрэн үйлчилгээ</div>
+          <div class="bar-track"><div class="bar-fill" style="width:50%">Жилд 1,000+ өвчтөн</div></div>
+          <div class="bar-amount">1,000+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="goal-box" style="margin-top:2rem">
+      <div style="font-size:11px;font-weight:700;color:#29ABE2;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.75rem">Ач холбогдол</div>
+      Болор цайх өвчин нь хагалгаагаар бүрэн эдгэрдэг тул эрт оношилж, цаг алдалгүй мэс засал хийх нь харааны хохирлоос урьдчилан сэргийлэх хамгийн үр дүнтэй арга юм.
+    </div>
+  </div>
+</section>
+
+<!-- 5. PROBLEM -->
+<section id="problem" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Асуудлын тодорхойлолт</span>
+    </div>
+
+    <div class="section-sub">5.1 Орон нутагт болор солих мэс засал байхгүй байдал</div>
+    <p class="section-lead">Дорноговь аймгийн иргэд болор цайх өвчин оношлогдсон тохиолдолд заавал Улаанбаатар хүрч мэс засал хийлгэх шаардлагатай байдаг. Энэ нь зам тээврийн зардал, байрны зардал, цагийн зардал нэмж, ахмад настнуудад онцгой хүндрэл учруулдаг.</p>
+
+    <div class="section-sub">5.2 Одоогийн байдал</div>
+    <div class="cost-wrap">
+      <table class="cost">
+        <tbody>
+          <tr><td class="kv-key">Орон нутгийн тусламж</td><td class="kv-val">Болор солих мэс засал хийх боломжгүй</td></tr>
+          <tr class="hl"><td class="kv-key">Өвчтний хүндрэл</td><td class="kv-val">Улаанбаатар хүрэх зам, зардал, цаг алдагдал</td></tr>
+          <tr><td class="kv-key">Жилийн хэрэгцээ</td><td class="kv-val">1,000+ өвчтөн орон нутагт үйлчилгээ авах шаардлагатай</td></tr>
+          <tr><td class="kv-key">Ахмад настны хүндрэл</td><td class="kv-val">Холд явах чадваргүй иргэд эмчилгээ авч чаддаггүй</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 6. GOAL -->
+<section id="goal" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Төслийн зорилго</span>
+    </div>
+
+    <div class="section-sub">6.1 Ерөнхий зорилго</div>
+    <div class="goal-box">
+      Болор солих мэс заслыг орон нутагтаа нэвтрүүлж, Дорноговь аймгийн иргэдэд чирэгдэлгүй, чанартай нүдний мэс заслын тусламж үзүүлэх. Орон нутгийн мэргэжилтнүүдийн ур чадварыг дээшлүүлж, ирээдүйд бие даасан үйлчилгээ явуулах суурийг тавих.
+    </div>
+
+    <div class="section-sub">6.2 Тусгай зорилтууд</div>
+    <div class="norms-list">
+      <div class="norm-item"><span class="norm-n">1</span>Дорноговь аймагт анх удаа болор солих мэс заслыг нэвтрүүлэх</div>
+      <div class="norm-item"><span class="norm-n">2</span>2026 онд 7 өвчтөнд мэс засал хийж, амжилтын хувийг 95% дээр байлгах</div>
+      <div class="norm-item"><span class="norm-n">3</span>Орон нутгийн мэргэжилтнүүдийг сургаж, тоног төхөөрөмжийн ашиглалтыг эзэмшүүлэх</div>
+      <div class="norm-item"><span class="norm-n">4</span>Ирээдүйд жилд 1,000+ өвчтөнд үйлчилгээ үзүүлэх хүчин чадал бий болгох</div>
+      <div class="norm-item"><span class="norm-n">5</span>Ахмад настан болон алслагдсан бүс нутгийн иргэдэд тусламжийн хүртээмжийг нэмэгдүүлэх</div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. BUDGET -->
+<section id="budget" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Санхүүжилт ба төсөв</span>
+    </div>
+    <div class="budget-display">
+      <div class="budget-label">Нийт төсөв</div>
+      <div class="budget-amount">258,600,000 ₮</div>
+      <div class="budget-words">Хоёр зуун тавин найман сая зургаан зуун мянган төгрөг</div>
+    </div>
+    <div class="stats-grid" style="margin-top:1.5rem;margin-bottom:0">
+      <div class="stat-cell">
+        <div class="stat-label">Тоног төхөөрөмж</div>
+        <div class="stat-value">34.8M</div>
+        <div class="stat-unit">төгрөг</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Нийт төсөв</div>
+        <div class="stat-value">258.6M</div>
+        <div class="stat-unit">төгрөг</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. PARTNERS -->
+<section id="partners" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">Хамтран ажиллах байгууллагууд</span>
+    </div>
+    <div class="machines-grid">
+      <div class="machine-cell">
+        <div><div class="machine-name">Дорноговь аймгийн Нэгдсэн эмнэлэг</div><div class="machine-code">Үндсэн хэрэгжүүлэгч байгууллага</div></div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Дорноговь аймгийн ЗДТГ</div><div class="machine-code">Засаг Даргын Тамгын газар</div></div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Дорноговь Эрүүл мэндийн газар</div><div class="machine-code">Аймгийн</div></div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Нүдний мэргэжлийн байгууллага</div><div class="machine-code">Сургалт, туслалцаа</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. RESULTS -->
+<section id="results" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-title">Хүлээгдэж буй үр дүн</span>
+    </div>
+    <ul class="results-list">
+      <li><div class="res-num">1</div>2026 онд 7 өвчтөнд амжилттай болор солих мэс засал хийж, орон нутгийн анхны туршлага хуримтлуулна.</li>
+      <li><div class="res-num">2</div>Улаанбаатар явахгүйгээр орон нутагтаа эмчлүүлснээр иргэдийн зам тээврийн зардал, цаг хугацаа хэмнэгдэнэ.</li>
+      <li><div class="res-num">3</div>Ахмад настан болон алслагдсан бүс нутгийн иргэд хүртээмжтэй тусламж авах боломж нэмэгдэнэ.</li>
+      <li><div class="res-num">4</div>Орон нутгийн мэргэжилтнүүд болор солих мэс заслын ур чадварыг эзэмшиж, мэдлэг дамжуулагдана.</li>
+      <li><div class="res-num">5</div>Ирээдүйд жилд 1,000+ өвчтөнд үйлчилгээ үзүүлэх хүчин чадалтай болж, бүс нутгийн нүдний эрүүл мэндийн тусламж бие даасан болно.</li>
+      <li><div class="res-num">6</div>Болор цайх өвчнөөс болж харааны бэрхшээлтэй болох иргэдийн тоо буурч, ажиллах чадвар хадгалагдана.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 10. CONCLUSION -->
+<section id="conclusion" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <span class="section-title">Дүгнэлт ба уриалга</span>
+    </div>
+    <div class="conclusion-box">
+      <div class="conclusion-quote">"Харааг сэргээх — хамгийн бодит хүмүүнлэгийн үйлс."</div>
+      <p class="conclusion-body">Та энэхүү төслийг дэмжснээр Дорноговь аймгийн мянга гаруй иргэний харааны эрүүл мэндийг хамгаалахад хувь нэмрээ оруулна. Болор солих мэс засал нь 95% амжилттай, богино хугацааны эдгэрэлтэй, орон нутагт хийгдэх боломжтой мэс засал юм.</p>
+      <div class="cta-buttons">
+        <button class="btn-primary">Дэмжлэг илэрхийлэх</button>
+        <button class="btn-secondary">Дэлгэрэнгүй мэдээлэл авах</button>
+      </div>
+    </div>
+
+    <!-- SIGNATURES -->
+    <div class="sign-row" style="margin-top:2rem">
+      <div class="sign-box">
+        <div class="sign-role">Мэдүүлэг гаргасан</div>
+        <div class="sign-name">А.Ундраа — 91995920</div>
+        <div class="sign-line"></div>
+        <div class="sign-footer">
+          <span>baterdeneundraa971@gmail.com</span>
+          <span>Огноо: ____/____/2026</span>
+        </div>
+      </div>
+      <div class="sign-box">
+        <div class="sign-role">Хамтран мэдүүлсэн</div>
+        <div class="sign-name">А.Уянга — 96068860</div>
+        <div class="sign-line"></div>
+        <div class="sign-footer">
+          <span>Uyangajargalsaikhan2019@gmail.com</span>
+          <span>Огноо: ____/____/2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="em-footer text-light">
+  <div class="container">
+    <div class="footer-logo">Болор Солих Мэс Засал</div>
+    <div class="footer-quote">"Харааг сэргээх — хамгийн бодит хүмүүнлэгийн үйлс"</div>
+    <div class="footer-div"></div>
+    <div class="footer-meta">Дорноговь аймгийн Нэгдсэн эмнэлэг · DSIF 2026</div>
+  </div>
+</footer>
+
+<!-- Javascript Files
+================================================== -->
+<script src="../../../js/vendors.js"></script>
+<script src="../../../js/designesia.js"></script>
+
+</body>
+</html>

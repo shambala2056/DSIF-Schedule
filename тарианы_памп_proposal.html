@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <title>Хяналтын Монитор ба Тарианы Памп — Дорноговь аймгийн Нэгдсэн эмнэлэг 2026</title>
+    <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="AIvent" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
+    <!-- CSS Files
+    ================================================== -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
+    <link href="css/vendors.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <!-- color scheme -->
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
+    <style>
+      /* Brand accent (yellow) overrides */
+      :root { --accent-color:#29ABE2; --mainmenu-font-weight:400; }
+      /* Remove webkit gradient text fill from headings */
+      .text-light h1,
+      .text-light h2,
+      .dark-scheme h1,
+      .dark-scheme h2 {
+        -webkit-text-fill-color: unset !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        background: none !important;
+      }
+      /* Dark theme → black base */
+      body.dark-scheme {
+        --bg-dark-1: #0a0a0a !important;
+        --bg-dark-2: #111111 !important;
+        --bg-dark-3: #0d0d0d !important;
+        --bg-dark-1-rgb: 10,10,10 !important;
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark,
+      body.dark-scheme .bg-dark-1,
+      body.dark-scheme .section-dark {
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark-2 {
+        background-color: #111111 !important;
+      }
+      body.dark-scheme header,
+      body.dark-scheme header.smaller {
+        background: #0a0a0a !important;
+      }
+      * { letter-spacing: 1px; }
+      .btn-main { background: var(--primary-color) !important; }
+      .btn-main:hover { background: var(--secondary-color) !important; }
+      h1 em, h2 em, h3 em { color: var(--accent-color); font-style: normal; }
+      .id-color-accent { color: var(--accent-color); }
+      .btn-hero { background: #4bac48 !important; }
+      .btn-hero:hover, .btn-hero:focus { background: #45abe1 !important; }
+
+      /* ===============================================
+         PAGE-SPECIFIC: Тарианы Памп & Хяналтын Монитор
+         Palette mapped to AIvent:
+           accent (blue) #29ABE2
+           green         #4bac48
+           muted grey    rgba(255,255,255,0.55)
+         =============================================== */
+
+      /* Back button in header */
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        background: #4bac48;
+        color: #fff !important;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none !important;
+        transition: background 0.25s;
+      }
+      .back-btn:hover { background: #29ABE2; color: #0a0a0a !important; }
+
+      /* Header (simple) */
+      body { text-transform: uppercase; }
+      .page-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #0a0a0a;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+      html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+      .em-section { scroll-margin-top: 72px; }
+      .page-header .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+      .page-header .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .page-header .logo-area img { height: 40px; width: auto; }
+      .page-header .logo-area .brand-text {
+        color: #fff;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .page-nav {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        flex: 1;
+        justify-content: center;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .page-nav::-webkit-scrollbar { display: none; }
+      .page-nav a {
+        padding: 8px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.6);
+        text-decoration: none;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+      }
+      .page-nav a:hover { color: #29ABE2; border-bottom-color: #29ABE2; }
+      body:not(.dark-scheme) .page-nav a { color: #444; }
+      body:not(.dark-scheme) .page-nav a:hover { color: #0a0a0a; border-bottom-color: #29ABE2; }
+      @media (max-width: 768px) {
+        .page-nav { justify-content: flex-start; }
+        .page-nav a { padding: 6px 8px; font-size: 10px; }
+      }
+      .page-header .logo-area .brand-text small {
+        display: block;
+        color: rgba(255,255,255,0.5);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        margin-top: 2px;
+      }
+
+      /* Hero */
+      .emneleg-hero {
+        position: relative;
+        background: #0a0a0a;
+        color: #fff;
+        padding: 0;
+        overflow: hidden;
+      }
+      .emneleg-hero .sw-overlay { display: none; }
+      .emneleg-hero .hero-bg-img {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/7;
+        background-image: url('images/projects/тарианы_памп.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: 0;
+      }
+      .emneleg-hero .container { position: relative; z-index: 2; }
+      .emneleg-hero .hero-stamp {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        font-size: 10px;
+        color: rgba(255,255,255,0.45);
+        text-align: right;
+        line-height: 1.8;
+        letter-spacing: 0.08em;
+        z-index: 3;
+      }
+      .emneleg-hero .hero-tag {
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+      }
+      .emneleg-hero h1 {
+        font-size: clamp(28px, 5vw, 52px);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        max-width: 820px;
+        margin-bottom: 1.5rem;
+        color: #fff !important;
+      }
+      .emneleg-hero h1 em { color: #4bac48; font-style: normal; }
+      .emneleg-hero .hero-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: rgba(255,255,255,0.65);
+      }
+      .emneleg-hero .hero-meta strong {
+        display: block;
+        color: #29ABE2;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+
+      /* Price band */
+      .price-band {
+        background: linear-gradient(90deg, #4bac48 0%, #57ab48 100%);
+        color: #fff;
+        padding: 10px 0;
+      }
+      .price-band .inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .price-band .std-label {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-weight: 700;
+        opacity: 0.95;
+        margin-right: 6px;
+      }
+      .price-band .price-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.85;
+        margin-bottom: 4px;
+      }
+      .price-band .price-number {
+        font-size: clamp(32px, 5vw, 52px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .price-band .price-sub {
+        font-size: 11px;
+        opacity: 0.8;
+        margin-top: 4px;
+      }
+      .price-band .price-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .price-band .pbadge {
+        padding: 6px 14px;
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 4px;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        background: rgba(255,255,255,0.12);
+      }
+
+      /* Section styling for dark AIvent look */
+      .em-section {
+        padding: 28px 0 40px;
+        color: #fff;
+      }
+      .em-section.alt { background: #111111 !important; }
+      .em-section + .em-section { border-top: 1px solid rgba(255,255,255,0.06); }
+
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .section-num {
+        font-size: 11px;
+        color: #29ABE2;
+        letter-spacing: 0.15em;
+        font-weight: 600;
+      }
+      .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #fff;
+      }
+
+      /* Stats grid */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 3rem;
+      }
+      .stat-cell {
+        background: #0a0a0a;
+        padding: 1.5rem;
+      }
+      .stat-cell.accent { background: #4bac48; color: #fff; }
+      .stat-label {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.55);
+        margin-bottom: 8px;
+      }
+      .stat-cell.accent .stat-label { color: rgba(255,255,255,0.85); }
+      .stat-value {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: #fff;
+      }
+      .stat-unit {
+        font-size: 11px;
+        color: rgba(255,255,255,0.5);
+        margin-top: 4px;
+      }
+      .stat-cell.accent .stat-unit { color: rgba(255,255,255,0.8); }
+
+      /* Cost table */
+      .cost-wrap { overflow-x: auto; }
+      table.cost {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        color: #fff;
+      }
+      .cost thead tr { background: #29ABE2; color: #0a0a0a; }
+      .cost th {
+        padding: 12px 16px;
+        text-align: left;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .cost th.r, .cost td.r { text-align: right; }
+      .cost tbody tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .cost tbody tr:hover { background: rgba(255,255,255,0.04); }
+      .cost td { padding: 10px 16px; color: rgba(255,255,255,0.85); }
+      .cost td.r { font-size: 13px; color: #fff; }
+      .cost tfoot tr { background: #4bac48; color: #fff; }
+      .cost tfoot td { padding: 14px 16px; font-weight: 700; font-size: 14px; }
+      .row-n { font-size: 11px; color: rgba(255,255,255,0.45); }
+      .cost tr.subtotal { background: rgba(255,193,7,0.08) !important; }
+      .cost tr.subtotal td { font-weight: 600; color: #29ABE2; }
+
+      /* Works list */
+      .works {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: #0d0d0d;
+      }
+      .work-item {
+        display: grid;
+        grid-template-columns: 60px 1fr auto;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        transition: background 0.15s;
+      }
+      .work-item:last-child { border-bottom: none; }
+      .work-item:hover { background: rgba(255,193,7,0.05); }
+      .work-num {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 1.25rem 0;
+        font-size: 12px;
+        color: #29ABE2;
+        font-weight: 600;
+        border-right: 1px solid rgba(255,255,255,0.08);
+      }
+      .work-body { padding: 1.25rem 1.5rem; }
+      .work-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #fff; }
+      .work-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.65; }
+      .work-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+      .tag {
+        font-size: 11px;
+        padding: 3px 10px;
+        border-radius: 3px;
+        letter-spacing: 0.03em;
+      }
+      .tag-blue { background: rgba(41,171,226,0.15); color: #29ABE2; border: 1px solid rgba(41,171,226,0.3); }
+      .tag-rust { background: rgba(255,140,80,0.15); color: #ff9a6c; border: 1px solid rgba(255,140,80,0.3); }
+      .tag-green { background: rgba(75,172,72,0.15); color: #7fd47c; border: 1px solid rgba(75,172,72,0.3); }
+      .tag-amber { background: rgba(255,193,7,0.15); color: #29ABE2; border: 1px solid rgba(255,193,7,0.3); }
+      .work-amount {
+        padding: 1.25rem 1.5rem;
+        font-size: 14px;
+        font-weight: 700;
+        white-space: nowrap;
+        display: flex;
+        align-items: flex-start;
+        color: #4bac48;
+        border-left: 1px solid rgba(255,255,255,0.08);
+        min-width: 140px;
+        justify-content: flex-end;
+      }
+
+      /* Info cards */
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .info-card {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem;
+        background: #111111;
+      }
+      .info-card-title {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-weight: 700;
+      }
+      .info-row2 { display: flex; flex-direction: column; gap: 12px; }
+      .info-item-label {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 2px;
+      }
+      .info-item-val { font-size: 14px; font-weight: 500; color: #fff; }
+
+      /* Machines grid */
+      .machines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .machine-cell {
+        background: #0d0d0d;
+        padding: 1rem 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .machine-cell:hover { background: #151515; }
+      .machine-name { font-size: 13px; font-weight: 500; color: #fff; }
+      .machine-code { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+      .machine-cost { font-size: 12px; color: #4bac48; text-align: right; white-space: nowrap; font-weight: 600; }
+
+      /* Norms list */
+      .norms-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 8px;
+      }
+      .norm-item {
+        display: flex;
+        gap: 10px;
+        padding: 12px 16px;
+        background: #111111;
+        border-left: 3px solid #29ABE2;
+        font-size: 13px;
+        line-height: 1.55;
+        color: rgba(255,255,255,0.78);
+      }
+      .norm-n { font-size: 11px; color: #29ABE2; min-width: 22px; padding-top: 1px; font-weight: 700; }
+
+      /* Docs grid */
+      .docs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 12px;
+      }
+      .doc-card {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        background: #111111;
+        transition: border-color 0.2s;
+      }
+      .doc-card:hover { border-color: #29ABE2; }
+      .doc-icon {
+        width: 36px; height: 36px;
+        background: #4bac48;
+        color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+        border-radius: 3px;
+      }
+      .doc-name { font-size: 13px; font-weight: 600; color: #fff; }
+      .doc-detail { font-size: 11px; color: rgba(255,255,255,0.55); }
+
+      /* Bar chart */
+      .bar-chart { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+      .bar-row { display: flex; align-items: center; gap: 12px; }
+      .bar-label {
+        font-size: 11px;
+        color: rgba(255,255,255,0.65);
+        width: 170px;
+        flex-shrink: 0;
+        text-align: right;
+      }
+      .bar-track {
+        flex: 1;
+        height: 26px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        position: relative;
+        overflow: visible;
+      }
+      .bar-fill {
+        height: 100%;
+        background: #29ABE2;
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 10px;
+        color: #fff;
+        font-weight: 600;
+        transition: width 1s ease;
+        white-space: nowrap;
+        overflow: visible;
+      }
+      .bar-fill { background: #29ABE2; }
+      .bar-row:nth-child(1) .bar-fill { opacity: 1; }
+      .bar-row:nth-child(2) .bar-fill { opacity: 0.75; }
+      .bar-amount {
+        font-size: 11px;
+        width: 60px;
+        flex-shrink: 0;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      /* Rationale timeline */
+      .rationale-timeline {
+        display: flex;
+        flex-direction: column;
+        border-left: 2px solid rgba(255,255,255,0.15);
+        margin-left: 48px;
+        margin-bottom: 3rem;
+      }
+      .tl-item {
+        display: grid;
+        grid-template-columns: 56px 20px 1fr;
+        align-items: flex-start;
+        position: relative;
+        padding-bottom: 2rem;
+        margin-left: -1px;
+      }
+      .tl-year {
+        font-size: 13px;
+        font-weight: 700;
+        color: #29ABE2;
+        text-align: right;
+        padding-right: 16px;
+        padding-top: 2px;
+        margin-left: -56px;
+      }
+      .tl-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid #0a0a0a;
+        margin-top: 3px;
+        margin-left: -8px;
+        flex-shrink: 0;
+      }
+      .tl-dot-green { background: #4bac48; }
+      .tl-dot-amber { background: #29ABE2; }
+      .tl-dot-rust { background: #d66a3d; }
+      .tl-dot-blue { background: #29ABE2; }
+      .tl-body { padding-left: 20px; }
+      .tl-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: #fff; }
+      .tl-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.65; }
+      .tl-desc strong { color: #29ABE2; }
+
+      .rationale-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .rationale-problem, .rationale-benefit {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem;
+        background: #111111;
+      }
+      .rationale-problem { border-left: 4px solid #d66a3d; }
+      .rationale-benefit { border-left: 4px solid #4bac48; }
+      .rblock-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .problem-list, .benefit-list { display: flex; flex-direction: column; gap: 14px; }
+      .problem-item, .benefit-item { display: flex; gap: 12px; align-items: flex-start; }
+      .prob-icon, .ben-icon { display: none; }
+      .prob-red { background: rgba(214,106,61,0.2); color: #ff9a6c; }
+      .prob-amber { background: rgba(255,193,7,0.18); color: #29ABE2; }
+      .ben-icon { background: rgba(75,172,72,0.2); color: #7fd47c; }
+      .prob-text, .ben-text { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+      .prob-text strong, .ben-text strong { color: #fff; }
+
+      /* Footer */
+      .em-footer {
+        background: #0a0a0a;
+        color: rgba(255,255,255,0.6);
+        padding: 50px 0 30px;
+        font-size: 12px;
+        line-height: 1.9;
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .em-footer .footer-inner {
+        display: flex;
+        gap: 3rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .em-footer .footer-col-title {
+        color: #29ABE2;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 11px;
+        margin-bottom: 0.75rem;
+      }
+      .em-footer .footer-bottom {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 11px;
+        color: rgba(255,255,255,0.45);
+      }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .emneleg-hero h1,
+      .emneleg-hero .hero-tag,
+      .emneleg-hero .hero-meta { animation: fadeUp 0.6s ease both; }
+      .emneleg-hero .hero-tag { animation-delay: 0.1s; }
+      .emneleg-hero h1 { animation-delay: 0.2s; }
+      .emneleg-hero .hero-meta { animation-delay: 0.4s; }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .info-grid, .rationale-grid { grid-template-columns: 1fr; }
+        .work-item { grid-template-columns: 50px 1fr; }
+        .work-amount {
+          grid-column: 1 / -1;
+          border-left: none;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          justify-content: flex-start;
+          padding-left: 1.5rem;
+        }
+        .emneleg-hero { padding: 80px 0 60px; }
+        .emneleg-hero .hero-stamp { position: static; text-align: left; margin-bottom: 1rem; }
+        .page-header .logo-area .brand-text { font-size: 11px; }
+        .bar-label { width: 110px; font-size: 10px; }
+      }
+
+      /* Light mode overrides for this page */
+      body:not(.dark-scheme) { background-color: #f4f6f8 !important; color: #1a1a1a; }
+      body:not(.dark-scheme) .page-header { background: #ffffff !important; border-bottom: 1px solid rgba(0,0,0,0.08); }
+      body:not(.dark-scheme) .page-header .logo-area .brand-text { color: #1a1a1a; }
+      body:not(.dark-scheme) .page-header .logo-area .brand-text small { color: #666; }
+      body:not(.dark-scheme) .em-section { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-section.alt { background: #ffffff !important; }
+      body:not(.dark-scheme) .section-title { color: #1a1a1a; }
+      body:not(.dark-scheme) .stat-cell { background: #ffffff; }
+      body:not(.dark-scheme) .stat-value { color: #1a1a1a; }
+      body:not(.dark-scheme) .stat-label { color: #666; }
+      body:not(.dark-scheme) .stat-unit { color: #888; }
+      body:not(.dark-scheme) .stats-grid { background: #d9dde2; border-color: #d9dde2; }
+      body:not(.dark-scheme) .works { background: #ffffff; border-color: #d9dde2; }
+      body:not(.dark-scheme) .work-item { border-bottom-color: #eee; }
+      body:not(.dark-scheme) .work-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .work-desc { color: #555; }
+      body:not(.dark-scheme) .work-num { border-right-color: #eee; }
+      body:not(.dark-scheme) .work-amount { border-left-color: #eee; color: #1a6640; }
+      body:not(.dark-scheme) .cost { color: #1a1a1a; }
+      body:not(.dark-scheme) .cost td { color: #333; }
+      body:not(.dark-scheme) .cost tbody tr { border-bottom-color: #eee; }
+      body:not(.dark-scheme) .cost tbody tr:hover { background: #f7f5f0; }
+      body:not(.dark-scheme) .row-n { color: #888; }
+      body:not(.dark-scheme) .info-card { background: #ffffff; border-color: #e6e6e6; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+      body:not(.dark-scheme) .info-item-val { color: #1a1a1a; }
+      body:not(.dark-scheme) .info-item-label { color: #666; }
+      body:not(.dark-scheme) .machine-cell { background: #ffffff; }
+      body:not(.dark-scheme) .machine-cell:hover { background: #f7f5f0; }
+      body:not(.dark-scheme) .machine-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .machine-code { color: #777; }
+      body:not(.dark-scheme) .machines-grid { background: #d9dde2; border-color: #d9dde2; }
+      body:not(.dark-scheme) .norm-item { background: #ffffff; color: #333; }
+      body:not(.dark-scheme) .doc-card { background: #ffffff; border-color: #e6e6e6; }
+      body:not(.dark-scheme) .doc-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .doc-detail { color: #777; }
+      body:not(.dark-scheme) .rationale-problem,
+      body:not(.dark-scheme) .rationale-benefit { background: #ffffff; border-color: #e6e6e6; }
+      body:not(.dark-scheme) .tl-title { color: #1a1a1a; }
+      body:not(.dark-scheme) .tl-desc { color: #555; }
+      body:not(.dark-scheme) .prob-text, body:not(.dark-scheme) .ben-text { color: #444; }
+      body:not(.dark-scheme) .prob-text strong, body:not(.dark-scheme) .ben-text strong { color: #1a1a1a; }
+      body:not(.dark-scheme) .bar-track { background: #eee; border-color: #ddd; }
+      body:not(.dark-scheme) .bar-label { color: #555; }
+      body:not(.dark-scheme) .bar-amount { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-footer { background: #ffffff; color: #555; border-top-color: #e6e6e6; }
+      body:not(.dark-scheme) .em-footer .footer-bottom { border-top-color: #eee; color: #888; }
+
+      /* Print */
+      @media print {
+        .page-header { position: static; }
+        .emneleg-hero { padding: 2rem 0; }
+      }
+    </style>
+</head>
+
+<body class="dark-scheme">
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="container">
+    <div class="header-inner">
+      <nav class="page-nav">
+        <a href="#rationale">Хэрэгцээ</a>
+        <a href="#summary">Тайлбар</a>
+        <a href="#equipment">Тоног төхөөрөмж</a>
+        <a href="#costs">Зардал</a>
+        <a href="#specs">Техникийн үзүүлэлт</a>
+        <a href="#info">Оролцогч</a>
+        <a href="#standards">Стандарт</a>
+        <a href="#docs">Баримт</a>
+      </nav>
+      <a href="tusul.html?cat=health" class="back-btn">
+        <span>Буцах</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="emneleg-hero section-dark text-light">
+  <div class="hero-bg-img"></div>
+</section>
+
+<!-- STANDARDS BAND -->
+<div class="price-band">
+  <div class="container">
+    <div class="inner">
+      <span class="std-label">Стандартууд</span>
+      <div class="pbadge">МНС EN 60601-1</div>
+      <div class="pbadge">WHO Medical Devices</div>
+      <div class="pbadge">Mindray CE/FDA</div>
+      <div class="pbadge">ЭМЯ Тушаал №302</div>
+      <div class="pbadge">ISO 13485:2016</div>
+    </div>
+  </div>
+</div>
+
+<!-- RATIONALE -->
+<section id="rationale" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">00</span>
+      <span class="section-title">Төслийн хэрэгцээ шаардлага</span>
+    </div>
+
+    <div class="rationale-timeline">
+      <div class="tl-item">
+        <div class="tl-year">2010</div>
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-body">
+          <div class="tl-title">Одоогийн тоног төхөөрөмж ашиглалтад орсон</div>
+          <div class="tl-desc">Дорноговь аймгийн Нэгдсэн эмнэлэгт хяналтын монитор болон тарианы памп анх нийлүүлэгдэн, яаралтай тусламж болон эрчимт эмчилгээний тасагт ашиглалтад орсон.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2018</div>
+        <div class="tl-dot tl-dot-amber"></div>
+        <div class="tl-body">
+          <div class="tl-title">Хэсэгчилсэн засвар үйлчилгээ</div>
+          <div class="tl-desc">Зарим тоног төхөөрөмжид хэсэгчилсэн засвар хийгдсэн боловч гол нэгжүүд анхны хувилбараараа хэвээр үлдсэн. Ашиглалтын хугацаа хагасаас давсан.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2025</div>
+        <div class="tl-dot tl-dot-rust"></div>
+        <div class="tl-body">
+          <div class="tl-title">Одоогийн байдал — яаралтай шинэчлэл шаардлагатай</div>
+          <div class="tl-desc">Ашиглалтад орсноос хойш <strong>15 жил</strong> өнгөрсний улмаас тоног төхөөрөмжийн дийлэнх нь техникийн шаардлага хангахгүй болж, оношилгооны алдаа гаргах эрсдэл нэмэгдсэн. <strong>720,000 гаруй</strong> иргэнд үйлчилдэг эмнэлгийн найдвартай байдал алдагдаж байна.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2026</div>
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-body">
+          <div class="tl-title">30 монитор, 10 тарианы памп шинэчлэгдэнэ</div>
+          <div class="tl-desc">Энэхүү хөрөнгө оруулалтын төлөвлөгөөний дагуу олон улсын стандартад нийцсэн тоног төхөөрөмжөөр бүрэн шинэчилнэ.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rationale-grid">
+      <div class="rationale-problem">
+        <div class="rblock-label">Одоогийн асуудал</div>
+        <div class="problem-list">
+          <div class="problem-item">
+            <div class="prob-icon prob-red">!</div>
+            <div class="prob-text">Хяналтын монитор <strong>оношилгооны алдаа</strong> гаргах эрсдэлтэй — амин чухал үзүүлэлтүүдийг бодит цагт зөв хэмжих чадвар буурсан</div>
+          </div>
+          <div class="problem-item">
+            <div class="prob-icon prob-red">!</div>
+            <div class="prob-text">Тарианы памп <strong>тун тохируулгын нарийвчлал алдагдсан</strong> — эмийн буруу тун өвчтөний аюулгүй байдалд эрсдэл учруулна</div>
+          </div>
+          <div class="problem-item">
+            <div class="prob-icon prob-amber">~</div>
+            <div class="prob-text">Эд анги нийлүүлэлт зогссон тул <strong>засвар хийх боломжгүй</strong> болсон</div>
+          </div>
+          <div class="problem-item">
+            <div class="prob-icon prob-amber">~</div>
+            <div class="prob-text">Аймгийн <strong>14 сумын</strong> иргэдэд чанартай эрүүл мэндийн тусламж үзүүлэх боломж хязгаарлагдаж байна</div>
+          </div>
+        </div>
+      </div>
+      <div class="rationale-benefit">
+        <div class="rblock-label">Шинэчлэлийн үр дүн</div>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Бодит цагаар <strong>нарийвчлалтай хяналт</strong> хийгдэж оношилгооны алдаа арилна</div>
+          </div>
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Эмийн <strong>тун тохируулга автоматжиж</strong> өвчтөний аюулгүй байдал хангагдана</div>
+          </div>
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Сүлжээнд холбогдох боломжтой тоног төхөөрөмж — <strong>нэгдсэн мэдээллийн систем</strong> бий болно</div>
+          </div>
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">720,000+ иргэний эрүүл мэндийн <strong>тусламж, үйлчилгээний чанар дээшилнэ</strong></div>
+          </div>
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Олон улсын стандарт (ISO 13485, WHO) хангасан тоног төхөөрөмж — <strong>10+ жилийн ашиглалт</strong> баталгаатай</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section id="summary" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Товч тайлбар</span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-cell accent">
+        <div class="stat-label">Нийт өртөг</div>
+        <div class="stat-value">250M</div>
+        <div class="stat-unit">төгрөг</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Хяналтын монитор</div>
+        <div class="stat-value">30</div>
+        <div class="stat-unit">ширхэг — 210,000,000 ₮</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Тарианы памп</div>
+        <div class="stat-value">10</div>
+        <div class="stat-unit">ширхэг — 40,000,000 ₮</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Нийт тоног</div>
+        <div class="stat-value">40</div>
+        <div class="stat-unit">ширхэг</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Үйлчлэх хүн ам</div>
+        <div class="stat-value">720K+</div>
+        <div class="stat-unit">иргэн</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Хамрах сум</div>
+        <div class="stat-value">14</div>
+        <div class="stat-unit">сум</div>
+      </div>
+    </div>
+
+    <!-- BAR CHART -->
+    <div style="margin-bottom:2rem">
+      <p style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#29ABE2;margin-bottom:1.25rem;font-weight:600">Зардлын бүтэц — нийт 250,000,000 ₮</p>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">Хяналтын монитор (30 ш)</div>
+          <div class="bar-track"><div class="bar-fill" style="width:84%">210,000,000 ₮</div></div>
+          <div class="bar-amount">84%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Тарианы памп (10 ш)</div>
+          <div class="bar-track"><div class="bar-fill" style="width:16%">40,000,000 ₮</div></div>
+          <div class="bar-amount">16%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPMENT -->
+<section id="equipment" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Тоног төхөөрөмжийн жагсаалт</span>
+    </div>
+
+    <div class="works">
+      <div class="work-item">
+        <div class="work-num">1.1</div>
+        <div class="work-body">
+          <div class="work-name">Хяналтын монитор — Mindray брэнд</div>
+          <div class="work-desc">Артерийн даралт, CO₂, SpO₂ хяналт. Хүүхэд болон насанд хүрэгчдэд тохирсон. Сүлжээнд холбогдох боломжтой (Network ready). Бодит цагаар дохиолол өгдөг систем. Яаралтай тусламж, эрчимт эмчилгээ, эх барих тасгуудад байршина.</div>
+          <div class="work-tags">
+            <span class="tag tag-blue">30 ширхэг</span>
+            <span class="tag tag-blue">7,000,000 ₮ нэгж үнэ</span>
+            <span class="tag tag-green">CE / FDA баталгаатай</span>
+          </div>
+        </div>
+        <div class="work-amount">210,000,000 ₮</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">1.2</div>
+        <div class="work-body">
+          <div class="work-name">Тарианы памп — Syringe Pump</div>
+          <div class="work-desc">Магийн тун тохиргоо (мл/цаг тохируулна). 2+ тариа нэгэн зэрэг тарах боломжтой. Хүний оролцоогүйгээр автоматаар ажиллана. KVO функц — судасыг нээлттэй байлгана. Эмчилгээний тасаг болон мэс заслын өрөөнд байршина.</div>
+          <div class="work-tags">
+            <span class="tag tag-rust">10 ширхэг</span>
+            <span class="tag tag-rust">4,000,000 ₮ нэгж үнэ</span>
+            <span class="tag tag-green">ISO 13485 баталгаатай</span>
+          </div>
+        </div>
+        <div class="work-amount">40,000,000 ₮</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COSTS -->
+<section id="costs" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Зардлын задаргаа</span>
+    </div>
+
+    <div class="cost-wrap">
+      <table class="cost">
+        <thead>
+          <tr>
+            <th style="width:40px">№</th>
+            <th>Зардлын нэр</th>
+            <th class="r">Нэгж үнэ (₮)</th>
+            <th class="r">Тоо</th>
+            <th class="r">Бүгд өртөг (₮)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-n">1</td>
+            <td>Хяналтын монитор (Mindray)</td>
+            <td class="r">7,000,000</td>
+            <td class="r">30 ш</td>
+            <td class="r">210,000,000</td>
+          </tr>
+          <tr>
+            <td class="row-n">2</td>
+            <td>Тарианы памп (Syringe Pump)</td>
+            <td class="r">4,000,000</td>
+            <td class="r">10 ш</td>
+            <td class="r">40,000,000</td>
+          </tr>
+          <tr class="subtotal">
+            <td class="row-n"></td>
+            <td colspan="3">Тоног төхөөрөмжийн нийт дүн</td>
+            <td class="r">250,000,000</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td colspan="3">НИЙТ ТӨСВИЙН ӨРТӨГ (40 ширхэг)</td>
+            <td class="r">250,000,000</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section id="specs" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Техникийн үзүүлэлт</span>
+    </div>
+    <div class="machines-grid">
+      <div class="machine-cell">
+        <div><div class="machine-name">Дэлгэцийн хэмжээ</div><div class="machine-code">Хяналтын монитор</div></div>
+        <div class="machine-cost">15" TFT LCD</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">ЗСЦ — 12 мөрний ECG</div><div class="machine-code">Хяналтын монитор</div></div>
+        <div class="machine-cost">0.05–150 Гц</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">SpO₂ хэмжилт</div><div class="machine-code">Хяналтын монитор</div></div>
+        <div class="machine-cost">0–100%</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">НИБП — хэмжилтийн хүрээ</div><div class="machine-code">Хяналтын монитор</div></div>
+        <div class="machine-cost">10–290 mmHg</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Температур хэмжилт</div><div class="machine-code">Хяналтын монитор</div></div>
+        <div class="machine-cost">0–50°C</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Сүлжээний холболт</div><div class="machine-code">Хяналтын монитор</div></div>
+        <div class="machine-cost">Ethernet / Wi-Fi</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Тарианы эзэлхүүн</div><div class="machine-code">Тарианы памп</div></div>
+        <div class="machine-cost">5–60 мл</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Урсгалын хурд</div><div class="machine-code">Тарианы памп</div></div>
+        <div class="machine-cost">0.1–600 мл/цаг</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Нарийвчлал</div><div class="machine-code">Тарианы памп</div></div>
+        <div class="machine-cost">±2%</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Дохиолол систем</div><div class="machine-code">Тарианы памп</div></div>
+        <div class="machine-cost">Occlusion / Near empty</div>
+      </div>
+      <div class="machine-cell" style="background:#4bac48">
+        <div><div class="machine-name" style="color:#fff">Хяналтын монитор</div><div class="machine-code" style="color:rgba(255,255,255,0.8)">30 ширхэг · Mindray</div></div>
+        <div class="machine-cost" style="color:#fff">210,000,000 ₮</div>
+      </div>
+      <div class="machine-cell" style="background:#29ABE2">
+        <div><div class="machine-name" style="color:#0a0a0a">Тарианы памп</div><div class="machine-code" style="color:rgba(0,0,0,0.6)">10 ширхэг · Syringe Pump</div></div>
+        <div class="machine-cost" style="color:#0a0a0a">40,000,000 ₮</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO -->
+<section id="info" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Байгууллага ба оролцогч талууд</span>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-title">Захиалагч байгууллага</div>
+        <div class="info-row2">
+          <div class="info-item">
+            <div class="info-item-label">Нэр</div>
+            <div class="info-item-val">Дорноговь аймгийн Нэгдсэн эмнэлэг</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Байрлал</div>
+            <div class="info-item-val">Дорноговь аймаг, Сайншанд сум, 2-р баг</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Байгууллагын зориулалт</div>
+            <div class="info-item-val">Аймгийн нэгдсэн эмнэлэг — 14 сумын хүн амд үйлчилнэ</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Үйлчилгээний хүрээ</div>
+            <div class="info-item-val">720,000+ иргэн · 24/7 тасралтгүй</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Хариуцагч</div>
+            <div class="info-item-val">Дүнжий албаны дарга: Д. Энх-Амгалан</div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Байгууллагын хүчин чадал</div>
+        <div class="info-row2">
+          <div class="info-item">
+            <div class="info-item-label">Мэргэжлийн эмч</div>
+            <div class="info-item-val">80+ байнгын мэргэжилтэн</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Сувилагч ба ажилтан</div>
+            <div class="info-item-val">200+ ажилтан · 24/7</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Тасгийн бүрэлдэхүүн</div>
+            <div class="info-item-val">Яаралтай тусламж · Эрчимт эмчилгээ · Эх барих · Хагалгаа</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Байршлын хамрах хүрээ</div>
+            <div class="info-item-val">14 сум — Дорноговь аймаг</div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Тоног төхөөрөмж нийлүүлэгч</div>
+        <div class="info-row2">
+          <div class="info-item">
+            <div class="info-item-label">Хяналтын монитор брэнд</div>
+            <div class="info-item-val">Mindray Medical International</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Тарианы памп брэнд</div>
+            <div class="info-item-val">Зах зээлийн стандарт брэнд (CE/FDA)</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Баталгааны хугацаа</div>
+            <div class="info-item-val">2 жил · дагалдах засвар үйлчилгээтэй</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Хүргэлт</div>
+            <div class="info-item-val">Гэрээ байгуулснаас хойш 90 хоног</div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Хөрөнгө оруулалтын ач холбогдол</div>
+        <div class="info-row2">
+          <div class="info-item">
+            <div class="info-item-label">Шууд үр нөлөө</div>
+            <div class="info-item-val">Оношилгооны нарийвчлал нэмэгдэж, эмчилгээний алдаа багасна</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Дунд хугацааны үр дүн</div>
+            <div class="info-item-val">Нэгдсэн мэдээллийн систем бий болж эмч нарын ачааллыг бууруулна</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Урт хугацааны стратеги</div>
+            <div class="info-item-val">Аймгийн эрүүл мэндийн дэд бүтцийг орчин үеийн түвшинд хүргэнэ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STANDARDS -->
+<section id="standards" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Ашигласан стандарт, дүрэм</span>
+    </div>
+    <div class="norms-list">
+      <div class="norm-item"><span class="norm-n">1</span>ЭМЯ-ны 2022 оны 302 тоот тушаалаар батлагдсан эмнэлгийн тоног төхөөрөмж нийлүүлэх журам</div>
+      <div class="norm-item"><span class="norm-n">2</span>МНС EN 60601-1: Эмнэлгийн цахилгаан тоног төхөөрөмжийн аюулгүй байдал, үндсэн шаардлага</div>
+      <div class="norm-item"><span class="norm-n">3</span>ISO 13485:2016 — Эмнэлгийн хэрэгслийн чанарын менежментийн систем</div>
+      <div class="norm-item"><span class="norm-n">4</span>WHO Medical Devices — Эмнэлгийн тоног төхөөрөмжийн нийлүүлэлт, чанарын шаардлага</div>
+      <div class="norm-item"><span class="norm-n">5</span>CE тэмдэглэгээ (Европын холбооны эрүүл мэндийн хэрэгслийн зохицуулалт MDR 2017/745)</div>
+      <div class="norm-item"><span class="norm-n">6</span>FDA 510(k) — АНУ-ын Хүнс, эмийн хөтөлбөрийн эмнэлгийн хэрэгслийн бүртгэл</div>
+      <div class="norm-item"><span class="norm-n">7</span>Монгол улсын "Эм, эмнэлгийн хэрэгсэл" тухай хуулийн дагуу импортын тоног төхөөрөмжийн бүртгэл</div>
+      <div class="norm-item"><span class="norm-n">8</span>ЭМЯ-ны 2020 оны тоног төхөөрөмж худалдан авах ажиллагааны журам (Төрийн худалдан авалтын тухай хуулийн дагуу)</div>
+      <div class="norm-item"><span class="norm-n">—</span>Mindray brochure spec · Syringe Pump IEC 60601-2-24 · ГЭМТ аймгийн нэгдсэн эмнэлэг</div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCS -->
+<section id="docs" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Баримт бичиг</span>
+    </div>
+    <div class="docs-grid">
+      <div class="doc-card">
+        <div class="doc-icon">НХ</div>
+        <div class="doc-name">Нүүр хуудас</div>
+        <div class="doc-detail">Хөрөнгө оруулалтын саналын нүүр · 2026 он</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">ТТ</div>
+        <div class="doc-name">Төслийн танилцуулга</div>
+        <div class="doc-detail">Байгууллага · зорилго · хамрах хүрээ</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">ЭР</div>
+        <div class="doc-name">Эрсдэлийн үнэлгээ</div>
+        <div class="doc-detail">Техникийн шаардлага хангахгүй болсны дүн шинжилгээ</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">М1</div>
+        <div class="doc-name">Хяналтын монитор — техникийн үзүүлэлт</div>
+        <div class="doc-detail">Mindray · 30 ширхэг · CE/FDA</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">М2</div>
+        <div class="doc-name">Тарианы памп — техникийн үзүүлэлт</div>
+        <div class="doc-detail">Syringe Pump · 10 ширхэг · ISO 13485</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">З1</div>
+        <div class="doc-name">Зардлын задаргаа</div>
+        <div class="doc-detail">Нэгж үнэ · тоо · нийт дүн · 250,000,000 ₮</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Б1</div>
+        <div class="doc-name">Байгууллагын танилцуулга</div>
+        <div class="doc-detail">Дорноговь аймгийн Нэгдсэн эмнэлэг · хүчин чадал</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">СТ</div>
+        <div class="doc-name">Стандарт, баталгаажуулалт</div>
+        <div class="doc-detail">ISO 13485 · CE · FDA · МНС EN 60601-1</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="em-footer text-light">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="footer-col-title">Саналын мэдээлэл</div>
+        <div>Огноо: 2026 он</div>
+        <div>Ангилал: Эрүүл мэндийн тоног төхөөрөмж</div>
+        <div>Стандарт: ISO 13485 · CE · FDA</div>
+        <div>ЭМЯ тушаал №302</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Захиалагч байгууллага</div>
+        <div>Дорноговь аймгийн Нэгдсэн эмнэлэг</div>
+        <div>Дорноговь аймаг, Сайншанд</div>
+        <div>Хариуцагч: Д. Энх-Амгалан</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Нийт өртөг</div>
+        <div style="font-size:18px;color:#29ABE2;font-weight:700;margin-bottom:4px">250,000,000 ₮</div>
+        <div>Хяналтын монитор (30 ш): 210,000,000 ₮</div>
+        <div>Тарианы памп (10 ш): 40,000,000 ₮</div>
+        <div>Нийт тоног төхөөрөмж: 40 ширхэг</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Хамрах хүрээ</div>
+        <div>720,000+ иргэн</div>
+        <div>14 сум</div>
+        <div>Яаралтай тусламж · Эрчимт эмчилгээ</div>
+        <div>Эх барих · Хагалгааны тасаг</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Дорноговь аймгийн Нэгдсэн эмнэлэг · Хөрөнгө оруулалтын саналын материал</div>
+      <div>ISO 13485:2016 · WHO Medical Devices · МНС EN 60601-1 баталгаажсан</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Javascript Files
+================================================== -->
+<script src="js/vendors.js"></script>
+<script src="js/designesia.js"></script>
+
+</body>
+</html>
