@@ -19,6 +19,16 @@
     <style>
       /* Brand accent (yellow) overrides */
       :root { --accent-color:#FFC107; --mainmenu-font-weight:400; }
+      /* Remove webkit gradient text fill from headings */
+      .text-light h1,
+      .text-light h2,
+      .dark-scheme h1,
+      .dark-scheme h2 {
+        -webkit-text-fill-color: unset !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        background: none !important;
+      }
       /* Dark theme → black base */
       body.dark-scheme {
         --bg-dark-1: #0a0a0a !important;
