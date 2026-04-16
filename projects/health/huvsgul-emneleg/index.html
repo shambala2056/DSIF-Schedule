@@ -756,8 +756,13 @@
       body:not(.dark-scheme) .bar-track { background: #eee; border-color: #ddd; }
       body:not(.dark-scheme) .bar-label { color: #555; }
       body:not(.dark-scheme) .bar-amount { color: #1a1a1a; }
-      body:not(.dark-scheme) .em-footer { background: #ffffff; color: #555; border-top-color: #e6e6e6; }
-      body:not(.dark-scheme) .em-footer .footer-bottom { border-top-color: #eee; color: #888; }
+      body:not(.dark-scheme) .em-footer,
+      body:not(.dark-scheme) .em-footer.text-light { background: #ffffff !important; color: #333 !important; border-top-color: #e6e6e6; }
+      body:not(.dark-scheme) .em-footer .footer-col,
+      body:not(.dark-scheme) .em-footer .footer-col div,
+      body:not(.dark-scheme) .em-footer .footer-col span { color: #333 !important; }
+      body:not(.dark-scheme) .em-footer .footer-col-title { color: #29ABE2 !important; }
+      body:not(.dark-scheme) .em-footer .footer-bottom { border-top-color: #eee; color: #888 !important; }
 
       /* LIGHT MODE — safety overrides for any remaining white text */
       body:not(.dark-scheme) .em-section h1,
