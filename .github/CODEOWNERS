@@ -1,12 +1,11 @@
 # DSIF-Schedule code owners
-# Admin must approve all changes. Project-specific files can add the owning contributor alongside.
+# Admin must approve all changes. Project-specific folders can add the owning contributor.
 
 # Default — admin owns everything
 *       @shambala2056
 
-# Per-project pages: admin + the project's contributor must approve
-/huvsgul-emneleg.html               @shambala2056
-/images/projects/huvsgul-emneleg.jpg @shambala2056
+# Per-project folders: admin + the project's contributor must approve
+/projects/health/huvsgul-emneleg/    @shambala2056
 
-# Add new project files below with format:
-#   /<project-file>.html             @shambala2056 @<project-contributor>
+# Add new project folders below with format:
+#   /projects/<sector>/<project-name>/    @shambala2056 @<project-contributor>
