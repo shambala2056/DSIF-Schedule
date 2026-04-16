@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <title>Хөвсгөл Сумын Эмнэлэг — Дээвэр & Фасад Засвар 2026</title>
+    <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="AIvent" name="description">
+    <meta content="" name="keywords">
+    <meta content="" name="author">
+    <!-- CSS Files
+    ================================================== -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
+    <link href="css/vendors.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <!-- color scheme -->
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css">
+    <style>
+      /* Brand accent (yellow) overrides */
+      :root { --accent-color:#29ABE2; --mainmenu-font-weight:400; }
+      /* Remove webkit gradient text fill from headings */
+      .text-light h1,
+      .text-light h2,
+      .dark-scheme h1,
+      .dark-scheme h2 {
+        -webkit-text-fill-color: unset !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        background: none !important;
+      }
+      /* Dark theme → black base */
+      body.dark-scheme {
+        --bg-dark-1: #0a0a0a !important;
+        --bg-dark-2: #111111 !important;
+        --bg-dark-3: #0d0d0d !important;
+        --bg-dark-1-rgb: 10,10,10 !important;
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark,
+      body.dark-scheme .bg-dark-1,
+      body.dark-scheme .section-dark {
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark-2 {
+        background-color: #111111 !important;
+      }
+      body.dark-scheme header,
+      body.dark-scheme header.smaller {
+        background: #0a0a0a !important;
+      }
+      * { letter-spacing: 1px; }
+      .btn-main { background: var(--primary-color) !important; }
+      .btn-main:hover { background: var(--secondary-color) !important; }
+      h1 em, h2 em, h3 em { color: var(--accent-color); font-style: normal; }
+      .id-color-accent { color: var(--accent-color); }
+      .btn-hero { background: #4bac48 !important; }
+      .btn-hero:hover, .btn-hero:focus { background: #45abe1 !important; }
+
+      /* ===============================================
+         PAGE-SPECIFIC: Хөвсгөл эмнэлэг
+         Palette mapped to AIvent:
+           accent (yellow) #29ABE2
+           green           #4bac48
+           blue            #29ABE2
+           muted grey      rgba(255,255,255,0.55)
+         =============================================== */
+
+      /* Back button in header */
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        background: #4bac48;
+        color: #fff !important;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none !important;
+        transition: background 0.25s;
+      }
+      .back-btn:hover { background: #29ABE2; color: #0a0a0a !important; }
+
+      /* Header (simple) */
+      body { text-transform: uppercase; }
+      .page-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #0a0a0a;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+      html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+      .em-section { scroll-margin-top: 72px; }
+      .page-header .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+      .page-header .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .page-header .logo-area img { height: 40px; width: auto; }
+      .page-header .logo-area .brand-text {
+        color: #fff;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .page-nav {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        flex: 1;
+        justify-content: center;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .page-nav::-webkit-scrollbar { display: none; }
+      .page-nav a {
+        padding: 8px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.6);
+        text-decoration: none;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+      }
+      .page-nav a:hover { color: #29ABE2; border-bottom-color: #29ABE2; }
+      body:not(.dark-scheme) .page-nav a { color: #444; }
+      body:not(.dark-scheme) .page-nav a:hover { color: #0a0a0a; border-bottom-color: #29ABE2; }
+      @media (max-width: 768px) {
+        .page-nav { justify-content: flex-start; }
+        .page-nav a { padding: 6px 8px; font-size: 10px; }
+      }
+      .page-header .logo-area .brand-text small {
+        display: block;
+        color: rgba(255,255,255,0.5);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        margin-top: 2px;
+      }
+
+      /* Hero */
+      .emneleg-hero {
+        position: relative;
+        background: #0a0a0a;
+        color: #fff;
+        padding: 0;
+        overflow: hidden;
+      }
+      .emneleg-hero .sw-overlay { display: none; }
+      .emneleg-hero .hero-bg-img {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/7;
+        background-image: url('images/projects/huvsgul-emneleg.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 1;
+        z-index: 0;
+      }
+      .emneleg-hero .container { position: relative; z-index: 2; }
+      .emneleg-hero .hero-stamp {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        font-size: 10px;
+        color: rgba(255,255,255,0.45);
+        text-align: right;
+        line-height: 1.8;
+        letter-spacing: 0.08em;
+        z-index: 3;
+      }
+      .emneleg-hero .hero-tag {
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+      }
+      .emneleg-hero h1 {
+        font-size: clamp(28px, 5vw, 52px);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        max-width: 820px;
+        margin-bottom: 1.5rem;
+        color: #fff !important;
+      }
+      .emneleg-hero h1 em { color: #4bac48; font-style: normal; }
+      .emneleg-hero .hero-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: rgba(255,255,255,0.65);
+      }
+      .emneleg-hero .hero-meta strong {
+        display: block;
+        color: #29ABE2;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+
+      /* Price band */
+      .price-band {
+        background: linear-gradient(90deg, #4bac48 0%, #57ab48 100%);
+        color: #fff;
+        padding: 10px 0;
+      }
+      .price-band .inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .price-band .std-label {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-weight: 700;
+        opacity: 0.95;
+        margin-right: 6px;
+      }
+      .price-band .price-label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.85;
+        margin-bottom: 4px;
+      }
+      .price-band .price-number {
+        font-size: clamp(32px, 5vw, 52px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .price-band .price-sub {
+        font-size: 11px;
+        opacity: 0.8;
+        margin-top: 4px;
+      }
+      .price-band .price-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .price-band .pbadge {
+        padding: 6px 14px;
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 4px;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        background: rgba(255,255,255,0.12);
+      }
+
+      /* Section styling for dark AIvent look */
+      .em-section {
+        padding: 28px 0 40px;
+        color: #fff;
+      }
+      .em-section.alt { background: #111111 !important; }
+      .em-section + .em-section { border-top: 1px solid rgba(255,255,255,0.06); }
+
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .section-num {
+        font-size: 11px;
+        color: #29ABE2;
+        letter-spacing: 0.15em;
+        font-weight: 600;
+      }
+      .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #fff;
+      }
+
+      /* Stats grid */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 3rem;
+      }
+      .stat-cell {
+        background: #0a0a0a;
+        padding: 1.5rem;
+      }
+      .stat-cell.accent { background: #4bac48; color: #fff; }
+      .stat-label {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.55);
+        margin-bottom: 8px;
+      }
+      .stat-cell.accent .stat-label { color: rgba(255,255,255,0.85); }
+      .stat-value {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        color: #fff;
+      }
+      .stat-unit {
+        font-size: 11px;
+        color: rgba(255,255,255,0.5);
+        margin-top: 4px;
+      }
+      .stat-cell.accent .stat-unit { color: rgba(255,255,255,0.8); }
+
+      /* Cost table */
+      .cost-wrap { overflow-x: auto; }
+      table.cost {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        color: #fff;
+      }
+      .cost thead tr { background: #29ABE2; color: #0a0a0a; }
+      .cost th {
+        padding: 12px 16px;
+        text-align: left;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .cost th.r, .cost td.r { text-align: right; }
+      .cost tbody tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .cost tbody tr:hover { background: rgba(255,255,255,0.04); }
+      .cost td { padding: 10px 16px; color: rgba(255,255,255,0.85); }
+      .cost td.r { font-size: 13px; color: #fff; }
+      .cost tfoot tr { background: #4bac48; color: #fff; }
+      .cost tfoot td { padding: 14px 16px; font-weight: 700; font-size: 14px; }
+      .row-n { font-size: 11px; color: rgba(255,255,255,0.45); }
+      .cost tr.subtotal { background: rgba(255,193,7,0.08) !important; }
+      .cost tr.subtotal td { font-weight: 600; color: #29ABE2; }
+
+      /* Works list */
+      .works {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: #0d0d0d;
+      }
+      .work-item {
+        display: grid;
+        grid-template-columns: 60px 1fr auto;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        transition: background 0.15s;
+      }
+      .work-item:last-child { border-bottom: none; }
+      .work-item:hover { background: rgba(255,193,7,0.05); }
+      .work-num {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 1.25rem 0;
+        font-size: 12px;
+        color: #29ABE2;
+        font-weight: 600;
+        border-right: 1px solid rgba(255,255,255,0.08);
+      }
+      .work-body { padding: 1.25rem 1.5rem; }
+      .work-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #fff; }
+      .work-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.65; }
+      .work-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+      .tag {
+        font-size: 11px;
+        padding: 3px 10px;
+        border-radius: 3px;
+        letter-spacing: 0.03em;
+      }
+      .tag-blue { background: rgba(41,171,226,0.15); color: #29ABE2; border: 1px solid rgba(41,171,226,0.3); }
+      .tag-rust { background: rgba(255,140,80,0.15); color: #ff9a6c; border: 1px solid rgba(255,140,80,0.3); }
+      .tag-green { background: rgba(75,172,72,0.15); color: #7fd47c; border: 1px solid rgba(75,172,72,0.3); }
+      .tag-amber { background: rgba(255,193,7,0.15); color: #29ABE2; border: 1px solid rgba(255,193,7,0.3); }
+      .work-amount {
+        padding: 1.25rem 1.5rem;
+        font-size: 14px;
+        font-weight: 700;
+        white-space: nowrap;
+        display: flex;
+        align-items: flex-start;
+        color: #4bac48;
+        border-left: 1px solid rgba(255,255,255,0.08);
+        min-width: 140px;
+        justify-content: flex-end;
+      }
+
+      /* Info cards */
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .info-card {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem;
+        background: #111111;
+      }
+      .info-card-title {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-weight: 700;
+      }
+      .info-row2 { display: flex; flex-direction: column; gap: 12px; }
+      .info-item-label {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 2px;
+      }
+      .info-item-val { font-size: 14px; font-weight: 500; color: #fff; }
+
+      /* Machines grid */
+      .machines-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      .machine-cell {
+        background: #0d0d0d;
+        padding: 1rem 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .machine-cell:hover { background: #151515; }
+      .machine-name { font-size: 13px; font-weight: 500; color: #fff; }
+      .machine-code { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+      .machine-cost { font-size: 12px; color: #4bac48; text-align: right; white-space: nowrap; font-weight: 600; }
+
+      /* Norms list */
+      .norms-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 8px;
+      }
+      .norm-item {
+        display: flex;
+        gap: 10px;
+        padding: 12px 16px;
+        background: #111111;
+        border-left: 3px solid #29ABE2;
+        font-size: 13px;
+        line-height: 1.55;
+        color: rgba(255,255,255,0.78);
+      }
+      .norm-n { font-size: 11px; color: #29ABE2; min-width: 22px; padding-top: 1px; font-weight: 700; }
+
+      /* Docs grid */
+      .docs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 12px;
+      }
+      .doc-card {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        background: #111111;
+        transition: border-color 0.2s;
+      }
+      .doc-card:hover { border-color: #29ABE2; }
+      .doc-icon {
+        width: 36px; height: 36px;
+        background: #4bac48;
+        color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+        border-radius: 3px;
+      }
+      .doc-name { font-size: 13px; font-weight: 600; color: #fff; }
+      .doc-detail { font-size: 11px; color: rgba(255,255,255,0.55); }
+
+      /* Bar chart */
+      .bar-chart { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+      .bar-row { display: flex; align-items: center; gap: 12px; }
+      .bar-label {
+        font-size: 11px;
+        color: rgba(255,255,255,0.65);
+        width: 170px;
+        flex-shrink: 0;
+        text-align: right;
+      }
+      .bar-track {
+        flex: 1;
+        height: 26px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        position: relative;
+        overflow: visible;
+      }
+      .bar-fill {
+        height: 100%;
+        background: #29ABE2;
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 10px;
+        color: #fff;
+        font-weight: 600;
+        transition: width 1s ease;
+        white-space: nowrap;
+        overflow: visible;
+      }
+      .bar-fill { background: #29ABE2; }
+      .bar-row:nth-child(1) .bar-fill { opacity: 1; }
+      .bar-row:nth-child(2) .bar-fill { opacity: 0.88; }
+      .bar-row:nth-child(3) .bar-fill { opacity: 0.76; }
+      .bar-row:nth-child(4) .bar-fill { opacity: 0.64; }
+      .bar-row:nth-child(5) .bar-fill { opacity: 0.52; }
+      .bar-row:nth-child(6) .bar-fill { opacity: 0.42; }
+      .bar-row:nth-child(7) .bar-fill { opacity: 0.33; }
+      .bar-row:nth-child(8) .bar-fill { opacity: 0.25; }
+      .bar-amount {
+        font-size: 11px;
+        width: 60px;
+        flex-shrink: 0;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      /* Rationale timeline */
+      .rationale-timeline {
+        display: flex;
+        flex-direction: column;
+        border-left: 2px solid rgba(255,255,255,0.15);
+        margin-left: 48px;
+        margin-bottom: 3rem;
+      }
+      .tl-item {
+        display: grid;
+        grid-template-columns: 56px 20px 1fr;
+        align-items: flex-start;
+        position: relative;
+        padding-bottom: 2rem;
+        margin-left: -1px;
+      }
+      .tl-year {
+        font-size: 13px;
+        font-weight: 700;
+        color: #29ABE2;
+        text-align: right;
+        padding-right: 16px;
+        padding-top: 2px;
+        margin-left: -56px;
+      }
+      .tl-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid #0a0a0a;
+        margin-top: 3px;
+        margin-left: -8px;
+        flex-shrink: 0;
+      }
+      .tl-dot-green { background: #4bac48; }
+      .tl-dot-amber { background: #29ABE2; }
+      .tl-dot-rust { background: #d66a3d; }
+      .tl-dot-blue { background: #29ABE2; }
+      .tl-body { padding-left: 20px; }
+      .tl-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: #fff; }
+      .tl-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.65; }
+      .tl-desc strong { color: #29ABE2; }
+
+      .rationale-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .rationale-problem, .rationale-benefit {
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 1.5rem;
+        background: #111111;
+      }
+      .rationale-problem { border-left: 4px solid #d66a3d; }
+      .rationale-benefit { border-left: 4px solid #4bac48; }
+      .rblock-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #29ABE2;
+        margin-bottom: 1rem;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .problem-list, .benefit-list { display: flex; flex-direction: column; gap: 14px; }
+      .problem-item, .benefit-item { display: flex; gap: 12px; align-items: flex-start; }
+      .prob-icon, .ben-icon { display: none; }
+      .prob-red { background: rgba(214,106,61,0.2); color: #ff9a6c; }
+      .prob-amber { background: rgba(255,193,7,0.18); color: #29ABE2; }
+      .ben-icon { background: rgba(75,172,72,0.2); color: #7fd47c; }
+      .prob-text, .ben-text { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+      .prob-text strong, .ben-text strong { color: #fff; }
+
+      /* Footer */
+      .em-footer {
+        background: #0a0a0a;
+        color: rgba(255,255,255,0.6);
+        padding: 50px 0 30px;
+        font-size: 12px;
+        line-height: 1.9;
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .em-footer .footer-inner {
+        display: flex;
+        gap: 3rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      .em-footer .footer-col-title {
+        color: #29ABE2;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 11px;
+        margin-bottom: 0.75rem;
+      }
+      .em-footer .footer-bottom {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 11px;
+        color: rgba(255,255,255,0.45);
+      }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .emneleg-hero h1,
+      .emneleg-hero .hero-tag,
+      .emneleg-hero .hero-meta { animation: fadeUp 0.6s ease both; }
+      .emneleg-hero .hero-tag { animation-delay: 0.1s; }
+      .emneleg-hero h1 { animation-delay: 0.2s; }
+      .emneleg-hero .hero-meta { animation-delay: 0.4s; }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .info-grid, .rationale-grid { grid-template-columns: 1fr; }
+        .work-item { grid-template-columns: 50px 1fr; }
+        .work-amount {
+          grid-column: 1 / -1;
+          border-left: none;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          justify-content: flex-start;
+          padding-left: 1.5rem;
+        }
+        .emneleg-hero { padding: 80px 0 60px; }
+        .emneleg-hero .hero-stamp { position: static; text-align: left; margin-bottom: 1rem; }
+        .page-header .logo-area .brand-text { font-size: 11px; }
+        .bar-label { width: 110px; font-size: 10px; }
+      }
+
+      /* Light mode overrides for this page */
+      body:not(.dark-scheme) { background-color: #f4f6f8 !important; color: #1a1a1a; }
+      body:not(.dark-scheme) .page-header { background: #ffffff !important; border-bottom: 1px solid rgba(0,0,0,0.08); }
+      body:not(.dark-scheme) .page-header .logo-area .brand-text { color: #1a1a1a; }
+      body:not(.dark-scheme) .page-header .logo-area .brand-text small { color: #666; }
+      body:not(.dark-scheme) .em-section { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-section.alt { background: #ffffff !important; }
+      body:not(.dark-scheme) .section-title { color: #1a1a1a; }
+      body:not(.dark-scheme) .stat-cell { background: #ffffff; }
+      body:not(.dark-scheme) .stat-value { color: #1a1a1a; }
+      body:not(.dark-scheme) .stat-label { color: #666; }
+      body:not(.dark-scheme) .stat-unit { color: #888; }
+      body:not(.dark-scheme) .stats-grid { background: #d9dde2; border-color: #d9dde2; }
+      body:not(.dark-scheme) .works { background: #ffffff; border-color: #d9dde2; }
+      body:not(.dark-scheme) .work-item { border-bottom-color: #eee; }
+      body:not(.dark-scheme) .work-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .work-desc { color: #555; }
+      body:not(.dark-scheme) .work-num { border-right-color: #eee; }
+      body:not(.dark-scheme) .work-amount { border-left-color: #eee; color: #1a6640; }
+      body:not(.dark-scheme) .cost { color: #1a1a1a; }
+      body:not(.dark-scheme) .cost td { color: #333; }
+      body:not(.dark-scheme) .cost tbody tr { border-bottom-color: #eee; }
+      body:not(.dark-scheme) .cost tbody tr:hover { background: #f7f5f0; }
+      body:not(.dark-scheme) .row-n { color: #888; }
+      body:not(.dark-scheme) .info-card { background: #ffffff; border-color: #e6e6e6; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+      body:not(.dark-scheme) .info-item-val { color: #1a1a1a; }
+      body:not(.dark-scheme) .info-item-label { color: #666; }
+      body:not(.dark-scheme) .machine-cell { background: #ffffff; }
+      body:not(.dark-scheme) .machine-cell:hover { background: #f7f5f0; }
+      body:not(.dark-scheme) .machine-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .machine-code { color: #777; }
+      body:not(.dark-scheme) .machines-grid { background: #d9dde2; border-color: #d9dde2; }
+      body:not(.dark-scheme) .norm-item { background: #ffffff; color: #333; }
+      body:not(.dark-scheme) .doc-card { background: #ffffff; border-color: #e6e6e6; }
+      body:not(.dark-scheme) .doc-name { color: #1a1a1a; }
+      body:not(.dark-scheme) .doc-detail { color: #777; }
+      body:not(.dark-scheme) .rationale-problem,
+      body:not(.dark-scheme) .rationale-benefit { background: #ffffff; border-color: #e6e6e6; }
+      body:not(.dark-scheme) .tl-title { color: #1a1a1a; }
+      body:not(.dark-scheme) .tl-desc { color: #555; }
+      body:not(.dark-scheme) .prob-text, body:not(.dark-scheme) .ben-text { color: #444; }
+      body:not(.dark-scheme) .prob-text strong, body:not(.dark-scheme) .ben-text strong { color: #1a1a1a; }
+      body:not(.dark-scheme) .bar-track { background: #eee; border-color: #ddd; }
+      body:not(.dark-scheme) .bar-label { color: #555; }
+      body:not(.dark-scheme) .bar-amount { color: #1a1a1a; }
+      body:not(.dark-scheme) .em-footer { background: #ffffff; color: #555; border-top-color: #e6e6e6; }
+      body:not(.dark-scheme) .em-footer .footer-bottom { border-top-color: #eee; color: #888; }
+
+      /* Print */
+      @media print {
+        .page-header { position: static; }
+        .emneleg-hero { padding: 2rem 0; }
+      }
+    </style>
+</head>
+
+<body class="dark-scheme">
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="container">
+    <div class="header-inner">
+      <nav class="page-nav">
+        <a href="#rationale">Хэрэгцээ</a>
+        <a href="#summary">Тайлбар</a>
+        <a href="#works">Ажил</a>
+        <a href="#costs">Зардал</a>
+        <a href="#machinery">Машин</a>
+        <a href="#info">Оролцогч</a>
+        <a href="#norms">Норм</a>
+        <a href="#docs">Баримт</a>
+      </nav>
+      <a href="tusul.html" class="back-btn">
+        <span>Буцах</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="emneleg-hero section-dark text-light">
+  <div class="hero-bg-img"></div>
+</section>
+
+<!-- STANDARDS BAND -->
+<div class="price-band">
+  <div class="container">
+    <div class="inner">
+      <span class="std-label">Стандартууд</span>
+      <div class="pbadge">Estimator Pro 4.0</div>
+      <div class="pbadge">БНБД 81-95-20</div>
+      <div class="pbadge">Хавсралт №17А</div>
+      <div class="pbadge">ЕГ Шифр: BOX-04/2025</div>
+      <div class="pbadge">Гал аюулгүй: №44/72</div>
+    </div>
+  </div>
+</div>
+
+<!-- RATIONALE -->
+<section id="rationale" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">00</span>
+      <span class="section-title">Төслийн хэрэгцээ шаардлага</span>
+    </div>
+
+    <div class="rationale-timeline">
+      <div class="tl-item">
+        <div class="tl-year">2000</div>
+        <div class="tl-dot tl-dot-green"></div>
+        <div class="tl-body">
+          <div class="tl-title">Барилга ашиглалтад орсон</div>
+          <div class="tl-desc">Хөвсгөл сумын эмнэлгийн барилга анх барагдаж, үйл ажиллагаагаа эхлүүлсэн.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2014</div>
+        <div class="tl-dot tl-dot-amber"></div>
+        <div class="tl-body">
+          <div class="tl-title">Их засвар — зөвхөн дээвэр</div>
+          <div class="tl-desc">Их засварын үеэр зөвхөн дээврийн засвар хийгдсэн. Гадна фасад болон бусад хэсэг засагдаагүй хэвээр үлдсэн.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2025</div>
+        <div class="tl-dot tl-dot-rust"></div>
+        <div class="tl-body">
+          <div class="tl-title">Одоогийн байдал — засвар зайлшгүй шаардлагатай</div>
+          <div class="tl-desc">Барилга ашиглалтад орсноос хойш <strong>25 жил</strong>, сүүлийн их засвараас хойш <strong>11 жил</strong> өнгөрсний улмаас гадна өнгө үзэмж нь мэдэгдэхүйц муудаж, дээврээс ус бүх өрөөгөөр гоождог байдалд хүрсэн байна.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2026</div>
+        <div class="tl-dot tl-dot-blue"></div>
+        <div class="tl-body">
+          <div class="tl-title">Гадна фасад, дээврийн засвар хийгдэнэ</div>
+          <div class="tl-desc">Энэхүү зураг төсвийн дагуу засварын ажил гүйцэтгэгдэж барилгын ашиглалтын насыг уртасгана.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rationale-grid">
+      <div class="rationale-problem">
+        <div class="rblock-label">Одоогийн асуудал</div>
+        <div class="problem-list">
+          <div class="problem-item">
+            <div class="prob-icon prob-red">!</div>
+            <div class="prob-text">Дээврээс ус <strong>бүх өрөөгөөр</strong> гоождог болсон — барилгын бүтэц, тоног төхөөрөмжид хохирол учруулж байна</div>
+          </div>
+          <div class="problem-item">
+            <div class="prob-icon prob-red">!</div>
+            <div class="prob-text">Гадна өнгө үзэмж мэдэгдэхүйц <strong>муудсан</strong> — байгууллагын нэр хүндэд сөргөөр нөлөөлж байна</div>
+          </div>
+          <div class="problem-item">
+            <div class="prob-icon prob-amber">~</div>
+            <div class="prob-text">Дулааны алдагдал нэмэгдэж <strong>халаалтын зардал өссөн</strong></div>
+          </div>
+          <div class="problem-item">
+            <div class="prob-icon prob-amber">~</div>
+            <div class="prob-text">Ус нэвчилтээс үүссэн чийгшил нь өвчтөний <strong>аюулгүй байдалд эрсдэл</strong> учруулна</div>
+          </div>
+        </div>
+      </div>
+      <div class="rationale-benefit">
+        <div class="rblock-label">Засварын үр дүн</div>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Ус гоожилт <strong>бүрмөсөн зогсож</strong>, барилгын бүтцийн цаашдын эвдрэл багасна</div>
+          </div>
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Дотоод орчин сайжирч өвчтөн болон ажилчдын <strong>аюулгүй байдал</strong> хангагдана</div>
+          </div>
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Дулаан алдагдал буурч <strong>халаалтын зардал хэмнэгдэнэ</strong></div>
+          </div>
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Барилгын гадаад өнгө үзэмж, байгууллагын <strong>нэр хүнд дээшилнэ</strong></div>
+          </div>
+          <div class="benefit-item">
+            <div class="ben-icon">&check;</div>
+            <div class="ben-text">Барилгын ашиглалтын насыг <strong>уртасгаж</strong> ирээдүйн томоохон зардлаас зайлсхийнэ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section id="summary" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Товч тайлбар</span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-cell accent">
+        <div class="stat-label">Нийт өртөг</div>
+        <div class="stat-value">333.5M</div>
+        <div class="stat-unit">төгрөг</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Барилгын ажил</div>
+        <div class="stat-value">303.9M</div>
+        <div class="stat-unit">үндсэн засвар</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Буулгах ажил</div>
+        <div class="stat-value">15.5M</div>
+        <div class="stat-unit">буулгалт</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Зураг төсөл</div>
+        <div class="stat-value">14.0M</div>
+        <div class="stat-unit">инженер хайгуул</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Барилгын талбай</div>
+        <div class="stat-value">622</div>
+        <div class="stat-unit">м² — 41.3×24.0 м</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-label">Давхар</div>
+        <div class="stat-value">1</div>
+        <div class="stat-unit">давхар тэнхлэгээрэй</div>
+      </div>
+    </div>
+
+    <!-- BAR CHART -->
+    <div style="margin-bottom:2rem">
+      <p style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#29ABE2;margin-bottom:1.25rem;font-weight:600">Зардлын бүтэц — нийт 333,455,770 ₮</p>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">Материал</div>
+          <div class="bar-track"><div class="bar-fill" style="width:38.8%">129,430,422 ₮</div></div>
+          <div class="bar-amount">38.8%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Хүний нөөц</div>
+          <div class="bar-track"><div class="bar-fill rust" style="width:23.5%">78,482,682 ₮</div></div>
+          <div class="bar-amount">23.5%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Ашиг (15%)</div>
+          <div class="bar-track"><div class="bar-fill amber" style="width:10.8%">36,176,544 ₮</div></div>
+          <div class="bar-amount">10.8%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">НӨАТ (10%)</div>
+          <div class="bar-track"><div class="bar-fill gray" style="width:8.3%">27,735,351 ₮</div></div>
+          <div class="bar-amount">8.3%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Удирдлага (58.6%)</div>
+          <div class="bar-track"><div class="bar-fill dark" style="width:7.1%">23,496,609 ₮</div></div>
+          <div class="bar-amount">7.1%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Тээвэр</div>
+          <div class="bar-track"><div class="bar-fill green" style="width:2.3%">7,609,552 ₮</div></div>
+          <div class="bar-amount">2.3%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Магадлашгүй (2%)</div>
+          <div class="bar-track"><div class="bar-fill gray" style="width:1.7%">5,547,070 ₮</div></div>
+          <div class="bar-amount">1.7%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Машин ашиглалт</div>
+          <div class="bar-track"><div class="bar-fill rust" style="width:0.6%">2,157,698 ₮</div></div>
+          <div class="bar-amount">0.6%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Ажлын үндсэн хэсгүүд</span>
+    </div>
+
+    <div class="works">
+      <div class="work-item">
+        <div class="work-num">1.1</div>
+        <div class="work-body">
+          <div class="work-name">Дээврийн ажил — Шувуу нуруун дээвэр</div>
+          <div class="work-desc">Одоо байгаа дээврийн төмөр, шувуу нурууны модон сараалж буулгаж шинээр модон шувуу нурууны хелийг шинэчлэх хийж, дээврийн хавлэмэл өнгөт төмрөөр бүрж хадна. Адрын хучилтыг эрдэс хөвөн хавтангаар δ=50мм дулаална. Ус зайлуулах хуванцар систем телевлөнө.</div>
+          <div class="work-tags">
+            <span class="tag tag-blue">486 м²</span>
+            <span class="tag tag-blue">184,611 нэгж үнэ</span>
+          </div>
+        </div>
+        <div class="work-amount">89,720,957 ₮</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">1.2</div>
+        <div class="work-body">
+          <div class="work-name">Дээврийн ажил — Хавтгай дээвэр</div>
+          <div class="work-desc">Одоо байгаа дээврийн хар цаасан үений хуулж авч шинээр 2 үе хайлуулдаг хар цаасаар бүрж хийнэ. Шинээр парапед хийнэ.</div>
+          <div class="work-tags">
+            <span class="tag tag-blue">124 м²</span>
+            <span class="tag tag-blue">162,517 нэгж үнэ</span>
+          </div>
+        </div>
+        <div class="work-amount">20,152,075 ₮</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">1.3</div>
+        <div class="work-body">
+          <div class="work-name">Гадна засал — металл фасад хавтан</div>
+          <div class="work-desc">Гадна ханад 100мм чулуун хөвөн дулаалгатай 4мм зузаан металл хавтанцараар бүрэх. Металл рам бэхэлгээний системтэй.</div>
+          <div class="work-tags">
+            <span class="tag tag-rust">491 м²</span>
+            <span class="tag tag-rust">249,227 нэгж үнэ</span>
+            <span class="tag tag-amber">Ж/Ө байхгүй</span>
+          </div>
+        </div>
+        <div class="work-amount">122,370,262 ₮</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">1.4</div>
+        <div class="work-body">
+          <div class="work-name">Хаалга, цонхны ажил</div>
+          <div class="work-desc">Одоо байгаа хуванцар рамтай хуучин цонхыг буулгаж шинээр хуванцар рамтай вакум цонх суулгана. Дотор амлагааны ажлыг хийж цонхны тавцанг суулгаж өгнө.</div>
+          <div class="work-tags">
+            <span class="tag tag-green">ГХ-1 ~ ГХ-7 хаалга</span>
+            <span class="tag tag-green">Ц-1 ~ Ц-4 цонх</span>
+          </div>
+        </div>
+        <div class="work-amount">47,682,278 ₮</div>
+      </div>
+      <div class="work-item">
+        <div class="work-num">1.5</div>
+        <div class="work-body">
+          <div class="work-name">Бусад ажил</div>
+          <div class="work-desc">Гол үүдний довжоог чулуун хавтангаар бүрэх. Хаяавч бетон цутгах. Талбайн тохижилтын ажил.</div>
+          <div class="work-tags">
+            <span class="tag tag-amber">Буулгах ажил: 15,502,852 ₮</span>
+          </div>
+        </div>
+        <div class="work-amount">24,027,346 ₮</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COSTS -->
+<section id="costs" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Зардлын задаргаа</span>
+    </div>
+
+    <div class="cost-wrap">
+      <table class="cost">
+        <thead>
+          <tr>
+            <th style="width:40px">№</th>
+            <th>Зардлын нэр</th>
+            <th class="r">Бүгд өртөг (₮)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-n">1</td>
+            <td>Ажиллах хүчний зардал</td>
+            <td class="r">78,482,682</td>
+          </tr>
+          <tr>
+            <td class="row-n">2</td>
+            <td>Материал</td>
+            <td class="r">129,430,422</td>
+          </tr>
+          <tr>
+            <td class="row-n">3</td>
+            <td>Тээвэр</td>
+            <td class="r">7,609,552</td>
+          </tr>
+          <tr>
+            <td class="row-n">4</td>
+            <td>Машин ашиглалт</td>
+            <td class="r">2,157,698</td>
+          </tr>
+          <tr class="subtotal">
+            <td class="row-n"></td>
+            <td>Шууд зардлын дүн</td>
+            <td class="r">217,680,355</td>
+          </tr>
+          <tr>
+            <td class="row-n">5</td>
+            <td>Барилгын удирдлага, зохион байгуулалтын зардал (58.6%)</td>
+            <td class="r">23,496,609</td>
+          </tr>
+          <tr>
+            <td class="row-n">6</td>
+            <td>Ашиг (15%)</td>
+            <td class="r">36,176,544</td>
+          </tr>
+          <tr class="subtotal">
+            <td class="row-n"></td>
+            <td>Барилга угсралтын ажлын дүн</td>
+            <td class="r">277,353,508</td>
+          </tr>
+          <tr>
+            <td class="row-n">7</td>
+            <td>НӨАТ 10%</td>
+            <td class="r">27,735,351</td>
+          </tr>
+          <tr>
+            <td class="row-n">8</td>
+            <td>Нормчлолын сан 0.18%</td>
+            <td class="r">499,236</td>
+          </tr>
+          <tr>
+            <td class="row-n">9</td>
+            <td>Захиалагчийн техник хяналтын зардал</td>
+            <td class="r">5,547,070</td>
+          </tr>
+          <tr>
+            <td class="row-n">10</td>
+            <td>Инженер хайгуул, зураг төслийн ажлын дүн</td>
+            <td class="r">14,000,000</td>
+          </tr>
+          <tr>
+            <td class="row-n">11</td>
+            <td>Зураг төсөл зохиогчийн хяналтын зардал</td>
+            <td class="r">2,773,535</td>
+          </tr>
+          <tr>
+            <td class="row-n">12</td>
+            <td>Магадлашгүй ажил 2%</td>
+            <td class="r">5,547,070</td>
+          </tr>
+          <tr>
+            <td class="row-n">13</td>
+            <td>Бусад нэмэлт зардал</td>
+            <td class="r">0</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td>НИЙТ ТӨСВИЙН ӨРТӨГ</td>
+            <td class="r">333,455,770</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- MACHINES -->
+<section id="machinery" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Машин механизм</span>
+    </div>
+    <div class="machines-grid">
+      <div class="machine-cell">
+        <div><div class="machine-name">Тавлагч</div><div class="machine-code">3027 · 3.38 хэрэгцээ</div></div>
+        <div class="machine-cost">2,025 ₮</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Цахилгаан өрөм</div><div class="machine-code">3027 · 3.38 хэрэгцээ</div></div>
+        <div class="machine-cost">8,543 ₮</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Экскаватор 0.15м³</div><div class="machine-code">1006 · 3.1 хэрэгцээ</div></div>
+        <div class="machine-cost">294,841 ₮</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Бетон зуурмагийн насос</div><div class="machine-code">7001 · 2.81 хэрэгцээ</div></div>
+        <div class="machine-cost">307,498 ₮</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Авто бетон зуурагч</div><div class="machine-code">7005 · 2.81 хэрэгцээ</div></div>
+        <div class="machine-cost">340,560 ₮</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Автокран 5тн</div><div class="machine-code">2028 · 0.01 хэрэгцээ</div></div>
+        <div class="machine-cost">995 ₮</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Автомашин</div><div class="machine-code">· 5.32 хэрэгцээ</div></div>
+        <div class="machine-cost">172,537 ₮</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Гагнуурын аппарат</div><div class="machine-code">3122 · 0.18 хэрэгцээ</div></div>
+        <div class="machine-cost">1,462 ₮</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Гүний доргиур</div><div class="machine-code">9023 · 2.81 хэрэгцээ</div></div>
+        <div class="machine-cost">42,460 ₮</div>
+      </div>
+      <div class="machine-cell">
+        <div><div class="machine-name">Зуурмаг зуурагч 80л</div><div class="machine-code">7014 · 5.4 хэрэгцээ</div></div>
+        <div class="machine-cost">56,684 ₮</div>
+      </div>
+      <div class="machine-cell" style="background:#4bac48">
+        <div><div class="machine-name" style="color:#fff">Машин ашиглалт</div><div class="machine-code" style="color:rgba(255,255,255,0.8)">2028 · 28.67 нийт</div></div>
+        <div class="machine-cost" style="color:#fff">930,093 ₮</div>
+      </div>
+      <div class="machine-cell" style="background:#29ABE2">
+        <div><div class="machine-name" style="color:#0a0a0a">Нийт дүн</div><div class="machine-code" style="color:rgba(0,0,0,0.6)">бүгд механизм</div></div>
+        <div class="machine-cost" style="color:#0a0a0a">2,157,698 ₮</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO -->
+<section id="info" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Байгууллага ба оролцогч талууд</span>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-title">Захиалагч байгууллага</div>
+        <div class="info-row2">
+          <div class="info-item">
+            <div class="info-item-label">Нэр</div>
+            <div class="info-item-val">Дорноговь аймгийн Хөвсгөл сумын ЗДТГ</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Байрлал</div>
+            <div class="info-item-val">Дорноговь аймаг, Хөвсгөл сум, 4-р баг</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Барилгын зориулалт</div>
+            <div class="info-item-val">Эмнэлгийн барилга — 7 хүний орны эмнэлэг</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Талбай</div>
+            <div class="info-item-val">41.3 × 24.0 м · Нийт 622.86 м² · 1 давхар</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Гал аюулгүй байдлын ангилал</div>
+            <div class="info-item-val">Ф1.1 · II зэрэглэл</div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Зураг төслийн байгууллага</div>
+        <div class="info-row2">
+          <div class="info-item">
+            <div class="info-item-label">Байгууллагын нэр</div>
+            <div class="info-item-val">"Винд энд солар эм эн" ХХК</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Тусгай зөвшөөрлийн дугаар</div>
+            <div class="info-item-val">ЗТ11-481/24</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Тэргүүлэх төсөвчин</div>
+            <div class="info-item-val">Ж.Лхагвасүрэн</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Хяналтын экспертийн нэр</div>
+            <div class="info-item-val">Ч.Мөнхтуяа</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Холбоо барих</div>
+            <div class="info-item-val">windsolarmn@gmail.com · 88054271<br>УБ, БГД, 2-р хороо, Тайм Центр 204</div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Баталгаажуулсан байгууллагууд</div>
+        <div class="info-row2">
+          <div class="info-item">
+            <div class="info-item-label">Зураг баталгаажуулсан</div>
+            <div class="info-item-val">"Би өY Экс Экс" ХХК — Захирал: Ч.Сугар</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Аймгийн ГХБХБГ</div>
+            <div class="info-item-val">Л.Олзбаяр дарга шалгасан</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Гал аюулгүй байдлын дүгнэлт</div>
+            <div class="info-item-val">№44/72 · 2025.12.15 · Ш.Баяртүвшин</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Онцгой байдлын газар</div>
+            <div class="info-item-val">Дорноговь аймгийн онцгой байдлын газраас баталгаажуулсан</div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">Зураг архитектур</div>
+        <div class="info-row2">
+          <div class="info-item">
+            <div class="info-item-label">Дорноговь аймгийн Ерөнхий архитектор</div>
+            <div class="info-item-val">Г.Очирсүх</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Архитектор</div>
+            <div class="info-item-val">А.Эрдэнэбаярах</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Зургийн шифр</div>
+            <div class="info-item-val">BOX-04/2025</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Зурсан он</div>
+            <div class="info-item-val">Улаанбаатар хот · 2025 он</div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Зургийн цомог</div>
+            <div class="info-item-val">БА-1 ~ БА-16 (16 хуудас) · М 1:100 · 1:50</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NORMS -->
+<section id="norms" class="em-section section-dark text-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Ашигласан норм, дүрэм</span>
+    </div>
+    <div class="norms-list">
+      <div class="norm-item"><span class="norm-n">1</span>БХБ Сайдын 2020 оны 30 тушаалаар батлагдсан барилгын тосев зохиох дүрэм</div>
+      <div class="norm-item"><span class="norm-n">2</span>БХБ Сайдын 2006 оны 142 тушаалаар батлагдсан барилга сантехникийн ажлын тосвийн суурь норм</div>
+      <div class="norm-item"><span class="norm-n">3</span>БХБ Сайдын 2005 оны 80 тушаалаар батлагдсан барилга засварын ажлын тосвийн суурь норм</div>
+      <div class="norm-item"><span class="norm-n">4</span>ДБС 2003 оны 113 тушаалаар батлагдсан барилга, сантехникийн ажлын тосвийн суурь нормын нэмэлт №1</div>
+      <div class="norm-item"><span class="norm-n">5</span>БХБ Сайдын 2006 оны 21 дүгээр тушаалаар батлагдсан барилга, сантехникийн ажлын тосвийн суурь нормын нэмэлт №2</div>
+      <div class="norm-item"><span class="norm-n">6</span>БХБ Сайдын 2008 оны 55 тушаалаар батлагдсан барилга, сантехник, цахилгааны ажлын тосвийн суурь нормын нэмэлт №3</div>
+      <div class="norm-item"><span class="norm-n">7</span>БХБ Сайдын 2016 оны 202 тушаалаар батлагдсан барилга, сантехник, цахилгааны ажлын тосвийн суурь нормын нэмэлт №5</div>
+      <div class="norm-item"><span class="norm-n">8</span>БХБ Сайдын 2024 оны 95-дугаар тушаалаар батлагдсан барилгын ажилтны тариф цалин</div>
+      <div class="norm-item"><span class="norm-n">9</span>ЗТХ Сайдын 2019 оны 256-р тушаалаар батлагдсан автомашинаар ачаа тээврэлэх жишиг тариф</div>
+      <div class="norm-item"><span class="norm-n">—</span>БНБД 81-95-20 (Хавсралт №17А) · Estimator Pro 4.0</div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCS -->
+<section id="docs" class="em-section section-dark text-light alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Зургийн цомог — Баримт бичиг</span>
+    </div>
+    <div class="docs-grid">
+      <div class="doc-card">
+        <div class="doc-icon">НХ</div>
+        <div class="doc-name">Нүүр хуудас</div>
+        <div class="doc-detail">Тосвийн нүүр хуудас · БА-0</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">ТТ</div>
+        <div class="doc-name">Тосвийн товч тайлбар</div>
+        <div class="doc-detail">Байгууллага · нормын жагсаалт</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">ФЗ</div>
+        <div class="doc-name">Одоогийн байдал фото зураг</div>
+        <div class="doc-detail">6 фото · БА-2</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Х3</div>
+        <div class="doc-name">1-р давхрын байгуулалт</div>
+        <div class="doc-detail">М 1:100 · БА-3 · Хэмжилтгүй</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Х4</div>
+        <div class="doc-name">1-р давхрын өөрчлөлт</div>
+        <div class="doc-detail">М 1:100 · БА-4 · Хэмжилттэй</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">О1</div>
+        <div class="doc-name">Огтлол 1-1</div>
+        <div class="doc-detail">М 1:50 · БА-5</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">О2</div>
+        <div class="doc-name">Огтлол 2-2</div>
+        <div class="doc-detail">М 1:100 · БА-6</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Д7</div>
+        <div class="doc-name">Дээврийн байгуулалт</div>
+        <div class="doc-detail">М 1:100 · БА-7</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">ГХ</div>
+        <div class="doc-name">Хаалганы төрөл</div>
+        <div class="doc-detail">М 1:50 · ГХ-1~7 · БА-8</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Ц</div>
+        <div class="doc-name">Цонхны төрөл</div>
+        <div class="doc-detail">М 1:25 · Ц-1~4 · БА-9</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Ф10</div>
+        <div class="doc-name">Нүүр тал X1-X6</div>
+        <div class="doc-detail">М 1:100 · БА-10 · Фасад</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Ф11</div>
+        <div class="doc-name">Нүүр тал X6-X1</div>
+        <div class="doc-detail">М 1:100 · БА-11 · Фасад</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Ф12</div>
+        <div class="doc-name">Нүүр тал Y1-Y4</div>
+        <div class="doc-detail">М 1:50 · БА-12 · Фасад</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Ф13</div>
+        <div class="doc-name">Нүүр тал Y4-Y1</div>
+        <div class="doc-detail">М 1:50 · БА-13 · Фасад</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Х14</div>
+        <div class="doc-name">Хэсэглэл 1-4</div>
+        <div class="doc-detail">М 1:20 · БА-14</div>
+      </div>
+      <div class="doc-card">
+        <div class="doc-icon">Х15</div>
+        <div class="doc-name">Хэсэглэл 5-9</div>
+        <div class="doc-detail">М 1:20 · БА-15 · Дээврийн хэсэг</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="em-footer text-light">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="footer-col-title">Төсвийн мэдээлэл</div>
+        <div>Огноо: 2026.01.05</div>
+        <div>Тосвийн дугаар: БНБД 81-95-20</div>
+        <div>Хавсралт №17А</div>
+        <div>Estimator Pro 4.0</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Зураг төслийн байгууллага</div>
+        <div>"Винд энд солар эм эн" ХХК</div>
+        <div>windsolarmn@gmail.com</div>
+        <div>Утас: 88054271</div>
+        <div>УБ, БГД, 2-р хороо, Тайм Центр 204</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Нийт өртөг</div>
+        <div style="font-size:18px;color:#29ABE2;font-weight:700;margin-bottom:4px">333,455,770 ₮</div>
+        <div>Барилгын ажил: 303,952,918 ₮</div>
+        <div>Буулгах ажил: 15,502,852 ₮</div>
+        <div>Зураг төсөл: 14,000,000 ₮</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Баталгаажуулсан</div>
+        <div>Ж.Лхагвасүрэн — Тэргүүлэх төсөвчин</div>
+        <div>Ч.Мөнхтуяа — Хянасан</div>
+        <div>Ч.Сугар — Баталгаажуулсан</div>
+        <div>Г.Очирсүх — Аймгийн архитектор</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Дорноговь аймгийн Хөвсгөл сумын ЗДТГ · BOX-04/2025</div>
+      <div>Гал аюулгүй байдлын дүгнэлт №44/72 · 2025.12.15 баталгаажсан</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Javascript Files
+================================================== -->
+<script src="js/vendors.js"></script>
+<script src="js/designesia.js"></script>
+
+</body>
+</html>
