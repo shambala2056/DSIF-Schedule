@@ -770,8 +770,8 @@
             <div class="container">
               <div class="row g-4 gx-5 justify-content-center">
                 <div class="col-lg-6 text-center">
-                    <div class="subtitle s2 mb-3 wow fadeInUp" data-wow-delay=".0s">Форумын хөтөлбөр</div>
-                    <h2 class="wow fadeInUp" data-wow-delay=".2s">2026 оны 4 сарын 26–27</h2>
+                    <!-- <div class="subtitle s2 mb-3 wow fadeInUp" data-wow-delay=".0s">Форумын хөтөлбөр</div> -->
+                    <h2 class="wow fadeInUp" data-wow-delay=".2s">ХӨТӨЛБӨР</h2>
                 </div>
               </div>
               <div class="row g-4 gx-5 justify-content-center wow fadeInUp">
@@ -1400,32 +1400,39 @@
         align-items: center;
         justify-content: center;
         flex: 1;
-        gap: 4px;
-        color: rgba(255,255,255,0.5) !important;
+        gap: 3px;
+        color: rgba(255,255,255,0.55) !important;
         text-decoration: none !important;
-        font-size: 10px;
-        letter-spacing: 0.5px;
-        padding: 4px 0;
-        transition: color 0.2s;
+        font-size: 9px;
+        letter-spacing: 0.3px;
+        padding: 6px 6px 5px;
+        margin: 0 4px;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.07);
+        transition: color 0.2s, background 0.2s;
       }
       body:not(.dark-scheme) .mob-nav-item {
-        color: rgba(0,0,0,0.4) !important;
+        color: rgba(0,0,0,0.45) !important;
+        background: rgba(0,0,0,0.05);
       }
       .mob-nav-item i {
         font-size: 20px;
         line-height: 1;
       }
       .mob-nav-item span {
-        font-size: 10px;
+        font-size: 9px;
+        line-height: 1.2;
         color: inherit !important;
       }
       .mob-nav-item.active,
       .mob-nav-item:hover {
         color: #4bac48 !important;
+        background: rgba(75,172,72,0.15);
       }
       body:not(.dark-scheme) .mob-nav-item.active,
       body:not(.dark-scheme) .mob-nav-item:hover {
         color: #4bac48 !important;
+        background: rgba(75,172,72,0.1);
       }
       /* Show only on mobile */
       @media (max-width: 991px) {
