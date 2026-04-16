@@ -19,6 +19,26 @@
     <style>
       /* Brand accent (yellow) overrides */
       :root { --accent-color:#FFC107; --mainmenu-font-weight:400; }
+      /* Dark theme → black base */
+      body.dark-scheme {
+        --bg-dark-1: #0a0a0a !important;
+        --bg-dark-2: #111111 !important;
+        --bg-dark-3: #0d0d0d !important;
+        --bg-dark-1-rgb: 10,10,10 !important;
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark,
+      body.dark-scheme .bg-dark-1,
+      body.dark-scheme .section-dark {
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark-2 {
+        background-color: #111111 !important;
+      }
+      body.dark-scheme header,
+      body.dark-scheme header.smaller {
+        background: #0a0a0a !important;
+      }
       * { letter-spacing: 1px; }
       .btn-main { background: var(--primary-color) !important; }
       .btn-main:hover { background: var(--secondary-color) !important; }
