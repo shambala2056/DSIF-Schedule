@@ -37,7 +37,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
   authDomain: "dsif-shedule.firebaseapp.com",
   projectId: "dsif-shedule",
-  storageBucket: "dsif-shedule.appspot.com",
+  storageBucket: "dsif-shedule.firebasestorage.app",
   messagingSenderId: "973476131387",
   appId: "1:973476131387:web:8c2e1234567890abcdef"
 };
