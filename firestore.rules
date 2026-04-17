@@ -5,5 +5,45 @@ service cloud.firestore {
       allow create, update: if true;
       allow read, delete: if false;
     }
+
+    // Админ хэрэглэгчдийн мэдээлэл
+    match /admins/{userId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Төслүүд
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create, update: if request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      allow delete: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Салбарууд
+    match /sectors/{sectorId} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+      allow delete: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Тохиргоо (categories гэх мэт)
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Санхүүжилтийн хүсэлтүүд
+    match /fundings/{fundId} {
+      allow create: if true;
+      allow read: if request.auth != null;
+      allow delete: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Үйлдлийн лог
+    match /activity_log/{logId} {
+      allow read: if request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      allow create: if request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
   }
 }

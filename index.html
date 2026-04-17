@@ -1,1029 +1,2049 @@
-<!DOCTYPE html>
-<html lang="mn">
+﻿<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>НОГООН ХӨГЖИЛ — ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ ФОРУМ 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>НОГООН ХӨГЖИЛ ФОРУМ 2026</title>
+    <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" >
+    <meta content="AIvent" name="description" >
+    <meta content="" name="keywords" >
+    <meta content="" name="author" >
+    <!-- CSS Files
+    ================================================== -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
+    <link href="css/vendors.css" rel="stylesheet" type="text/css" >
+    <link href="css/style.css" rel="stylesheet" type="text/css" >
+    <!-- color scheme -->
+    <link id="colors" href="css/colors/scheme-01.css" rel="stylesheet" type="text/css" >
+    <style>
+      /* Montserrat global font */
+      * { font-family: 'Montserrat', sans-serif !important; }
 
-<!-- Firebase SDK -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
-  authDomain: "dsif-shedule.firebaseapp.com",
-  projectId: "dsif-shedule",
-  storageBucket: "dsif-shedule.firebasestorage.app",
-  messagingSenderId: "973476131387",
-  appId: "1:973476131387:web:b045fde8fe7f363b3b621e"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-window._dsifSaveRegistration = async function(data) {
-  const regNum = 'DSIF-2026-' + (Math.floor(Math.random() * 9000) + 1000);
-  const docName = (data.lastname + ' ' + data.firstname).trim() || regNum;
-  await setDoc(doc(db, "registrations", docName), { ...data, regNumber: regNum, registeredAt: serverTimestamp() });
-  return regNum;
-};
-</script>
+      /* Keep icon fonts intact — the global Montserrat rule above must not override icon glyphs */
+      .fa, .fas, .far, .fal, .fab,
+      .fa-solid, .fa-regular, .fa-brands, .fa-light, .fa-thin, .fa-duotone,
+      [class^="fa-"], [class*=" fa-"] {
+        font-family: "Font Awesome 6 Free", "FontAwesome" !important;
+      }
+      .fab, .fa-brands, i[class*="fa-brands"] {
+        font-family: "Font Awesome 6 Brands" !important;
+      }
+      [class^="icofont-"], [class*=" icofont-"] {
+        font-family: "IcoFont" !important;
+      }
+      [class^="elegant"], [class*=" elegant"], .arrow_carrot-right, .arrow_carrot-left {
+        font-family: "ElegantIcons" !important;
+      }
 
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Montserrat',sans-serif;font-weight:300;background:#ffffff;color:#1a1a1a;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+      /* Brand accent (yellow) overrides */
+      :root { --accent-color:#FFC107; --mainmenu-font-weight:400; }
+      /* Remove webkit gradient text fill from headings */
+      .text-light h1,
+      .text-light h2,
+      .dark-scheme h1,
+      .dark-scheme h2 {
+        -webkit-text-fill-color: unset !important;
+        -webkit-background-clip: unset !important;
+        background-clip: unset !important;
+        background: none !important;
+      }
+      /* Dark theme → black base */
+      body.dark-scheme {
+        --bg-dark-1: #0a0a0a !important;
+        --bg-dark-2: #111111 !important;
+        --bg-dark-3: #0d0d0d !important;
+        --bg-dark-1-rgb: 10,10,10 !important;
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark,
+      body.dark-scheme .bg-dark-1,
+      body.dark-scheme .section-dark {
+        background-color: #0a0a0a !important;
+      }
+      body.dark-scheme .bg-dark-2 {
+        background-color: #111111 !important;
+      }
+      body.dark-scheme header,
+      body.dark-scheme header.smaller {
+        background: #0a0a0a !important;
+      }
+      * { letter-spacing: 1px; }
+      .btn-main { background: var(--primary-color) !important; }
+      .btn-main:hover { background: var(--secondary-color) !important; }
+      h1 em, h2 em, h3 em { color: var(--accent-color); font-style: normal; }
+      .id-color-accent { color: var(--accent-color); }
+      /* gradient-edge-top.color → #4bac48 */
+      .gradient-edge-top.color {
+        background: linear-gradient(180deg, rgba(79,173,235,1) 0%, rgba(79,173,235,0) 100%) !important;
+      }
+      /* gradient-edge-bottom.color → #57ab48 */
+      .gradient-edge-bottom.color {
+        background: linear-gradient(0deg, rgba(87,171,72,1) 0%, rgba(87,171,72,0) 100%) !important;
+      }
+      /* hero section buttons */
+      .btn-hero { background: #4bac48 !important; }
+      .btn-hero:hover, .btn-hero:focus { background: #45abe1 !important; }
+      /* theme toggle button */
+      #theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-size: 18px;
+        line-height: 1;
+        transition: background 0.3s;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      #theme-toggle:hover { background: rgba(255,255,255,0.3); }
+      body:not(.dark-scheme) #theme-toggle { background: rgba(0,0,0,0.1); color: #333; }
+      body:not(.dark-scheme) #theme-toggle:hover { background: rgba(0,0,0,0.2); }
+      /* Mobile: fixed circle toggle */
+      @media (max-width: 991px) {
+        #theme-toggle,
+        body:not(.dark-scheme) #theme-toggle,
+        body.dark-scheme #theme-toggle {
+          width: 42px !important;
+          height: 42px !important;
+          min-width: 42px !important;
+          min-height: 42px !important;
+          max-width: 42px !important;
+          max-height: 42px !important;
+          border-radius: 50% !important;
+          font-size: 22px !important;
+          padding: 0 !important;
+          flex-shrink: 0 !important;
+          box-sizing: border-box !important;
+        }
+        #theme-toggle {
+          background: rgba(255,255,255,0.2) !important;
+          border: 2px solid rgba(255,255,255,0.3) !important;
+          color: #fff !important;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
+        }
+        body:not(.dark-scheme) #theme-toggle {
+          background: rgba(255,255,255,0.9) !important;
+          border: 2px solid rgba(0,0,0,0.12) !important;
+          color: #333 !important;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+        }
+      }
+      body:not(.dark-scheme) #menu-btn,
+      body:not(.dark-scheme) #menu-btn:before { color: #1a1a1a !important; }
+      body:not(.dark-scheme) #menu-btn:hover { color: #000 !important; }
 
-:root{
-  --green:#00b352;--green-dark:#009944;--green-light:#00d964;
-  --bg:#ffffff;--bg-card:#f4f4f4;--bg-hover:#00b352;
-  --border:rgba(0,0,0,.08);--text:#1a1a1a;--text-dim:rgba(0,0,0,.45);
-}
+      /* =====================================================
+         LIGHT MODE OVERRIDES
+         ===================================================== */
+      /* Background */
+      body:not(.dark-scheme),
+      body:not(.dark-scheme) .bg-dark,
+      body:not(.dark-scheme) .bg-dark-1,
+      body:not(.dark-scheme) .bg-dark-2,
+      body:not(.dark-scheme) .bg-dark-3,
+      body:not(.dark-scheme) .section-dark {
+        background-color: #f4f6f8 !important;
+      }
+      /* Alternate section tint */
+      body:not(.dark-scheme) #section-about,
+      body:not(.dark-scheme) #section-schedule,
+      body:not(.dark-scheme) footer {
+        background-color: #ffffff !important;
+      }
 
-/* ── HERO ── */
-.hero{position:relative;min-height:55vh;display:flex;flex-direction:column;justify-content:flex-start;padding:80px 0 0}
-.hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-.hero-gradient{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.15) 30%,transparent 50%,rgba(0,179,82,.1) 70%,rgba(0,179,82,.3) 85%,rgba(255,255,255,.7) 95%,#ffffff 100%)}
-.hero-content{position:relative;z-index:1;padding:0 60px;width:100%;display:flex;flex-direction:column;flex:1}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid rgba(0,179,82,.3);background:rgba(0,179,82,.08);margin-bottom:24px}
-.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero-tag-text{font-size:.75rem;font-weight:600;letter-spacing:3px;color:var(--green);text-transform:uppercase}
-.hero-logo{height:auto;width:min(380px,65%);margin-top:auto;margin-bottom:20px;display:block}
-.hero-title{font-size:clamp(2.8rem,6vw,5.5rem);font-weight:800;line-height:.95;letter-spacing:-2px;margin-bottom:16px;text-transform:uppercase}
-.hero-title .accent{color:var(--green)}
-.hero-meta{display:flex;align-items:center;gap:28px;padding-bottom:28px;flex-wrap:wrap;justify-content:flex-start;width:100%}
-.hero-meta-item{display:flex;align-items:center;gap:10px}
-.hero-meta-icon{width:38px;height:38px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
-.hero-meta-icon svg{width:16px;height:16px;stroke:var(--green);fill:none;stroke-width:1.5}
-.hero-meta-label{font-size:.65rem;letter-spacing:2px;color:rgba(255,255,255,.7);text-transform:uppercase}
-.hero-meta-value{font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.5px}
+      /* Text */
+      body:not(.dark-scheme) .text-light,
+      body:not(.dark-scheme) .text-light h1,
+      body:not(.dark-scheme) .text-light h2,
+      body:not(.dark-scheme) .text-light h3,
+      body:not(.dark-scheme) .text-light h4,
+      body:not(.dark-scheme) .text-light h5,
+      body:not(.dark-scheme) .text-light h6,
+      body:not(.dark-scheme) .text-light p,
+      body:not(.dark-scheme) .text-light li,
+      body:not(.dark-scheme) .text-light span,
+      body:not(.dark-scheme) .text-light div,
+      body:not(.dark-scheme) h1,
+      body:not(.dark-scheme) h2,
+      body:not(.dark-scheme) h3,
+      body:not(.dark-scheme) h4,
+      body:not(.dark-scheme) h5 {
+        color: #1a1a1a !important;
+      }
+      body:not(.dark-scheme) p,
+      body:not(.dark-scheme) li,
+      body:not(.dark-scheme) .op-6 {
+        color: #444 !important;
+        opacity: 1 !important;
+      }
+      body:not(.dark-scheme) .text-light a,
+      body:not(.dark-scheme) a {
+        color: #1a1a1a !important;
+      }
 
-/* ── NAV BAR (inside hero top) ── */
-.topbar{position:absolute;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px}
-.topbar-logo{height:28px;filter:brightness(0) invert(1);opacity:.7}
-.topbar-btn{padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none}
-.topbar-btn:hover{background:var(--green);border-color:var(--green);color:#fff}
+      /* Borders */
+      body:not(.dark-scheme) .border-white-bottom-op-2 {
+        border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+      }
+      body:not(.dark-scheme) .border-white-op-3 {
+        border-color: rgba(0,0,0,0.12) !important;
+      }
 
-/* ── TICKER ── */
-.ticker{position:relative;width:100%;height:52px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:#fff;display:flex;align-items:center;overflow:hidden;z-index:10}
-.ticker-badge{flex-shrink:0;height:100%;padding:0 24px 0 60px;display:flex;align-items:center;border-right:1px solid var(--border);font-size:.7rem;font-weight:700;letter-spacing:3px;color:var(--green);background:rgba(0,179,82,.04);white-space:nowrap;gap:10px}
-.ticker-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-.ticker-track{flex:1;overflow:hidden}
-.ticker-inner{display:inline-flex;gap:0;white-space:nowrap;font-size:.72rem;font-weight:500;letter-spacing:.5px;color:var(--text-dim)}
-.ticker-item{display:inline-flex;align-items:center;padding:0 32px;border-right:1px solid var(--border);gap:12px}
-.ticker-item:hover{color:#1a1a1a}
+      /* Cards / boxes */
+      body:not(.dark-scheme) .bg-dark-2,
+      body:not(.dark-scheme) .hover-bg-color {
+        background-color: #ffffff !important;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important;
+      }
+      body:not(.dark-scheme) .bg-blur {
+        background: rgba(255,255,255,0.85) !important;
+        backdrop-filter: blur(8px);
+      }
+      body:not(.dark-scheme) .sw-overlay {
+        background: rgba(240,244,248,0.7) !important;
+      }
 
-/* ── SECTION ── */
-.section{padding:72px 60px;max-width:1400px;margin:0 auto}
-.section-label{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:600;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:12px}
-.section-label::before{content:'';width:40px;height:1px;background:var(--green)}
-.section-title{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;letter-spacing:-1px;margin-bottom:36px;text-transform:uppercase;line-height:1.1}
+      /* Subtitle badge */
+      body:not(.dark-scheme) .subtitle.s2 {
+        color: #4bac48 !important;
+      }
+      body:not(.dark-scheme) .subtitle {
+        color: #4bac48 !important;
+      }
 
-/* ── DAY TABS ── */
-.day-switcher{display:flex;gap:2px;margin-bottom:36px;background:var(--bg-card);padding:4px;width:fit-content}
-.day-btn{padding:14px 36px;font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;color:var(--text-dim);background:transparent;border:none;cursor:pointer;transition:all .25s;text-transform:uppercase}
-.day-btn.active{background:var(--green);color:#fff}
-.day-btn:hover:not(.active){color:#1a1a1a;background:rgba(0,0,0,.06)}
+      /* Schedule tabs */
+      body:not(.dark-scheme) .de-tab.plain .d-tab-nav li {
+        color: #444 !important;
+        border-color: rgba(0,0,0,0.1) !important;
+      }
+      body:not(.dark-scheme) .de-tab.plain .d-tab-nav li.active-tab {
+        border-color: var(--accent-color) !important;
+        color: #1a1a1a !important;
+      }
 
-/* ── SCHEDULE CARDS ── */
-.sched-grid{display:flex;flex-direction:column;gap:2px}
-.sched-block{margin-bottom:20px}
-.sched-block-title{font-size:.6rem;font-weight:700;letter-spacing:4px;color:#1a1a1a;text-transform:uppercase;padding:14px 0;border-bottom:1px solid rgba(0,179,82,.25);margin-bottom:2px;display:flex;align-items:center;gap:12px}
-.sched-block-title::before{content:'';width:8px;height:8px;background:#1a1a1a}
-.sched-row{display:grid;grid-template-columns:160px 1fr;background:var(--bg-card);border-bottom:1px solid var(--border);transition:all .2s;cursor:default}
-.sched-row:hover{background:#00b352}
-.sched-row:hover .sched-name{color:#fff}
-.sched-row:hover .sched-time{color:#fff;border-right-color:rgba(255,255,255,.2)}
-.sched-row.is-break{background:rgba(0,179,82,.06);border-left:2px solid var(--green)}
-.sched-row.is-break:hover{background:#00b352;border-left-color:#00b352}
-.sched-time{padding:16px 24px;display:flex;align-items:center;font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:600;color:var(--green);letter-spacing:1px;border-right:1px solid var(--border)}
-.sched-info{padding:16px 28px;display:flex;align-items:center}
-.sched-name{font-size:.82rem;font-weight:300;color:var(--text);letter-spacing:.3px;line-height:1.5;text-transform:uppercase}
+      /* Countdown */
+      body:not(.dark-scheme) .countdown-container,
+      body:not(.dark-scheme) [class*="countdown"] {
+        color: #1a1a1a !important;
+      }
 
-/* ── CTA ── */
-.cta-section{position:relative;padding:80px 60px;text-align:center;overflow:hidden}
-.cta-bg{position:absolute;inset:0;z-index:0}
-.cta-bg img{width:100%;height:100%;object-fit:cover}
-.cta-bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,rgba(0,179,82,.16) 5%,rgba(0,100,46,.12) 10%,rgba(0,50,25,.1) 16%,rgba(0,0,0,.22) 26%,rgba(0,0,0,.28) 50%,rgba(0,0,0,.22) 74%,rgba(0,50,25,.1) 84%,rgba(0,100,46,.12) 90%,rgba(0,179,82,.16) 95%,#ffffff 100%)}
-.cta-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
-.cta-badge{display:inline-block;padding:8px 24px;border:1px solid rgba(0,179,82,.35);font-size:.6rem;font-weight:700;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:24px}
-.cta-h{font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:.95;letter-spacing:-2px;text-transform:uppercase;margin-bottom:16px;color:#fff}
-.cta-h em{font-style:normal;color:var(--green)}
-.cta-p{font-size:.8rem;font-weight:400;color:rgba(255,255,255,.75);line-height:1.9;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto;text-transform:none}
-.cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-g{padding:16px 48px;background:var(--green);color:#fff;font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all .25s;text-decoration:none}
-.btn-g:hover{background:var(--green-light);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,179,82,.25)}
-.btn-o{padding:16px 48px;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .25s;text-decoration:none}
-.btn-o:hover{border-color:rgba(255,255,255,.4);color:#fff;transform:translateY(-2px)}
+      /* Footer */
+      body:not(.dark-scheme) footer.text-light {
+        background-color: #ffffff !important;
+        border-top: 1px solid rgba(0,0,0,0.08);
+      }
+      body:not(.dark-scheme) .subfooter {
+        background-color: #e8ecf0 !important;
+        color: #555 !important;
+      }
 
-/* ── FOOTER ── */
-.footer-wrap{position:relative;background:var(--green);border-top:none}
-.site-footer{padding:48px 60px 28px;max-width:1400px;margin:0 auto;position:relative;z-index:1}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:80px;margin-bottom:36px}
-.footer-brand-logo{height:36px;margin-bottom:16px;display:block}
-.footer-brand-text{font-size:.78rem;font-weight:300;color:rgba(255,255,255,.8);line-height:1.9;max-width:340px;text-transform:none}
-.footer-heading{font-size:.6rem;font-weight:700;letter-spacing:3px;color:#fff;text-transform:uppercase;margin-bottom:16px}
-.footer-list{list-style:none}
-.footer-list li{margin-bottom:8px}
-.footer-list a{font-size:.75rem;font-weight:400;color:rgba(255,255,255,.8);text-decoration:none;transition:color .2s;text-transform:uppercase;letter-spacing:.5px}
-.footer-list a:hover{color:#fff}
-.footer-bar{padding-top:24px;border-top:1px solid rgba(255,255,255,.2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.footer-copy{font-size:.65rem;color:rgba(255,255,255,.6);letter-spacing:.5px;text-transform:uppercase}
-.footer-tags{display:flex;gap:6px}
-.footer-tags span{padding:4px 12px;border:1px solid rgba(255,255,255,.3);font-size:.55rem;font-weight:600;letter-spacing:1px;color:rgba(255,255,255,.6);text-transform:uppercase}
+      /* Social icons */
+      body:not(.dark-scheme) .social-icons a {
+        color: #444 !important;
+        border-color: rgba(0,0,0,0.15) !important;
+      }
 
-/* ── PDF BUTTON ── */
-.sched-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:36px;flex-wrap:wrap}
-.sched-header .day-switcher{margin-bottom:0}
-.pdf-btn{display:flex;align-items:center;gap:8px;padding:14px 24px;font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;color:rgba(0,0,0,.45);background:transparent;border:1px solid rgba(0,0,0,.12);cursor:pointer;transition:all .25s;text-transform:uppercase;white-space:nowrap}
-.pdf-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
-.pdf-btn:hover{border-color:var(--green);color:var(--green)}
+      /* Header transparent on light */
+      body:not(.dark-scheme) header.transparent,
+      body:not(.dark-scheme) header.smaller {
+        background: rgba(255,255,255,0.97) !important;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      }
+      body:not(.dark-scheme) header #mainmenu li a,
+      body:not(.dark-scheme) header #mainmenu li a:hover {
+        color: #1a1a1a !important;
+      }
 
-.print-title,.print-date{display:none}
+      /* Mega menu on light */
+      body:not(.dark-scheme) #mainmenu ul.mega,
+      body:not(.dark-scheme) #mainmenu ul.mega .sb-menu {
+        background: #ffffff !important;
+        color: #1a1a1a !important;
+      }
+      body:not(.dark-scheme) #mainmenu ul.mega h6,
+      body:not(.dark-scheme) #mainmenu ul.mega a {
+        color: #1a1a1a !important;
+      }
 
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  .hero{min-height:60vh}
-  .hero-bg img{object-position:70% 25%}
-  .hero-content,.topbar,.section,.site-footer{padding-left:24px;padding-right:24px}
-  .topbar{padding:16px 24px}
-  .cta-section{padding:64px 24px}
-  .footer-top{grid-template-columns:1fr 1fr;gap:28px}
-  .hero-meta{gap:16px}
-  .sched-row{grid-template-columns:120px 1fr}
-}
-@media(max-width:640px){
-  .hero{padding:60px 0 40px}
-  .hero-content{padding-left:16px;padding-right:16px;display:flex;flex-direction:column;flex:1}
-  .hero-title{font-size:2.2rem;letter-spacing:-1px}
-  .hero-meta{margin-top:auto}
-  .topbar{padding:12px 16px}
-  .section{padding:48px 16px}
-  .day-switcher{width:100%}
-  .day-btn{flex:1;padding:10px 14px;font-size:.58rem}
-  .sched-row{grid-template-columns:1fr;gap:0}
-  .sched-time{border-right:none;border-bottom:1px solid var(--border);padding:10px 16px}
-  .sched-info{padding:10px 16px}
-  .cta-section{padding:48px 16px}
-  .site-footer{padding:32px 16px 20px}
-  .footer-top{grid-template-columns:1fr;gap:20px}
-  .hero-meta{flex-direction:column;align-items:flex-start;gap:10px}
-  .ticker{height:32px}
-  .ticker-badge{padding:0 12px 0 16px;font-size:.45rem;letter-spacing:2px;gap:6px}
-  .ticker-dot{width:4px;height:4px}
-  .ticker-inner{font-size:.45rem}
-  .ticker-item{padding:0 16px;gap:6px}
-}
+      /* Gradient edges hide on light */
+      body:not(.dark-scheme) .gradient-edge-top,
+      body:not(.dark-scheme) .gradient-edge-bottom {
+        opacity: 0 !important;
+      }
 
-/* ── MODAL ── */
-.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.7);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
-.modal-overlay.open{opacity:1;pointer-events:all}
-.modal-box{width:100%;max-width:520px;background:#111;border:1px solid rgba(255,255,255,.08);max-height:90vh;display:flex;flex-direction:column;box-shadow:0 40px 100px rgba(0,0,0,.5)}
-.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border)}
-.modal-head-title{font-size:.78rem;font-weight:700;letter-spacing:2px;color:#fff;text-transform:uppercase}
-.modal-close{width:32px;height:32px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:#666;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.modal-close:hover{background:rgba(255,255,255,.1);color:#fff}
-.modal-body{padding:24px;overflow-y:auto;flex:1}
-.form-group{margin-bottom:16px}
-.form-label{display:block;font-size:.55rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.5);margin-bottom:6px;text-transform:uppercase}
-.form-input{width:100%;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.5px;outline:none;transition:all .2s}
-.form-input:focus{border-color:var(--green);background:rgba(0,179,82,.04)}
-.form-input::placeholder{color:rgba(255,255,255,.2);font-weight:400}
-.form-input option{background:#111;color:#fff}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-check{display:flex;align-items:flex-start;gap:8px;font-size:.65rem;color:var(--text-dim);line-height:1.5;margin-top:8px;text-transform:none}
-.form-check input{margin-top:2px;accent-color:var(--green)}
-.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
-.modal-btn-submit{padding:12px 36px;background:var(--green);color:#fff;font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s}
-.modal-btn-submit:hover{background:var(--green-light)}
-#reg-success{display:none;padding:40px 24px;text-align:center}
-.success-icon{width:56px;height:56px;border:2px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--green);margin:0 auto 16px}
-@media(max-width:540px){.form-row{grid-template-columns:1fr}.modal-box{max-height:96vh}}
-/* ── PDF COVER ── */
-/* windowWidth:800 → 1px=0.2375mm, A4 content(273mm)=1150px */
-.pdf-cover{display:none;flex-direction:column;width:100%;height:1150px;background-color:#0a0a0a;background-image:url('hero-bg.jpg');background-size:cover;background-position:center center;background-repeat:no-repeat;page-break-after:always;break-after:always;padding:48px 40px 40px;position:relative;overflow:hidden;box-sizing:border-box}
-.pdf-cover-bg-overlay{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,transparent 0%,transparent 55%,rgba(0,179,82,.12) 68%,rgba(0,179,82,.55) 85%,rgba(0,140,65,.82) 100%)}
-.pdf-cover-logo{position:absolute;top:500px;left:84px;width:632px;height:auto;display:block;z-index:1}
-.pdf-cover-body{position:absolute;top:660px;left:84px;width:632px;z-index:1;padding-bottom:8px}
-.pdf-cover-title{font-size:4.5rem;font-weight:800;line-height:.9;letter-spacing:0;color:#fff;text-transform:uppercase;margin-bottom:24px;width:100%}
-.pdf-cover-title .accent{color:#00b352}
-.pdf-cover-sub{font-size:.9rem;color:rgba(255,255,255,.6);letter-spacing:3px;text-transform:uppercase}
-/* ── PDF MODE ── */
-.pdf-mode{background:#fff!important;padding:0!important;max-width:100%!important}
-.pdf-mode .section-label,.pdf-mode .section-title{display:none!important}
-.pdf-day-header{display:none;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:2px solid #00b352;margin-bottom:10px}
-.pdf-day-header-title{font-size:.8rem;font-weight:800;letter-spacing:3px;color:#111;text-transform:uppercase}
-.pdf-day-header-meta{text-align:right}
-.pdf-day-header-date{font-size:.78rem;font-weight:700;color:#00b352;letter-spacing:2px}
-.pdf-day-header-day{font-size:.55rem;font-weight:600;color:#888;letter-spacing:2px;text-transform:uppercase}
-.pdf-mode .pdf-day-header{display:flex}
-#sched-all-days{display:contents}
-.pdf-mode #sched-all-days{display:block;padding:14px 28px 0}
-.pdf-mode #sched-day2,.pdf-mode #sched-day3{margin-top:18px}
-.pdf-mode .sched-block{margin-bottom:10px}
-.pdf-mode .sched-block-title{page-break-after:avoid;break-after:avoid;color:#00b352!important;border-bottom-color:#00b352!important;background:none!important}
-.pdf-mode .sched-block-title::before{background:#00b352!important}
-.pdf-mode .sched-row{background:#fff!important;border-bottom-color:#e8e8e8!important;page-break-inside:avoid;break-inside:avoid}
-.pdf-mode .sched-row.is-break{background:#f2fbf5!important;border-left-color:#00b352!important}
-.pdf-mode .sched-time{color:#00b352!important;border-right-color:#e8e8e8!important}
-.pdf-mode .sched-name{color:#1a1a1a!important}
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+      /* Jarallax/hero overlay lighter */
+      body:not(.dark-scheme) #section-hero .sw-overlay {
+        background: rgba(75,172,72,0.45) !important;
+      }
+      /* Hero date/location/button text → white on light mode (icons excluded) */
+      body:not(.dark-scheme) #section-hero h4:not(.countdown-label),
+      body:not(.dark-scheme) #section-hero .btn-main span,
+      body:not(.dark-scheme) #section-hero .btn-line span {
+        color: #fff !important;
+      }
+      /* Countdown bar labels → black on light mode */
+      body:not(.dark-scheme) .countdown-label {
+        color: #1a1a1a !important;
+      }
+      /* Hero headings → white on light mode */
+      body:not(.dark-scheme) .hero-heading,
+      body:not(.dark-scheme) .text-light .hero-heading,
+      body:not(.dark-scheme) #section-hero .text-center .hero-heading {
+        color: #ffffff !important;
+      }
+
+      /* Speakers section cards */
+      body:not(.dark-scheme) .hover-bg-color.hover-text-light:hover {
+        color: #fff !important;
+      }
+      body:not(.dark-scheme) .hover-bg-color.hover-text-light:hover h4,
+      body:not(.dark-scheme) .hover-bg-color.hover-text-light:hover p {
+        color: #fff !important;
+      }
+
+      /* Venue section map */
+      body:not(.dark-scheme) #section-venue {
+        background-color: #f4f6f8 !important;
+      }
+
+      /* Marquee / ticker */
+      body:not(.dark-scheme) [class*="marquee"],
+      body:not(.dark-scheme) [class*="ticker"] {
+        background: #e8ecf0 !important;
+        color: #1a1a1a !important;
+      }
+
+      /* Cat pills in tusul.html stay unaffected (scoped by page) */
+    </style>
+
 </head>
-<body>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg">
-    <img src="sens.jpg" alt="">
-    <div class="hero-gradient"></div>
-  </div>
+<body class="dark-scheme">
 
-  <div class="topbar">
-    <div></div>
-    <!-- <a href="javascript:void(0)" class="topbar-btn open-reg">БҮРТГҮҮЛЭХ</a> -->
-  </div>
+    <div id="wrapper">
 
-  <div class="hero-content">
+        <div class="float-text show-on-scroll">
+            <span><a href="#">Scroll to top</a></span>
+        </div>
+        <div class="scrollbar-v show-on-scroll"></div>
 
-    <img src="dsif-logo.png" alt="DSIF 2026" class="hero-logo">
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <div class="hero-meta-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-        <div>
-          <div class="hero-meta-label">ОГНОО</div>
-          <div class="hero-meta-value">2026.04.26 — 27</div>
-        </div>
-      </div>
-      <div class="hero-meta-item">
-        <div class="hero-meta-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <div>
-          <div class="hero-meta-label">БАЙРШИЛ</div>
-          <div class="hero-meta-value">САЙНШАНД, ДОРНОГОВЬ</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        <!-- page preloader begin -->
+        <div id="de-loader"></div>
+        <!-- page preloader close -->
 
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-badge"><span class="ticker-dot"></span>МЭДЭЭЛЭЛ</div>
-  <div class="ticker-track" id="ticker-track">
-    <div class="ticker-inner" id="ticker-inner"></div>
-  </div>
-</div>
+        <!-- HEADER — loaded from header.html -->
+        <div id="site-header-placeholder"></div>
+        <script src="js/site-header.js" data-base=""></script>
 
-<!-- SCHEDULE -->
-<section class="section" id="schedule">
-  <div class="section-label">ХӨТӨЛБӨР</div>
-  <h2 class="section-title">ФОРУМЫН ХУВААРЬ</h2>
+        <section id="section-hero" class="section-dark no-top no-bottom text-light jarallax relative mh-800" data-video-src="mp4:video/3.mp4">
+            <div class="gradient-edge-top op-6 h-50 color"></div>
+            <div class="gradient-edge-bottom"></div>
+            <div class="sw-overlay op-8"></div>
+            <div class="abs abs-centered z-2 w-80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <!-- <div class="subtitle">хамтын ажиллагаа  |  хөрөнгө оруулалт  |  хөгжил дэвшил</div> -->
+                            <h2 class="fs-130 text-uppercase lh-1 hero-heading hero-title-main" style="margin-bottom:0.5rem">НОГООН ХӨГЖИЛ</h2>
+                            <h2 class="fs-80 text-uppercase lh-1 hero-heading hero-title-sub" style="margin-bottom:0.5rem">ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ</h2>
+                            <h1 class="fs-110 text-uppercase lh-1 hero-heading hero-title-main" style="margin-bottom:0.5rem">ФОРУМ 2026</h1>
+                            <style>
+                              body:not(.dark-scheme) .text-light .hero-heading{color:#ffffff!important}
+                              @media (max-width: 991px) {
+                                .hero-title-main, .hero-title-sub { white-space: nowrap !important; text-align: center !important; width: 100% !important; }
+                              }
+                              @media (max-width: 768px) {
+                                .hero-title-main { font-size: 8vw !important; letter-spacing: 2px !important; }
+                                .hero-title-sub { font-size: 4vw !important; letter-spacing: 0.5px !important; }
+                              }
+                              @media (max-width: 480px) {
+                                .hero-title-main { font-size: 7.5vw !important; letter-spacing: 1px !important; }
+                                .hero-title-sub { font-size: 3.5vw !important; letter-spacing: 0.5px !important; }
+                              }
+                            </style>
+                            <div class="d-block d-md-flex justify-content-center">
+                                <div class="d-flex justify-content-center align-items-center mx-4">
+                                    <i class="fa fa-calendar id-color me-3" style="font-size:85%"></i>
+                                    <h4 class="mb-0" style="font-weight:200;font-size:80%">2026.04.26-27</h4>
+                                </div>
 
-  <!-- PDF Cover -->
-  <div class="pdf-cover" id="pdf-cover">
-    <div class="pdf-cover-bg-overlay"></div>
-    <img src="dsif-logo.png" alt="DSIF 2026" class="pdf-cover-logo">
-    <div class="pdf-cover-body">
-      <div class="pdf-cover-title"><span class="accent">ХӨТӨЛБӨР</span></div>
-      <div class="pdf-cover-sub">2026.04.26 — 27 &nbsp;·&nbsp; САЙНШАНД, ДОРНОГОВЬ</div>
-    </div>
-  </div>
-  <div class="sched-header">
-    <div class="day-switcher">
-      <button class="day-btn active" onclick="switchDay(1)" id="tab-day1">1-Р ӨДӨР 04.26</button>
-      <button class="day-btn" onclick="switchDay(2)" id="tab-day2">2-Р ӨДӨР 04.27</button>
-      <button class="day-btn" onclick="switchDay(3)" id="tab-day3">УУЛЗАЛТЫН ХӨТӨЛБӨР</button>
-    </div>
-    <button class="pdf-btn" onclick="printSchedule()">
-      <svg viewBox="0 0 24 24"><path d="M12 16l-4-4h2.5V4h3v8H16l-4 4z"/><path d="M4 18h16v2H4z"/></svg>
-      PDF ТАТАХ
-    </button>
-  </div>
+                                <div class="d-flex justify-content-center align-items-center mx-4">
+                                    <i class="fa fa-location-pin id-color me-3" style="font-size:85%"></i>
+                                    <h4 class="mb-0" style="font-weight:200;font-size:80%">ДОРНОГОВЬ, САЙНШАНД</h4>
+                                </div>
+                            </div>
 
-  <div id="sched-all-days">
-  <!-- DAY 1 -->
-  <div id="sched-day1" class="sched-day">
-    <div class="pdf-day-header">
-      <div class="pdf-day-header-title">ФОРУМЫН ХӨТӨЛБӨР</div>
-      <div class="pdf-day-header-meta">
-        <div class="pdf-day-header-date">2026.04.26</div>
-        <div class="pdf-day-header-day">1-Р ӨДӨР</div>
-      </div>
-    </div>
-    <div class="sched-grid">
+                            <div class="spacer-single"></div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">НЭЭЛТ</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">08:30 — 09:00</div>
-          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:00 — 09:10</div>
-          <div class="sched-info"><div class="sched-name">НЭЭЛТИЙН ҮГ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:10 — 09:30</div>
-          <div class="sched-info"><div class="sched-name">МЭНДЧИЛГЭЭ</div></div>
-        </div>
-      </div>
+                            <a class="btn-main btn-hero mx-2 fx-slide" href="#section-schedule"><span>Хөтөлбөр</span></a>
+                            <a class="btn-main btn-line btn-hero mx-2 fx-slide" href="https://maps.google.com/?q=44.885408,110.139780" target="_blank" rel="noopener"><span>Байршил</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ЭДИЙН ЗАСАГ, НОГООН ХӨГЖИЛ</div>
-        <div class="sched-row">
-          <div class="sched-time">09:30 — 10:10</div>
-          <div class="sched-info"><div class="sched-name">ФОРУМЫН ЗОРИЛГО, ХҮЛЭЭГДЭЖ БУЙ ҮР ДҮН — ДОРНОГОВЬ АЙМГИЙН ЭДИЙН ЗАСГИЙН ӨНӨӨГИЙН БАЙДАЛ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:10 — 10:25</div>
-          <div class="sched-info"><div class="sched-name">ДОРНОГОВЬ — БОЛОМЖ, ИРЭЭДҮЙ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:25 — 10:45</div>
-          <div class="sched-info"><div class="sched-name">НОГООН ЭДИЙН ЗАСАГ — ДОРНОГОВЬ АЙМГИЙН ХӨРӨНГӨ ОРУУЛАЛТЫН ОРЧИН</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:45 — 11:05</div>
-          <div class="sched-info"><div class="sched-name">НИЙГМИЙН ОРОЛЦОО БА ОРОН НУТГИЙН ИРГЭД ХӨРӨНГӨ ОРУУЛАЛТААС ЯМАР ҮР ШИМ ХҮРТЭХ ВЭ?</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:05 — 11:20</div>
-          <div class="sched-info"><div class="sched-name">ТОГТВОРТОЙ ХАА — ХОРШОО 2.0</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:20 — 11:40</div>
-          <div class="sched-info"><div class="sched-name">ХОНИНЫ НООС — ТОЙРОГ ЭДИЙН ЗАСАГ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:40 — 11:55</div>
-          <div class="sched-info"><div class="sched-name">УХААЛАГ ХУДАГ 2.0 — МАЛЧДЫН БҮТЭЭЛЧ ҮЙЛДВЭРЛЭЛИЙН ТӨВ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:55 — 12:15</div>
-          <div class="sched-info"><div class="sched-name">ДОРНОГОВЬ ПЛАТФОРМ — ЦАХИМ ТЕХНОЛОГИ БА НОГООН ХӨГЖИЛ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:15 — 12:30</div>
-          <div class="sched-info"><div class="sched-name">ДОРНОГОВЬ АЙМГИЙН АЯЛАЛ ЖУУЛЧЛАЛ БА ТҮҮНИЙГ ДАГАСАН ДЭД БҮТЭЦ</div></div>
-        </div>
-      </div>
+            <div class="abs w-100 start-0 bottom-0 z-3" style="padding-bottom:30px;">
+                <div class="container">
+                    
+                    <div class="sm-hide border-white-op-3 p-40 py-4 rounded-1 bg-blur relative overflow-hidden wow fadeInUp">
+                        <div class="gradient-edge-bottom color start-0 h-50 op-5">
+                            
+                            
+                        </div>
+                        <div class="row g-4 justify-content-center align-items-center relative z-2 text-center">
+                            <div class="col-lg-3 text-center">
+                                <h4 class="mb-0 countdown-label" style="font-weight:200">ТОГТВОРТОЙ ӨСӨЛТ</h4>
+                            </div>
+                            <div class="col-lg-4 text-center">
+                                <div id="defaultCountdown" class="pt-2"></div>
+                            </div>
+                            <div class="col-lg-3 text-center">
+                                <h4 class="mb-0 countdown-label" style="font-weight:200">ХӨГЖЛИЙН ХӨДӨЛГҮҮР</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ЗАВСАРЛАГА</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">12:30 — 13:45</div>
-          <div class="sched-info"><div class="sched-name">ҮДИЙН ХООЛ, NETWORKING</div></div>
-        </div>
-      </div>
+        <section id="section-about" class="bg-dark section-dark text-light">
+            <div class="container">
+                <div class="row gx-3 align-items-center justify-content-between">
+                    <div class="col-lg-5">
+                        <div class="wow scaleIn" id="about-slider" style="position:relative;height:100%;min-height:320px;border-radius:6px;overflow:hidden;">
+                            <img src="images/misc/c1.webp" class="about-slide active-slide" alt="">
+                            <img src="images/misc/c2.webp" class="about-slide" alt="">
+                            <img src="images/misc/c3.webp" class="about-slide" alt="">
+                            <img src="images/misc/c4.webp" class="about-slide" alt="">
+                        </div>
+                        <style>
+                          .about-slide {
+                            position: absolute;
+                            inset: 0;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            object-position: center;
+                            opacity: 0;
+                            transition: opacity 1s ease-in-out;
+                          }
+                          .about-slide.active-slide { opacity: 1; }
+                        </style>
+                        <script>
+                          (function(){
+                            var slides = document.querySelectorAll('.about-slide');
+                            var cur = 0;
+                            setInterval(function(){
+                              slides[cur].classList.remove('active-slide');
+                              cur = (cur + 1) % slides.length;
+                              slides[cur].classList.add('active-slide');
+                            }, 3500);
+                          })();
+                        </script>
+                    </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ХӨРӨНГӨ ОРУУЛАЛТ, ГЭРЭЭ БАЙГУУЛАЛТ</div>
-        <div class="sched-row">
-          <div class="sched-time">13:45 — 14:05</div>
-          <div class="sched-info"><div class="sched-name">БОЛОВСРОЛ, СОЁЛЫН САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">14:05 — 14:25</div>
-          <div class="sched-info"><div class="sched-name">НОГООН ХӨГЖИЛ — УХААЛАГ ХОТ ТӨЛӨВЛӨЛТ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">14:25 — 14:45</div>
-          <div class="sched-info"><div class="sched-name">БОЛОВСРОЛ, СОЁЛЫН САЛБАРЫН САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
-        </div>
-        <div class="sched-row is-break">
-          <div class="sched-time">14:45 — 15:00</div>
-          <div class="sched-info"><div class="sched-name">COFFEE BREAK</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:00 — 15:20</div>
-          <div class="sched-info"><div class="sched-name">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:20 — 15:40</div>
-          <div class="sched-info"><div class="sched-name">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРЫН САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:40 — 16:30</div>
-          <div class="sched-info"><div class="sched-name">УУЛ УУРХАЙ БА ХҮНД ҮЙЛДВЭРЛЭЛИЙН ЖИШИГ ТӨСЛҮҮД — ESG СТАНДАРТ, SDG ЗОРИЛТУУД</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">16:30 — 17:00</div>
-          <div class="sched-info"><div class="sched-name">ДҮГНЭЛТ, ХААЛТ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">17:30 — 18:30</div>
-          <div class="sched-info"><div class="sched-name">ААН-ТЭЙ НИЙГМИЙН ХАРИУЦЛАГЫН ГЭРЭЭ БАЙГУУЛАХ</div></div>
-        </div>
-      </div>
+                    <div class="col-lg-6">
+                          <div class="ms-lg-3 ps-lg-3 py-3 my-2">
+                             
+                              <h2 class="wow fadeInUp" data-wow-delay=".4s" style="font-size:1.6rem">ЗОРИЛГО</h2>
+                              <p class="wow fadeInUp" data-wow-delay=".6s" style="text-align:justify;text-indent:2em">ДОРНОГОВЬ АЙМГИЙН "ТОГТВОРТОЙ БОДЛОГО-ТАСРАЛТГҮЙ ХӨГЖИЛ" ХӨТӨЛБӨРИЙН ХҮРЭЭНД СЭРГЭЭГДЭХ ЭРЧИМ ХҮЧ, БАЙГАЛЬ ОРЧИН, ХӨДӨӨ АЖ АХУЙ, АЯЛАЛ ЖУУЛЧЛАЛ, ДЭД БҮТЦИЙН САЛБАРТ ХӨРӨНГӨ ОРУУЛАЛТ ТАТАХ.</p>
 
-    </div>
-  </div>
+                              <!-- <ul style="list-style:none;padding:0;margin:0;font-size:0.78em;">
+                                  <li class="wow fadeInUp" data-wow-delay=".8s" style="white-space:nowrap;">АЙМГИЙН СТРАТЕГИЙН ДАВУУ ТАЛЫГ ОЛОН УЛСАД СУРТАЛЧЛАХ</li>
+                                  <li class="wow fadeInUp" data-wow-delay=".9s" style="white-space:nowrap;">ХӨРӨНГӨ ОРУУЛАЛТЫН ТӨСЛҮҮД, БАГЦУУДЫГ ТАНИЛЦУУЛАХ</li>
+                                  <li class="wow fadeInUp" data-wow-delay="1s" style="white-space:nowrap;">ТӨР, ХУВИЙН ХЭВШИЛ, ХӨРӨНГӨ ОРУУЛАГЧДЫГ ХОЛБОХ</li>
+                                  <li class="wow fadeInUp" data-wow-delay="1s" style="white-space:nowrap;">НОГООН ШИЛЖИЛТ, SDG ЗОРИЛТУУДЫГ ХЭРЭГЖҮҮЛЭХ</li>
+                              </ul> -->
+                          </div>
+                    </div>
 
-  <!-- DAY 2 -->
-  <div id="sched-day2" class="sched-day" style="display:none">
-    <div class="pdf-day-header">
-      <div class="pdf-day-header-title">ФОРУМЫН ХӨТӨЛБӨР</div>
-      <div class="pdf-day-header-meta">
-        <div class="pdf-day-header-date">2026.04.27</div>
-        <div class="pdf-day-header-day">2-Р ӨДӨР</div>
-      </div>
-    </div>
-    <div class="sched-grid">
+                </div>
+            </div>
+        </section>
 
-      <div class="sched-block">
-        <div class="sched-block-title">НЭЭЛТ</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">08:30 — 09:00</div>
-          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:00 — 09:15</div>
-          <div class="sched-info"><div class="sched-name">ФОРУМЫН ЗОРИЛГО, ХҮЛЭЭГДЭЖ БУЙ ҮР ДҮН</div></div>
-        </div>
-      </div>
+       
 
-      <div class="sched-block">
-        <div class="sched-block-title">ЭРЧИМ ХҮЧ, БАЙГАЛЬ ОРЧИН, ГАДААДЫН ХӨРӨНГӨ ОРУУЛАЛТ</div>
-        <div class="sched-row">
-          <div class="sched-time">09:15 — 09:35</div>
-          <div class="sched-info"><div class="sched-name">ГАДААДЫН ХӨРӨНГӨ ОРУУЛАЛТЫН БОЛОМЖ БА ДОРНОГОВЬ АЙМАГ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:35 — 09:55</div>
-          <div class="sched-info"><div class="sched-name">ЭРЧИМ ХҮЧНИЙ ИРЭЭДҮЙН ЧИГ ХАНДЛАГА БА ДОРНОГОВЬ АЙМАГ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:55 — 10:20</div>
-          <div class="sched-info"><div class="sched-name">ЦӨЛЖИЛТ БА УУР АМЬСГАЛЫН ӨӨРЧЛӨЛТ — МОНГОЛ УЛСЫН НОГООН ХӨГЖЛИЙН БОДЛОГО БА СОР 17</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:20 — 10:40</div>
-          <div class="sched-info"><div class="sched-name">КАРБОН КРЕДИТ БА БУСАД КРЕДИТИЙН СИСТЕМҮҮД</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:40 — 11:00</div>
-          <div class="sched-info"><div class="sched-name">ХАРИУЦЛАГАТАЙ УУЛ УУРХАЙ БА УСНЫ МЕНЕЖМЕНТ — ХӨВ ЦӨӨРӨМ БАЙГУУЛАХ НЬ</div></div>
-        </div>
-      </div>
+        <!-- <section id="section-why-attend" class="bg-dark section-dark text-light">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-6 offset-lg-3 text-center">
+                        <h2 class="wow fadeInUp" data-wow-delay=".2s">ТӨСЛҮҮД</h2>
+                    </div>
+                </div>
+                <div class="spacer-single"></div>
+                <div class="row g-4">
 
-      <div class="sched-block">
-        <div class="sched-block-title">ДЭД БҮТЭЦ, БАЙГАЛЬ ОРЧИН, ГЭРЭЭ БАЙГУУЛАЛТ</div>
-        <div class="sched-row">
-          <div class="sched-time">11:00 — 11:20</div>
-          <div class="sched-info"><div class="sched-name">ДЭД БҮТЭЦ, БАЙГАЛЬ ОРЧНЫ САЛБАРУУДЫН ТӨСЛИЙН ТАНИЛЦУУЛГА</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:20 — 12:20</div>
-          <div class="sched-info"><div class="sched-name">ДЭД БҮТЭЦ, БАЙГАЛЬ ОРЧНЫ САНАМЖ БИЧИГТ ГАРЫН ҮСЭГ ЗУРАХ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:20 — 12:40</div>
-          <div class="sched-info"><div class="sched-name">ДҮГНЭЛТ, ХААЛТ</div></div>
-        </div>
-      </div>
+                  <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <div class="pcard h-100">
+                      <div class="pcard-img-wrap">
+                        <img src="images/demo/homepage-2.webp" alt="Нарны эрчим хүч" class="pcard-img">
+                        <span class="pcard-badge">Эрчим хүч</span>
+                      </div>
+                      <div class="pcard-body">
+                        <h5 class="pcard-title">Нарны эрчим хүчний хамтарсан станц</h5>
+                        <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Ч. Батбаяр</p>
+                        <p class="pcard-desc">Говь-Алтай аймгийн 3 сумд 500 өрхийг нарны эрчим хүчээр хангах төсөл.</p>
+                        <div class="pcard-progress-wrap"><div class="pcard-progress-bar" style="width:87%"></div></div>
+                        <div class="pcard-stats">
+                          <div><span class="pstat-val" style="color:var(--accent-color)">87%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                          <div><span class="pstat-val">342</span><span class="pstat-lbl">оролцогч</span></div>
+                          <div><span class="pstat-val">12</span><span class="pstat-lbl">хоног</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ЗАВСАРЛАГА, ЧӨЛӨӨТ ЦАГ</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">12:40 — 14:00</div>
-          <div class="sched-info"><div class="sched-name">ҮДИЙН ХООЛ, NETWORKING</div></div>
-        </div>
-        <div class="sched-row is-break">
-          <div class="sched-time">14:00 — 19:00</div>
-          <div class="sched-info"><div class="sched-name">ЧӨЛӨӨТ ЦАГ — ОРОЙН ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛД БЭЛТГЭХ</div></div>
-        </div>
-      </div>
+                  <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
+                    <div class="pcard h-100">
+                      <div class="pcard-img-wrap">
+                        <img src="images/demo/homepage-4.webp" alt="Ойжуулалт" class="pcard-img">
+                        <span class="pcard-badge">Байгаль орчин</span>
+                      </div>
+                      <div class="pcard-body">
+                        <h5 class="pcard-title">Хангайн ойжуулалт — 1 сая мод</h5>
+                        <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Б. Отгонбаяр</p>
+                        <p class="pcard-desc">Хангайн уулын бэлд 1 сая мод тарих хамтарсан байгаль хамгаалах санаачилга.</p>
+                        <div class="pcard-progress-wrap"><div class="pcard-progress-bar" style="width:63%"></div></div>
+                        <div class="pcard-stats">
+                          <div><span class="pstat-val" style="color:var(--accent-color)">63%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                          <div><span class="pstat-val">215</span><span class="pstat-lbl">оролцогч</span></div>
+                          <div><span class="pstat-val">28</span><span class="pstat-lbl">хоног</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-      <div class="sched-block">
-        <div class="sched-block-title">ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ</div>
-        <div class="sched-row">
-          <div class="sched-time">19:00 — 23:00</div>
-          <div class="sched-info" style="flex-direction:column;align-items:flex-start">
-            <div class="sched-name">НОГООН ХӨГЖИЛ ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ — ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ</div>
-            <div style="margin-top:10px;display:flex;flex-direction:column;gap:3px">
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Боловсролын салбарт хийсэн хөрөнгө оруулалт</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Эмнэлэг, эрүүл мэндийн салбарт хийсэн хөрөнгө оруулалт</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Тогтвортой хөгжлийг дэмжигч байгууллага</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Ногоон хөгжлийг дэмжигч байгууллага</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Нийгмийн шилдэг коммунити</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Хөдөө аж ахуйн шилдэг үйлдвэрлэгч</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Ногоон эрчим хүчний шилдэг төсөл</div>
-              <div style="font-size:.6rem;font-weight:400;color:rgba(0,0,0,.5);letter-spacing:.3px">· Шилдэг стартап</div>
+                  <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".3s">
+                    <div class="pcard h-100">
+                      <div class="pcard-img-wrap">
+                        <img src="images/demo/homepage-6.webp" alt="Онлайн боловсрол" class="pcard-img">
+                        <span class="pcard-badge">Боловсрол</span>
+                        <span class="pcard-badge-funded">Санхүүжсэн!</span>
+                      </div>
+                      <div class="pcard-body">
+                        <h5 class="pcard-title">Хөдөөгийн хүүхдэд зориулсан онлайн платформ</h5>
+                        <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Э. Наранцэцэг</p>
+                        <p class="pcard-desc">Интернэт хязгаарлагдмал нөхцөлд ажиллах боловсролын платформ бий болгох.</p>
+                        <div class="pcard-progress-wrap"><div class="pcard-progress-bar funded" style="width:100%"></div></div>
+                        <div class="pcard-stats">
+                          <div><span class="pstat-val" style="color:#4bac48">120%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                          <div><span class="pstat-val">891</span><span class="pstat-lbl">оролцогч</span></div>
+                          <div><span class="pstat-val">—</span><span class="pstat-lbl">дууссан</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".1s">
+                    <div class="pcard h-100">
+                      <div class="pcard-img-wrap">
+                        <img src="images/demo/homepage-5.webp" alt="Гүүр" class="pcard-img">
+                        <span class="pcard-badge">Дэд бүтэц</span>
+                      </div>
+                      <div class="pcard-body">
+                        <h5 class="pcard-title">Сэлэнгэ голын гүүр шинэчлэл</h5>
+                        <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Д. Мөнхбаяр</p>
+                        <p class="pcard-desc">3 аймгийг холбох стратегийн гүүрийг орчин үеийн материалаар шинэчлэх.</p>
+                        <div class="pcard-progress-wrap"><div class="pcard-progress-bar" style="width:45%"></div></div>
+                        <div class="pcard-stats">
+                          <div><span class="pstat-val" style="color:var(--accent-color)">45%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                          <div><span class="pstat-val">128</span><span class="pstat-lbl">оролцогч</span></div>
+                          <div><span class="pstat-val">35</span><span class="pstat-lbl">хоног</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
+                    <div class="pcard h-100">
+                      <div class="pcard-img-wrap">
+                        <img src="images/demo/homepage-3.webp" alt="Уул уурхай" class="pcard-img">
+                        <span class="pcard-badge">Уул уурхай</span>
+                      </div>
+                      <div class="pcard-body">
+                        <h5 class="pcard-title">Уурхайн ажилчдын аюулгүй байдлын систем</h5>
+                        <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Г. Сүхбаатар</p>
+                        <p class="pcard-desc">IoT мэдрэгч ашиглан уурхайн доторх аюулгүй байдлыг бодит цагт хянах.</p>
+                        <div class="pcard-progress-wrap"><div class="pcard-progress-bar" style="width:72%"></div></div>
+                        <div class="pcard-stats">
+                          <div><span class="pstat-val" style="color:var(--accent-color)">72%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                          <div><span class="pstat-val">504</span><span class="pstat-lbl">оролцогч</span></div>
+                          <div><span class="pstat-val">18</span><span class="pstat-lbl">хоног</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".3s">
+                    <div class="pcard h-100">
+                      <div class="pcard-img-wrap">
+                        <img src="images/demo/homepage-8.webp" alt="Эрүүл мэнд" class="pcard-img">
+                        <span class="pcard-badge">Эрүүл мэнд</span>
+                      </div>
+                      <div class="pcard-body">
+                        <h5 class="pcard-title">Хөдөөний телемедицин үйлчилгээ</h5>
+                        <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Н. Болормаа</p>
+                        <p class="pcard-desc">Алслагдсан сумдад видео дуудлагаар эмчийн зөвлөгөө авах боломж олгох.</p>
+                        <div class="pcard-progress-wrap"><div class="pcard-progress-bar" style="width:98%"></div></div>
+                        <div class="pcard-stats">
+                          <div><span class="pstat-val" style="color:var(--accent-color)">98%</span><span class="pstat-lbl">санхүүжсэн</span></div>
+                          <div><span class="pstat-val">673</span><span class="pstat-lbl">оролцогч</span></div>
+                          <div><span class="pstat-val">7</span><span class="pstat-lbl">хоног</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="spacer-single"></div>
+                <div class="text-center wow fadeInUp">
+                  <a href="tusul.html" class="btn-main btn-hero px-4 py-3">БҮХ ТӨСЛҮҮД </a>
+                </div>
+            </div>
+            <style>
+              .pcard { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:12px; overflow:hidden; transition:transform .25s,box-shadow .25s; display:flex; flex-direction:column; }
+              body:not(.dark-scheme) .pcard { background:#fff; border-color:rgba(0,0,0,.1); box-shadow:0 2px 12px rgba(0,0,0,.07); }
+              .pcard:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.35); }
+              .pcard-img-wrap { position:relative; overflow:hidden; aspect-ratio:16/9; }
+              .pcard-img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+              .pcard:hover .pcard-img { transform:scale(1.06); }
+              .pcard-badge { position:absolute; top:10px; left:10px; background:rgba(0,0,0,.65); color:#fff; font-size:11px; padding:3px 9px; border-radius:50px; backdrop-filter:blur(4px); }
+              .pcard-badge-funded { position:absolute; top:10px; right:10px; background:#4bac48; color:#fff; font-size:11px; padding:3px 9px; border-radius:50px; font-weight:600; }
+              .pcard-body { padding:16px; display:flex; flex-direction:column; flex:1; }
+              .pcard-title { font-size:15px; font-weight:600; margin-bottom:6px; line-height:1.4; color:inherit; }
+              .pcard-creator { font-size:12px; opacity:.55; margin-bottom:8px; }
+              .pcard-desc { font-size:13px; opacity:.7; line-height:1.55; flex:1; margin-bottom:14px; }
+              .pcard-progress-wrap { height:5px; background:rgba(255,255,255,.12); border-radius:50px; overflow:hidden; margin-bottom:12px; }
+              body:not(.dark-scheme) .pcard-progress-wrap { background:rgba(0,0,0,.1); }
+              .pcard-progress-bar { height:100%; background:var(--accent-color); border-radius:50px; }
+              .pcard-progress-bar.funded { background:#4bac48; }
+              .pcard-stats { display:flex; justify-content:space-between; }
+              .pcard-stats > div { display:flex; flex-direction:column; align-items:center; flex:1; }
+              .pstat-val { font-size:15px; font-weight:700; display:block; }
+              .pstat-lbl { font-size:10px; opacity:.5; text-transform:uppercase; letter-spacing:1px; }
+            </style>
+        </section> -->
+
+        <section class="bg-dark section-dark text-light pt-80 relative jarallax" aria-label="section">
+            <img src="images/background/20.webp" class="jarallax-img" alt="">
+            <div class="gradient-edge-top"></div>
+            <div class="gradient-edge-bottom"></div>
+            <div class="sw-overlay op-8"></div>
+            <div class="container relative z-4">
+                <div class="row align-items-center g-5">
+                    <div class="col-md-4">
+                        <div class="relative w-100 d-inline-block pe-5">
+                            <div class="abs w-80px h-80px rounded-1 text-center end-0 z-2 wow scaleIn" style="background:#4bac48;">
+                                <i class="icofont-quote-left text-white fs-40 d-block pt-3"></i>
+                            </div>
+                            <img src="images/misc/s10.webp" class="w-100 rounded-1 wow scale-in-mask" alt="">
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <h4 class="fs-32 mb-4 wow fadeInUp" style="font-size:clamp(18px,2.2vw,28px);line-height:1.4;">ДОРНОГОВЬЧУУДЫН ӨМНӨ ХӨГЖЛӨӨ ОГЦОМ ХУРДАСГАН ТҮҮЧЭЭЛЭХ ТҮҮХЭН ЦАГ ҮЕ ИРЛЭЭ ...</h4>
+
+                        <span>ДОРНОГОВЬ АЙМГИЙН ЗАСАГ ДАРГА О.БАТЖАРГАЛ</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- <section id="section-speakers" class="bg-dark section-dark text-light">
+            <div class="container">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-6 relative z-3">
+                          <div class="text-center">
+                              <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Speakers</div>
+                              <h2 class="wow fadeInUp" data-wow-delay=".2s">Meet the Visionaries</h2>
+                              <p class="lead wow fadeInUp">Whether it's a quick refresh or a deep clean transformation, our expert touch leaves your home or office shining.</p>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask">
+                            <img src="images/team/1.webp" class="w-100 hover-scale-1-1" alt="">
+                            <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            <div class="abs w-100 start-0 bottom-0 z-3">
+                                <div class="bg-blur p-4 m-4 rounded-1 text-light text-center relative z-2">
+                                    <h3 class="mb-0">Joshua Henry</h3>
+                                    <span>Chief AI Scientist, OpenAI</span>
+                                </div>
+                                <div class="gradient-edge-bottom h-100 op-8"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask">
+                            <img src="images/team/2.webp" class="w-100 hover-scale-1-1" alt="">
+                            <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            <div class="abs w-100 start-0 bottom-0 z-3">
+                                <div class="bg-blur p-4 m-4 rounded-1 text-light text-center relative z-2">
+                                    <h3 class="mb-0">Leila Zhang</h3>
+                                    <span>VP of Machine Learning, Google</span>
+                                </div>
+                                <div class="gradient-edge-bottom h-100 op-8"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="hover relative rounded-1 overflow-hidden wow fadeIn scale-in-mask">
+                            <img src="images/team/3.webp" class="w-100 hover-scale-1-1" alt="">
+                            <div class="abs w-100 h-100 start-0 top-0 hover-op-1 radial-gradient-color"></div>
+                            <div class="abs w-100 start-0 bottom-0 z-3">
+                                <div class="bg-blur p-4 m-4 rounded-1 text-light text-center relative z-2">
+                                    <h3 class="mb-0">Carlos Rivera</h3>
+                                    <span>Founder & CEO, NeuralCore</span>
+                                </div>
+                                <div class="gradient-edge-bottom h-100 op-8"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section> -->
+
+       
+
+        <!-- Ticker -->
+        <div class="ticker" id="site-ticker">
+          <div class="ticker-badge"><span class="ticker-dot"></span>МЭДЭЭЛЭЛ</div>
+          <div class="ticker-track">
+            <div class="ticker-inner" id="ticker-inner">
+              <span class="ticker-item"><span style="color:#4bac48;font-weight:700;letter-spacing:1px">ЗАМЫН-ҮҮД БООМТ</span><span class="ticker-sep">·</span><span class="ticker-val">18.3M ТОНН/ЖИЛ</span></span>
+              <span class="ticker-item"><span style="color:#f0c040;font-weight:700;letter-spacing:1px">ХӨРӨНГӨ ОРУУЛАЛТ</span><span class="ticker-sep">·</span><span class="ticker-val">50+ БЭЛЭН ТӨСӨЛ</span></span>
+              <span class="ticker-item"><span style="color:#00bcd4;font-weight:700;letter-spacing:1px">ЧӨЛӨӨТ БҮС</span><span class="ticker-sep">·</span><span class="ticker-val">900 ГА</span></span>
+              <span class="ticker-item"><span style="color:#4bac48;font-weight:700;letter-spacing:1px">ЗӨВШӨӨРӨЛ</span><span class="ticker-sep">·</span><span class="ticker-val">231 ИДЭВХТЭЙ</span></span>
+              <span class="ticker-item"><span style="color:#f0c040;font-weight:700;letter-spacing:1px">ТХЗ</span><span class="ticker-sep">·</span><span class="ticker-val">8 · 9 · 13 · 17</span></span>
+              <span class="ticker-item"><span style="color:#00bcd4;font-weight:700;letter-spacing:1px">ФОРУМ</span><span class="ticker-sep">·</span><span class="ticker-val">2026.04.26–27 · САЙНШАНД</span></span>
+              <span class="ticker-item"><span style="color:#e74c3c;font-weight:700;letter-spacing:1px">ОРОЛЦОГЧ</span><span class="ticker-sep">·</span><span class="ticker-val">500+</span></span>
+              <span class="ticker-item"><span style="color:#4bac48;font-weight:700;letter-spacing:1px">B2B УУЛЗАЛТ</span><span class="ticker-sep">·</span><span class="ticker-val">100+</span></span>
+              <span class="ticker-item"><span style="color:#f0c040;font-weight:700;letter-spacing:1px">САНАМЖ БИЧИГ</span><span class="ticker-sep">·</span><span class="ticker-val">30+</span></span>
+              <span class="ticker-item"><span style="color:#00bcd4;font-weight:700;letter-spacing:1px">ТРАНС-МОНГОЛЫН ТӨМӨР ЗАМ</span><span class="ticker-sep">·</span><span class="ticker-val">10.3M ТН</span></span>
+              <span class="ticker-item"><span style="color:#e74c3c;font-weight:700;letter-spacing:1px">ЭКСПОРТЫН ХУВЬ</span><span class="ticker-sep">·</span><span class="ticker-val">87%</span></span>
+              <span class="ticker-item"><span style="color:#4bac48;font-weight:700;letter-spacing:1px">ХАЙГУУЛЫН ЗӨВШӨӨРӨЛ</span><span class="ticker-sep">·</span><span class="ticker-val">136</span></span>
             </div>
           </div>
         </div>
-      </div>
+
+        <style>
+          .ticker {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            color: #111;
+            height: 42px;
+            overflow: hidden;
+            position: relative;
+            z-index: 100;
+            border-top: 1px solid rgba(0,0,0,.08);
+            border-bottom: 1px solid rgba(0,0,0,.08);
+          }
+          body.dark-scheme .ticker {
+            background: #111;
+            color: #eee;
+            border-color: rgba(255,255,255,.08);
+          }
+          .ticker-badge {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: #4bac48;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            padding: 0 18px;
+            height: 100%;
+            white-space: nowrap;
+            flex-shrink: 0;
+            z-index: 2;
+          }
+          .ticker-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #fff;
+            display: inline-block;
+            animation: ticker-blink 1.2s infinite;
+          }
+          @keyframes ticker-blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+          .ticker-track {
+            overflow: hidden;
+            flex: 1;
+            height: 100%;
+            display: flex;
+            align-items: center;
+          }
+          .ticker-inner {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            will-change: transform;
+            animation: ticker-scroll 35s linear infinite;
+          }
+          @keyframes ticker-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .ticker-inner:hover { animation-play-state: paused; }
+          .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 32px 0 0;
+            font-size: 12px;
+          }
+          .ticker-sep { color: rgba(0,0,0,.2); }
+          body.dark-scheme .ticker-sep { color: rgba(255,255,255,.2); }
+          .ticker-val { color: rgba(0,0,0,.65); }
+          body.dark-scheme .ticker-val { color: rgba(255,255,255,.65); }
+        </style>
+
+        <script>
+          // Duplicate ticker items for seamless loop
+          (function(){
+            var inner = document.getElementById('ticker-inner');
+            if(inner) {
+              inner.innerHTML += inner.innerHTML;
+            }
+          })();
+        </script>
+
+        <section id="section-schedule" class="bg-dark section-dark text-light">
+            <div class="container">
+              <div class="row g-4 gx-5 justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <!-- <div class="subtitle s2 mb-3 wow fadeInUp" data-wow-delay=".0s">Форумын хөтөлбөр</div> -->
+                    <h2 class="wow fadeInUp" data-wow-delay=".2s">ХӨТӨЛБӨР</h2>
+                </div>
+              </div>
+              <div class="row g-4 gx-5 justify-content-center wow fadeInUp">
+                <div class="col-lg-12">
+                    <div class="de-tab plain">
+                        <ul class="d-tab-nav mb-4 pb-4 d-flex justify-content-center gap-5 flex-wrap">
+                            <li class="active-tab">
+                                <h3>2026.04.26</h3>
+                                ӨДӨР 1
+                            </li>
+                            <li>
+                                <h3>2026.04.27</h3>
+                                ӨДӨР 2
+                            </li>
+                            <li>
+                                <h3>2026.04.27</h3>
+                                УУЛЗАЛТЫН ХӨТӨЛБӨР
+                            </li>
+                        </ul>
+                        <ul class="d-tab-content pt-3 wow fadeInUp">
+
+                            <!-- 1-р өдөр: 4 сарын 26 -->
+                            <li>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">08:30–09:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Бүртгэл</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">09:00–09:10</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Нээлтийн үг</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">09:10–09:30</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Мэндчилгээний үг: Эдийн засаг ба ногоон хөгжил</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">09:30–10:10</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Форумын зорилго ба Дорноговийн эдийн засгийн өнөөгийн байдал</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">10:10–10:25</div>
+                                        <div class="col-md-10"><h5 class="mb-0">"Дорноговь — Боломж ба Ирээдүй"</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">10:25–10:45</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Ногоон эдийн засаг: Дорноговийн хөрөнгө оруулалтын орчин</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">10:45–11:05</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Олон нийтийн оролцоо ба хөрөнгө оруулалтын ашиг тус</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">11:05–11:20</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Тогтвортой хөдөө аж ахуй — Хоршоо 2.0</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">11:20–11:40</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Ноос боловсруулалт — Тойрог эдийн засаг</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">11:40–11:55</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Ухаалаг Худаг 2.0 — Малчдын бүтээмжийн төв</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">11:55–12:15</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Дорноговийн платформ — Дижитал технологи ба ногоон хөгжил</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">12:15–12:30</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Дорноговийн аялал жуулчлалын дэд бүтэц</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3" style="background:rgba(255,255,255,.03);border-radius:6px;padding:12px 16px;">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">12:30–13:45</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Үдийн хоол ба нетворкинг</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">13:45–14:05</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Боловсрол ба Соёлын салбарын төслийн танилцуулга</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">14:05–14:25</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Ногоон хөгжил — Ухаалаг хот төлөвлөлт</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">14:25–14:45</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Боловсрол ба соёлын салбарын санамж бичигт гарын үсэг зурах</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3" style="background:rgba(255,255,255,.03);border-radius:6px;padding:12px 16px;">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">14:45–15:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Кофе завсарлага</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">15:00–15:20</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Эрүүл мэнд ба нийгмийн салбарын төслийн танилцуулга</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">15:20–15:40</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Эрүүл мэнд ба нийгмийн санамж бичигт гарын үсэг зурах</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">15:40–16:30</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Уул уурхай ба хүнд үйлдвэрийн тэргүүний төслүүд: ESG стандарт ба SDG</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">16:30–17:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Хаалтын үг</h5></div>
+                                    </div>
+                                </div>
+                                <div class="pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">17:30–18:30</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Корпорацийн нийгмийн хариуцлагын гэрээ байгуулах</h5></div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <!-- 2-р өдөр: 4 сарын 27 -->
+                            <li>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">08:30–09:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Бүртгэл</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">09:00–09:15</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Форумын зорилго ба хүлээгдэж буй үр дүн</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">09:15–09:35</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Гадаадын хөрөнгө оруулалтын боломжууд Дорноговийд</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">09:35–09:55</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Эрчим хүчний салбарын ирээдүйн чиг хандлага ба Дорноговь</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">09:55–10:20</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Цөлжилт ба уур амьсгалын өөрчлөлт — Монголын ногоон бодлого ба SDG 17</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">10:20–10:40</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Нүүрстөрөгчийн кредит ба зээлийн систем</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">10:40–11:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Хариуцлагатай уул уурхай ба усны менежмент — Нуурын нөхөн сэргээлт</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">11:00–11:20</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Дэд бүтэц ба байгаль орчны салбарын танилцуулга</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">11:20–12:20</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Дэд бүтэц ба байгаль орчны санамж бичигт гарын үсэг зурах</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">12:20–12:40</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Хаалтын үг</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3" style="background:rgba(255,255,255,.03);border-radius:6px;padding:12px 16px;">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">12:40–14:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Үдийн хоол ба нетворкинг</h5></div>
+                                    </div>
+                                </div>
+                                <div class="border-white-bottom-op-2 pb-3 mb-3" style="background:rgba(255,255,255,.03);border-radius:6px;padding:12px 16px;">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">14:00–19:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Чөлөөт цаг — Шагнал гардуулах ёслолын бэлтгэл</h5></div>
+                                    </div>
+                                </div>
+                                <div class="pb-3 mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-2 op-6">19:00–23:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Шагнал гардуулах ёслол</h5></div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <!-- 3-р таб: Уулзалтын хөтөлбөр -->
+                            <li>
+                                <div class="b2b-scope">
+                                    <div class="text-center mb-4 px-3">
+                                        <!-- <div class="b2b-subtitle">ИХ ГОВИЙН ХӨГЖЛИЙН ГАРЦ ОНӨААТҮГ · НЭМЭЛТ ХӨТӨЛБӨР</div> -->
+                                        <p class="b2b-intro">
+                                            Энэхүү нэмэлт хөтөлбөр нь үндсэн форумтой зэрэгцэн, оролцогчдын чөлөөт цагт хэрэгжинэ.
+                                            Нийт <strong>4 хэлэлцүүлэг</strong> — бүгд <strong>Өрөө №2</strong>-т — болон урьдчилан тохирсон
+                                            <strong>B2B уулзалтуудаас</strong> бүрдэнэ. Хэлэлцүүлэг бүрд уул уурхайн компаниудын тухайн
+                                            салбар хариуцсан төлөөлөл болон орон нутгийн бизнесүүд оролцоно. <strong>Их говийн хөгжлийн гарц</strong>
+                                            бүх уулзалтыг зуучлан зохицуулна.
+                                        </p>
+                                    </div>
+
+                                    <div class="b2b-rooms mb-4">
+                                        <div class="b2b-room-row b2b-room-head">
+                                            <span class="b2b-room-name">ОРОН ЗАЙ</span>
+                                            <span class="b2b-room-loc">БАЙРШИЛ</span>
+                                            <span class="b2b-room-use">ЗОРИУЛАЛТ</span>
+                                        </div>
+                                        <div class="b2b-room-row">
+                                            <span class="b2b-room-name">Өрөө №2</span>
+                                            <span class="b2b-room-loc">2-р давхар</span>
+                                            <span class="b2b-room-use">4 хэлэлцүүлэг бүгд энд явагдана · ≤ 20 оролцогч</span>
+                                        </div>
+                                        <div class="b2b-room-row">
+                                            <span class="b2b-room-name">Үндсэн танхим</span>
+                                            <span class="b2b-room-loc">—</span>
+                                            <span class="b2b-room-use">B2B уулзалт — ИГХГ ажилтнууд зуучлан тасралтгүй ажиллана</span>
+                                        </div>
+                                        <div class="b2b-room-row">
+                                            <span class="b2b-room-name">Өрөө №1</span>
+                                            <span class="b2b-room-loc">2-р давхар</span>
+                                            <span class="b2b-room-use">Чөлөөтэй</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="de-tab plain b2b-days-tab">
+                                        <ul class="b2b-days-nav mb-4 pb-4 d-flex justify-content-center gap-5" id="b2b-tab-nav">
+                                            <li class="active-tab"><h3>2026.04.26</h3>ӨДӨР 1</li>
+                                            <li><h3>2026.04.27</h3>ӨДӨР 2</li>
+                                        </ul>
+                                        <ul class="b2b-days-content pt-3" id="b2b-tab-content">
+                                            <li>
+                                                <div class="b2b-note">
+                                                    Үндсэн хөтөлбөр <strong>09:00–17:00</strong> явагдана. <strong>11:40–12:30</strong> цагт үндсэн танхимд
+                                                    Ухаалаг худаг 2.0, Дорноговь платформ, Аялал жуулчлалын илтгэлүүд явагдаж байх үед
+                                                    <strong>Өрөө №2</strong>-т зэрэгцэн нэг хэлэлцүүлэг явагдана.
+                                                </div>
+                                                <div class="b2b-row"><span class="b2b-time">09:00–11:40</span><span class="b2b-text">ҮНДСЭН ХӨТӨЛБӨР ТАСРАЛТГҮЙ — НЭЭЛТ, ЭДИЙН ЗАСАГ, НОГООН ХӨГЖИЛ, ХАА, ХОРШОО<small class="b2b-meta">Үндсэн танхим · B2B тасралтгүй нээлттэй</small></span></div>
+                                                <div class="b2b-row b2b-highlight"><span class="b2b-time">11:40–12:30</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №4 — БАЙГАЛЬ ОРЧИН, НӨХӨН СЭРГЭЭЛТ · 50 МИН<small class="b2b-meta">Өрөө №2 · Үндсэн танхимтай зэрэгцэн</small></span></div>
+                                                <div class="b2b-row b2b-break"><span class="b2b-time">12:30–13:45</span><span class="b2b-text">ҮДИЙН ХООЛ — ХООСОН ЗАВСАРЛАГА<small class="b2b-meta">Нэмэлт хөтөлбөр ажиллахгүй</small></span></div>
+                                                <div class="b2b-row"><span class="b2b-time">13:45–17:00</span><span class="b2b-text">ҮНДСЭН ХӨТӨЛБӨР — ХӨРӨНГӨ ОРУУЛАЛТ, ГЭРЭЭ БАЙГУУЛАЛТ, УУЛ УУРХАЙ<small class="b2b-meta">Үндсэн танхим · B2B тасралтгүй нээлттэй</small></span></div>
+                                                <div class="b2b-row b2b-break"><span class="b2b-time">17:00–17:30</span><span class="b2b-text">COFFEE BREAK — ХООСОН ЗАВСАРЛАГА<small class="b2b-meta">Нэмэлт хөтөлбөр ажиллахгүй</small></span></div>
+                                                <div class="b2b-row"><span class="b2b-time">17:30–18:30</span><span class="b2b-text">ААН-ТЭЙ НИЙГМИЙН ХАРИУЦЛАГЫН ГЭРЭЭ БАЙГУУЛАХ<small class="b2b-meta">Үндсэн танхим · Үндсэн хөтөлбөр</small></span></div>
+
+                                                <div class="b2b-discussion">
+                                                    <div class="b2b-disc-head">ХЭЛЭЛЦҮҮЛЭГ №4 — БАЙГАЛЬ ОРЧИН, НӨХӨН СЭРГЭЭЛТ</div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Уул уурхайн компаниас:</span><span>Байгаль орчны менежер буюу нөхөн сэргээлтийн чиглэл хариуцсан шийдвэр гаргагч — тус бүр өөр өөр компаниас, нийт ≤ 10 компани</span></div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Бизнесийн талаас:</span><span>Ногоон байгууламж, мод тарилт, хөрс нөхөн сэргээлт, усны эх үүсвэрийн менежмент эрхэлдэг компани, хоршоо — нийт ≤ 10</span></div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Хэлэлцэх гол асуудал:</span><span>Нөхөн сэргээлтийн тендерт орох шаардлага, техникийн нөхцөл, хугацаа; орон нутгийн компанид хэрхэн хандах вэ</span></div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="b2b-note">
+                                                    Үндсэн хөтөлбөр <strong>12:40</strong>-д дуусна. <strong>14:00–18:45</strong> цагт
+                                                    <strong>3 хэлэлцүүлэг</strong> зэрэгцэн B2B явагдана.
+                                                </div>
+                                                <div class="b2b-row"><span class="b2b-time">09:00–12:20</span><span class="b2b-text">ҮНДСЭН ХӨТӨЛБӨР — ЭРЧИМ ХҮЧ, БАЙГАЛЬ ОРЧИН, ДЭД БҮТЭЦ<small class="b2b-meta">Үндсэн танхим · B2B тасралтгүй нээлттэй</small></span></div>
+                                                <div class="b2b-row"><span class="b2b-time">12:20–12:40</span><span class="b2b-text">ДҮГНЭЛТ, ХААЛТ<small class="b2b-meta">Үндсэн танхим</small></span></div>
+                                                <div class="b2b-row b2b-break"><span class="b2b-time">12:40–14:00</span><span class="b2b-text">ҮДИЙН ХООЛ — ХООСОН ЗАВСАРЛАГА<small class="b2b-meta">Нэмэлт хөтөлбөр ажиллахгүй</small></span></div>
+                                                <div class="b2b-row b2b-highlight"><span class="b2b-time">14:00–14:45</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №1 — ХУДАЛДАА, КАТЕРИНГ, ҮЙЛЧИЛГЭЭ · 45 МИН<small class="b2b-meta">Өрөө №2 · B2B зэрэгцэн нээлттэй</small></span></div>
+                                                <div class="b2b-row b2b-break"><span class="b2b-time">14:45–15:15</span><span class="b2b-text">ЗАВСАРЛАГА · 30 МИН<small class="b2b-meta">B2B үргэлжилнэ</small></span></div>
+                                                <div class="b2b-row b2b-highlight"><span class="b2b-time">15:15–16:00</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №2 — БАЯЛАГ БҮТЭЭГЧ, ОЁДОЛ, ГАР УРЛАЛ · 45 МИН<small class="b2b-meta">Өрөө №2 · B2B зэрэгцэн нээлттэй</small></span></div>
+                                                <div class="b2b-row b2b-break"><span class="b2b-time">16:00–16:30</span><span class="b2b-text">ЗАВСАРЛАГА · 30 МИН<small class="b2b-meta">B2B үргэлжилнэ</small></span></div>
+                                                <div class="b2b-row b2b-highlight"><span class="b2b-time">16:30–17:30</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №3 — ХӨДӨӨ АЖ АХУЙ · 60 МИН<small class="b2b-meta">Өрөө №2 · B2B зэрэгцэн нээлттэй</small></span></div>
+                                                <div class="b2b-row b2b-break"><span class="b2b-time">17:30–18:00</span><span class="b2b-text">ЗАВСАРЛАГА · 30 МИН<small class="b2b-meta">B2B үргэлжилнэ</small></span></div>
+                                                <div class="b2b-row"><span class="b2b-time">18:00–18:45</span><span class="b2b-text">B2B — ӨДРИЙН ХААЛТ<small class="b2b-meta">Үндсэн танхим</small></span></div>
+                                                <div class="b2b-row"><span class="b2b-time">19:00–23:00</span><span class="b2b-text">ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ<small class="b2b-meta">Үндсэн хөтөлбөр</small></span></div>
+
+                                                <div class="b2b-discussion">
+                                                    <div class="b2b-disc-head">ХЭЛЭЛЦҮҮЛЭГ №1 — ХУДАЛДАА, КАТЕРИНГ, ҮЙЛЧИЛГЭЭ</div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Уул уурхайн компаниас:</span><span>Ханган нийлүүлэлт, хоол хүнс, ахуйн үйлчилгээ хариуцсан менежерүүд — тус бүр өөр өөр компаниас</span></div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Бизнесийн талаас:</span><span>Катеринг, цэвэрлэгээ, аюулгүй байдлын хувцас, ариун цэврийн хэрэгсэл, оффисын хэрэгцээ нийлүүлдэг орон нутгийн бизнесүүд</span></div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Хэлэлцэх гол асуудал:</span><span>Жилийн захиалгын хэмжээ, чанарын шаардлага, орон нутгийн нийлүүлэгчид тавигдах нөхцөл</span></div>
+                                                </div>
+                                                <div class="b2b-discussion">
+                                                    <div class="b2b-disc-head">ХЭЛЭЛЦҮҮЛЭГ №2 — БАЯЛАГ БҮТЭЭГЧ, ОЁДОЛ, ГАР УРЛАЛ, ХӨНГӨН ҮЙЛДВЭР</div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Уул уурхайн компаниас:</span><span>Ажлын хувцас, хамгаалалтын хэрэгсэл худалдан авалт хариуцсан менежерүүд — тус бүр өөр өөр компаниас</span></div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Бизнесийн талаас:</span><span>Ажлын хувцас, малгай, гутал, хамгаалалтын тоног төхөөрөмж үйлдвэрлэдэг компани, хоршоо, гар урчууд</span></div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Хэлэлцэх гол асуудал:</span><span>Жилийн захиалгын хэмжээ, чанарын стандарт, малгай / брэндийн бараа захиалах боломж</span></div>
+                                                </div>
+                                                <div class="b2b-discussion">
+                                                    <div class="b2b-disc-head">ХЭЛЭЛЦҮҮЛЭГ №3 — ХӨДӨӨ АЖ АХУЙ</div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Уул уурхайн компаниас:</span><span>Хүнсний нийлүүлэлт, ажиллагчдын хоолны захиалга хариуцсан менежерүүд — тус бүр өөр өөр компаниас</span></div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Бизнесийн талаас:</span><span>Мах, сүү, ногоо, гурил нийлүүлдэг фермер, малчдын хоршоо, ХАА-н бизнес эрхлэгчид</span></div>
+                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Хэлэлцэх гол асуудал:</span><span>Жилийн захиалгын хэмжээ, тогтмол нийлүүлэлтийн нөхцөл, чанарын баталгааны шаардлага</span></div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="b2b-coord-title mt-4">B2B УУЛЗАЛТЫН ЗОХИЦУУЛАЛТ</div>
+                                    <div class="b2b-coord">
+                                        <div class="b2b-coord-row"><span class="b2b-coord-key">Ажиллах цаг</span><span class="b2b-coord-val">Үндсэн хөтөлбөр явагдаж байх бүх цагт үндсэн танхимын нэг хэсэгт тасралтгүй нээлттэй байна </span></div>
+                                        <div class="b2b-coord-row"><span class="b2b-coord-key">Урьдчилсан бүртгэл</span><span class="b2b-coord-val">Форумын эхний өдрийн бүртгэлийн үеэр B2B хүсэлтийн хуудас бөглөнө </span></div>
+                                        <div class="b2b-coord-row"><span class="b2b-coord-key">Зохицуулалт</span><span class="b2b-coord-val">Нэг уулзалт <strong>20–25 минут</strong></span></div>
+                                        <div class="b2b-coord-row"><span class="b2b-coord-key">Тэмдэглэл</span><span class="b2b-coord-val">Ажилтнууд уулзалт бүрийн дараа товч тэмдэглэл хөтлөнө</span></div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <style>
+              .b2b-scope .b2b-subtitle { color: #4bac48; letter-spacing: 2px; font-size: 12px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; }
+              .b2b-scope .b2b-intro { font-size: 13px; line-height: 1.7; opacity: 0.85; margin-top: 16px; }
+              .b2b-scope .b2b-intro strong { color: #4bac48; font-weight: 600; }
+
+              .b2b-scope .b2b-rooms { border: 1px solid rgba(75,172,72,0.25); border-radius: 8px; overflow: hidden; }
+              .b2b-scope .b2b-room-row { display: grid; grid-template-columns: 1.1fr 1fr 2.4fr; gap: 12px; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13px; align-items: center; }
+              .b2b-scope .b2b-room-row:last-child { border-bottom: 0; }
+              .b2b-scope .b2b-room-head { background: rgba(75,172,72,0.12); font-weight: 600; color: #4bac48; letter-spacing: 1px; font-size: 12px; text-transform: uppercase; }
+              .b2b-scope .b2b-room-name { font-weight: 600; color: #4bac48; }
+
+              .b2b-scope .b2b-days-nav { list-style: none; padding: 0; margin: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+              .b2b-scope .b2b-days-nav > li { cursor: pointer; padding: 12px 28px; border-radius: 4px 4px 0 0; text-align: center; transition: background 0.2s, color 0.2s; font-size: 12px; opacity: 0.7; color: #fff; list-style: none; border: 0 !important; }
+              .b2b-scope .b2b-days-nav > li h3 { font-size: 16px; font-weight: 700; margin: 0 0 2px; color: inherit; }
+              .b2b-scope .b2b-days-nav > li.active-tab { background: #4bac48 !important; border-color: transparent !important; opacity: 1; color: #fff !important; }
+              .b2b-scope .b2b-days-nav > li.active-tab h3 { color: #fff !important; }
+              .b2b-scope .b2b-days-content { list-style: none; padding: 0; margin: 0; }
+              .b2b-scope .b2b-days-content > li { display: none; }
+              .b2b-scope .b2b-days-content > li.active { display: block; }
+
+              .b2b-scope .b2b-note { background: rgba(75,172,72,0.08); border-left: 3px solid #4bac48; padding: 12px 16px; font-size: 13px; line-height: 1.6; margin-bottom: 18px; border-radius: 4px; }
+              .b2b-scope .b2b-note strong { color: #4bac48; font-weight: 600; }
+
+              .b2b-scope .b2b-row { display: flex; align-items: flex-start; gap: 14px; padding: 10px 12px; border-radius: 6px; transition: background 0.2s; margin-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+              .b2b-scope .b2b-row:hover { background: #4bac48; }
+              .b2b-scope .b2b-row:hover .b2b-time,
+              .b2b-scope .b2b-row:hover .b2b-text,
+              .b2b-scope .b2b-row:hover .b2b-meta { color: #fff !important; }
+              .b2b-scope .b2b-time { font-size: 12px; font-weight: 600; color: #4bac48; white-space: nowrap; min-width: 100px; flex-shrink: 0; padding-top: 1px; }
+              .b2b-scope .b2b-text { font-size: 13px; font-weight: 400; text-transform: uppercase; line-height: 1.4; display: block; flex: 1; }
+              .b2b-scope .b2b-meta { display: block; font-size: 11px; font-weight: 400; text-transform: none; color: #9aa0a6; margin-top: 3px; opacity: 0.85; letter-spacing: 0; }
+              body:not(.dark-scheme) .b2b-scope .b2b-text { color: #222; }
+              body:not(.dark-scheme) .b2b-scope .b2b-meta { color: #6b6b6b; }
+              .b2b-scope .b2b-break .b2b-time { color: #aaa; }
+              .b2b-scope .b2b-break .b2b-text,
+              .b2b-scope .b2b-break .b2b-meta { opacity: 0.55; }
+              .b2b-scope .b2b-highlight { background: rgba(75,172,72,0.06); }
+              .b2b-scope .b2b-highlight .b2b-time { color: #4bac48; }
+
+              .b2b-scope .b2b-discussion { margin-top: 20px; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(75,172,72,0.25); border-radius: 8px; }
+              .b2b-scope .b2b-disc-head { font-size: 13px; font-weight: 700; color: #4bac48; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(75,172,72,0.2); }
+              .b2b-scope .b2b-disc-row { display: flex; gap: 14px; font-size: 12.5px; line-height: 1.55; margin-bottom: 8px; }
+              .b2b-scope .b2b-disc-row:last-child { margin-bottom: 0; }
+              .b2b-scope .b2b-disc-label { font-weight: 600; color: #4bac48; min-width: 180px; flex-shrink: 0; }
+
+              .b2b-scope .b2b-coord-title { font-size: 14px; font-weight: 700; letter-spacing: 2px; color: #4bac48; text-align: center; text-transform: uppercase; margin-bottom: 18px; }
+              .b2b-scope .b2b-coord { border: 1px solid rgba(75,172,72,0.25); border-radius: 8px; overflow: hidden; }
+              .b2b-scope .b2b-coord-row { display: grid; grid-template-columns: 1fr 3fr; gap: 14px; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13px; align-items: center; }
+              .b2b-scope .b2b-coord-row:last-child { border-bottom: 0; }
+              .b2b-scope .b2b-coord-key { font-weight: 600; color: #4bac48; letter-spacing: 0.5px; }
+              .b2b-scope .b2b-coord-val strong { color: #4bac48; }
+
+              @media (max-width: 768px) {
+                .b2b-scope .b2b-room-row { grid-template-columns: 1fr; gap: 4px; padding: 12px 14px; }
+                .b2b-scope .b2b-room-head { display: none; }
+                .b2b-scope .b2b-coord-row { grid-template-columns: 1fr; gap: 4px; padding: 12px 14px; }
+                .b2b-scope .b2b-disc-row { flex-direction: column; gap: 2px; }
+                .b2b-scope .b2b-disc-label { min-width: auto; }
+                .b2b-scope .b2b-time { min-width: 86px; }
+                .b2b-scope .b2b-days-nav > li { padding: 10px 14px; }
+              }
+            </style>
+            <script>
+              (function() {
+                var nav = document.getElementById('b2b-tab-nav');
+                var content = document.getElementById('b2b-tab-content');
+                if (!nav || !content) return;
+                var tabs = nav.querySelectorAll(':scope > li');
+                var panels = content.querySelectorAll(':scope > li');
+                if (panels[0]) panels[0].classList.add('active');
+                tabs.forEach(function(tab, i) {
+                  tab.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    tabs.forEach(function(t) { t.classList.remove('active-tab'); });
+                    panels.forEach(function(p) { p.classList.remove('active'); });
+                    tab.classList.add('active-tab');
+                    if (panels[i]) panels[i].classList.add('active');
+                  });
+                });
+              })();
+            </script>
+            <style>
+              @media (max-width: 768px) {
+                /* Хөтөлбөр section: mobile дээр нягт харуулах */
+                #section-schedule { padding-top: 30px !important; padding-bottom: 30px !important; }
+                #section-schedule .container { padding-left: 12px !important; padding-right: 12px !important; }
+
+                /* Мөр бүрийг flex-ээр цаг зүүн, бичвэр баруун */
+                #section-schedule .border-white-bottom-op-2 .row {
+                  display: flex !important;
+                  flex-wrap: nowrap !important;
+                  align-items: flex-start !important;
+                }
+                #section-schedule .border-white-bottom-op-2 .col-md-2 {
+                  width: auto !important;
+                  flex: 0 0 auto !important;
+                  min-width: 70px !important;
+                  font-size: 11px !important;
+                  padding-top: 2px !important;
+                }
+                #section-schedule .border-white-bottom-op-2 .col-md-10 {
+                  flex: 1 !important;
+                  width: auto !important;
+                }
+                #section-schedule .border-white-bottom-op-2 .col-md-10 h5 {
+                  font-size: 11px !important;
+                  line-height: 1.35 !important;
+                  font-weight: 500 !important;
+                }
+                /* Дээд доод зай багасгах */
+                #section-schedule .border-white-bottom-op-2 {
+                  padding-bottom: 8px !important;
+                  margin-bottom: 8px !important;
+                }
+                /* Tab nav жижигрүүлэх */
+                #section-schedule .d-tab-nav { gap: 16px !important; margin-bottom: 12px !important; padding-bottom: 12px !important; }
+                #section-schedule .d-tab-nav li h3 { font-size: 14px !important; }
+                #section-schedule .d-tab-nav li { font-size: 10px !important; }
+                /* Гарчиг */
+                #section-schedule h2 { font-size: 22px !important; margin-bottom: 12px !important; }
+              }
+            </style>
+        </section>
+
+
+        <section id="section-venue" class="bg-dark section-dark text-light pt-80 relative jarallax" aria-label="section">
+          <div class="container relative z-2">
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <!-- <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Event Location</div> -->
+                    <h2 class="wow fadeInUp" data-wow-delay=".2s" style="font-size: clamp(22px, 3.2vw, 34px);">ТӨЛӨВЛӨЛТ | БАЙРШИЛ</h2>
+                    
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-sm-6">
+                    <div id="venue-slider" class="wow scale-in-mask">
+                        <div class="venue-track">
+                            <img src="images/misc/l10.webp" class="venue-slide" alt="Байршил 1" data-idx="0">
+                            <img src="images/misc/l11.webp" class="venue-slide" alt="Байршил 2" data-idx="1">
+                            <img src="images/misc/l12.webp" class="venue-slide" alt="Байршил 3" data-idx="2">
+                        </div>
+                        <span class="venue-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+                    </div>
+                    <style>
+                      #venue-slider {
+                        position: relative;
+                        overflow: hidden;
+                        border-radius: 6px;
+                        width: 100%;
+                        min-height: 300px;
+                        height: 300px;
+                        cursor: zoom-in;
+                      }
+                      .venue-track {
+                        display: flex;
+                        width: 300%;
+                        height: 100%;
+                        transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1);
+                      }
+                      .venue-slide {
+                        width: 33.3333%;
+                        height: 100%;
+                        object-fit: cover;
+                        flex-shrink: 0;
+                        transition: transform 0.5s;
+                      }
+                      #venue-slider:hover .venue-slide { transform: scale(1.04); }
+                      .venue-zoom-hint {
+                        position: absolute;
+                        top: 12px;
+                        right: 12px;
+                        width: 36px;
+                        height: 36px;
+                        border-radius: 50%;
+                        background: rgba(0,0,0,0.55);
+                        color: #fff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 14px;
+                        backdrop-filter: blur(4px);
+                        pointer-events: none;
+                        opacity: 0.75;
+                        transition: opacity 0.2s;
+                        z-index: 3;
+                      }
+                      #venue-slider:hover .venue-zoom-hint { opacity: 1; }
+
+                      /* Custom lightbox */
+                      #venue-lightbox {
+                        position: fixed;
+                        inset: 0;
+                        background: rgba(0,0,0,0.92);
+                        display: none;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 99999;
+                        backdrop-filter: blur(6px);
+                      }
+                      #venue-lightbox.open { display: flex; }
+                      #venue-lightbox .vlb-img {
+                        max-width: 90vw;
+                        max-height: 85vh;
+                        border-radius: 4px;
+                        box-shadow: 0 10px 60px rgba(0,0,0,0.5);
+                        user-select: none;
+                      }
+                      #venue-lightbox .vlb-btn {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 48px; height: 48px;
+                        border-radius: 50%;
+                        background: rgba(255,255,255,0.12);
+                        color: #fff;
+                        border: 0;
+                        cursor: pointer;
+                        font-size: 22px;
+                        display: flex; align-items: center; justify-content: center;
+                        transition: background 0.2s;
+                      }
+                      #venue-lightbox .vlb-btn:hover { background: #4bac48; }
+                      #venue-lightbox .vlb-prev { left: 24px; }
+                      #venue-lightbox .vlb-next { right: 24px; }
+                      #venue-lightbox .vlb-close {
+                        position: absolute;
+                        top: 20px; right: 20px;
+                        width: 40px; height: 40px;
+                        border-radius: 50%;
+                        background: rgba(255,255,255,0.1);
+                        color: #fff;
+                        border: 0;
+                        font-size: 20px;
+                        cursor: pointer;
+                        display: flex; align-items: center; justify-content: center;
+                      }
+                      #venue-lightbox .vlb-close:hover { background: #e74c3c; }
+                      #venue-lightbox .vlb-counter {
+                        position: absolute;
+                        bottom: 24px; left: 50%;
+                        transform: translateX(-50%);
+                        color: rgba(255,255,255,0.7);
+                        font-size: 13px;
+                        letter-spacing: 2px;
+                      }
+                    </style>
+                    <script>
+                      (function(){
+                        var track = document.querySelector('.venue-track');
+                        if (!track) return;
+                        var slides = track.querySelectorAll('.venue-slide');
+                        var total = slides.length;
+                        var idx = 0;
+                        var autoTimer = setInterval(tick, 3500);
+                        function tick(){
+                          idx = (idx + 1) % total;
+                          track.style.transform = 'translateX(-' + (idx * (100/total)) + '%)';
+                        }
+
+                        // Build lightbox
+                        var lb = document.createElement('div');
+                        lb.id = 'venue-lightbox';
+                        lb.innerHTML =
+                          '<button class="vlb-close" aria-label="Close">&times;</button>' +
+                          '<button class="vlb-btn vlb-prev" aria-label="Prev">&#8249;</button>' +
+                          '<img class="vlb-img" src="" alt="">' +
+                          '<button class="vlb-btn vlb-next" aria-label="Next">&#8250;</button>' +
+                          '<div class="vlb-counter"></div>';
+                        document.body.appendChild(lb);
+
+                        var images = Array.prototype.map.call(slides, function(s){ return s.src; });
+                        var lbImg = lb.querySelector('.vlb-img');
+                        var counter = lb.querySelector('.vlb-counter');
+                        var lbIdx = 0;
+
+                        function show(i){
+                          lbIdx = (i + images.length) % images.length;
+                          lbImg.src = images[lbIdx];
+                          counter.textContent = (lbIdx + 1) + ' / ' + images.length;
+                        }
+                        function open(i){
+                          clearInterval(autoTimer);
+                          show(i);
+                          lb.classList.add('open');
+                        }
+                        function close(){
+                          lb.classList.remove('open');
+                          autoTimer = setInterval(tick, 3500);
+                        }
+
+                        document.getElementById('venue-slider').addEventListener('click', function(){
+                          open(idx);
+                        });
+                        lb.querySelector('.vlb-close').addEventListener('click', close);
+                        lb.querySelector('.vlb-prev').addEventListener('click', function(e){ e.stopPropagation(); show(lbIdx - 1); });
+                        lb.querySelector('.vlb-next').addEventListener('click', function(e){ e.stopPropagation(); show(lbIdx + 1); });
+                        lb.addEventListener('click', function(e){ if (e.target === lb) close(); });
+                        document.addEventListener('keydown', function(e){
+                          if (!lb.classList.contains('open')) return;
+                          if (e.key === 'Escape') close();
+                          else if (e.key === 'ArrowLeft') show(lbIdx - 1);
+                          else if (e.key === 'ArrowRight') show(lbIdx + 1);
+                        });
+                      })();
+                    </script>
+                </div>
+
+                <div class="col-sm-6">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42704.6!2d110.1306!3d44.8953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d96e3b5e3d3e3d3%3A0x3d3e3d3e3d3e3d3e!2sSainshand%2C%20Dornogovi%20Province%2C%20Mongolia!5e0!3m2!1smn!2smn!4v1713200000000!5m2!1smn!2smn" class="w-100 rounded-1" style="min-height:300px;border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="col-lg-4 col-md-6 mb-sm-30">
+                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".2s">
+                        <i class="fs-60 id-color icofont-google-map"></i>
+                        <div class="ms-3">
+                            <h4 class="mb-0">ХАЯГ</h4>
+                            <p>ДОРНОГВЬ АЙМАГ, САЙНШАНД СУМ,<BR> СПОРТЫН ОРДОН</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-sm-30">
+                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".4s">
+                        <i class="fs-60 id-color icofont-phone"></i>
+                        <div class="ms-3">
+                            <h4 class="mb-0">ХОЛБОО БАРИХ</h4>
+                            <p>77006933, 91116933, 95111149</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-sm-30">
+                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".6s">
+                        <i class="fs-60 id-color icofont-envelope"></i>
+                        <div class="ms-3">
+                            <h4 class="mb-0">И-МАЙЛ</h4>
+                            <p>FORUM@DORNOGOVI.GOV.MN</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- <section  id="section-faq" class="bg-dark section-dark text-light">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-5">
+                        <div class="subtitle wow fadeInUp" data-wow-delay=".0s">Everything You Need to Know</div>
+                        <h2 class="wow fadeInUp" data-wow-delay=".2s">Frequently Asked Questions</h2>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="accordion s2 wow fadeInUp">
+                            <div class="accordion-section">
+                                <div class="accordion-section-title" data-tab="#accordion-a1">
+                                    What is the AI Summit 2026?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a1">
+                                    The AI Summit 2026 is a premier event gathering leading AI experts, thought leaders, and innovators. It features keynotes, workshops, panels, and networking opportunities focusing on the latest advancements in artificial intelligence.
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a2">
+                                    When and where will the event be held?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a2">
+                                    The AI Summit 2026 will take place from **[Event Dates]** at **[Event Location]**. More details about the venue and directions will be provided closer to the event.
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a3">
+                                    How can I register for the event?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a3">
+                                    You can register for the AI Summit 2026 through our official website. Simply choose your ticket type and fill out the registration form.
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a4">
+                                    What ticket options are available?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a4">
+                                    We offer a range of ticket options, including Standard, VIP, Full Access Pass, Student, and Virtual tickets. You can find more details about each ticket type on our [Tickets Page](#).
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a5">
+                                    Can I transfer my ticket to someone else?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a5">
+                                    Tickets are non-transferable. If you are unable to attend, please contact our support team for assistance.
+                                </div>
+
+                                <div class="accordion-section-title" data-tab="#accordion-a6">
+                                    Will there be virtual participation?
+                                </div>
+                                <div class="accordion-section-content" id="accordion-a6">
+                                    Yes! For those who can’t attend in person, we offer a **Virtual Ticket**. This provides access to live-streamed sessions, workshops, and networking opportunities online.
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        
 
     </div>
-  </div>
 
-  <!-- MEETINGS -->
-  <div id="sched-day3" class="sched-day" style="display:none">
-    <div class="pdf-day-header">
-      <div class="pdf-day-header-title">УУЛЗАЛТЫН ХӨТӨЛБӨР</div>
-      <div class="pdf-day-header-meta">
-        <div class="pdf-day-header-date">2026.04.26 — 27</div>
-        <div class="pdf-day-header-day">УУЛЗАЛТЫН ХӨТӨЛБӨР</div>
-      </div>
-    </div>
-    <div class="sched-grid">
+    <!-- Magic Mobile Bottom Navigation -->
+    <nav id="mobile-bottom-nav">
+      <a class="mob-nav-item active" href="index.html" data-menu-label="НҮҮР">
+        <div class="mnav-icon-wrap"><i class="fa fa-home"></i></div>
+        <span>Нүүр</span>
+      </a>
+      <a class="mob-nav-item" href="index.html#section-about" data-menu-label="ЗОРИЛГО">
+        <div class="mnav-icon-wrap"><i class="fa fa-bullseye"></i></div>
+        <span>Зорилго</span>
+      </a>
+      <a class="mob-nav-item" href="tusul.html" data-menu-label="ТӨСӨЛ">
+        <div class="mnav-icon-wrap"><i class="fa fa-folder-open"></i></div>
+        <span>Төсөл</span>
+      </a>
+      <a class="mob-nav-item" href="index.html#section-schedule" data-menu-label="ХӨТӨЛБӨР">
+        <div class="mnav-icon-wrap"><i class="fa fa-calendar-alt"></i></div>
+        <span>Хөтөлбөр</span>
+      </a>
+      <a class="mob-nav-item" href="index.html#section-venue" data-menu-label="БАЙРШИЛ">
+        <div class="mnav-icon-wrap"><i class="fa fa-location-dot"></i></div>
+        <span>Байршил</span>
+      </a>
+      <a class="mob-nav-item" href="sudalgaa.html" data-menu-label="СУДАЛГАА">
+        <div class="mnav-icon-wrap"><i class="fa fa-clipboard-list"></i></div>
+        <span>Судалгаа</span>
+      </a>
+      <div id="mnav-indicator"></div>
+    </nav>
+    <script>
+    // Mobile nav: нуугдсан цэсийг нуух
+    function hideMobileMenu(items) {
+      var hidden = [];
+      items.forEach(function(m){ if (!m.visible && m.type !== 'section') hidden.push(m.label); });
+      document.querySelectorAll('.mob-nav-item[data-menu-label]').forEach(function(el){
+        if (hidden.indexOf(el.dataset.menuLabel) !== -1) el.style.display = 'none';
+      });
+    }
+    // 1) menu.json-аас sync
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'data/menu.json', false);
+      xhr.send();
+      if (xhr.status === 200) hideMobileMenu(JSON.parse(xhr.responseText));
+    } catch(e){}
+    // 2) Firestore-аас async (админ тохиргоо)
+    </script>
+    <script type="module">
+    import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import{getFirestore,doc,getDoc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    try{
+      var a=initializeApp({apiKey:"AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",authDomain:"dsif-shedule.firebaseapp.com",projectId:"dsif-shedule",storageBucket:"dsif-shedule.firebasestorage.app",messagingSenderId:"973476131387",appId:"1:973476131387:web:8c2e1234567890abcdef"},"mob-menu");
+      var d=getFirestore(a);
+      var s=await getDoc(doc(d,"settings","menu"));
+      if(s.exists()&&s.data().list){
+        var hidden=[];
+        s.data().list.forEach(function(m){if(!m.visible&&m.type!=="section")hidden.push(m.label);});
+        document.querySelectorAll(".mob-nav-item[data-menu-label]").forEach(function(el){
+          el.style.display=hidden.indexOf(el.dataset.menuLabel)!==-1?"none":"";
+        });
+      }
+    }catch(e){}
+    </script>
 
-      <div class="sched-block">
-        <div class="sched-block-title">1-Р ӨДӨР 04.26</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">08:30 — 09:00</div>
-          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ — B2B УУЛЗАЛТЫН МАЯГТ ХҮЛЭЭН АВАХ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:25 — 11:00</div>
-          <div class="sched-info">
-            <div class="sched-name">БАНК, ТоС, НОГООН САНХҮҮЖИЛТ, ОЁДОЛ, ХӨНГӨН ҮЙЛДВЭРИЙН САЛБАРЫН ХААЛТТАЙ ХЭЛЭЛЦҮҮЛЭГ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:25 — 11:00</div>
-          <div class="sched-info">
-            <div class="sched-name">ЭРЧИМ ХҮЧНИЙ ХӨРӨНГӨ ОРУУЛАГЧТАЙ НАРИЙВЧИЛСАН УУЛЗАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:05 — 12:32</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — ЖИЖИГЛЭН ХУДАЛДАА, ЛОГИСТИКИЙН МЭРГЭЖИЛТЭН</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:32 — 12:59</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — АЯЛАЛ ЖУУЛЧЛАЛ, ДЭД БҮТЦИЙН ХӨРӨНГӨ ОРУУЛАГЧ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:59 — 13:30</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — ОЁДОЛ, ХОРШОО, НОГООН САНХҮҮЖИЛТ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">13:30 — 14:00</div>
-          <div class="sched-info">
-            <div class="sched-name">БОЛОВСРОЛ, СОЁЛЫН САЛБАРЫН MOU УРЬДЧИЛСАН ЗОХИЦУУЛАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">14:15 — 15:10</div>
-          <div class="sched-info">
-            <div class="sched-name">ГАДААДЫН ХӨРӨНГӨ ОРУУЛАГЧТАЙ НАРИЙВЧИЛСАН УУЛЗАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:10 — 15:25</div>
-          <div class="sched-info">
-            <div class="sched-name">B2B ШУУРХАЙ УУЛЗАЛТ — 3 ЗЭРЭГЦЭХ ШИРЭЭ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">15:25 — 16:00</div>
-          <div class="sched-info">
-            <div class="sched-name">УУЛ УУРХАЙН ESG ГЭРЭЭНИЙ УРЬДЧИЛСАН ЗОХИЦУУЛАЛТ</div>
-          </div>
-        </div>
-      </div>
+    <style>
+      /* ── Magic Navigation Menu ── */
+      #mobile-bottom-nav {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        height: calc(64px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        background: rgba(14,14,14,0.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+      }
+      body:not(.dark-scheme) #mobile-bottom-nav {
+        background: rgba(248,249,250,0.97);
+        border-top: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+      }
 
-      <div class="sched-block">
-        <div class="sched-block-title">2-Р ӨДӨР 04.27</div>
-        <div class="sched-row is-break">
-          <div class="sched-time">08:30 — 09:00</div>
-          <div class="sched-info"><div class="sched-name">БҮРТГЭЛ — B2B УУЛЗАЛТЫН МАЯГТ ХҮЛЭЭН АВАХ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:00 — 09:40</div>
-          <div class="sched-info">
-            <div class="sched-name">ЭРЧИМ ХҮЧНИЙ ХӨРӨНГӨ ОРУУЛАГЧТАЙ НАРИЙВЧИЛСАН УУЛЗАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">09:40 — 10:00</div>
-          <div class="sched-info">
-            <div class="sched-name">ДЭД БҮТЦИЙН ТӨСЛҮҮДИЙН ТЕХНИК ХЭЛЭЛЦҮҮЛЭГ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">10:40 — 11:20</div>
-          <div class="sched-info">
-            <div class="sched-name">ЛОГИСТИК, ДЭД БҮТЦИЙН ХӨРӨНГӨ ОРУУЛАГЧТАЙ НАРИЙВЧИЛСАН УУЛЗАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">11:20 — 11:40</div>
-          <div class="sched-info">
-            <div class="sched-name">ЭРҮҮЛ МЭНД, НИЙГМИЙН САЛБАРЫН MOU УРЬДЧИЛСАН ЗОХИЦУУЛАЛТ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:30 — 12:57</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — УУЛ УУРХАЙН ДАГАЛДАХ БИЗНЕС, НИЙГМИЙН ХАРИУЦЛАГЫН ГЭРЭЭ</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:57 — 13:24</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — ЖИЖИГЛЭН ХУДАЛДАА, ЗАМЫН-ҮҮД КОРИДОРЫН МЭРГЭЖИЛТЭН</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">13:24 — 14:00</div>
-          <div class="sched-info"><div class="sched-name">B2B УУЛЗАЛТ — АЯЛАЛ ЖУУЛЧЛАЛ, ОРОН НУТГИЙН БИЗНЕСИЙН ДЭМЖЛЭГИЙН САН</div></div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">12:30 — 13:30</div>
-          <div class="sched-info">
-            <div class="sched-name">"ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН АЖЛЫН ХЭСЭГ"-ИЙН АНХНЫ ХУРАЛ</div>
-          </div>
-        </div>
-        <div class="sched-row">
-          <div class="sched-time">14:00 — 18:00</div>
-          <div class="sched-info">
-            <div class="sched-name">SITE VISIT — АЖ ҮЙЛДВЭРИЙН ПАРК, НАРНЫ ЦАХИЛГААН СТАНЦ, ЛОГИСТИК ТЕРМИНАЛТАЙ ТАНИЛЦАХ АЯЛАЛ</div>
-          </div>
-        </div>
-      </div>
+      /* Indicator hidden */
+      #mnav-indicator { display: none; }
 
-    </div>
-  </div>
-  </div><!-- /sched-all-days -->
+      /* Nav items */
+      .mob-nav-item {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        gap: 2px;
+        text-decoration: none !important;
+        color: rgba(255,255,255,0.4) !important;
+        transition: color 0.25s;
+        padding: 4px 0;
+      }
+      body:not(.dark-scheme) .mob-nav-item {
+        color: rgba(0,0,0,0.35) !important;
+      }
 
-</section>
+      /* Icon bubble */
+      .mnav-icon-wrap {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    background 0.25s;
+      }
+      .mob-nav-item i {
+        font-size: 18px;
+        line-height: 1;
+        transition: color 0.25s;
+      }
+      .mob-nav-item span {
+        font-size: 9px;
+        letter-spacing: 0.2px;
+        line-height: 1;
+        color: inherit !important;
+        transition: color 0.25s, opacity 0.25s;
+        opacity: 0.7;
+      }
 
-<!-- CTA -->
-<!-- CTA section temporarily hidden
-<section class="cta-section">
-  <div class="cta-bg">
-    <img src="zam-1.jpg" alt="">
-    <div class="cta-bg-overlay"></div>
-  </div>
-  <div class="cta-inner">
-    <div class="cta-badge">БҮРТГЭЛ НЭЭЛТТЭЙ</div>
-    <h2 class="cta-h">ФОРУМД<br><em>ОРОЛЦОХ</em></h2>
-    <p class="cta-p">Тогтвортой хөрөнгө оруулалт, ногоон хөгжлийн ирээдүйг хамтдаа бүтээх энэхүү үйл явдалд та болон таны байгууллагыг урьж байна.</p>
-    <div class="cta-buttons">
-      <a href="javascript:void(0)" class="btn-g open-reg">БҮРТГҮҮЛЭХ</a>
-      <a href="#schedule" class="btn-o">ХӨТӨЛБӨР ХАРАХ</a>
-    </div>
-  </div>
-</section>
--->
+      /* Active state */
+      .mob-nav-item.active {
+        color: #4bac48 !important;
+      }
+      body:not(.dark-scheme) .mob-nav-item.active {
+        color: #4bac48 !important;
+      }
+      .mob-nav-item.active .mnav-icon-wrap {
+        transform: translateY(-6px) scale(1.15);
+      }
+      .mob-nav-item.active span {
+        opacity: 1;
+        font-weight: 600;
+      }
 
-<!-- FOOTER -->
-<div class="footer-wrap">
-<footer class="site-footer">
-  <div class="footer-top">
-    <div>
-      <img src="dsif-logo.png" alt="DSIF" class="footer-brand-logo">
-      <p class="footer-brand-text">Дорноговь аймгийн "Тогтвортой бодлого — Тасралтгүй хөгжил" хөтөлбөрийн хүрээнд сэргээгдэх эрчим хүч, байгаль орчин, хөдөө аж ахуй, аялал жуулчлал, дэд бүтцийн салбарт хөрөнгө оруулалт татах форум.</p>
-    </div>
-    <div>
-      <div class="footer-heading">САЛБАРУУД</div>
-      <ul class="footer-list">
-        <li><a href="#">НОГООН ЭДИЙН ЗАСАГ</a></li>
-        <li><a href="#">ЭРЧИМ ХҮЧ</a></li>
-        <li><a href="#">УУЛ УУРХАЙ</a></li>
-        <li><a href="#">БАЙГАЛЬ ОРЧИН</a></li>
-        <li><a href="#">ДЭД БҮТЭЦ</a></li>
-        <li><a href="#">БОЛОВСРОЛ</a></li>
-        <li><a href="#">СОЁЛ</a></li>
-        <li><a href="#">ЭРҮҮЛ МЭНД</a></li>
-        <li><a href="#">НИЙГЭМ</a></li>
-        <li><a href="#">ХӨДӨӨ АЖ АХУЙ</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-heading">ФОРУМ</div>
-      <ul class="footer-list">
-        <li><a href="#">ЗОРИЛГО</a></li>
-        <li><a href="#schedule">ХӨТӨЛБӨР</a></li>
-        <li><a href="#">ИЛТГЭГЧИД</a></li>
-        <li><a href="#">ОРОЛЦОГЧИД</a></li>
-        <!-- <li><a href="javascript:void(0)" class="open-reg">БҮРТГЭЛ</a></li> -->
-      </ul>
-    </div>
-    <div>
-      <div class="footer-heading">ХОЛБОО БАРИХ</div>
-      <ul class="footer-list">
-        <li><a href="#">ДОРНОГОВЬ АЙМАГ, САЙНШАНД ХОТ</a></li>
-        <li><a href="mailto:forum@dornogovi.gov.mn">FORUM@DORNOGOVI.GOV.MN</a></li>
-        <li><a href="https://www.dornogovi.one">WWW.DORNOGOVI.ONE</a></li>
-        <li style="color:#fff"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#fff" style="vertical-align:middle;margin-right:6px;"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.58l2.2-2.21c.28-.27.36-.66.25-1.01C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg><a href="tel:+97677006933">77006933</a>, <a href="tel:+97691116933">91116933</a>, <a href="tel:+97695111149">95111149</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bar">
-    <div class="footer-copy">&copy; 2026 НОГООН ХӨГЖИЛ ФОРУМ &middot; ДОРНОГОВЬ АЙМАГ</div>
-    <div class="footer-tags"><span>SDG 8</span><span>SDG 9</span><span>SDG 13</span><span>SDG 17</span></div>
-  </div>
-</footer>
-</div><!-- /footer-wrap -->
+      /* Schedule tabs — active green */
+      #section-schedule .d-tab-nav li {
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: background 0.2s, color 0.2s;
+        cursor: pointer;
+      }
+      #section-schedule .d-tab-nav li.active-tab,
+      body:not(.dark-scheme) #section-schedule .d-tab-nav li.active-tab {
+        background: #4bac48 !important;
+        border-color: transparent !important;
+      }
+      #section-schedule .d-tab-nav li.active-tab h3,
+      #section-schedule .d-tab-nav li.active-tab,
+      body:not(.dark-scheme) #section-schedule .d-tab-nav li.active-tab h3,
+      body:not(.dark-scheme) #section-schedule .d-tab-nav li.active-tab {
+        color: #ffffff !important;
+      }
 
-<!-- REGISTRATION MODAL -->
-<div id="reg-modal" class="modal-overlay">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div class="modal-head-title">ФОРУМД БҮРТГҮҮЛЭХ</div>
-      <button class="modal-close" onclick="closeModal()">&#10005;</button>
-    </div>
-    <div id="reg-form-wrap" class="modal-body">
-      <form id="reg-form" novalidate>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">ОВОГ</label><input id="f-lastname" type="text" class="form-input" placeholder="Овог" required></div>
-          <div class="form-group"><label class="form-label">НЭР</label><input id="f-firstname" type="text" class="form-input" placeholder="Нэр" required></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">УТАС</label><input id="f-phone" type="tel" class="form-input" placeholder="+976 XXXX XXXX" required></div>
-          <div class="form-group"><label class="form-label">И-МЭЙЛ</label><input id="f-email" type="email" class="form-input" placeholder="name@example.com" required></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">БАЙГУУЛЛАГА</label><input id="f-org" type="text" class="form-input" placeholder="Байгууллагын нэр" required></div>
-          <div class="form-group"><label class="form-label">АЛБАН ТУШААЛ</label><input id="f-role" type="text" class="form-input" placeholder="Албан тушаал" required></div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">САЛБАР</label>
-          <select id="f-sector" class="form-input" required>
-            <option value="">— СОНГОНО УУ —</option>
-            <option>НОГООН ЭДИЙН ЗАСАГ</option><option>ЭРЧИМ ХҮЧ</option><option>УУЛ УУРХАЙ</option><option>БАЙГАЛЬ ОРЧИН</option><option>ДЭД БҮТЭЦ</option><option>БОЛОВСРОЛ</option><option>СОЁЛ</option><option>ЭРҮҮЛ МЭНД</option><option>НИЙГЭМ</option><option>ХӨДӨӨ АЖ АХУЙ</option><option>БУСАД</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">ОРОЛЦОХ ХЭЛБЭР</label>
-          <select id="f-participate" class="form-input" required>
-            <option value="">— СОНГОНО УУ —</option>
-            <option>ХӨРӨНГӨ ОРУУЛАГЧ</option><option>B2B УУЛЗАЛТ</option><option>ИЛТГЭГЧ / ПАНЕЛИСТ</option><option>ЗОЧИН</option><option>ХЭВЛЭЛ МЭДЭЭЛЭЛ</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">БУУДАЛЫН ЗАХИАЛГА</label>
-          <div style="display:flex;gap:12px;margin-bottom:8px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:.65rem;color:rgba(255,255,255,.7);cursor:pointer"><input type="radio" name="hotel" id="f-hotel-yes" value="yes" style="accent-color:var(--green)"> Тийм</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:.65rem;color:rgba(255,255,255,.7);cursor:pointer"><input type="radio" name="hotel" id="f-hotel-no" value="no" checked style="accent-color:var(--green)"> Үгүй</label>
-          </div>
-          <div id="hotel-count-wrap" style="display:none">
-            <input id="f-hotel-count" type="number" class="form-input" min="1" max="20" placeholder="Хэдэн хүн?" style="width:140px">
-          </div>
-        </div>
-        <div class="form-group"><label class="form-label">НЭМЭЛТ ТЭМДЭГЛЭЛ</label><textarea id="f-notes" class="form-input" rows="3" placeholder="Тусгайлсан хүсэлт, асуулт байвал бичнэ үү..." style="resize:vertical"></textarea></div>
-        <label class="form-check"><input type="checkbox" id="f-agree" required> Хувийн мэдээллийг боловсруулахыг зөвшөөрч байна</label>
-      </form>
-    </div>
-    <div id="reg-success"></div>
-    <div class="modal-foot" id="modal-foot">
-      <button class="modal-btn-submit" type="submit" form="reg-form">ИЛГЭЭХ</button>
-    </div>
-  </div>
-</div>
+      /* Schedule section — row hover highlight */
+      #section-schedule .d-tab-content > li > div:not(.b2b-scope) {
+        border-radius: 8px;
+        transition: background 0.2s, border-color 0.2s;
+        cursor: default;
+      }
+      #section-schedule .d-tab-content > li > div:not(.b2b-scope):hover {
+        background: #4bac48 !important;
+        border-color: transparent !important;
+      }
+      #section-schedule .d-tab-content > li > div:not(.b2b-scope):hover .col-md-2 {
+        color: #ffffff !important;
+        opacity: 1 !important;
+      }
+      #section-schedule .d-tab-content > li > div:not(.b2b-scope):hover h5 {
+        color: #ffffff !important;
+      }
 
-<script>
-/* Ticker */
-(function(){
-  const items=[
-    {label:'ЗАМЫН-ҮҮД БООМТ',value:'18.3M ТОНН/ЖИЛ',color:'var(--green)'},
-    {label:'ХӨРӨНГӨ ОРУУЛАЛТ',value:'50+ БЭЛЭН ТӨСӨЛ',color:'#f0c040'},
-    {label:'ЧӨЛӨӨТ БҮС',value:'900 ГА',color:'#00bcd4'},
-    {label:'ЗӨВШӨӨРӨЛ',value:'231 ИДЭВХТЭЙ',color:'var(--green)'},
-    {label:'ТХЗ',value:'8 9 13 17',color:'#f0c040'},
-    {label:'ФОРУМ',value:'2026.04.26–27 · САЙНШАНД',color:'#00bcd4'},
-    {label:'ОРОЛЦОГЧ',value:'500+',color:'#e74c3c'},
-    {label:'B2B УУЛЗАЛТ',value:'100+',color:'var(--green)'},
-    {label:'САНАМЖ БИЧИГ',value:'30+',color:'#f0c040'},
-    {label:'ТРАНС-МОНГОЛЫН ТӨМӨР ЗАМ',value:'10.3M ТН',color:'#00bcd4'},
-    {label:'ЭКСПОРТЫН ХУВЬ',value:'87%',color:'#e74c3c'},
-    {label:'ХАЙГУУЛЫН ЗӨВШӨӨРӨЛ',value:'136',color:'var(--green)'},
-  ];
-  const inner=document.getElementById('ticker-inner');
-  if(!inner)return;
-  function build(){
-    inner.innerHTML='';
-    [...items,...items,...items].forEach(item=>{
-      const s=document.createElement('span');
-      s.className='ticker-item';
-      s.innerHTML=`<span style="color:${item.color};font-weight:700;letter-spacing:1px">${item.label}</span><span style="color:rgba(0,0,0,.2)">·</span><span style="color:rgba(0,0,0,.65)">${item.value}</span>`;
-      inner.appendChild(s);
+      /* Schedule section — compact row spacing */
+      #section-schedule .d-tab-content > li > div:not(.b2b-scope) {
+        padding-bottom: 0.4rem !important;
+        margin-bottom: 0.4rem !important;
+      }
+      #section-schedule .d-tab-content .row.g-3 {
+        --bs-gutter-y: 0.25rem;
+        --bs-gutter-x: 0.75rem;
+      }
+      #section-schedule .d-tab-content h5 {
+        font-size: 13px;
+        line-height: 1.3;
+        text-transform: uppercase;
+        font-weight: 400;
+      }
+      #section-schedule .d-tab-content .col-md-2 {
+        text-transform: uppercase;
+        font-size: 13px;
+        font-weight: 400;
+      }
+      #section-schedule .d-tab-content .col-md-2 {
+        font-size: 12px;
+        padding-left: 16px;
+      }
+
+      /* Show only on mobile */
+      @media (max-width: 991px) {
+        #mobile-bottom-nav { display: flex; }
+        body { padding-bottom: 70px; }
+      }
+    </style>
+
+    <script>
+      // Magic Navigation — active highlight + sliding indicator
+      (function() {
+        var nav    = document.getElementById('mobile-bottom-nav');
+        var indic  = document.getElementById('mnav-indicator');
+        var items  = document.querySelectorAll('.mob-nav-item');
+        var path   = window.location.pathname;
+        var hash   = window.location.hash;
+
+        function setActive(activeItem) {
+          items.forEach(function(it) { it.classList.remove('active'); });
+          if (!activeItem) return;
+          activeItem.classList.add('active');
+          // Move indicator
+          var idx = Array.prototype.indexOf.call(items, activeItem);
+          var navW = nav.offsetWidth;
+          var itemW = navW / items.length;
+          indic.style.left = (idx * itemW + 6) + 'px';
+          indic.style.width = (itemW - 12) + 'px';
+        }
+
+        // Determine initial active
+        var initial = null;
+        items.forEach(function(item) {
+          var href = item.getAttribute('href');
+          if (hash && href === hash) { initial = item; }
+          else if (!hash && (href === 'index.html' || href === '/' || href === path)) { initial = item; }
+          else if (path.includes('tusul') && href === 'tusul.html') { initial = item; }
+        });
+        if (!initial) initial = items[0];
+        setActive(initial);
+
+        // Click
+        items.forEach(function(item) {
+          item.addEventListener('click', function() { setActive(item); });
+        });
+
+        // Hash change
+        window.addEventListener('hashchange', function() {
+          var h = window.location.hash;
+          var found = null;
+          items.forEach(function(item) {
+            if (item.getAttribute('href') === h) found = item;
+          });
+          if (found) setActive(found);
+        });
+
+        // Resize — re-position indicator
+        window.addEventListener('resize', function() {
+          var active = document.querySelector('.mob-nav-item.active');
+          if (active) setActive(active);
+        });
+      })();
+    </script>
+
+    <!-- footer begin -->
+    <footer class="text-light section-dark dsif-footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer-brand">
+                        <img src="images/logo.webp" class="w-150px mb-3" alt="DSIF">
+                        <p class="footer-desc">
+                            Ногоон хөгжил — Тогтвортой хөрөнгө оруулалтын форум 2026.
+                            Дорноговь аймгийн эдийн засгийн өсөлт, ногоон технологи,
+                            хөрөнгө оруулалтын боломжуудыг нэгтгэсэн үндэсний хэмжээний арга хэмжээ.
+                        </p>
+                        <div class="social-icons mt-3">
+                            <a href="https://www.facebook.com/DGZDTG" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <h3 class="footer-title">ФОРУМ</h3>
+                    <ul class="footer-nav">
+                        <li><a href="#section-about">ЗОРИЛГО</a></li>
+                        <li><a href="#section-schedule">ХӨТӨЛБӨР</a></li>
+                        <li><a href="#section-speakers">ИЛТГЭГЧИД</a></li>
+                        <li><a href="#section-venue">ТӨЛӨВЛӨЛТ · БАЙРШИЛ</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-4">
+                    <h3 class="footer-title">САЛБАРУУД</h3>
+                    <ul class="footer-nav">
+                        <li><a href="tusul.html">Эрчим хүч</a></li>
+                        <li><a href="tusul.html">Уул уурхай</a></li>
+                        <li><a href="tusul.html">Хөдөө аж ахуй</a></li>
+                        <li><a href="tusul.html">Дэд бүтэц</a></li>
+                        <li><a href="tusul.html">Боловсрол</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <h3 class="footer-title">ХОЛБОО БАРИХ</h3>
+                    <div class="footer-contact">
+                        <p><i class="fa-solid fa-location-dot"></i> ДОРНОГОВЬ АЙМАГ, САЙНШАНД ХОТ, СПОРТЫН ОРДОН</p>
+                        <p><i class="fa-solid fa-envelope"></i> <a href="mailto:forum@dornogovi.gov.mn">FORUM@DORNOGOVI.GOV.MN</a></p>
+                        <p><i class="fa-solid fa-globe"></i> <a href="https://www.dornogovi.one" target="_blank" rel="noopener">WWW.DORNOGOVI.ONE</a></p>
+                        <p><i class="fa-solid fa-phone"></i>
+                            <a href="tel:+97677006933">77006933</a>,
+                            <a href="tel:+97691116933">91116933</a>,
+                            <a href="tel:+97695111149">95111149</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subfooter">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        © НОГООН ХӨГЖИЛ ФОРУМ 2026 · ДОРНОГОВЬ АЙМАГ · САЙНШАНД СУМ
+
+                </div>
+            </div>
+        </div>
+
+        <style>
+          .dsif-footer { padding-top: 60px; padding-bottom: 24px; }
+          .dsif-footer .footer-desc { font-size: 13px; line-height: 1.7; opacity: 0.75; margin-bottom: 0; }
+          .dsif-footer .footer-title { font-size: 14px; font-weight: 700; letter-spacing: 2px; color: #4bac48; text-transform: uppercase; margin-bottom: 18px; }
+          .dsif-footer .footer-nav { list-style: none; padding: 0; margin: 0; }
+          .dsif-footer .footer-nav li { margin-bottom: 10px; }
+          .dsif-footer .footer-nav a { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; transition: color 0.2s, opacity 0.2s; text-decoration: none; color: inherit; }
+          .dsif-footer .footer-nav a:hover { color: #4bac48; opacity: 1; }
+          .dsif-footer .footer-contact p { font-size: 13px; line-height: 1.6; margin-bottom: 10px; opacity: 0.85; display: flex; align-items: flex-start; gap: 10px; }
+          .dsif-footer .footer-contact i { color: #4bac48; margin-top: 4px; min-width: 14px; }
+          .dsif-footer .footer-contact a { color: inherit; text-decoration: none; transition: color 0.2s; word-break: break-word; }
+          .dsif-footer .footer-contact a:hover { color: #4bac48; }
+          .dsif-footer .social-icons a { width: 36px; height: 36px; border-radius: 50%; background: rgba(75,172,72,0.12); color: #4bac48; display: inline-flex; align-items: center; justify-content: center; margin-right: 8px; transition: background 0.2s, color 0.2s; }
+          .dsif-footer .social-icons a:hover { background: #4bac48; color: #fff; }
+          .dsif-footer .subfooter { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px; margin-top: 40px; font-size: 12px; opacity: 0.75; letter-spacing: 1px; }
+          .dsif-footer .sdg-pill { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 4px 10px; border: 1px solid rgba(75,172,72,0.4); color: #4bac48; border-radius: 999px; margin-left: 6px; }
+          body:not(.dark-scheme) .dsif-footer .subfooter { border-top-color: rgba(0,0,0,0.08); }
+          @media (max-width: 767px) {
+            .dsif-footer { padding-top: 40px; }
+            .dsif-footer .subfooter { text-align: center; }
+            .dsif-footer .sdg-pill { margin: 4px 3px 0; }
+          }
+        </style>
+    </footer>
+    <!-- footer end -->
+    
+    <!-- Javascript Files
+    ================================================== -->
+    <script src="js/vendors.js"></script>
+    <script src="js/designesia.js"></script>
+    <script src="js/countdown-custom.js"></script>
+    <script src="js/custom-marquee.js"></script>
+    <script>
+      (function () {
+        var btn = document.getElementById('theme-toggle');
+        var heroHeadings = document.querySelectorAll('.hero-heading');
+
+        function applyHeroColor(dark) {
+          heroHeadings.forEach(function(el) {
+            el.style.color = dark ? '' : '#ffffff';
+          });
+        }
+
+        function applyTheme(dark) {
+          if (dark) {
+            document.body.classList.add('dark-scheme');
+            btn.innerHTML = '&#9788;';
+            btn.title = 'Light mode руу солих';
+          } else {
+            document.body.classList.remove('dark-scheme');
+            btn.innerHTML = '&#9790;';
+            btn.title = 'Dark mode руу солих';
+          }
+          applyHeroColor(dark);
+        }
+        var saved = localStorage.getItem('dsif-theme');
+        applyTheme(saved !== 'light');
+        btn.addEventListener('click', function () {
+          var isDark = document.body.classList.contains('dark-scheme');
+          localStorage.setItem('dsif-theme', isDark ? 'light' : 'dark');
+          applyTheme(!isDark);
+        });
+      })();
+    </script>
+
+<!-- Section харагдах/нуух тохиргоо (Firestore → fallback menu.json) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  function applySections(items) {
+    items.forEach(function(item){
+      if (item.type === 'section' && !item.visible) {
+        var el = document.getElementById(item.id);
+        if (el) el.style.display = 'none';
+      }
     });
   }
-  build();
-  let x=0,speed=0.5,halfW=0,paused=false;
-  function calcHalf(){halfW=inner.scrollWidth/3}
-  function tick(){
-    if(!paused){x-=speed;if(Math.abs(x)>=halfW)x=0;inner.style.transform=`translateX(${x}px)`}
-    requestAnimationFrame(tick);
-  }
-  const track=document.getElementById('ticker-track');
-  if(track){
-    // hover pause disabled
 
-  }
-  window.addEventListener('load',()=>{calcHalf();tick()});
-  window.addEventListener('resize',calcHalf);
-})();
-
-/* PDF download — canvas-slice approach */
-async function printSchedule(){
-  const schedule=document.getElementById('schedule');
-  const schedHeader=schedule.querySelector('.sched-header');
-  const cover=document.getElementById('pdf-cover');
-  const days=schedule.querySelectorAll('.sched-day');
-  const savedDays=Array.from(days).map(d=>d.style.display);
-
-  // Prepare DOM
-  days.forEach(d=>d.style.display='block');
-  schedHeader.style.visibility='hidden';
-  cover.style.display='flex';
-  schedule.classList.add('pdf-mode');
-  // Hide built-in day headers (we add proper per-page headers below)
-  schedule.querySelectorAll('.pdf-day-header').forEach(h=>h.style.display='none');
-  await new Promise(r=>setTimeout(r,400));
-
-  // Position cover logo+text: horizontally centered, anchored near bottom
-  const coverLogoEl=cover.querySelector('.pdf-cover-logo');
-  const coverTitleEl=cover.querySelector('.pdf-cover-title');
-  const coverBodyEl=cover.querySelector('.pdf-cover-body');
-  if(coverLogoEl&&coverTitleEl&&coverBodyEl){
-    const coverW=800,coverH=1150,logoW=632;
-    coverTitleEl.style.letterSpacing='14px';
-    await new Promise(r=>setTimeout(r,50));
-    const bodyH=coverBodyEl.offsetHeight,logoH=coverLogoEl.offsetHeight;
-    const leftPos=Math.round((coverW-logoW)/2);
-    const bodyTop=coverH-72-bodyH;
-    coverLogoEl.style.top=(bodyTop-18-logoH)+'px';
-    coverLogoEl.style.left=leftPos+'px';
-    coverBodyEl.style.top=bodyTop+'px';
-    coverBodyEl.style.left=leftPos+'px';
-  }
-
-  const {jsPDF}=window.jspdf;
-  const pdf=new jsPDF({format:'a4',orientation:'portrait',unit:'mm'});
-  const mg=10,pgW=210,pgH=297,cW=pgW-2*mg,cH=pgH-2*mg;
-  const hdrMm=12; // page header height in mm
-  const contentMm=cH-hdrMm;
-
-  // pxPerMm at scale:2, windowWidth:800
-  const pxPerMm=(800*2)/cW;
-  const contentPageHpx=Math.round(contentMm*pxPerMm);
-
-  // Pre-process logo: all pixels → black (fully black silhouette)
-  const blackLogoUrl=await new Promise(res=>{
-    const img=new Image();img.crossOrigin='anonymous';
-    img.onload=()=>{
-      const c=document.createElement('canvas');
-      c.width=img.naturalWidth;c.height=img.naturalHeight;
-      const ctx=c.getContext('2d');ctx.drawImage(img,0,0);
-      const d=ctx.getImageData(0,0,c.width,c.height);
-      for(let i=0;i<d.data.length;i+=4){
-        if(d.data[i+3]>10){d.data[i]=0;d.data[i+1]=0;d.data[i+2]=0;}
-      }
-      ctx.putImageData(d,0,0);res(c.toDataURL('image/png'));
-    };
-    img.onerror=()=>res(null);img.src='dsif-logo.png';
-  });
-
-  // Build page header canvas
-  async function makeHeader(){
-    const el=document.createElement('div');
-    el.style.cssText='position:absolute;top:0;left:-9999px;width:800px;height:50px;display:flex;align-items:center;padding:0 8px;background:#fff;font-family:Montserrat,sans-serif;box-sizing:border-box;border-bottom:3px solid #00b352';
-    const logoImg=document.createElement('img');
-    logoImg.src=blackLogoUrl||'dsif-logo.png';
-    logoImg.style.cssText='height:32px;width:auto;display:block';
-    el.appendChild(logoImg);
-    document.body.appendChild(el);
-    await new Promise(r=>setTimeout(r,80));
-    const c=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',windowWidth:800,logging:false,useCORS:true});
-    document.body.removeChild(el);
-    return c;
-  }
-
-  // All days in one canvas (continuous flow, no forced page breaks)
-  const allDaysEl=document.getElementById('sched-all-days');
-  const canvas=await html2canvas(allDaysEl,{scale:2,useCORS:true,backgroundColor:'#ffffff',windowWidth:800,logging:false});
-  const hdrCanvas=await makeHeader();
-  const hdrData=hdrCanvas.toDataURL('image/png');
-  const hdrMmH=hdrCanvas.height/pxPerMm;
-  const contentH=cH-hdrMmH;
-  const pageHpx=Math.round(contentH*pxPerMm);
-
-  let yPx=0;let pgCount=0;
-  while(yPx<canvas.height){
-    if(pgCount>0)pdf.addPage();pgCount++;
-    pdf.addImage(hdrData,'PNG',mg,mg,cW,hdrMmH);
-    const sliceH=Math.min(pageHpx,canvas.height-yPx);
-    const sc=document.createElement('canvas');
-    sc.width=canvas.width;sc.height=pageHpx;
-    const ctx=sc.getContext('2d');
-    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,sc.width,sc.height);
-    ctx.drawImage(canvas,0,yPx,canvas.width,sliceH,0,0,canvas.width,sliceH);
-    pdf.addImage(sc.toDataURL('image/jpeg',0.93),'JPEG',mg,mg+hdrMmH,cW,contentH);
-    yPx+=pageHpx;
-  }
-
-  pdf.save('DSIF-Forum-2026.pdf');
-
-  // Restore
-  days.forEach((d,i)=>d.style.display=savedDays[i]);
-  schedHeader.style.visibility='';
-  cover.style.display='none';
-  schedule.classList.remove('pdf-mode');
-  schedule.querySelectorAll('.pdf-day-header').forEach(h=>h.style.display='');
-}
-
-/* Day switch */
-function switchDay(n){
-  document.querySelectorAll('.sched-day').forEach(d=>d.style.display='none');
-  document.querySelectorAll('.day-btn').forEach(t=>t.classList.remove('active'));
-  document.getElementById('sched-day'+n).style.display='block';
-  document.getElementById('tab-day'+n).classList.add('active');
-}
-
-/* Modal */
-function openModal(){document.getElementById('reg-modal').classList.add('open');document.body.style.overflow='hidden'}
-function closeModal(){document.getElementById('reg-modal').classList.remove('open');document.body.style.overflow=''}
-document.getElementById('reg-modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-document.querySelectorAll('.open-reg').forEach(btn=>{btn.addEventListener('click',e=>{e.preventDefault();openModal()})});
-document.querySelectorAll('input[name="hotel"]').forEach(r=>{r.addEventListener('change',()=>{document.getElementById('hotel-count-wrap').style.display=document.getElementById('f-hotel-yes').checked?'block':'none'})});
-
-/* Form submit */
-document.getElementById('reg-form').addEventListener('submit',async function(e){
-  e.preventDefault();
-  const btn=document.querySelector('.modal-btn-submit');
-  btn.textContent='ИЛГЭЭЖ БАЙНА...';btn.disabled=true;
-  const data={
-    lastname:document.getElementById('f-lastname')?.value.trim()||'',
-    firstname:document.getElementById('f-firstname')?.value.trim()||'',
-    phone:document.getElementById('f-phone')?.value.trim()||'',
-    email:document.getElementById('f-email')?.value.trim()||'',
-    org:document.getElementById('f-org')?.value.trim()||'',
-    role:document.getElementById('f-role')?.value.trim()||'',
-    sector:document.getElementById('f-sector')?.value||'',
-    participate:document.getElementById('f-participate')?.value||'',
-    notes:document.getElementById('f-notes')?.value.trim()||'',
-    hotel:document.getElementById('f-hotel-yes')?.checked?'Тийм':'Үгүй',
-    hotelCount:document.getElementById('f-hotel-yes')?.checked?(document.getElementById('f-hotel-count')?.value||''):'',
-  };
-  try{
-    let regNum;
-    if(typeof window._dsifSaveRegistration==='function'){
-      regNum=await window._dsifSaveRegistration(data);
-    }else{
-      console.warn('Firebase not loaded, waiting 2s...');
-      await new Promise(r=>setTimeout(r,2000));
-      if(typeof window._dsifSaveRegistration==='function'){
-        regNum=await window._dsifSaveRegistration(data);
-      }else{
-        throw new Error('Firebase модуль ачаалагдсангүй. Хуудсаа дахин ачаалаад оролдоно уу.');
-      }
+  try {
+    var app = initializeApp({
+      apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+      authDomain: "dsif-shedule.firebaseapp.com",
+      projectId: "dsif-shedule",
+      storageBucket: "dsif-shedule.firebasestorage.app",
+      messagingSenderId: "973476131387",
+      appId: "1:973476131387:web:8c2e1234567890abcdef"
+    }, "index-sections");
+    var db = getFirestore(app);
+    var snap = await getDoc(doc(db, "settings", "menu"));
+    if (snap.exists() && snap.data().list) {
+      applySections(snap.data().list);
+    } else {
+      throw new Error("no data");
     }
-    showSuccess(data,regNum);
-  }catch(err){
-    console.error('Registration error:',err);
-    btn.textContent='ИЛГЭЭХ';btn.disabled=false;
-    alert('Алдаа гарлаа: '+err.message);
+  } catch(e) {
+    fetch('data/menu.json')
+      .then(function(r){ return r.json(); })
+      .then(applySections)
+      .catch(function(){});
   }
-});
-
-function showSuccess(d,regNum){
-  document.getElementById('reg-form-wrap').style.display='none';
-  document.getElementById('modal-foot').style.display='none';
-  const suc=document.getElementById('reg-success');
-  suc.innerHTML=`
-    <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="22" height="22"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <h3 style="font-size:1.1rem;font-weight:800;letter-spacing:2px;color:#fff;margin-bottom:8px;text-transform:uppercase">АМЖИЛТТАЙ БҮРТГЭГДЛЭЭ!</h3>
-    <p style="font-size:.7rem;color:rgba(255,255,255,.4);margin-bottom:6px">Бүртгэлийн дугаар: <strong style="color:var(--green)">${regNum}</strong></p>
-    <p style="font-size:.65rem;color:rgba(255,255,255,.25);margin-bottom:24px">Баталгаажуулах и-мэйл илгээгдэнэ.</p>
-    <div style="text-align:left;border:1px solid rgba(255,255,255,.08);padding:16px;margin-bottom:24px">
-      <div style="font-size:.52rem;color:var(--green);letter-spacing:2px;margin-bottom:12px;font-weight:700;text-transform:uppercase">БҮРТГЭЛИЙН МЭДЭЭЛЭЛ</div>
-      ${[['ОВОГ, НЭР',d.lastname+' '+d.firstname],['УТАС',d.phone],['И-МЭЙЛ',d.email],['БАЙГУУЛЛАГА',d.org],['САЛБАР',d.sector]].filter(r=>r[1].trim()).map(([k,v])=>`<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)"><span style="font-size:.55rem;color:rgba(255,255,255,.3);min-width:100px;letter-spacing:1px;text-transform:uppercase">${k}</span><span style="font-size:.7rem;font-weight:600;color:#fff">${v}</span></div>`).join('')}
-    </div>
-    <button class="btn-g" onclick="closeModal()" style="padding:12px 32px;font-size:.65rem;cursor:pointer">ХААХ</button>`;
-  suc.style.display='block';
-}
-
-// Recolor logo: white pixels → black, colored pixels stay
-function recolorLogoWhiteToBlack(imgEl){
-  const img=new Image();
-  img.crossOrigin='anonymous';
-  img.onload=()=>{
-    const c=document.createElement('canvas');
-    c.width=img.naturalWidth;c.height=img.naturalHeight;
-    const ctx=c.getContext('2d');
-    ctx.drawImage(img,0,0);
-    const d=ctx.getImageData(0,0,c.width,c.height);
-    for(let i=0;i<d.data.length;i+=4){
-      const r=d.data[i],g=d.data[i+1],b=d.data[i+2],a=d.data[i+3];
-      if(a>10){
-        const max=Math.max(r,g,b),min=Math.min(r,g,b);
-        const sat=max===0?0:(max-min)/max;
-        const br=(r+g+b)/3;
-        if(br>160&&sat<0.25){
-          d.data[i]=0;d.data[i+1]=0;d.data[i+2]=0;
-        }
-      }
-    }
-    ctx.putImageData(d,0,0);
-    imgEl.src=c.toDataURL('image/png');
-  };
-  img.src=imgEl.src;
-}
-// footer logo kept white
 </script>
 </body>
+
 </html>

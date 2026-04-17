@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSIF Админ — Удирдлагын самбар</title>
+  <link rel="icon" href="../images/icon.webp" type="image/webp">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <!-- Theme toggle (apply saved theme ASAP) -->
+  <script>
+    (function() {
+      if (localStorage.getItem('dsif-admin-theme') === 'light') document.body.classList.add('light-theme');
+    })();
+  </script>
+
+  <!-- Mobile menu toggle -->
+  <button class="mobile-toggle" id="mobileToggle">
+    <i class="fa fa-bars"></i>
+  </button>
+
+  <div class="admin-layout">
+    <!-- ═══════════ SIDEBAR ═══════════ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="../images/logo.webp" alt="DSIF">
+        <div class="brand sidebar-text" style="flex:1">
+          DSIF Админ
+          <small>Удирдлагын самбар</small>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-label"><span class="sidebar-text">Үндсэн</span></div>
+        <a href="#" class="active" data-section="dashboard">
+          <i class="fa fa-chart-pie"></i> <span class="sidebar-text">Хянах самбар</span>
+        </a>
+
+        <div class="nav-label"><span class="sidebar-text">Төсөл</span></div>
+        <a href="#" data-section="projects">
+          <i class="fa fa-folder-open"></i> <span class="sidebar-text">Төслүүд</span>
+        </a>
+        <a href="#" data-section="sectors">
+          <i class="fa fa-layer-group"></i> <span class="sidebar-text">Төслийн ангилал</span>
+        </a>
+
+        <div class="nav-label"><span class="sidebar-text">Сайт</span></div>
+        <a href="#" data-section="menu">
+          <i class="fa fa-bars"></i> <span class="sidebar-text">Цэс тохиргоо</span>
+        </a>
+
+        <div class="nav-label"><span class="sidebar-text">Хэрэглэгч</span></div>
+        <a href="#" data-section="sub-admins">
+          <i class="fa fa-user-shield"></i> <span class="sidebar-text">Дэд админ</span>
+        </a>
+        <a href="#" data-section="roles">
+          <i class="fa fa-key"></i> <span class="sidebar-text">Эрхийн тохиргоо</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <div class="user-details">
+            <div class="user-name" id="userName">Админ</div>
+            <div class="user-role" id="userRole">admin</div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm" id="logoutBtn" style="width:100%">
+          <i class="fa fa-sign-out-alt"></i> <span class="sidebar-text">Гарах</span>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- ═══════════ TOP NAVBAR ═══════════ -->
+    <div class="topbar" id="topbar">
+      <div class="topbar-left">
+        <button class="topbar-btn" id="sidebarToggleTop" title="Цэс хураах/дэлгэх">
+          <i class="fa fa-bars"></i>
+        </button>
+        <span class="topbar-title" id="topbarTitle">Хянах самбар</span>
+      </div>
+      <div class="topbar-right">
+        <a href="../index.html" target="_blank" class="topbar-btn" title="Сайт руу очих">
+          <i class="fa fa-external-link-alt"></i>
+          <span class="topbar-btn-text">Сайт руу очих</span>
+        </a>
+        <button id="admin-theme-toggle" title="Цайвар/Бараан горим">&#9788;</button>
+      </div>
+    </div>
+
+    <!-- ═══════════ MAIN CONTENT ═══════════ -->
+    <main class="main-content">
+
+      <!-- ── DASHBOARD SECTION ── -->
+      <div class="section-page active" id="sec-dashboard">
+        <div class="page-header">
+          <h2>Хянах <span>самбар</span></h2>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fa fa-folder-open"></i></div>
+            <div class="stat-value" id="statProjects">0</div>
+            <div class="stat-label">Нийт төсөл</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fa fa-layer-group"></i></div>
+            <div class="stat-value" id="statSectors">9</div>
+            <div class="stat-label">Ангилалын тоо</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon yellow"><i class="fa fa-user-shield"></i></div>
+            <div class="stat-value" id="statAdmins">0</div>
+            <div class="stat-label">Нийт админ</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red"><i class="fa fa-users"></i></div>
+            <div class="stat-value" id="statRegistrations">0</div>
+            <div class="stat-label">Бүртгэл</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3><i class="fa fa-clock"></i>&nbsp; Сүүлийн үйлдлүүд</h3>
+          </div>
+          <div class="panel-body">
+            <table>
+              <thead>
+                <tr>
+                  <th>Огноо</th>
+                  <th>Хэрэглэгч</th>
+                  <th>Үйлдэл</th>
+                </tr>
+              </thead>
+              <tbody id="activityLog">
+                <tr><td colspan="3" class="empty-state"><i class="fa fa-inbox"></i><p>Үйлдэл бүртгэгдээгүй</p></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PROJECTS SECTION ── -->
+      <div class="section-page" id="sec-projects">
+        <div class="page-header">
+          <h2>Төслийн <span>удирдлага</span></h2>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-outline btn-sm" id="downloadTemplateBtn" title="Excel загвар татах">
+              <i class="fa fa-file-download"></i> Загвар
+            </button>
+            <button class="btn btn-info btn-sm" id="importExcelBtn">
+              <i class="fa fa-file-excel"></i> Excel оруулах
+            </button>
+            <button class="btn btn-primary btn-sm" id="addProjectBtn">
+              <i class="fa fa-plus"></i> Төсөл нэмэх
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter by sector -->
+        <div style="margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <select id="projectFilterSector" style="max-width:260px;">
+            <option value="all">Бүх ангилал</option>
+          </select>
+          <span id="projectCount" style="font-size:12px;color:var(--admin-text-muted)"></span>
+        </div>
+
+        <!-- Bulk actions bar -->
+        <div id="bulkActionsBar" style="display:none; margin-bottom:16px; padding:12px 16px; background:var(--admin-dark-2); border:1px solid var(--admin-primary); border-radius:8px; align-items:center; gap:12px; flex-wrap:wrap;">
+          <span id="bulkSelectedCount" style="font-weight:600; color:var(--admin-primary)"></span>
+          <div style="flex:1"></div>
+          <button class="btn btn-warning btn-sm" id="bulkHideBtn">
+            <i class="fa fa-eye-slash"></i> Нуух
+          </button>
+          <button class="btn btn-info btn-sm" id="bulkShowBtn">
+            <i class="fa fa-eye"></i> Харуулах
+          </button>
+          <button class="btn btn-danger btn-sm" id="bulkDeleteBtn">
+            <i class="fa fa-trash"></i> Устгах
+          </button>
+          <button class="btn btn-outline btn-sm" id="bulkClearBtn">
+            <i class="fa fa-times"></i> Болих
+          </button>
+        </div>
+
+        <!-- Projects table -->
+        <div class="panel">
+          <div class="panel-body" style="padding:0">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:40px"><input type="checkbox" id="projectSelectAll" title="Бүгдийг сонгох"></th>
+                  <th>Зураг</th>
+                  <th>Төслийн нэр</th>
+                  <th>Ангилал</th>
+                  <th>Санхүүжилт</th>
+                  <th>Төлөв</th>
+                  <th>Үйлдэл</th>
+                </tr>
+              </thead>
+              <tbody id="projectGrid">
+                <tr><td colspan="7" class="empty-state"><i class="fa fa-folder-open"></i><p>Ачаалж байна...</p></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SUB-ADMINS SECTION ── -->
+      <div class="section-page" id="sec-sub-admins">
+        <div class="page-header">
+          <h2>Дэд <span>админ</span></h2>
+          <button class="btn btn-primary btn-sm" id="addSubAdminBtn">
+            <i class="fa fa-user-plus"></i> Дэд админ нэмэх
+          </button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-body" style="padding:0">
+            <table>
+              <thead>
+                <tr>
+                  <th>Нэр</th>
+                  <th>Имэйл</th>
+                  <th>Эрх</th>
+                  <th>Нэмсэн огноо</th>
+                  <th>Үйлдэл</th>
+                </tr>
+              </thead>
+              <tbody id="subAdminsTable">
+                <tr><td colspan="5" class="empty-state"><i class="fa fa-user-shield"></i><p>Дэд админ байхгүй</p></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ROLES SECTION ── -->
+      <div class="section-page" id="sec-roles">
+        <div class="page-header">
+          <h2>Эрхийн <span>тохиргоо</span></h2>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Эрхийн түвшингүүд</h3>
+          </div>
+          <div class="panel-body">
+            <table>
+              <thead>
+                <tr>
+                  <th>Эрх</th>
+                  <th>Тайлбар</th>
+                  <th>Зөвшөөрөл</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="badge badge-admin">admin</span></td>
+                  <td>Бүрэн эрхтэй админ</td>
+                  <td>Бүх үйлдэл: төсөл нэмэх/засах/устгах, дэд админ удирдах, тохиргоо өөрчлөх</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-sub-admin">sub-admin</span></td>
+                  <td>Дэд админ</td>
+                  <td>Төсөл нэмэх/засах, зөвхөн зөвшөөрөгдсөн ангилалд</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-editor">editor</span></td>
+                  <td>Засварлагч</td>
+                  <td>Зөвхөн зөвшөөрөгдсөн ангилалын төслийг засах</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-viewer">viewer</span></td>
+                  <td>Үзэгч</td>
+                  <td>Зөвхөн харах эрх</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:20px">
+          <div class="panel-header">
+            <h3>Ангилалын зөвшөөрөл удирдах</h3>
+          </div>
+          <div class="panel-body">
+            <p style="font-size:13px; color:var(--admin-text-muted); margin-bottom:16px;">
+              Дэд админ, засварлагч нарт ангилалын зөвшөөрлийг "Дэд админ" хэсгээс тохируулна.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SECTORS / CATEGORIES SECTION ── -->
+      <div class="section-page" id="sec-sectors">
+        <div class="page-header">
+          <h2>Төслийн <span>ангилал</span></h2>
+          <button class="btn btn-primary btn-sm" id="addSectorBtn">
+            <i class="fa fa-plus"></i> Ангилал нэмэх
+          </button>
+        </div>
+
+        <div class="project-grid" id="categoriesGrid">
+          <div class="empty-state"><i class="fa fa-layer-group"></i><p>Ачаалж байна...</p></div>
+        </div>
+      </div>
+
+      <!-- ── MENU SECTION ── -->
+      <div class="section-page" id="sec-menu">
+        <div class="page-header">
+          <h2>Цэс <span>тохиргоо</span></h2>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Header цэсний жагсаалт</h3>
+          </div>
+          <div class="panel-body" style="padding:0">
+            <table>
+              <thead>
+                <tr>
+                  <th>Цэсний нэр</th>
+                  <th>Холбоос</th>
+                  <th>Төлөв</th>
+                  <th>Үйлдэл</th>
+                </tr>
+              </thead>
+              <tbody id="menuTable">
+                <tr><td colspan="4" class="empty-state"><span class="spinner"></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ═══════════ MODALS ═══════════ -->
+
+  <!-- Add/Edit Project Modal -->
+  <div class="modal-overlay" id="projectModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="projectModalTitle">Төсөл нэмэх</h3>
+        <button class="modal-close" onclick="closeModal('projectModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="projectForm">
+          <input type="hidden" id="projectEditId">
+          <input type="hidden" id="projectEditSector">
+          <div class="form-group">
+            <label>Ангилал</label>
+            <select id="projectSector" required>
+              <option value="">— Ангилал сонгох —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Төслийн нэр</label>
+            <input type="text" id="projectName" placeholder="Төслийн нэр" required>
+          </div>
+          <div class="form-group">
+            <label>Зохиогч / Байгууллага</label>
+            <input type="text" id="projectCreator" placeholder="Жишээ: Дорноговь аймаг" required>
+          </div>
+          <div class="form-group">
+            <label>Thumbnail зураг</label>
+            <div class="file-upload" id="thumbnailUpload">
+              <i class="fa fa-cloud-upload-alt"></i>
+              <p>Зураг чирж оруулах эсвэл дарж сонгох</p>
+              <input type="file" id="projectThumbnail" accept="image/*" style="display:none">
+              <img class="preview" id="thumbnailPreview" style="display:none">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="closeModal('projectModal')">Болих</button>
+        <button class="btn btn-primary btn-sm" id="saveProjectBtn">
+          <i class="fa fa-save"></i> Хадгалах
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Sub-Admin Modal -->
+  <div class="modal-overlay" id="subAdminModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="subAdminModalTitle">Дэд админ нэмэх</h3>
+        <button class="modal-close" onclick="closeModal('subAdminModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="subAdminForm">
+          <input type="hidden" id="subAdminEditId">
+          <div class="form-group">
+            <label>Нэр</label>
+            <input type="text" id="subAdminName" placeholder="Хэрэглэгчийн нэр" required>
+          </div>
+          <div class="form-group">
+            <label>Имэйл</label>
+            <input type="email" id="subAdminEmail" placeholder="email@example.com" required>
+          </div>
+          <div class="form-group" id="subAdminPasswordGroup">
+            <label>Нууц үг</label>
+            <input type="password" id="subAdminPassword" placeholder="Нууц үг (6+ тэмдэгт)" minlength="6">
+          </div>
+          <div class="form-group">
+            <label>Эрхийн түвшин</label>
+            <select id="subAdminRole">
+              <option value="sub-admin">Дэд админ</option>
+              <option value="editor">Засварлагч</option>
+              <option value="viewer">Үзэгч</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Зөвшөөрөгдсөн ангилалууд</label>
+            <div class="checkbox-list" id="sectorPermissions">
+              <label><input type="checkbox" value="energy"> Эрчим хүч</label>
+              <label><input type="checkbox" value="mining"> Уул уурхай</label>
+              <label><input type="checkbox" value="environment"> Байгаль орчин</label>
+              <label><input type="checkbox" value="infra"> Дэд бүтэц</label>
+              <label><input type="checkbox" value="edu"> Боловсрол</label>
+              <label><input type="checkbox" value="culture"> Соёл</label>
+              <label><input type="checkbox" value="health"> Эрүүл мэнд</label>
+              <label><input type="checkbox" value="social"> Нийгэм</label>
+              <label><input type="checkbox" value="agri"> Хөдөө аж ахуй</label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="closeModal('subAdminModal')">Болих</button>
+        <button class="btn btn-primary btn-sm" id="saveSubAdminBtn">
+          <i class="fa fa-save"></i> Хадгалах
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Sector Modal -->
+  <div class="modal-overlay" id="sectorModal">
+    <div class="modal" style="max-width:440px">
+      <div class="modal-header">
+        <h3 id="sectorModalTitle">Ангилал нэмэх</h3>
+        <button class="modal-close" onclick="closeModal('sectorModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="sectorForm">
+          <input type="hidden" id="sectorEditKey">
+          <div class="form-group">
+            <label>Түлхүүр (key)</label>
+            <input type="text" id="sectorKey" placeholder="Жишээ: tourism" pattern="[a-z0-9\-]+" title="Зөвхөн жижиг латин үсэг, тоо, зураас" required>
+            <small style="color:var(--admin-text-muted);font-size:11px;margin-top:4px;display:block">Жижиг латин үсэг, тоо, зураас. Жишээ: tourism, it-tech</small>
+          </div>
+          <div class="form-group">
+            <label>Монгол нэр</label>
+            <input type="text" id="sectorName" placeholder="Жишээ: Аялал жуулчлал" required>
+          </div>
+          <div class="form-group">
+            <label>Зураг</label>
+            <div class="file-upload" id="sectorImgUpload">
+              <i class="fa fa-cloud-upload-alt"></i>
+              <p>Зураг чирж оруулах эсвэл дарж сонгох</p>
+              <input type="file" id="sectorImgInput" accept="image/*" style="display:none">
+              <img class="preview" id="sectorImgPreview" style="display:none">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="closeModal('sectorModal')">Болих</button>
+        <button class="btn btn-primary btn-sm" id="saveSectorBtn">
+          <i class="fa fa-save"></i> Хадгалах
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Excel Modal -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal" style="max-width:900px">
+      <div class="modal-header">
+        <h3>Excel-ээр төсөл оруулах</h3>
+        <button class="modal-close" onclick="closeModal('importModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="importStep1">
+          <div class="file-upload" id="excelUpload">
+            <i class="fa fa-file-excel" style="font-size:32px;color:#1d7044"></i>
+            <p style="margin-top:8px">Excel файл (.xlsx, .xls) чирж оруулах эсвэл дарж сонгох</p>
+            <p style="font-size:11px;color:var(--admin-text-muted);margin-top:4px">Баганын толгой эгнээ нь "Төслийн ангилал", "Төслийн нэр"... гэх мэт нэртэй байх ёстой</p>
+            <input type="file" id="excelFileInput" accept=".xlsx,.xls,.csv" style="display:none">
+          </div>
+          <p style="margin-top:12px;font-size:12px;color:var(--admin-text-muted)">
+            <i class="fa fa-info-circle"></i> Файлд оруулах талбаруудын жагсаалтыг харах, загвар татахын тулд дээд талын <strong>"Загвар"</strong> товчийг ашиглана уу.
+          </p>
+        </div>
+
+        <div id="importStep2" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div>
+              <strong id="importFileName"></strong>
+              <span id="importRowCount" style="margin-left:8px;font-size:12px;color:var(--admin-text-muted)"></span>
+            </div>
+            <button class="btn btn-outline btn-sm" id="importBackBtn">
+              <i class="fa fa-arrow-left"></i> Буцах
+            </button>
+          </div>
+
+          <div id="importMappingWarning" style="display:none;padding:10px 12px;background:rgba(255,193,7,0.15);border-left:3px solid #ffc107;border-radius:4px;margin-bottom:12px;font-size:13px">
+            <i class="fa fa-exclamation-triangle"></i> Зарим мөрд тохирох ангилал олдсонгүй. Доор шалгаад зассын дараа үргэлжлүүлнэ үү.
+          </div>
+
+          <div style="max-height:400px;overflow:auto;border:1px solid var(--admin-border);border-radius:6px">
+            <table style="margin:0">
+              <thead style="position:sticky;top:0;background:var(--admin-dark-2);z-index:1">
+                <tr>
+                  <th style="width:40px">#</th>
+                  <th>Төслийн нэр</th>
+                  <th>Ангилал (автомат)</th>
+                  <th>Байгууллага</th>
+                  <th>Товч тайлбар</th>
+                  <th style="width:100px">Төлөв</th>
+                </tr>
+              </thead>
+              <tbody id="importPreview"></tbody>
+            </table>
+          </div>
+
+          <p style="margin-top:12px;font-size:12px;color:var(--admin-text-muted)">
+            Байгаа ижил нэртэй төслийг Excel-ийн өгөгдлөөр шинэчлэнэ. Шинэ төсөл шууд нэмэгдэнэ.
+          </p>
+        </div>
+
+        <div id="importStep3" style="display:none;text-align:center;padding:20px">
+          <i class="fa fa-cloud-upload-alt" style="font-size:48px;color:var(--admin-primary);margin-bottom:12px"></i>
+          <h4 id="importProgressText">Оруулж байна...</h4>
+          <div style="background:var(--admin-dark-3);border-radius:6px;height:8px;overflow:hidden;margin:16px 0">
+            <div id="importProgressBar" style="height:100%;background:var(--admin-primary);width:0%;transition:width .3s"></div>
+          </div>
+          <p id="importProgressDetail" style="font-size:13px;color:var(--admin-text-muted)"></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="closeModal('importModal')" id="importCancelBtn">Болих</button>
+        <button class="btn btn-primary btn-sm" id="importConfirmBtn" style="display:none">
+          <i class="fa fa-check"></i> <span id="importConfirmText">Оруулах</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal" style="max-width:400px">
+      <div class="modal-header">
+        <h3>Устгах уу?</h3>
+        <button class="modal-close" onclick="closeModal('deleteModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="deleteMessage" style="font-size:14px">Энэ үйлдлийг буцаах боломжгүй.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="closeModal('deleteModal')">Болих</button>
+        <button class="btn btn-danger btn-sm" id="confirmDeleteBtn">
+          <i class="fa fa-trash"></i> Устгах
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Firebase + Admin JS -->
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

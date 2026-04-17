@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дорноговь аймаг — Татвар төлөгчийн судалгаа 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mongolian&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #222836;
+    --accent: #00c896;
+    --accent2: #0088ff;
+    --gold: #f0a500;
+    --text: #e8edf5;
+    --muted: #6b7a99;
+    --danger: #ff4444;
+    --warn: #ffaa00;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0d1520 0%, #111c2e 50%, #0a1218 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .header-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .logo-text {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .header-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 6px;
+  }
+
+  /* HERO STATS */
+  .hero {
+    background: linear-gradient(180deg, #0d1826 0%, var(--bg) 100%);
+    padding: 40px 40px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .hero-heading {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    background: linear-gradient(90deg, #ffffff 0%, #a0b8d0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 1100px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 700px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+    cursor: default;
+  }
+
+  .stat-card:hover { border-color: var(--accent); }
+
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-value.green { color: var(--accent); }
+  .stat-value.blue { color: var(--accent2); }
+  .stat-value.gold { color: var(--gold); }
+  .stat-value.red { color: var(--danger); }
+  .stat-value.white { color: var(--text); }
+
+  .stat-desc { font-size: 12px; color: var(--muted); }
+
+  /* TABS */
+  .tabs-wrapper {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    position: sticky;
+    top: 64px;
+    z-index: 90;
+  }
+
+  .tabs {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .tab {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    white-space: nowrap;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .tab-count {
+    display: inline-block;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1px 7px;
+    font-size: 11px;
+    margin-left: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .tab.active .tab-count { background: rgba(0,200,150,0.15); border-color: var(--accent); color: var(--accent); }
+
+  /* CONTENT */
+  .content {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px 40px 60px;
+  }
+
+  /* FILTERS */
+  .filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 240px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-box:focus { border-color: var(--accent); }
+  .search-box::placeholder { color: var(--muted); }
+
+  .filter-select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+    min-width: 140px;
+  }
+
+  .filter-select:focus { border-color: var(--accent); }
+
+  .results-count {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 10px 0;
+    white-space: nowrap;
+  }
+
+  /* TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  th:hover { color: var(--text); }
+
+  td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(34,40,54,0.6);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .badge-green { background: rgba(0,200,150,0.12); color: var(--accent); border: 1px solid rgba(0,200,150,0.25); }
+  .badge-blue { background: rgba(0,136,255,0.12); color: var(--accent2); border: 1px solid rgba(0,136,255,0.25); }
+  .badge-gold { background: rgba(240,165,0,0.12); color: var(--gold); border: 1px solid rgba(240,165,0,0.25); }
+  .badge-red { background: rgba(255,68,68,0.12); color: var(--danger); border: 1px solid rgba(255,68,68,0.25); }
+  .badge-gray { background: rgba(107,122,153,0.12); color: var(--muted); border: 1px solid rgba(107,122,153,0.25); }
+  .badge-warn { background: rgba(255,170,0,0.12); color: var(--warn); border: 1px solid rgba(255,170,0,0.25); }
+
+  .mono { font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12px; }
+
+  /* PANEL */
+  .panel-section {
+    display: none;
+  }
+  .panel-section.active { display: block; }
+
+  /* SUMMARY TABLE */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 900px) { .summary-grid { grid-template-columns: 1fr; } }
+
+  .sum-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .sum-card-title {
+    padding: 14px 18px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .sum-table { width: 100%; border-collapse: collapse; }
+  .sum-table th {
+    padding: 10px 14px;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: right;
+    cursor: default;
+  }
+  .sum-table th:first-child { text-align: left; }
+  .sum-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(34,40,54,0.5);
+    font-size: 13px;
+    text-align: right;
+  }
+  .sum-table td:first-child { text-align: left; font-weight: 500; }
+  .sum-table tr:last-child td { border-bottom: none; background: rgba(0,200,150,0.04); font-weight: 600; }
+  .sum-table .num { font-family: 'IBM Plex Mono', monospace; color: var(--accent); }
+
+  /* PAGINATION */
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 13px;
+  }
+
+  .page-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 13px;
+  }
+
+  .page-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .page-btn.active { background: rgba(0,200,150,0.15); border-color: var(--accent); color: var(--accent); }
+  .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .page-info { color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+
+  /* No results */
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+  .no-results .icon { font-size: 40px; margin-bottom: 12px; }
+  .no-results .msg { font-size: 15px; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">🏛️</div>
+      <div>
+        <div class="logo-text">Дорноговь аймгийн татварын хэлтэс</div>
+        <div class="logo-sub">Татвар төлөгчийн судалгаа · 2026</div>
+      </div>
+    </div>
+    <div class="header-date" id="dateDisplay">2026-04-16</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-title">Хэлтсийн даргад танилцуулах тайлан</div>
+    <div class="hero-heading">Эцсийн өмчлөгчийн судалгаа</div>
+    <div class="hero-sub">Ашигт малтмал · Барилга · Тээвэр · Баяжуулах · Гадаадын хөрөнгө оруулалт</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Нийт бүртгэл</div>
+        <div class="stat-value white">485</div>
+        <div class="stat-desc">Бүх хуудасны нийлбэр</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">А лиценз</div>
+        <div class="stat-value green">192</div>
+        <div class="stat-desc">Ашигт малтмал</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Барилга</div>
+        <div class="stat-value blue">62</div>
+        <div class="stat-desc">Барилгын үйл ажиллагаа</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Тээвэр</div>
+        <div class="stat-value gold">106</div>
+        <div class="stat-desc">Ачаа тээврийн ААН</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Баяжуулах</div>
+        <div class="stat-value white">16</div>
+        <div class="stat-desc">Боловсруулалт</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Гадаадын ХО</div>
+        <div class="stat-value red">109</div>
+        <div class="stat-desc">Гадаад хөрөнгө оруулалт</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('summary')">📊 Нэгтгэл</div>
+    <div class="tab" onclick="showTab('mining')">⛏️ А Лиценз <span class="tab-count">192</span></div>
+    <div class="tab" onclick="showTab('foreign')">🌐 Гадаадын ХО <span class="tab-count">109</span></div>
+    <div class="tab" onclick="showTab('construction')">🏗️ Барилга <span class="tab-count">62</span></div>
+    <div class="tab" onclick="showTab('transport')">🚛 Тээвэр <span class="tab-count">106</span></div>
+    <div class="tab" onclick="showTab('processing')">🏭 Баяжуулах <span class="tab-count">16</span></div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- SUMMARY TAB -->
+  <div id="tab-summary" class="panel-section active">
+    <div class="summary-grid">
+      <div class="sum-card">
+        <div class="sum-card-title">Сумаар ангилсан нэгтгэл</div>
+        <table class="sum-table">
+          <thead>
+            <tr>
+              <th>Сум</th>
+              <th>А лиц</th>
+              <th>Барилга</th>
+              <th>Тээвэр</th>
+              <th>Баяжуул</th>
+              <th>Гадаад ХО</th>
+              <th>Нийт</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Айраг</td><td class="num">31</td><td class="num">0</td><td class="num">0</td><td class="num">6</td><td class="num">5</td><td class="num">42</td></tr>
+            <tr><td>Алтанширээ</td><td class="num">10</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td class="num">2</td><td class="num">13</td></tr>
+            <tr><td>Даланжаргалан</td><td class="num">60</td><td class="num">0</td><td class="num">3</td><td class="num">6</td><td class="num">52</td><td class="num">121</td></tr>
+            <tr><td>Дэлгэрэх</td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">3</td></tr>
+            <tr><td>Замын-Үүд</td><td class="num">0</td><td class="num">3</td><td class="num">43</td><td class="num">0</td><td class="num">23</td><td class="num">69</td></tr>
+            <tr><td>Их хэт</td><td class="num">16</td><td class="num">0</td><td class="num">0</td><td class="num">2</td><td class="num">6</td><td class="num">24</td></tr>
+            <tr><td>Мандах</td><td class="num">14</td><td class="num">2</td><td class="num">2</td><td class="num">—</td><td class="num">—</td><td class="num">18</td></tr>
+            <tr><td>Өргөн</td><td class="num">17</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">3</td><td class="num">20</td></tr>
+            <tr><td>Улаанбадрах</td><td class="num">5</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">1</td><td class="num">6</td></tr>
+            <tr><td>Сайхандулаан</td><td class="num">14</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">7</td><td class="num">21</td></tr>
+            <tr><td>Сайншанд</td><td class="num">7</td><td class="num">57</td><td class="num">39</td><td class="num">1</td><td class="num">10</td><td class="num">114</td></tr>
+            <tr><td>Хатанбулаг</td><td class="num">8</td><td class="num">0</td><td class="num">19</td><td class="num">0</td><td class="num">0</td><td class="num">27</td></tr>
+            <tr><td>Хөвсгөл</td><td class="num">4</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">4</td></tr>
+            <tr><td>Эрдэнэ</td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">3</td></tr>
+            <tr><td><strong>Нийт</strong></td><td class="num"><strong>192</strong></td><td class="num"><strong>62</strong></td><td class="num"><strong>106</strong></td><td class="num"><strong>16</strong></td><td class="num"><strong>109</strong></td><td class="num"><strong>485</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sum-card">
+        <div class="sum-card-title">Томоохон лицензийн борлуулалт (сая ₮)</div>
+        <table class="sum-table">
+          <thead>
+            <tr>
+              <th>Компани</th>
+              <th>Эрдэс</th>
+              <th>Борлуулалт</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Монголын алт МАК</td><td>Зэс</td><td class="num">2,256,293</td></tr>
+            <tr><td>Эрдэнэс Крит. Минералс</td><td>Жонш</td><td class="num">371,437</td></tr>
+            <tr><td>Эрдэнэс Крит. Минералс</td><td>Жонш</td><td class="num">352,085</td></tr>
+            <tr><td>МАК Цемент</td><td>Шохойн чулуу</td><td class="num">259,502</td></tr>
+            <tr><td>Их түмэн хүрд</td><td>Нүүрс</td><td class="num">80,988</td></tr>
+            <tr><td>Ихговь энержи</td><td>Нүүрс</td><td class="num">98,736</td></tr>
+            <tr><td>Говийн шандаст хүлэг</td><td>Нүүрс</td><td class="num">65,370</td></tr>
+            <tr><td>Түмэн айл көүл</td><td>Нүүрс</td><td class="num">67,077</td></tr>
+            <tr><td>Эм Си Ти Ти</td><td>Жонш</td><td class="num">18,376</td></tr>
+            <tr><td>Хэрлэн-Импэкс</td><td>Жонш</td><td class="num">14,448</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Visual bar chart by soum -->
+    <div class="sum-card">
+      <div class="sum-card-title">Сумаар харьцуулсан диаграм</div>
+      <div style="padding:20px">
+        <div id="barChart"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MINING TAB -->
+  <div id="tab-mining" class="panel-section">
+    <div class="filters">
+      <input class="search-box" id="miningSearch" placeholder="🔍 Компанийн нэр, захирал, эрдэс хайх..." oninput="filterMining()">
+      <select class="filter-select" id="miningSum" onchange="filterMining()">
+        <option value="">Бүх сум</option>
+        <option>Айраг</option>
+        <option>Алтанширээ</option>
+        <option>Даланжаргалан</option>
+        <option>Дэлгэрэх</option>
+        <option>Их хэт</option>
+        <option>Мандах</option>
+        <option>Өргөн</option>
+        <option>Сайхандулаан</option>
+        <option>Сайншанд</option>
+        <option>Улаанбадрах</option>
+        <option>Хатанбулаг</option>
+        <option>Эрдэнэ</option>
+      </select>
+      <select class="filter-select" id="miningMin" onchange="filterMining()">
+        <option value="">Бүх эрдэс</option>
+        <option>Хайлуур жонш</option>
+        <option>Нүүрс</option>
+        <option>Зэс</option>
+        <option>Төмөр</option>
+        <option>Бал чулуу (графит)</option>
+        <option>Шохойн чулуу</option>
+        <option>Цеолит</option>
+        <option>Цахиур (Кварц)</option>
+        <option>Мангаан</option>
+      </select>
+      <div class="results-count" id="miningCount">192 бүртгэл</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>№</th>
+            <th>Сум</th>
+            <th>Компани</th>
+            <th>Хэлбэр</th>
+            <th>Эрдэс</th>
+            <th>Талбай га</th>
+            <th>Олгосон</th>
+            <th>Дуусах</th>
+            <th>Борлуулалт сая₮</th>
+            <th>1% татвар</th>
+            <th>Захирал</th>
+            <th>Утас</th>
+            <th>Эцсийн өмчлөгч</th>
+            <th>Татварын харьяа</th>
+          </tr>
+        </thead>
+        <tbody id="miningBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="miningPagination"></div>
+  </div>
+
+  <!-- FOREIGN TAB -->
+  <div id="tab-foreign" class="panel-section">
+    <div class="filters">
+      <input class="search-box" id="foreignSearch" placeholder="🔍 Компани, захирал, эцсийн өмчлөгч хайх..." oninput="filterForeign()">
+      <select class="filter-select" id="foreignSum" onchange="filterForeign()">
+        <option value="">Бүх сум</option>
+        <option>Айраг</option>
+        <option>Алтанширээ</option>
+        <option>Даланжаргалан</option>
+        <option>Замын-Үүд</option>
+        <option>Иххэт</option>
+        <option>Өргөн сум</option>
+        <option>Сайхандулаан</option>
+        <option>Сайншанд</option>
+        <option>Улаанбадрах</option>
+      </select>
+      <select class="filter-select" id="foreignStatus" onchange="filterForeign()">
+        <option value="">Бүх төлөв</option>
+        <option value="active">Үйл ажиллагаатай</option>
+        <option value="inactive">Зогссон / явуулаагүй</option>
+      </select>
+      <div class="results-count" id="foreignCount">109 бүртгэл</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>№</th>
+            <th>Регистр</th>
+            <th>Компани</th>
+            <th>Харьяалал</th>
+            <th>Сум</th>
+            <th>Хэлбэр</th>
+            <th>Захирал</th>
+            <th>Утас</th>
+            <th>Эцсийн өмчлөгч</th>
+            <th>Төлөв</th>
+          </tr>
+        </thead>
+        <tbody id="foreignBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="foreignPagination"></div>
+  </div>
+
+  <!-- CONSTRUCTION TAB -->
+  <div id="tab-construction" class="panel-section">
+    <div class="filters">
+      <input class="search-box" id="constructSearch" placeholder="🔍 Компани, захирал хайх..." oninput="filterConstruct()">
+      <select class="filter-select" id="constructSum" onchange="filterConstruct()">
+        <option value="">Бүх сум</option>
+        <option>Замын-Үүд</option>
+        <option>Мандах</option>
+        <option>Сайншанд</option>
+      </select>
+      <div class="results-count" id="constructCount">62 бүртгэл</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>№</th>
+            <th>Регистр</th>
+            <th>Компани</th>
+            <th>Харьяалал</th>
+            <th>Сум</th>
+            <th>Захирал</th>
+            <th>Утас</th>
+            <th>Хэлбэр</th>
+            <th>Эцсийн өмчлөгч</th>
+            <th>Тайлбар</th>
+          </tr>
+        </thead>
+        <tbody id="constructBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="constructPagination"></div>
+  </div>
+
+  <!-- TRANSPORT TAB -->
+  <div id="tab-transport" class="panel-section">
+    <div class="filters">
+      <input class="search-box" id="transportSearch" placeholder="🔍 Компани, захирал, эцсийн өмчлөгч хайх..." oninput="filterTransport()">
+      <select class="filter-select" id="transportSum" onchange="filterTransport()">
+        <option value="">Бүх сум</option>
+        <option>Даланжаргалан</option>
+        <option>Замын-үүд</option>
+        <option>Мандах</option>
+        <option>Сайншанд</option>
+        <option>Хатанбулаг</option>
+      </select>
+      <div class="results-count" id="transportCount">106 бүртгэл</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>№</th>
+            <th>Регистр</th>
+            <th>Компани</th>
+            <th>Харьяалал</th>
+            <th>Сум</th>
+            <th>Захирал</th>
+            <th>Утас</th>
+            <th>Нягтлан</th>
+            <th>Хэлбэр</th>
+            <th>Эцсийн өмчлөгч</th>
+            <th>Тайлбар</th>
+          </tr>
+        </thead>
+        <tbody id="transportBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="transportPagination"></div>
+  </div>
+
+  <!-- PROCESSING TAB -->
+  <div id="tab-processing" class="panel-section">
+    <div class="filters">
+      <input class="search-box" id="processSearch" placeholder="🔍 Компани, захирал, эцсийн өмчлөгч хайх..." oninput="filterProcess()">
+      <select class="filter-select" id="processSum" onchange="filterProcess()">
+        <option value="">Бүх сум</option>
+        <option>Айраг</option>
+        <option>Алтанширээ</option>
+        <option>Даланжаргалан сум</option>
+        <option>Иххэт</option>
+      </select>
+      <div class="results-count" id="processCount">16 бүртгэл</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>№</th>
+            <th>Регистр</th>
+            <th>Компани</th>
+            <th>Харьяалал</th>
+            <th>Сум</th>
+            <th>Захирал</th>
+            <th>Утас</th>
+            <th>Хэлбэр</th>
+            <th>Хувьцаа эзэмшигч</th>
+            <th>Эцсийн өмчлөгч</th>
+            <th>Тайлбар</th>
+          </tr>
+        </thead>
+        <tbody id="processBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="processPagination"></div>
+  </div>
+
+</div>
+
+<script>
+// ===== DATA =====
+
+const miningData = [
+  [1,"Айраг","Хөх талст майнинг","ХХК/ГХО/","Бал чулуу (графит)",1946.66,"2025.08.27","2055.08.27",0,0,"Шинвэй","99114523","Австралийн иргэн Song Jacqueline","Нийслэл"],
+  [3,"Айраг","Зүлэгтбулаг","ХХК","Хайлуур жонш",534.74,"2024.12.25","2054.12.25",0,1,"Батаа","99111764","Ч.Батаа",""],
+  [4,"Айраг","Кюбэра","ХХК","Хайлуур жонш",100.88,"2022.05.11","2052.05.11",0,0,"Тунгалаг","98999999","Тунгалаг",""],
+  [5,"Айраг","Гранд гот майнинг","ХХК","Хайлуур жонш",1224.42,"2021.10.21","2051.10.21",0,0,"Төртогтох","93333444","Хятад YAO JIANWEN",""],
+  [6,"Айраг","Модот-Уул","ХХК","Хайлуур жонш",761.91,"2020.09.14","2050.09.14",0,1,"Өлзийсайхан","91917619","бүртгэлгүй",""],
+  [7,"Айраг","Бушуо-Уул","ХХК/ГХО/","Хайлуур жонш",80.29,"2009.04.21","2039.04.21",20,0.2,"Билгүүнзаяа","99825738","Хятад Tao Haijun","Нийслэл"],
+  [8,"Айраг","Улаан хад кристал майнинг","ХХК/ГХО/","Хайлуур жонш",74.98,"2004.09.23","2034.09.23",0,0,"Ууганболор","90020009","Г.Ууганболор","Чингэлтэй"],
+  [9,"Айраг","Айваору","ХХК/ГХО/","Хайлуур жонш",166.7,"2009.07.27","2039.09.10",50,0.5,"Бадралхүү","95831000","Хятад Huahua","Нийслэл"],
+  [10,"Айраг","Дугуй-Уул","ХХК/ГХО/","Хайлуур жонш",117.11,"2009.06.17","2039.06.17",280,2.8,"Xingwei","99094723","Хятад GUO TAIWEI","Нийслэл"],
+  [11,"Айраг","Лотусдай уул","ХХК","Хайлуур жонш",82.87,"2012.05.25","2042.05.25",0,0,"Жеймс Антони","99998238","Сингапур Монголиан Минералз","Нийслэл"],
+  [12,"Айраг","Экилешия","ХХК","Хайлуур жонш",55.79,"2012.01.12","2042.01.12",3553.3,35.53,"Жаргалсайхан","91997204","Б.Жаргалсайхан","Дорноговь"],
+  [14,"Айраг","Хөхжонш","ХХК","Хайлуур жонш",30.91,"2007.02.15","2037.02.15",1424.3,14.24,"Бямбажаргал","99181334","Б.Бямбажаргал","Нийслэл"],
+  [15,"Айраг","Ти Эн Би","ХХК","Хайлуур жонш",103.87,"2006.03.31","2036.03.31",0,0,"Түмэнбаяр","88070386","С.Энхтөр",""],
+  [16,"Айраг","Ууган-Илч","ХХК","Хайлуур жонш",76.07,"2010.03.11","2040.03.11",0,0,"Энхтуяа","99089741","Ч.Энхтуяа","Нийслэл"],
+  [17,"Айраг","Хос хүдэр майнинг","ХХК","Хайлуур жонш",379.25,"2009.09.09","2039.09.09",0,0,"Баярбат","99062522","Д.Баярбат","Том татвар"],
+  [18,"Айраг","Мизү","ХХК","Барилгын материал",1508.2,"2009.08.03","2045.10.10",0,0,"Бадрах","99071519","А.Бадрах",""],
+  [19,"Айраг","Ти эйч эм эм","ХХК/ГХО/","Хайлуур жонш",73.84,"2008.12.04","2038.12.04",975.1,9.75,"Чунфай","99235188","Хятад Wang Yulai",""],
+  [20,"Айраг","Экилешия","ХХК","Хайлуур жонш",38.41,"2008.09.05","2038.09.05",3553.3,35.53,"Жаргалсайхан","91997204","Б.Жаргалсайхан",""],
+  [21,"Айраг","Хэрлэн-Импэкс","ХХК/ГХО/","Хайлуур жонш",31.64,"2008.02.01","2038.02.01",14448,144.48,"Элбэгсайхан","99096800","БНХАУ VAO JIANWEN","Том татвар"],
+  [22,"Айраг","Эм Си Ти Ти","ХХК/ГХО/","Хайлуур жонш",289.31,"2007.08.01","2037.08.01",18376.2,183.76,"Kong Caihong","99089183","Британийн арлууд Sparkle Fluorspar","Том татвар"],
+  [23,"Айраг","Тайшаншин юань","ХХК/ГХО/","Хайлуур жонш",99.89,"2007.04.18","2037.04.18",0,0,"Гуан Жиао Мэй","88117217","Британийн арлууд Good Pillar Limited","Нийслэл"],
+  [24,"Айраг","Дорноговийн үйлс","ХХК","Хайлуур жонш",72.52,"2006.08.22","2036.08.22",0,0,"Ли жанг тен","99809811","Хятад LIN JIANGFENG","Нийслэл"],
+  [25,"Айраг","Дунфанлунма","ХХК","Хайлуур жонш",29.46,"2006.07.06","2036.07.06",313.6,3.14,"Xi Gang","99119738","Хятад XI GANG","Нийслэл"],
+  [26,"Айраг","Ариун флюор","ХХК","Хайлуур жонш",37.78,"2006.04.24","2036.04.24",2743,27.43,"Нинжгаваа","91990778","Б.Баясгалан","Том татвар"],
+  [27,"Айраг","Би Ти девелопмент","ХХК","Хайлуур жонш",76.08,"2004.09.23","2034.09.23",491.8,4.92,"Туяацэцэг","88008632","Зото энержи TANG KAI","Нийслэл"],
+  [28,"Айраг","Өргөн мандал говь майнинг","ХХК","Хайлуур жонш",27.72,"2003.05.29","2033.05.29",0,0,"Гарьд","99080884","С.Гарьд","Нийслэл"],
+  [29,"Айраг","Си Эм кингс","ХХК/ГХО/","Хайлуур жонш",111.97,"2003.04.28","2033.04.28",22670.4,226.7,"Qijiu","86880333","Хятад Inner Mongolia Jinshi","Дорноговь"],
+  [30,"Айраг","Талстад цагаан дэл","ХХК/ГХО/","Хайлуур жонш",28.39,"2002.05.20","2032.05.20",0,0,"Ганхуяг","99034321","Н.Цэрэнханд",""],
+  [31,"Айраг","Эрдэнэс критикал минералс","ТӚААTҮГ","Хайлуур жонш",14.16,"1995.08.17","2045.08.17",371436.9,3714.37,"Тогтохсүрэн","458072","Тогтохсүрэн",""],
+  [35,"Алтанширээ","Элдэрстон фийлд","ХХК","Чулуу",110.52,"2024.10.30","2054.10.30",299.8,3,"Гантогоо","99070814","Г.Гантогоо","Дорноговь"],
+  [36,"Алтанширээ","Голден гоби констракшн материалз","ХХК","Шохойн чулуу",1601.16,"2021.04.23","2051.04.23",0,0,"Агиймаа","80088120","Б.Агиймаа","Дорноговь"],
+  [37,"Алтанширээ","ВҮС","ХХК","Чулуу (барилгын)",10598.56,"2020.10.27","2050.10.27",0,0,"WUYUNNA","99161998","Хятад Wuyunna","Дорноговь"],
+  [38,"Алтанширээ","Мандах дорнын жонш","ХХК/ГХО/","Хайлуур жонш",219.4,"2020.08.19","2050.08.19",900.3,9,"Батмагнай","99050346","Д.Баттулга","Дорноговь"],
+  [39,"Алтанширээ","Грийн энержи просперити","ХХК","Нүүрс",3013.79,"2018.10.23","2048.10.23",1529,15.29,"Баярмаа","86014079","Тайвань HUI-YING","Дорноговь"],
+  [42,"Алтанширээ","Өгөөмөр-Алт","ХХК","Нүүрс",2752.33,"2018.09.28","2048.09.28",0,0,"Тодмөр","99114948","Б.Тодмөр","Дорноговь"],
+  [43,"Алтанширээ","И Си Эм","ХХК/ГХО/","Нүүрс",5985.46,"2012.07.17","2042.07.17",0,0,"Мөнхбаясгалан","99116956","Ч.Энхтайван","Дорноговь"],
+  [44,"Алтанширээ","Шийризстоун","ХХК","Нүүрс",5403.13,"2010.10.16","2040.10.16",0,0,"Энхболд","99100612","Д.Даяндэмэд","Дорноговь"],
+  [47,"Даланжаргалан","Тэнүүн-Үйлст","ХХК/ГХО/","Хайлуур жонш",527.56,"2025.07.29","2055.07.29",272.7,2.73,"Мөнхтуяа","99118996","С.Мөнхбат","Дорноговь"],
+  [48,"Даланжаргалан","Эрдэст цагаан бумба","ХХК","Шохойн чулуу",563.01,"2013.11.27","2043.11.27",0,0,"Тогоонтөмөр","77551819","Ивээх монос майнинг","Дорноговь"],
+  [49,"Даланжаргалан","Ундармал хүдэр","ХХК","Төмөр",1422.95,"2024.10.14","2054.10.14",0,0,"Энхбадрах","99113123","Н.Батцэрэн","Дорноговь"],
+  [50,"Даланжаргалан","Мон минералс майнинг энд трейд","ХХК","Хайлуур жонш",102.99,"2024.10.01","2054.10.01",0,0,"Батбаяр","99116146","Г.Эрдэнэчулуун","Дорноговь"],
+  [51,"Даланжаргалан","Сентрал азиа майнинг","ХХК","Төмөр",1063.94,"2024.02.07","2054.02.07",0,0,"Нарантуяа","99114190","Б.Чулуунбаатар","Дорноговь"],
+  [52,"Даланжаргалан","Хас металл","ХХК","Чулуу",30.81,"2022.04.05","2052.04.05",0,0,"Нармандах","77551819","О.Тогоонтөмөр","Дорноговь"],
+  [53,"Даланжаргалан","Бриллиант дриллинг","ХХК","Бал чулуу (графит)",1400.12,"2021.12.22","2051.12.22",0,0,"Баярбат","99075843","","Дорноговь"],
+  [54,"Даланжаргалан","Мөнхсаяан","ХХК/ГХО/","Цайр Мөнгө",874.69,"2021.03.10","2051.03.10",0,0,"Мөнхбат","91111111","С.Баярбат","Дорноговь"],
+  [55,"Даланжаргалан","Улаанхэцийн шанд","ХХК","Нүүрс",406.46,"2020.10.09","2050.10.09",0,0,"Peng","88913333","С.Мөнхбат","Дорноговь"],
+  [56,"Даланжаргалан","Пауэрлэнд","ХХК","Нүүрс",1278.63,"2008.01.02","2038.01.02",0,0,"Алтанбилэг","99100836","Li Peng / БНХАУ","Дорноговь"],
+  [58,"Даланжаргалан","Ди Эйч Пи","ХХК","Хайлуур жонш",571.3,"2020.08.03","2050.08.03",0,0,"Батзориг","91116781","","Дорноговь"],
+  [59,"Даланжаргалан","Ловонко","ХХК","Нүүрс",852.96,"2015.08.21","2045.08.21",0,0,"Rui","90555555","Хятад CHEN RONGHAN","Дорноговь"],
+  [61,"Даланжаргалан","Хас металл","ХХК","Төмөр",123.84,"2015.07.01","2045.07.01",0,0,"Нармандах","77551819","","Дорноговь"],
+  [62,"Даланжаргалан","Олон ихт баян","ХХК","Төмөр",1902.92,"2019.07.24","2049.07.24",15579.4,155.79,"Балдорж","99111392","Б.Балдорж","Дорноговь"],
+  [63,"Даланжаргалан","Мөнгөнхас шонхор","ХХК/ГХО/","Шохойн чулуу",515.05,"2019.06.21","2049.06.21",0,0,"Тогоонтөмөр","88011111","Ц.Батбаатар","Дорноговь"],
+  [65,"Даланжаргалан","Өү И Эл","ХХК","Хайлуур жонш",967.6,"2018.10.25","2048.10.25",0,0,"Брайн","88079799","Окслей-Айрон","Дорноговь"],
+  [66,"Даланжаргалан","Баярсконстракшн","ХХК","Шохойн чулуу",220.93,"2018.08.09","2048.08.09",0,0,"Баянсайхан","99116371","Н.Баянсайхан","Дорноговь"],
+  [67,"Даланжаргалан","Ричфлюорит","ХХК","Өнгөт чулуу",253.77,"2018.08.09","2048.08.09",0,0,"Анхбаяр","99144026","Х.Анхбаяр","Дорноговь"],
+  [68,"Даланжаргалан","МАК Цемент","ХХК","Шохойн чулуу",698.47,"2018.05.11","2048.05.11",259501.7,2595.02,"Баттулга","75759700","Н.Цэлмүүн","Дорноговь"],
+  [69,"Даланжаргалан","Мөнгөнгүрэн","ХХК","Нүүрс",39.75,"2018.04.04","2048.04.04",0,0,"Baolong","99104061","БНХАУ BAOLONG","Дорноговь"],
+  [71,"Даланжаргалан","Билэгтбаялаг","ХХК","Нүүрс",178.98,"2008.12.01","2038.12.01",12096,120.96,"Энхзаяа","99999979","Хятад Zhao Li","Дорноговь"],
+  [72,"Даланжаргалан","Арвижих энерги","ХХК","Нүүрс",354.12,"2017.11.08","2047.11.08",6560.6,65.61,"Цэнгэлбаяр","70105666","Хятад Zhang Qiang","Дорноговь"],
+  [73,"Даланжаргалан","Зэт Ди Эл","ХХК/ГХО/","Төмөр",398.79,"2017.05.11","2047.05.11",3.9,0.04,"Luo WEi","96663841","Хятад Өвөр монгол","Дорноговь"],
+  [74,"Даланжаргалан","Стар флюорит","ХХК","Хайлуур жонш",38.31,"2005.08.03","2035.08.03",0,0,"Навчаа","99215201","Г.Энхбаяр","Дорноговь"],
+  [75,"Даланжаргалан","Монзол","ХХК","Төмөр",86.73,"2016.05.26","2046.05.26",0,0,"Чинбат","99997798","Ч.Чинбат","Дорноговь"],
+  [76,"Даланжаргалан","Майнтөмөр","ХХК/ГХО/","Төмөр",71.66,"2016.02.24","2046.02.24",0,0,"Отгонсүрэн","99111308","Д.Отгонсүрэн","Дорноговь"],
+  [78,"Даланжаргалан","Экилешия","ХХК","Хайлуур жонш",157.38,"2016.01.27","2046.01.27",3553.3,35.53,"Жаргалсайхан","91997204","Б.Жаргалсайхан","Дорноговь"],
+  [79,"Даланжаргалан","Говийн шандаст хүлэг","ХХК","Нүүрс",5488.42,"2015.09.24","2045.09.24",65369.7,653.7,"Chaolumengmandula","89022046","Хятад Zhang Li Jun","Дорноговь"],
+  [80,"Даланжаргалан","Айраг эксплорэйшн","ХХК","Хайлуур жонш",29.84,"2000.04.17","2030.04.17",0,0,"Бадамгарав","89993687","М.Бадамгарав","Дорноговь"],
+  [81,"Даланжаргалан","Хасрич","ХХК","Хайлуур жонш",500.01,"2015.07.01","2045.07.01",0,0,"Тогоонтөмөр","98488888","Хятад Li Chunying","Дорноговь"],
+  [82,"Даланжаргалан","Өгөөмөрбаян хайрхан","ХХК/ГХО/","Гянтболд",856.84,"2015.06.02","2045.06.02",0,0,"Hu Xiang Sheng","99035560","Х.Амгалан","Дорноговь"],
+  [83,"Даланжаргалан","Хөнгөн гэгээ орд","ХХК","Шохойн чулуу",312.88,"2015.04.16","2045.04.16",0,0,"Эрдэнэбаатар","88281008","Н.Эрдэнэбаатар","Дорноговь"],
+  [84,"Даланжаргалан","Блюскай хорс","ХК","Нүүрс",2166.9,"2015.04.10","2045.04.10",0,0,"Ариунболд","99115368","Хятад MA JUN","Дорноговь"],
+  [85,"Даланжаргалан","Ремикон","ХХК","Шохойн чулуу",2238.34,"2015.03.13","2045.03.13",0,0,"Мөнхсайхан","99022458","Херо Холдинг","Дорноговь"],
+  [86,"Даланжаргалан","Монгол Зөвлөлтийн ХН Улаанбаатар т.зам","ХХК/ГХО/","Барилгын материал",183.55,"2014.04.16","2044.04.16",0,0,"Хэрлэн","99027120","Хэрлэн","Дорноговь"],
+  [88,"Даланжаргалан","Талст дөл","ХХК/ГХО/","Хайлуур жонш",130.07,"2013.04.08","2043.04.08",9908,99.08,"Элбэгсайхан","89008225","Ц.Болор-Эрдэнэ","Дорноговь"],
+  [89,"Даланжаргалан","Хүдрэнт","ХХК","Хайлуур жонш",24.93,"2013.01.29","2043.01.29",216.1,2.16,"Мөнхбат","75554443","Б.Мөнхбат","Дорноговь"],
+  [90,"Даланжаргалан","Тайшэндевелопмент","ХХК/ГХО/","Төмөр",907.49,"2012.09.06","2042.09.06",0,0,"Yu Yang","88003225","Британийн Виржинийн арлууд Топоне","Дорноговь"],
+  [91,"Даланжаргалан","Мон минералс майнинг энд трейд","ХХК","Хайлуур жонш",30.41,"2005.08.03","2035.08.03",0,0,"Батбаяр","99116146","Г.Эрдэнэчулуун","Дорноговь"],
+  [92,"Даланжаргалан","Айраг-Индмин","ХХК/ГХО/","Хайлуур жонш",89.65,"2011.10.12","2041.10.12",0,0,"Батчулуун","99105875","Батчулуун","Дорноговь"],
+  [93,"Даланжаргалан","Ширээгийн шугуй","ХХК","Шохойн чулуу",122.3,"2011.06.09","2042.04.12",0,0,"Төрболд","99022959","Ц.Алтанцэцэг","Дорноговь"],
+  [94,"Даланжаргалан","МАК Цемент","ХХК","Барилгын материал",87.57,"2010.12.08","2040.12.08",259501.7,2595.02,"Баттулга","75759700","Д.Хулан","Дорноговь"],
+  [98,"Даланжаргалан","Гүн-Орд","ХХК/ГХО/","Хайлуур жонш",155.52,"2009.10.27","2039.10.27",0,0,"Дөлгөөнтамир","85859797","Хятад jilena","Дорноговь"],
+  [99,"Даланжаргалан","Талст дисковери","ХХК","Хайлуур жонш",354.67,"2009.08.20","2039.08.20",0,0,"Сарантуяа","99966101","Б.Сарантуяа","Дорноговь"],
+  [100,"Даланжаргалан","Мөнхийн баян гал","ХХК","Шохойн чулуу",1171.21,"2009.07.30","2039.07.30",0,0,"Wang Mao","94488885","Жунцай цемент БНХАУ","Дорноговь"],
+  [101,"Даланжаргалан","Фриендшип Ресурсис","ХХК","Нүүрс",92.75,"2008.12.01","2038.12.01",12312.8,123.13,"Мөнхтуяа","88116957","Мөнхтуяа","Дорноговь"],
+  [105,"Даланжаргалан","Монголын алт МАК","ХХК","Нүүрс",460.33,"2007.05.23","2037.05.23",0,0,"Цэлмүүн","70107482","Цэлмүүн","Дорноговь"],
+  [109,"Даланжаргалан","Чингисийн хар алт","ХХК","Нүүрс",238.73,"2007.05.01","2037.05.01",0,0,"Наранзаяа","91917588","Наранзаяа","Дорноговь"],
+  [110,"Даланжаргалан","Германсгахиур","ХХК","Шохойн чулуу",104.76,"2007.04.18","2037.04.18",0,0,"Тайван","88113760","Америк Feng Lei","Дорноговь"],
+  [111,"Даланжаргалан","Дасайн-Уул","ХХК","Хайлуур жонш",38.19,"2006.08.18","2036.08.18",0,0,"Feng Lei","88112904","Америк Feng Lei","Дорноговь"],
+  [112,"Даланжаргалан","Ричфлюорит","ХХК/ГХО/","Болор",60.44,"2006.04.14","2036.04.14",0,0,"Анхбаяр","99144026","Х.Анхбаяр","Дорноговь"],
+  [113,"Даланжаргалан","Штайнколе","ХХК/ГХО/","Нүүрс",344.7,"2006.02.01","2037.02.01",0,0,"ЧинБат","99113943","Б.Чинбат","Дорноговь"],
+  [114,"Даланжаргалан","Наймган-Орд","ХХК","Хайлуур жонш",48.49,"2005.12.09","2035.12.09",178.5,1.79,"Батаа","99111764","Б.Мөнхбат","Дорноговь"],
+  [115,"Даланжаргалан","Шаширтрейд","ХХК","Хайлуур жонш",25.04,"2005.08.03","2035.08.03",0,0,"Цэвэгмид","99086209","С.Цэвэгмэд","Дорноговь"],
+  [116,"Даланжаргалан","Тэнүүн байгаль","ХХК","Хайлуур жонш",30.62,"2004.08.09","2034.08.09",11921.7,119.22,"Мөнгөнчимэгт","99034321","Н.Мөнгөнчимэгт","Дорноговь"],
+  [117,"Даланжаргалан","Баялагжонш","ХХК","Хайлуур жонш",28.22,"2003.01.06","2033.01.06",0,0,"Хурцбилэг","99082707","П.Хурцбилэг","Дорноговь"],
+  [118,"Даланжаргалан","Эрэл","ХХК","Шохойн чулуу",103.08,"1999.07.23","2029.07.23",0,0,"Жаргалан","99005262","Д.Сэргэлэн","Дорноговь"],
+  [121,"Даланжаргалан/Айраг","Сармайдээлт","ХХК/ГХО/","Хайлуур жонш",146.13,"2014.12.26","2044.12.26",362.7,3.63,"Тогос","99111804","Тогос","Дорноговь"],
+  [126,"Дэлгэрэх","Олдмен","ХХК","Хайлуур жонш",429.48,"2024.12.13","2054.12.13",0,0,"Лхагвасүрэн","99117173","Cornerstone Asia","Дорноговь"],
+  [127,"Дэлгэрэх","Мөнххаш","ХХК","Шохойн чулуу",751.12,"2014.04.04","2044.04.04",0,0,"Арслан","99118396","Г.Арслан","Улаанбаатар"],
+  [128,"Дэлгэрэх","Засаг чандмань майнз","ХХК/ГХО/","Төмөр",571.03,"2010.06.21","2040.06.21",0,0,"Инжулбаа","96669300","Д.Буянтогтох","Улаанбаатар"],
+  [129,"Их хэт","Зун хуа ин си куан","ХХК","Хайлуур жонш",331.41,"2021.08.06","2051.08.06",0,0,"Xiangjun","88004930","Британийн арлууд Blue Nebula","Дорноговь"],
+  [130,"Их хэт","Борж-Овоот","ХХК","Хайлуур жонш",116.22,"2021.07.21","2051.07.21",0,0,"Вэнкай","91998008","Хятад Гансу","Дорноговь"],
+  [131,"Их хэт","Болор өнгөт чулуу","ХХК","Хайлуур жонш",166.13,"2021.05.31","2051.05.31",0,0,"Лимин","99793317","Лимин","Дорноговь"],
+  [132,"Их хэт","Занаду энержи ресорсэс монголиа","ХХК","Нүүрс",171.73,"2013.04.11","2043.04.11",0,0,"Сайнбилэг","94027778","Ж.Сайнбилэг","Дорноговь"],
+  [133,"Их хэт","Гоби форсе майнинг","ХХК/ГХО/","Нүүрс",132.81,"2013.04.29","2043.04.29",0,0,"Мандуул","99109454","Э.Мандуул","Дорноговь"],
+  [134,"Их хэт","Эл Эл Ти Ди","ХХК/ГХО/","Нүүрс",1108.57,"2012.08.31","2042.08.31",0,0,"Пүрэвдорж","88119000","П.Ганболд","Дорноговь"],
+  [135,"Их хэт","Өнөржонш","ХХК","Хайлуур жонш",29.57,"2010.11.11","2040.11.11",0,0,"LIU HUIJIE","99464222","Д.Өнөржаргал","Дорноговь"],
+  [137,"Их хэт","Төвшин","ХХК/ГХО/","Хайлуур жонш",24.69,"2006.09.29","2036.09.29",18770.4,187.7,"Chen Yanquan","91999489","Хятад Chen Wenhua","Дорноговь"],
+  [141,"Их хэт","Хүрэнбэлчир","ХХК/ГХО/","Хайлуур жонш",38.01,"2008.04.01","2038.04.01",0,0,"Li Huiming","88833333","Хятад Li Huaizhang","Дорноговь"],
+  [142,"Их хэт","Квантум күэст","ХХК","Хайлуур жонш",30.11,"2006.09.04","2036.09.04",0,0,"Манлайбаатар","98883210","Хонгконг Wanyuan","Дорноговь"],
+  [144,"Их хэт","Тун да шун майнинг","ХХК","Холимог метал",32.97,"2002.07.09","2032.07.09",0,0,"Жининг","90015599","Хятад Zhang Lixing","Дорноговь"],
+  [145,"Их хэт","Эрдэнэс критикал минералс","ТӚААTҮГ","Хайлуур жонш",141.8,"2006.04.28","2036.04.28",352085.4,3520.85,"Тогтохсүрэн","458072","Тогтохсүрэн","Дорноговь"],
+  [147,"Их хэт","Талын хишиг флорит","ХХК","Хайлуур жонш",1260.63,"2024.12.30","2054.12.30",924.1,9.24,"Баярсайхан","99189609","М.Батамгалан","Дорноговь"],
+  [150,"Мандах","Түмэн айл көүл","ХХК/ГХО/","Нүүрс",1424.12,"2020.01.24","2050.01.24",67076.8,670.77,"Оргил","88092262","Б.Давхарбаяр","Дорноговь"],
+  [151,"Мандах","Ричмайнинг","ХХК","Нүүрс (чулуун)",2347.61,"2024.09.27","2054.09.27",0,0,"Билэгсайхан","99116588","Б.Билэгсайхан","Дорноговь"],
+  [152,"Мандах","Их наран уул","ХХК/ГХО/","Мангаан (марганец)",486.72,"2021.08.31","2051.08.31",0,0,"Уранчимэг","88054176","Хятад Zhang Yang","Дорноговь"],
+  [153,"Мандах","Престиж-эксплорэйшн","ХХК","Зэс",4523.64,"2021.06.11","2051.06.11",0,0,"Дэлгэрдалай","99995679","Герман MATTHIAS","Дорноговь"],
+  [154,"Мандах","Надмин Айбекс","ХХК","Зэс / Алт",3439.88,"2020.09.01","2050.09.01",0,0,"Жонатан Спринг","88110353","Австралийн Jonathan Paul","Дорноговь"],
+  [155,"Мандах","Их түмэн хүрд","ХХК/ГХО/","Нүүрс",932.13,"2020.04.01","2050.04.01",80987.7,809.88,"Дашхорол","99102445","Ж.Дашхорол","Дорноговь"],
+  [156,"Мандах","Түмэн айл инвест","ХХК","Нүүрс",1193.46,"2020.01.24","2050.01.24",0,0,"Болорэрдэнэ","88111403","А.Жаргал","Дорноговь"],
+  [157,"Мандах","Ийстэрн коул энержи","ХХК","Нүүрс",377.19,"2015.05.21","2045.05.21",0,0,"Батхүү","99906386","Д.Батхүү","Дорноговь"],
+  [158,"Мандах","Дулаан ийстэрн коул","ХХК","Нүүрс",4622.82,"2015.05.21","2045.05.21",0,1,"Батхуяг","95341112","Ш.Батхуяг","Дорноговь"],
+  [159,"Мандах","Ихговь энержи","ХХК","Нүүрс",1682.48,"2015.04.15","2045.04.15",98735.6,987.36,"Оргил","99110004","Их Британи Gobi Mining","Дорноговь"],
+  [160,"Мандах","Монголын алт МАК","ХХК","Зэс",10642.8,"2014.05.27","2044.05.27",2256293.1,22562.93,"Цэлмүүн","70107482","Н.Цэлмүүн","Дорноговь"],
+  [162,"Мандах","Жи би коппер майнинг","ХХК","Зэс",5562.73,"2013.06.03","2043.06.03",0,0,"Kwak Minjeong","70123032","Солонгос SDX","Дорноговь"],
+  [163,"Мандах","Ихговь энержи","ХХК","Нүүрс",502.26,"2012.10.26","2042.10.26",98735.6,987.36,"Оргил","99110004","Их Британи Gobi Mining","Дорноговь"],
+  [164,"Мандах","Эрдэнэс цагаан суварга","ХХК","Зэс / Алт",132.39,"2005.04.18","2035.04.18",3660.3,36.6,"Цогт","75759700","МАК / Н.Цэлмүүн","Дорноговь"],
+  [165,"Өргөн","Кратон","ХХК/ГХО/","Цеолит",354.96,"2020.10.05","2050.10.05",0,0,"Энхбат","99110077","Л.Энхбат","Нийслэл"],
+  [166,"Өргөн","Бидний зорилго","ХХК","Никель",524.61,"2020.01.31","2050.01.31",7.6,0.08,"Жинхай","99100986","Хонгконг Pizu International","Нийслэл"],
+  [167,"Өргөн","Монцемент билдинг материалс","ХХК","Шохойн чулуу",25.13,"2008.05.13","2038.05.13",3243.6,32.44,"Jungsoo","75951133","МУ Монполимет","Дорноговь"],
+  [169,"Өргөн","Тээлийн шонхор","ХХК","Шохойн чулуу",439.45,"2015.01.05","2045.01.05",6,0.06,"Энх-Амар","94093151","З.Энх-Амар","Нийслэл"],
+  [171,"Өргөн","Монполимет","ХХК","Шохойн чулуу",2361.95,"2012.06.22","2042.06.22",809.2,8.09,"Дэлгэр","95117052","Н.Мөнхнасан","Дорноговь"],
+  [172,"Өргөн","Цагаанговь","ХХК","Шохойн чулуу",42.82,"2009.01.14","2039.01.14",0,0,"Цэндсүрэн","94041014","Азиапасифик цемент","Нийслэл"],
+  [173,"Өргөн","Эрдэнэс критикал минералс","ТӚААTҮГ","Хайлуур жонш",34.78,"2008.03.28","2038.03.28",3431.8,34.32,"Тогтохсүрэн","458072","Тогтохсүрэн","Дорноговь"],
+  [176,"Өргөн","Лотус-Амгалан","ХХК","Хайлуур жонш",34.98,"2008.01.24","2038.01.24",0,0,"Xinyue","459066","Хятад Jinsong","Нийслэл"],
+  [177,"Өргөн","Жунзэнь","ХХК/ГХО/","Хайлуур жонш",44.98,"2007.01.24","2037.01.24",3.5,0.04,"Алзахгүйбаатар","99214871","Д.Эрдэнэ","Нийслэл"],
+  [178,"Өргөн","Шидэт-Од","ХХК","Хайлуур жонш",20.29,"2000.06.05","2030.06.05",8.6,0.09,"Энхчулуун","99112599","Хятад Kunfeng","Нийслэл"],
+  [179,"Өргөн","ЖЕМИ интернэйшнл","ХХК","Хайлуур жонш",26.45,"2004.07.14","2037.07.14",0,0,"Туул","99007117","Д.Нямжав","Дорноговь"],
+  [180,"Өргөн","Спот констракшн","ХХК","Хайлуур жонш",29.43,"2002.09.06","2032.09.05",0,0,"Нямжав","95171917","З.Нацагдорж","Дорноговь"],
+  [183,"Сайншанд","Дорнын цеолит","ХХК","Цеолит",88.36,"2015.02.13","2045.02.13",454.5,4.55,"Номинэрдэнэ","99110004","МУ Монцео","Дорноговь"],
+  [185,"Сайншанд","Галлантстар","ХХК","Битүмжсэн элс",240.55,"2014.05.12","2044.05.12",0,0,"Сарангуа","99176373","Б.Сарангуа","Дорноговь"],
+  [186,"Сайншанд","Говьмарал","ХХК","Битүмжсэн элс",253.63,"2011.10.14","2041.10.14",0,0,"Ганбилэг","91001088","О.Энхжаргал","Дорноговь"],
+  [187,"Сайншанд","МОНЦЕО","ХХК","Цеолит",115.36,"2005.10.06","2035.10.06",0,0,"Номин-Эрдэнэ","99110173","Г.Номин-Эрдэнэ","Дорноговь"],
+  [188,"Сайншанд","Дорнын цеолит","ХХК","Цеолит",64.84,"2005.10.06","2035.10.06",454.5,4.55,"Номин-Эрдэнэ","99110004","МУ Монцео","Дорноговь"],
+  [189,"Сайншанд","Талстгөлтгөнө","ХХК","Цеолит",56.09,"1996.07.22","2046.07.22",0,0,"Ванчинхүү","98991199","Д.Батжавхлан","Дорноговь"],
+  [190,"Сайншанд/Сайхандулаан","Мига очболор эрин","ХХК/ГХО/","Нүүрс",18821.57,"2019.08.26","2049.08.26",0,0,"Wen","99110907","Хонгконг WEN","Дорноговь"],
+  [191,"Сайхандулаан","Гранд Самсара Консалтинг","ХХК","Цахиур (Кварц)",1670.28,"2025.10.23","2055.10.23",0,0,"Ариунцэцэг","88886067","Г.Ариунцэцэг","Дорноговь"],
+  [192,"Сайхандулаан","Маргац Интернэшнл голд","ХХК","Нүүрс (чулуун)",4030.62,"2025.10.06","2055.10.06",0,0,"Байгал","77052255","Байгал","Дорноговь"],
+  [193,"Сайхандулаан","Крesco майнинг","ХХК/ГХО/","Холимог метал",503.8,"2025.07.24","2055.07.24",0,0,"Сүхгэрэл","88008303","МУ Юник арвижих","Дорноговь"],
+  [194,"Сайхандулаан","Гүүдпрожект","ХХК/ГХО/","Цахиур (Кварц)",211.15,"2024.10.21","2054.10.21",0,0,"Бадамдорж","99111840","Бадамдорж","Дорноговь"],
+  [195,"Сайхандулаан","Канадиан кайдон групп","ХХК/ГХО/","Нүүрс",734.41,"2013.11.29","2043.11.29",0,0,"Wen","99835183","Хонгконг Wen","Дорноговь"],
+  [196,"Сайхандулаан","Эн Юү Юү Ар Эс","ХХК/ГХО/","Нүүрс (чулуун)",3003.37,"2022.12.23","2052.12.23",0,0,"Дөлбаяр","88077707","Ж.Сансар","Дорноговь"],
+  [197,"Сайхандулаан","Монзол","ХХК","Цахиур (Кварц)",464.98,"2022.10.27","2052.10.27",0,0,"Чинбат","99997798","бүртгэгдээгүй","Дорноговь"],
+  [198,"Сайхандулаан","Говь вентур","ХХК/ГХО/","Хайлуур жонш",401.16,"2022.06.06","2052.06.06",0,0,"Баяртбилэг","99097590","МУ Барит толгой","Дорноговь"],
+  [199,"Сайхандулаан","Мига эрин зуун","ХХК","Нүүрс",251.1,"2013.11.29","2043.11.29",0,0,"Нарантуяа","88991527","З.Нарантуяа","Дорноговь"],
+  [200,"Сайхандулаан","Мегатек манюфактуринг монголиа","ХХК","Цахиур (Кварц)",2621.73,"2017.10.19","2047.10.19",230.8,2.31,"Kohei","95089251","Япон Megatech","Дорноговь"],
+];
+
+const foreignData = [
+  [1,"7019145","Си эм кингс","Дорноговь аймаг","Айраг","ГХОХХК","Чин вен лунг","80330777","Inner Mongolia Jinshi Huameng-Wang Jinhua",""],
+  [2,"5464145","Айраг металлуржих","Нийслэл","Айраг","ГХОХХК","Чин вен лунг","80330777","SHI FULAI TRADE",""],
+  [3,"5103851","Тайшаншин юань","Нийслэл","Айраг","ГХОХХК","Гуан жио мей","88503619","Британийн Виржинийн арлууд Good Pillar Limited",""],
+  [4,"5180953","Дунфанлунма","Нийслэл","Айраг","ГХОХХК","Ма шиочин","85000111","БНХАУ Xi GANG",""],
+  [5,"5488087","Хөхжонш","Нийслэл","Айраг","ХХК","Ма шиочин","85000111","Баясгалан Бямбажаргал",""],
+  [6,"6292747","Ану майнинг минералс","","Алтанширээ","ГХОХХК","Октьябрь","99070505","БНХАУ Ma Lili",""],
+  [7,"5467268","Инфиниттиспэйс","","Алтанширээ","ГХОХХК","Б.Билэгсайхан","99946346","Сингапур Gobi Mining PTE.LTD",""],
+  [8,"2839121","Айраг эксплорэйшн","Дорноговь","Даланжаргалан","ХХК","Отгонгэрэл","89993687","Мөнх-Эрдэнэ Бадамгарав","Газартай зогссон"],
+  [9,"5234751","Айраг-Индмин","Дорноговь","Даланжаргалан","ХХК","Батчулуун","99105875","Цэвээн Батчулуун","Газартай явуулаагүй"],
+  [10,"2862522","Алтанхунчир","Дорноговь","Даланжаргалан","ХХК","Жамъянсүрэн","99118564","Банзрагч Жаргалсайхан","Газартай явуулаагүй"],
+  [11,"6172768","Арвижих энерги","Дорноговь","Даланжаргалан","ГХОХХК","Цэнгэлбаяр","70105666","Хятад Bугат хотын Zhi Yuan Neng Yuan",""],
+  [12,"2874482","Баялагжонш","Дорноговь","Даланжаргалан","ХХК","Хурцбилэг","99082707","Пүрэвдорж Хурцбилэг","Газартай явуулаагүй"],
+  [13,"2061899","Баярсконстракшн","Дорноговь","Даланжаргалан","ХХК","Баянсайхан","99116371","Насанбуян Баянсайхан","Газартай явуулаагүй"],
+  [14,"5294088","Билэгтбаялаг","Дорноговь","Даланжаргалан","ГХОХХК","Энхзаяа","99999979","Британийн Виржинийн арлууд Ingenious Value-Zhao Li",""],
+  [15,"5111668","Билэгтзурвас","Дорноговь","Даланжаргалан","ХХК","Одонгоо","99935590","Жадамбаа Одонгоо",""],
+  [16,"5192269","Блюскай хорс","Дорноговь","Даланжаргалан","ГХОХХК","Ариунболд","99115368","БНХАУ Ma Jun","Газартай явуулаагүй"],
+  [17,"5224942","Бриллиант дриллинг","Дорноговь","Даланжаргалан","ХХК","Баярбат","99075843","Сүхбаатар Баярбат","Газартай явуулаагүй"],
+  [18,"6463932","Говийн шандаст хүлэг","Дорноговь","Даланжаргалан","ГХОХХК","Chaolumengmandula","89022046","Хятад мэн ган ХК-Zhang Li Jun",""],
+  [19,"5564913","Гүн-Орд","Дорноговь","Даланжаргалан","ХХК","Уранчимэг","85859797","Есөн богд транс-БНХАУ jilena","Газартай явуулаагүй"],
+  [20,"5039274","Дасайн-Уул","Дорноговь","Даланжаргалан","ГХОХХК","Feng Lei","88112904","Америк Feng Lei","Газартай явуулаагүй"],
+  [21,"5071569","Ди Эйч Пи","Дорноговь","Даланжаргалан","ХХК","Батзориг","91116781","Хятад Бээжин хуйрэн-Chen RONGHAN","Газартай явуулаагүй"],
+  [22,"5281857","Доод дөрвөлжин","Дорноговь","Даланжаргалан","ХХК","Эрдэнэбат","99110339","Мөнх-Эрдэнэ Бадамгарав","Газартай явуулаагүй"],
+  [24,"5002486","Жинхуа орд","Дорноговь","Даланжаргалан","ГХОХХК","Вэйфей","99265803","Хятад Шандун Янь Шин уурхайн","Газартай явуулаагүй"],
+  [25,"5297591","Зэт Ди Эл","Дорноговь","Даланжаргалан","ГХОХХК","Luo WEi","96663841","Хятад Монгол тунжөн майнинг",""],
+  [26,"5084024","Ловонко","Дорноговь","Даланжаргалан","ГХОХХК","Dai Junfeng","99068646","БНХАУ Dai Junlong","Газартай явуулаагүй"],
+  [27,"5473055","Майнтөмөр","Дорноговь","Даланжаргалан","ХХК","Отгонсүрэн","99111308","Дэжид Отгонсүрэн","Газартай явуулаагүй"],
+  [28,"5276934","Миншингэрэлт од","Дорноговь","Даланжаргалан","ГХОХХК","Chen Chun Ming","99669366","БНХАУ YE XILIAN","Газартай явуулаагүй"],
+  [30,"2076675","Монгол Зөвлөлтийн ХН УБ төмөр зам","Дорноговь","Даланжаргалан","ГХОХХК","Хэрлэн","99027120","бүртгэгдээгүй",""],
+  [32,"5350182","Мөнгөнгүрэн","Дорноговь","Даланжаргалан","ГХОХХК","Baolong","99104061","БНХАУ Bao Long","Газартай явуулаагүй"],
+  [33,"5383854","Мөнгөнхас шонхор","Дорноговь","Даланжаргалан","ХХК","Тогоонтөмөр","88011111","Цогтбаяр Батбаатар","Газартай зогссон"],
+  [34,"5118115","Мөнхийн баян гал","Дорноговь","Даланжаргалан","ГХОХХК","Wang Mao","94488885","Жунцай цемент БНХАУ","Газартай явуулаагүй"],
+  [38,"5459362","Өү И Эл","Дорноговь","Даланжаргалан","ХХК","Брайн","88079799","Окслэй-Айрон-Канад Oxley Iron","Газартай явуулаагүй"],
+  [40,"5102081","Ричфлюорит","Дорноговь","Даланжаргалан","","Анхбаяр","99144026","Сингапур Tengri Resources","Газартай явуулаагүй"],
+  [44,"2777223","Тайшэндевелопмент","Дорноговь","Даланжаргалан","ХХК/ГХО/","Yu Yang","88003225","Британийн Виржинийн арлууд Топоне Стар","Газартай явуулаагүй"],
+  [46,"5872006","Талст дисковери","Дорноговь","Даланжаргалан","ХХК","Сарантуяа","99966101","Б.Сарантуяа","Газартай зогссон"],
+  [47,"5105439","Талст дөл","Дорноговь","Даланжаргалан","ХХК","Элбэгсайхан","89008225","Ц.Болор-Эрдэнэ",""],
+  [49,"5427967","Улаанхэцийн шанд","Дорноговь","Даланжаргалан","ХХК/ГХО/","Dalintai","70145488","БНХАУ Li Peng","Газартай явуулаагүй"],
+  [52,"5226902","Хасрич","Дорноговь","Даланжаргалан","ХХК","Тогоонтөмөр","98488888","Ундрага их далай-БНХАУ Хай Чуан","Газартай зогссон"],
+  [57,"5586119","Эйкүсора","Дорноговь","Даланжаргалан","ХХК/ГХО/","Үнэнбат","86065599","Хонгконг Cornerstone Marketing-Япон AFUSO JINKO",""],
+  [60,"5241359","Борж-Овоот","Дорноговь","Иххэт","ХХК/ГХО/","","99586230","Хятад Гансу Жиү еэ-Bate Bolide","Үйл ажиллагаагүй"],
+  [61,"6301843","Зун хуа ин си куан","Дорноговь","Иххэт","ХХК/ГХО/","","99116765","Их Британи Blue Nebula Investments","Үйл ажиллагаагүй"],
+  [62,"7023641","Квантум күэст","Дорноговь","Иххэт","ХХК/ГХО/","","91917050","Хонгконг HONG KONG WANYUAN RESOURCE",""],
+  [63,"5878756","Хөхбишрэлт","Дорноговь","Иххэт","ХХК/ГХО/","Dewen","99153477","Британийн Виржинийн арлууд Everglory minerals",""],
+  [64,"5248809","МОНГОЛИАНМИНЕРАЛЗ ПИТИИ","Дорноговь","Иххэт","ХХК/ГХО/","","99998238","Сингапур Монголиан минералз ПТИ","Үйл ажиллагаагүй"],
+  [65,"2028565","Төвшин","Дорноговь","Иххэт","ХХК/ГХО/","М.Зориг","99959005","Хятад Өвөр монголын Фү Рүн-Chen Yanquan",""],
+  [66,"5253217","Эс Эс Эл","Чингэлтэй","Замын-үүд","ХХК/ГХО/","","99110012","Оросын Кузьменко Юрий","Үл хөдлөх явуулаагүй"],
+  [67,"5001188","Зүнтиан","Дорноговь","Замын-үүд","ХХК/ГХО/","Гаваа Сүн","99841127","БНХАУ Sun Gaowa","2026 онд бүтээнэ"],
+  [68,"9919708","Жунмэй инженеринг групп","Дорноговь","Замын-Үүд","ГХЭТГ","","99088656","БНХАУ Жунмэй инженеринг","Төсөл /ХИЛ/"],
+  [69,"5006864","ЖИМЭНГ","Баянгол","Замын-үүд","ХХК/ГХО/","","99896958","БНХАУ ha zhiwei","Тээвэр газрын төрлийн"],
+  [70,"2790459","Нарантээх","Нийслэл","Замын-Үүд","ХХК/ГХО/","Хүрэлбат","99116447","Япон Шигэмицү Шожи Ко Лтд-Sharp энержи",""],
+  [71,"6604064","Бэй фанг лу ганг","Сүхбаатар","Замын-Үүд","ХХК/ГХО/","Morigen","77045888","БНХАУ Zhao Zhanliang",""],
+  [72,"6509681","Шандаст норт транс","Хан-Уул","Замын-Үүд","ХХК/ГХО/","Xiaorong","99990925","БНХАУ WANG XIAOYU",""],
+  [73,"7006729","Бичигт хью минг юуан","Дорноговь","Замын-Үүд","ХХК/ГХО/","WULIJICANG","94091111","БНХАУ Wulijicang",""],
+  [74,"6241514","Бээжин интоксикэйшн трейд монгол","Хан-Уул","Замын-Үүд","ХХК/ГХО/","Huang Min","99115604","БНХАУ Beijing intoxication",""],
+  [75,"5130816","Говийн үүд","Дорноговь","Замын-Үүд","ХХК/ГХО/","Энэбиш","99091777","БНХАУ Shengkuan Li",""],
+  [76,"8434948","Жунмон хуачиу мал аж ахуйн технологийн","Дорноговь","Замын-Үүд","ХХК/ГХО/","Longgang","99994522","БНХАУ Guo Longgang","Явуулаагүй"],
+  [78,"6902987","Интерэшиа энержи монголиа","Чингэлтэй","Замын-Үүд","ХХК/ГХО/","Gonzalo Andres","99992897","Сингапур Interasia Energy PTE LTD",""],
+  [80,"6066666","Чанг шэн олон улсын ачаа тээврийн","Дорноговь","Замын-Үүд","ХХК/ГХО/","Mandula","","БНХАУ Mandula","Явуулаагүй"],
+  [81,"6074065","Чинхуй инвестмент трейд","Дорноговь","Замын-Үүд","ХХК/ГХО/","Xiqing","95338777","БНХАУ He Xiqing","Явуулаагүй"],
+  [82,"7007513","Шивээхүрэн бөү жи ен","Дорноговь","Замын-Үүд","ХХК/ГХО/","WULIJICANG","94091111","БНХАУ Wulijicang","Явуулаагүй"],
+  [83,"7089017","Эс Эйч Эн гэрэл","Дорноговь","Замын-Үүд","ХХК/ГХО/","Шижээвандан","99999462","БНХАУ Qinghua",""],
+  [84,"5507049","Фейменг","Чингэлтэй","Замын-Үүд","ХХК/ГХО/","Yanqing","95885877","БНХАУ Tebuqin",""],
+  [89,"5072085","Бидний зорилго","Сүхбаатар","Өргөн сум","ХХК/ГХО/","Баярсайхан","88113188","Хонгконг Pizu International-Их Британи T.AO MINING",""],
+  [90,"5088755","Жунзэнь","Баянгол","Өргөн сум","ХХК/ГХО/","Алзахгүйбаатар","99214871","БНХАУ Bao Jinsong",""],
+  [92,"5502977","Бадрах Энержи","Дорноговь","Улаанбадрах","ХХК/ГХО/","Marc Pierre","99100475","Франц Orano Mining Expansion",""],
+  [93,"5962862","Мегатек манюфактуринг монголиа","Дорноговь","Сайхандулаан","ХХК/ГХО/","","99068902","Япон Megatech corporation",""],
+  [94,"7083913","Мига очболор","Дорноговь","Сайхандулаан","ХХК","Wei Wen","89876877","Канадиан кайдон индустриес-Хонгконг Wei Wen",""],
+  [95,"6422403","Эн юу ар эс","Дорноговь","Сайхандулаан","ХХК","Дөлбаяр","99066991","Ж.Сансар",""],
+  [97,"7077209","Канадиан кайдон","Дорноговь","Сайхандулаан","ХХК/ГХО/","Wei Wen","89876877","Хонгконг Wei Wen",""],
+  [99,"5298679","Фрийгүүд эрин","Дорноговь","Сайхандулаан","ХХК/ГХО/","Саруул","95255607","Солонгос Oh Suk min",""],
+  [100,"5708338","Дезерт солар пауэр вуан","Дорноговь","Сайншанд","ХХК/ГХО/","Albrecht","70112028","Герман DSP Gmbh",""],
+  [101,"5130662","Эй Эл Жи Ти","Дорноговь","Сайншанд","ХХК/ГХО/","Замбуу","89709901","Их Британи Quinton Overseas LTD-Казмет",""],
+  [102,"6996825","Коал бридж майнинг","Дорноговь","Сайншанд","ХХК/ГХО/","Bao Leer","88000919","БНХАУ Минхуа Смарт Коал",""],
+  [103,"5162971","Цараймуут нугасхан","Дорноговь","Сайншанд","ХХК/ГХО/","","99097936","БНХАУ Sino Worlink Technology",""],
+  [104,"5036895","ЮНИТЭЛ","Дорноговь","Сайншанд","ХХК/ГХО/","","88887049","Сингапур NOMADCOM PTE. LTD",""],
+  [105,"5524512","Их үүдийн говь","Дорноговь","Сайншанд","ХХК/ГХО/","SHILONG LI","94276888","БНХАУ Li Zunlou","Явуулаагүй"],
+  [106,"2766337","Доншен газрын тос монгол","Дорноговь","Сайншанд","ХХК/ГХО/","Huanxi Che","","БНХАУ Доншен Жингун Петролеум",""],
+  [107,"3323374","Шижир зүүнбаян хөгжил","Дорноговь","Сайншанд","ХХК","Нэргүй","88101808","Сингапур E-COMMODITIES MONGOLIA",""],
+];
+
+const constructData = [
+  [1,"3312453","Борхойн-Өргөө","Дорноговь","Замын-Үүд","Туяацэцэг","99093351","ХХК","Ч.Туяацэцэг",""],
+  [2,"3307905","МЦЦТ","Дорноговь","Замын-Үүд","Туяацэцэг","99093351","ХХК","Ч.Туяацэцэг",""],
+  [3,"3311449","Үлэмжнаран интернэшнл","Дорноговь","Замын-Үүд","Нарангуа","99111663","ХХК","Б.Нарангуа",""],
+  [4,"3329577","Сахиуст эгшиглэн","Дорноговь","Мандах","Азбаяр","94222227","ХХК","Г.Даваасүрэн","Барилгыг дуусгах шатны ажил"],
+  [5,"3325164","Өвөр үйзэн хийц","Дорноговь","Мандах","М.Ганболд","96015202","ХХК","Г.Мөнхтуяа","Бусад металл эдлэлийн үйлдвэрлэл"],
+  [6,"3316262","Дорнын очир далай","Дорноговь","Сайншанд","Э.Одбаяр","99700769","ХХК","Э.Одбаяр",""],
+  [7,"6617662","Дэнжийн цамхаг","Дорноговь","Сайншанд","О.Батгэрэл","99061014","ХХК","О.Батгэрэл",""],
+  [8,"3316912","Тогоруутай нуур","Дорноговь","Сайншанд","О.Сэржготов","96807474","ХХК","О.Сэржнотов",""],
+  [9,"3312097","Хуртай-Өргөө","Дорноговь","Сайншанд","Б.Сэмжидтуяа","91919165","ХХК","Говь баян нуур констракшн-Б.Сэмжидтуяа",""],
+  [10,"2666081","Эйбол","Дорноговь","Сайншанд","Э.Болдхангай","99105921","ХХК","Э.Болдхангай",""],
+  [11,"3321126","Эрхэм бадрах","Дорноговь","Сайншанд","Г.Отгон-Эрдэнэ","96452222","ХХК","Г.Отгонэрдэнэ",""],
+  [12,"3316874","Алтан баяр констракшн","Дорноговь","Сайншанд","М.Алтанбаяр","91213131","ХХК","С.Алтанбаяр",""],
+  [13,"2010097","Гантулга трейд","Дорноговь","Сайншанд","Х.Азбаяр","95112226","ХХК","Г.Гантулга",""],
+  [14,"5799988","Аббадон констракшн","Дорноговь","Сайншанд","Х.Бямбасүрэн","88108865","ХХК","Х.Бямбасүрэн",""],
+  [15,"2010259","Дорнын говь","Дорноговь","Сайншанд","Б.Ганхуяг","","ХХК","Б.Ганхуяг",""],
+  [16,"3311287","Айсуйхөгжил","Дорноговь","Сайншанд","Мягмарсүрэн","94111133","ХХК","Э.Мягмар",""],
+  [17,"3318206","Барга хайрхан","Дорноговь","Сайншанд","Эрдэнэбаяр","96349001","ХХК","Г.Эрдэнэбаяр",""],
+  [18,"3327221","БЗТМС хөгжил","Дорноговь","Сайншанд","Бямбасүрэн","88108865","ХХК","Х.Бямбасүрэн",""],
+  [19,"3311007","Бишрэлттүшлэг","Дорноговь","Сайншанд","Уранчимэг","96068132","ХХК","Э.Уранчимэг",""],
+  [20,"3324125","Говийн хөгжил эрин","Дорноговь","Сайншанд","Баярхүү","99998401","ХХК","У.Баярхүү",""],
+  [21,"3319326","Дэлгэр баян хүлэг","Дорноговь","Сайншанд","Энхболд","91008401","ХХК","Б.Энхболд",""],
+  [22,"3318907","Дэнжийн хүү","Дорноговь","Сайншанд","Биндэрьяа","96219669","ХХК","Т.Шижирбаатар",""],
+  [23,"3320871","Егү говь","Дорноговь","Сайншанд","Эрдэнэ-Очир","99025569","ХХК","Э.Эрдэнэ-очир",""],
+  [24,"3322726","Ивээлт баян буурал","Дорноговь","Сайншанд","Алтангэрэл","99901520","ХХК","Л.Алтангэрэл",""],
+  [25,"2771233","Минийсайншанд","Дорноговь","Сайншанд","Мөнгөнцэцэг","99992772","ХХК","Д.Мөнгөнцэцэг",""],
+  [26,"3327957","Нарны буурал говь","Дорноговь","Сайншанд","Батбаатар","95490090","ХХК","О.Батбаатар",""],
+  [27,"3328414","Нөгөө дөрөв","Дорноговь","Сайншанд","Бат-Өлзий","91115206","ХХК","С.Бат-Өлзий",""],
+  [28,"3316068","Сант номун","Дорноговь","Сайншанд","Урнаа","99808263","ХХК","Э.Урнаа",""],
+  [29,"6376061","Сутай жинст","Дорноговь","Сайншанд","Ганбаяр","80110703","ХХК","Г.Ганбаяр",""],
+  [30,"6753345","Хөх оноо","Дорноговь","Сайншанд","Бархассүрэн","80848586","ХХК","Т.Бархассүрэн",""],
+  [31,"3322211","Шанд зуурмаг","Дорноговь","Сайншанд","Алтансүх","99004810","ХХК","Д.Алтансүх",""],
+  [32,"3322858","Шанд эксим","Дорноговь","Сайншанд","Буяннэмэх","96116261","ХХК","А.Буяннэмэх",""],
+  [33,"8362866","Эрба ирээдүй транс","Дорноговь","Сайншанд","Батзоригт","80104811","ХХК","Б.Батзоригт",""],
+  [34,"5217016","Энержипарагон","Дорноговь","Сайншанд","Ариунбаатар","88883381","ХХК","Д.Мөнхзул Д.Амартүвшин",""],
+  [35,"6394205","Сүмбэр Өөдөө","Дорноговь","Сайншанд","Бат-амгалан","99100670","ХХК","М.Бат-Амгалан",""],
+  [36,"3323536","Ануурад эрдэнэ","Дорноговь","Сайншанд","Баяржавхлан","99189097","ХХК","Ц.Баяржавхлан",""],
+  [37,"3315509","Олдох бор хөндлөн","Дорноговь","Сайншанд","Батмөнх","96555251","ХХК","Б.Доржпүрэв",""],
+  [38,"3318818","Мөнх дэлгэрэх жаргал","Дорноговь","Сайншанд","Мөнхгэрэл","99235523","ХХК","У.Мөнхгэрэл",""],
+  [39,"3312976","Мөнхнаран констракшн","Дорноговь","Сайншанд","Б.Идэрболд","90115516","ХХК","С.Мөнхсүх","Зогссон"],
+  [40,"3320855","Хаш прожект","Дорноговь","Сайншанд","П.Оюунтөгөлдөр","99977978","ХХК","П.Оюунтөгөлдөр",""],
+  [41,"3316521","Цагаан хайрханы нөмөр","Дорноговь","Сайншанд","Р.Ариунболд","88070739","ХХК","Р.Ариунболд",""],
+  [42,"3313441","Франчайзговь","Дорноговь","Сайншанд","Х.Пүрэвдаваа","89062431","ХХК","Д.Наранцацрал","Зогссон"],
+  [43,"3311813","Сүлдэнхөх хайрхан","Дорноговь","Сайншанд","Б.Хүдэрчулуун","99076658","ХХК","Б.Хүдэрболд","Зогссон"],
+  [44,"3318125","Содун оргил энержи","Дорноговь","Сайншанд","Ц.Атарсүх","99105636","ХХК","Ц.Атарсүх",""],
+  [45,"2552213","Нэгдсэнмонгол","Дорноговь","Сайншанд","Б.Наранцацрал","96590260","ХХК","С.Мөнхсүрэн","Зогссон"],
+  [46,"3312933","Нараншийт","Дорноговь","Сайншанд","Б.Батбаатар","91916317","ХХК","бүртгээгүй","Зогссон"],
+  [47,"3328864","ГБХ дэвших","Дорноговь","Сайншанд","М.Эрдэнэжаргал","88026941","ХХК","М.Эрдэнэжаргал",""],
+  [48,"3312941","Алтанбаян буурал","Дорноговь","Сайншанд","У.Ганбаатар","99187971","ХХК","Д.Улаанхүү",""],
+  [49,"3309606","Хүрэл-Унага","Дорноговь","Сайншанд","Алтантуяа","99087492","ХХК","Ц.Алтантуяа","Эхлээгүй"],
+  [50,"3320278","Тэмүү эрхэс","Дорноговь","Сайншанд","Г.Бор","90091018","ХХК","Б.Гантөр","Эхлээгүй"],
+  [51,"3326012","Төгс уудам говь","Дорноговь","Сайншанд","О.Амартайван","91991180","ХХК","Э.Амаржаргал","Эхлээгүй"],
+  [52,"4258959","Ти Жэй Эн плант","Дорноговь","Сайншанд","Пунцагшарав","99081317","ХХК","бүртгээгүй","Эхлээгүй"],
+  [53,"3332438","Стийл лайнс арма","Дорноговь","Сайншанд","Ижилмөрөн","99820381","ХХК","О.Ижилмөрөн","Эхлээгүй"],
+  [55,"3333132","Масс фунд эдит лайн","Дорноговь","Сайншанд","Нямэрдэнэ","99042239","ХХК","Б.Нямэрдэнэ","Эхлээгүй"],
+];
+
+// ===== PAGINATION =====
+const PER_PAGE = 25;
+let miningFiltered = [...miningData];
+let foreignFiltered = [...foreignData];
+let constructFiltered = [...constructData];
+let miningPage = 1, foreignPage = 1, constructPage = 1;
+
+// ===== TAB SWITCH =====
+function showTab(name) {
+  document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if(name === 'mining') renderMining();
+  if(name === 'foreign') renderForeign();
+  if(name === 'construction') renderConstruct();
+  if(name === 'summary') renderBarChart();
+}
+
+// ===== MINING =====
+function filterMining() {
+  const q = document.getElementById('miningSearch').value.toLowerCase();
+  const s = document.getElementById('miningSum').value;
+  const m = document.getElementById('miningMin').value;
+  miningFiltered = miningData.filter(r => {
+    const text = r.join(' ').toLowerCase();
+    return (!q || text.includes(q)) && (!s || r[1].includes(s)) && (!m || r[4].includes(m));
+  });
+  miningPage = 1;
+  renderMining();
+}
+
+function renderMining() {
+  const start = (miningPage-1)*PER_PAGE;
+  const rows = miningFiltered.slice(start, start+PER_PAGE);
+  document.getElementById('miningCount').textContent = miningFiltered.length + ' бүртгэл';
+  const body = document.getElementById('miningBody');
+  if(!miningFiltered.length) { body.innerHTML = '<tr><td colspan="14"><div class="no-results"><div class="icon">🔍</div><div class="msg">Хайлт олдсонгүй</div></div></td></tr>'; renderPagination('mining', miningFiltered.length); return; }
+  body.innerHTML = rows.map(r => `
+    <tr>
+      <td class="mono muted">${r[0]}</td>
+      <td><span class="badge badge-blue">${r[1]}</span></td>
+      <td><strong>${r[2]}</strong></td>
+      <td><span class="badge badge-gray">${r[3]}</span></td>
+      <td><span class="badge badge-green">${r[4]}</span></td>
+      <td class="mono">${Number(r[5]).toLocaleString()}</td>
+      <td class="small muted">${r[6]}</td>
+      <td class="small muted">${r[7]}</td>
+      <td class="mono ${r[8]>0?'':'muted'}">${r[8]>0?Number(r[8]).toLocaleString():'—'}</td>
+      <td class="mono ${r[9]>0?'':'muted'}">${r[9]>0?Number(r[9]).toLocaleString():'—'}</td>
+      <td>${r[10]}</td>
+      <td class="mono small">${r[11]}</td>
+      <td class="small">${r[12]}</td>
+      <td class="small muted">${r[13]||'—'}</td>
+    </tr>`).join('');
+  renderPagination('mining', miningFiltered.length);
+}
+
+// ===== FOREIGN =====
+function filterForeign() {
+  const q = document.getElementById('foreignSearch').value.toLowerCase();
+  const s = document.getElementById('foreignSum').value;
+  const st = document.getElementById('foreignStatus').value;
+  foreignFiltered = foreignData.filter(r => {
+    const text = r.join(' ').toLowerCase();
+    const active = !r[9] || r[9] === '';
+    return (!q || text.includes(q)) && (!s || r[4].includes(s)) &&
+      (!st || (st==='active'?active:!active));
+  });
+  foreignPage = 1;
+  renderForeign();
+}
+
+function renderForeign() {
+  const start = (foreignPage-1)*PER_PAGE;
+  const rows = foreignFiltered.slice(start, start+PER_PAGE);
+  document.getElementById('foreignCount').textContent = foreignFiltered.length + ' бүртгэл';
+  const body = document.getElementById('foreignBody');
+  if(!foreignFiltered.length) { body.innerHTML = '<tr><td colspan="10"><div class="no-results"><div class="icon">🔍</div><div class="msg">Хайлт олдсонгүй</div></div></td></tr>'; renderPagination('foreign', foreignFiltered.length); return; }
+  body.innerHTML = rows.map(r => {
+    const inactive = r[9] && r[9] !== '';
+    const badge = inactive ? `<span class="badge badge-warn">${r[9]}</span>` : `<span class="badge badge-green">Идэвхтэй</span>`;
+    return `<tr>
+      <td class="mono muted">${r[0]}</td>
+      <td class="mono small">${r[1]}</td>
+      <td><strong>${r[2]}</strong></td>
+      <td class="small muted">${r[3]||'—'}</td>
+      <td><span class="badge badge-blue">${r[4]}</span></td>
+      <td><span class="badge badge-gray">${r[5]}</span></td>
+      <td>${r[6]||'—'}</td>
+      <td class="mono small">${r[7]||'—'}</td>
+      <td class="small">${r[8]}</td>
+      <td>${badge}</td>
+    </tr>`;}).join('');
+  renderPagination('foreign', foreignFiltered.length);
+}
+
+// ===== CONSTRUCTION =====
+function filterConstruct() {
+  const q = document.getElementById('constructSearch').value.toLowerCase();
+  const s = document.getElementById('constructSum').value;
+  constructFiltered = constructData.filter(r => {
+    const text = r.join(' ').toLowerCase();
+    return (!q || text.includes(q)) && (!s || r[4].includes(s));
+  });
+  constructPage = 1;
+  renderConstruct();
+}
+
+function renderConstruct() {
+  const start = (constructPage-1)*PER_PAGE;
+  const rows = constructFiltered.slice(start, start+PER_PAGE);
+  document.getElementById('constructCount').textContent = constructFiltered.length + ' бүртгэл';
+  const body = document.getElementById('constructBody');
+  if(!constructFiltered.length) { body.innerHTML = '<tr><td colspan="10"><div class="no-results"><div class="icon">🔍</div><div class="msg">Хайлт олдсонгүй</div></div></td></tr>'; renderPagination('construct', constructFiltered.length); return; }
+  body.innerHTML = rows.map(r => {
+    const stopped = r[9] && (r[9].includes('Зогссон') || r[9].includes('Эхлээгүй'));
+    return `<tr>
+      <td class="mono muted">${r[0]}</td>
+      <td class="mono small">${r[1]}</td>
+      <td><strong>${r[2]}</strong></td>
+      <td class="small muted">${r[3]}</td>
+      <td><span class="badge badge-blue">${r[4]}</span></td>
+      <td>${r[5]||'—'}</td>
+      <td class="mono small">${r[6]||'—'}</td>
+      <td><span class="badge badge-gray">${r[7]}</span></td>
+      <td class="small">${r[8]}</td>
+      <td>${r[9]?`<span class="badge ${stopped?'badge-warn':'badge-gray'}">${r[9]}</span>`:'—'}</td>
+    </tr>`;}).join('');
+  renderPagination('construct', constructFiltered.length);
+}
+
+// ===== PAGINATION =====
+function renderPagination(name, total) {
+  const pages = Math.ceil(total/PER_PAGE);
+  const cur = name==='mining'?miningPage:name==='foreign'?foreignPage:constructPage;
+  const el = document.getElementById(name+'Pagination');
+  if(pages<=1){ el.innerHTML=''; return; }
+  let html = `<span class="page-info">${cur}/${pages} хуудас</span>`;
+  html += `<button class="page-btn" onclick="goPage('${name}',${cur-1})" ${cur<=1?'disabled':''}>‹</button>`;
+  for(let p=Math.max(1,cur-2);p<=Math.min(pages,cur+2);p++){
+    html+=`<button class="page-btn ${p===cur?'active':''}" onclick="goPage('${name}',${p})">${p}</button>`;
+  }
+  html+=`<button class="page-btn" onclick="goPage('${name}',${cur+1})" ${cur>=pages?'disabled':''}>›</button>`;
+  el.innerHTML=html;
+}
+
+function goPage(name, p) {
+  if(name==='mining'){ miningPage=p; renderMining(); }
+  if(name==='foreign'){ foreignPage=p; renderForeign(); }
+  if(name==='construct'){ constructPage=p; renderConstruct(); }
+  document.querySelector('.tabs-wrapper').scrollIntoView({behavior:'smooth'});
+}
+
+// ===== BAR CHART =====
+function renderBarChart() {
+  const data = [
+    {name:'Сайншанд',val:114,color:'#00c896'},
+    {name:'Даланжаргалан',val:121,color:'#0088ff'},
+    {name:'Замын-Үүд',val:69,color:'#f0a500'},
+    {name:'Айраг',val:42,color:'#00c896'},
+    {name:'Хатанбулаг',val:27,color:'#6b7a99'},
+    {name:'Их хэт',val:24,color:'#6b7a99'},
+    {name:'Сайхандулаан',val:21,color:'#6b7a99'},
+    {name:'Өргөн',val:20,color:'#6b7a99'},
+    {name:'Мандах',val:18,color:'#6b7a99'},
+    {name:'Алтанширээ',val:13,color:'#6b7a99'},
+    {name:'Дэлгэрэх',val:3,color:'#6b7a99'},
+    {name:'Хөвсгөл',val:4,color:'#6b7a99'},
+    {name:'Улаанбадрах',val:6,color:'#6b7a99'},
+    {name:'Эрдэнэ',val:3,color:'#6b7a99'},
+  ].sort((a,b)=>b.val-a.val);
+  const max=Math.max(...data.map(d=>d.val));
+  const chart=document.getElementById('barChart');
+  chart.innerHTML=data.map(d=>`
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <div style="width:120px;text-align:right;font-size:13px;color:#e8edf5;white-space:nowrap">${d.name}</div>
+      <div style="flex:1;background:#181c24;border-radius:4px;height:28px;overflow:hidden">
+        <div style="width:${(d.val/max*100).toFixed(1)}%;background:linear-gradient(90deg,${d.color},${d.color}88);height:100%;border-radius:4px;display:flex;align-items:center;padding:0 10px;transition:width 0.6s ease">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#fff">${d.val}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+const transportData = [
+  [1,"3318869","Хөрс транс","Дорноговь","Даланжаргалан","Ц.Мягмардорж","88102057","99057140","ХХК","Ц.Мягмартогтох",""],
+  [2,"3327922","Говь цэц бүрэн","Дорноговь","Даланжаргалан","Энхбүрэн","88909034","96509609","ХХК","Г.Энхбүрэн",""],
+  [3,"3320081","Бидний ая зам тээвэр","Дорноговь","Даланжаргалан","Ш.Пүрэвсүрэн","99771048","99771048","ХХК","Л.Пүрэвсүрэн",""],
+  [4,"6192084","Дардан ложистик","Дорноговь","Замын-үүд","Баяндэлгэр Даваасүрэн","99095636","99168845","ХХК","Б.Лхагвасүрэн Д.Буяндэлгэр","Ложистик тээвэр"],
+  [5,"3315606","Моно транс","Дорноговь","Замын-үүд","Данзансодов Ариунболд","99117536","","ХХК","Д.Ариунболд","Тээвэр"],
+  [6,"3314006","Энтээсээ","Дорноговь","Замын-үүд","Мөнхжавхлан Цэцэгсайхан","88749968","","ХХК","Ц.Мөнхжавхлан","Дэлгүүр тээвэр"],
+  [7,"3318052","ЦЭДО ложистик","Дорноговь","Замын-үүд","Ундрал Дашцэрэн","89100225","","ХХК","Бүртгэгдээгүй","Тээвэр"],
+  [8,"3324915","Гэгээнтний мянганы хүлгүүд","Дорноговь","Замын-үүд","Батсайхан Рэнцэндорж","88118696","","ХХК","Р.Батсайхан","Тээвэр"],
+  [9,"6099114","Чанг шэн олон улсын ачаа тээврийн чөлөөт бүс","Дорноговь","Замын-үүд","Mandula","99074522","","ХХК","Женерал мийт экспорт энд трейдинг","Тээвэр"],
+  [10,"3327191","Од хүрэн хурд","Дорноговь","Замын-үүд","Ганбаатар Сүхбаатар","88053833","","ХХК","С.Ганбаатар","Тээвэр"],
+  [11,"3328082","Сүлд ЗЭБ","Дорноговь","Замын-үүд","Пүрэвдулам Дашдэлэг","88205577","","ХХК","Д.Пүрэвдулам","Тээвэр"],
+  [12,"3313077","ГУАГИЙН БУЛАГ","Дорноговь","Замын-үүд","Энхжаргал Доржсүрэн","99113253","","ХХК","Д.Энхжаргал","Тээвэр"],
+  [13,"3316807","АЕ ложистик групп","Дорноговь","Замын-үүд","Анхбилэг Бямбасүрэн","99000737","","ХХК","Б.Анхбилэг","Тээвэр"],
+  [14,"3318494","Тээвэрчдийн удам","Дорноговь","Замын-үүд","Гансүх Баттөмөр","99043203","","ХХК","Б.Гансүх","Тээвэр"],
+  [15,"6398553","Баян жавхлант","Сонгинохайрхан","Замын-үүд","Нэргүй","88018353","","ХХК","Д.Нэргүй С.Гал-Эрдэнэ",""],
+  [16,"3333647","Жижэй шиппинг","Дорноговь","Замын-үүд","Ганцоож","91114233","80003368","ХХК","Д.Ганцоож",""],
+  [17,"8480044","Замэр коннект","Баянзүрх","Замын-үүд","Эрдэнэ","80059886","","ХХК","Э.Ичинхорлоо",""],
+  [18,"4279077","Монзоре эрдэс","Дархан-Уул","Замын-үүд","Зэсэнбаатар","99705542","","ХХК","М.Зэсэнбаатар",""],
+  [19,"3336271","Төгс тэнцэл","Дорноговь","Замын-үүд","Наранцацрал","99789595","","ХХК","Ч.Наранцацрал",""],
+  [20,"3330117","Энх үүд элсэн говь","Дорноговь","Замын-үүд","Отгонцэцэг","88046864","","ХХК","О.Отгонцэцэг",""],
+  [21,"3314839","Цайны зам тревэл","Дорноговь","Замын-үүд","Төгсбаяр","99908388","","ХХК","Б.Баттулга",""],
+  [22,"3307778","Алтан-Алим-ДН","Дорноговь","Замын-үүд","Нямдаваа","95527575","","ХХК","Д.Нямдаваа",""],
+  [23,"6265332","Бүрэн транс ложистик","Нийслэл","Даланжаргалан","Цогтбаяр","88090494","95110202","ХХК","Д.Цогтбаяр","Салбар"],
+  [24,"5557097","Прогресстранс интернейшнл","Баянзүрх","Баянзүрх","Батхүү","99113979","99113979","ХХК","Ч.Бүрэнцэцэг Ч.Батхүү",""],
+  [25,"3336727","Төгс идэр хөлөгт транс","Дорноговь","Замын-үүд","Түвшинжаргал","80119248","80119248","ХХК","П.Түвшинжаргал",""],
+  [26,"3336204","Хос мэлмийт шагай","Дорноговь","Замын-үүд","Чинзориг","88049914","88049914","ХХК","Г.Чинзориг",""],
+  [27,"3335623","Цойлох хүч","Дорноговь","Замын-үүд","Эрдэнэсайхан","88100491","99131382","ХХК","Б.Эрдэнэсайхан",""],
+  [28,"3306992","Элгэнбаян","Дорноговь","Замын-үүд","Болдбаатар","89113506","88021739","ХХК","С.Болдбаатар",""],
+  [29,"3336263","Элдэрстон фийлд","Дорноговь","Замын-үүд","Гантогоо","80023759","86027126","ХХК","Г.Гантогоо",""],
+  [30,"6314627","Говийн хан транс","Нийслэл","Замын-үүд","Chaokegerile","91617777","88750128","ХХК","Хан транс-БНХАУ Chaokegerile","Салбар"],
+  [31,"3323455","Дархан хүүд транс","Дорноговь","Замын-үүд","Жамбалсүрэн","99109633","99137637","ХХК","А.Жамбалсүрэн",""],
+  [32,"3319105","Их говь транс ложистик","Нийслэл","Замын-үүд","Гантулга","96960096","88104287","ХХК","Э.Төмөрбаатар","Салбар"],
+  [33,"3316408","Өвөр баян таримал","Дорноговь","Замын-үүд","Бямбасүрэн","99024342","99789595","ХХК","Я.Бямбасүрэн",""],
+  [34,"3335496","Эм Эй Эн Ди И транс","Дорноговь","Замын-үүд","Даваадорж","90111126","96096815","ХХК","Т.Даваадорж",""],
+  [35,"3316092","Эрдэнэст наран говь","Дорноговь","Замын-үүд","","","","ХХК","Ч.Ган-Очир",""],
+  [47,"7077089","Түмэн говь сүжөү","Дорноговь","Мандах","Wei Zhang","99117484","","ХХК/ГХО/","БНХАУ Wenfu",""],
+  [48,"2010275","Монголтарвас","Дорноговь","Мандах","Мөнхбаяр","99290098","","ХХК","Э.Мандахбаяр","Агаарын тээврийн туслах"],
+  [49,"3324214","Апекс говь транс","Дорноговь","Сайншанд","Б.Одбаяр","99092568","88407037","ХХК","Б.Одбаяр",""],
+  [50,"3316815","Баялаг ширээт","Дорноговь","Сайншанд","М.Энхтайван","88111767","88096147","ХХК","Э.Ундармаа",""],
+  [51,"3326101","БТБ тэнүүн ложистик","Дорноговь","Сайншанд","О.Билгүүн","88970017","99522373","ХХК","О.Билгүүн",""],
+  [52,"3320146","Бүрэн торх","Дорноговь","Сайншанд","Б.Сарантуяа","88300209","","ХХК","Б.Сарантуяа",""],
+  [53,"3318591","ГЭТ Сайн","Дорноговь","Сайншанд","Э.Гомбосүрэн","99022615","","ХХК","Э.Гомбосүрэн",""],
+  [54,"3317587","Дорноговь транс","Дорноговь","Сайншанд","С.Мөнхсүх","96665566","","ХХК","С.Мөнхсүх",""],
+  [55,"3325784","Меркус транс","Дорноговь","Сайншанд","Ч.Батсайхан","86204334","89906868","ХХК","Ч.Батсайхан",""],
+  [56,"3317978","Мимай майнинг","Дорноговь","Сайншанд","Б.Мэргэн","88880528","","ХХК","Б.Мэргэн",""],
+  [57,"3313263","Хатанцээл","Дорноговь","Сайншанд","Б.Бат-Эрдэнэ","80750770","","ХХК","Б.Бат-Эрдэнэ",""],
+  [58,"3311198","Хутаг уулын өртөө","Дорноговь","Сайншанд","М.Мөнхнайрамдал","88887469","96966751","ХХК","Р.Мөнхбаяр",""],
+  [59,"3322297","Чойрын богд ложистик","Дорноговь","Сайншанд","А.Саруул","99103648","85008988","ХХК","БНХАУ Qinggele",""],
+  [60,"3320375","Амоо шанд транс","Дорноговь","Сайншанд","Энхтайван","88111767","88096147","ХХК","Монголиан житун интернэйшнл-БНХАУ YongQiang",""],
+  [61,"3316033","Говь хүү тээвэр","Дорноговь","Сайншанд","Эрдэнэбаяр","99736688","","ХХК","Д.Эрдэнэбаяр",""],
+  [62,"3322335","Аргалант транс","Дорноговь","Сайншанд","Б.Наранбаяр","88880268","","ХХК","Б.Наранбаяр",""],
+  [63,"6769616","Говь шанх Ти Ти","Баянгол","Сайншанд","Хурцбаатар","88051314","","ХХК","Х.Раднааханд","Салбар"],
+  [64,"3312208","ТЭТГЭЛТТАВАН ОД","Дорноговь","Сайншанд","Жааладъяасүрэн","89095928","88070407","ХХК","Ц.Жааладъяасүрэн",""],
+  [65,"3311902","ЧАНДМАНЬЦАГААН ХАД","Нийслэл","Сайншанд","Эрдэнэбаяр","99010088","99595975","ХХК","Б.Мөнх-Эрдэнэ","Салбар"],
+  [66,"3326403","Хос хөсөг транс","Дорноговь","Сайншанд","Өнөрбаатар","99025119","","ХХК","Б.Өнөрбаатар",""],
+  [67,"3322599","Баян хармагтай","Дорноговь","Сайншанд","Батзангиа","89107101","","ХХК","Г.Золжаргал",""],
+  [68,"3319415","Баян булаг авто ложистик","Нийслэл","Сайншанд","","86225100","","ХХК","Юүн юун тун-БНХАУ Wenyuan","Салбар"],
+  [69,"3320723","Миданок ложистик","Дорноговь","Сайншанд","Сарнай","89089998","","ХХК","Т.Сарнай",""],
+  [70,"3326527","Түшлэг логистик девелопмент","Дорноговь","Хатанбулаг","Ариунаа","88060617","","ХХК","Э.Ариунаа",""],
+  [71,"3317676","Тэнүүн говь транс","Дорноговь","Сайншанд","Жавхлантөгс","99997083","","ХХК","Б.Жавхлантөгс",""],
+  [72,"3628493","Хан богд хурд транс","Дорноговь","","","88393333","","ХХК","МГ урсгал орхон-БНХАУ Liu Ping",""],
+  [73,"3326543","Мандах говийн шүр транс","Дорноговь","Сайншанд","Мэргэн","99097242","99399859","ХХК","Д.Мэргэн",""],
+  [74,"3310698","Интертранс нью сервис","Дорноговь","Сайншанд","Загд-Очир","99114973","99091283","ХХК","Д.Загд-Очир",""],
+  [75,"3336468","Авуурьд буян","Дорноговь","Сайншанд","Мөнхтунгалаг","89575641","","ХХК","О.Мөнхтунгалаг",""],
+  [76,"3332845","Сод мандах наран","Дорноговь","Сайншанд","Цэдэнсодном","86131515","","ХХК","Л.Цэдэнсодном",""],
+  [77,"3318117","Элбэг ширээт","Дорноговь","Сайншанд","Энхбаатар","91912572","","ХХК","бүртгэгдээгүй",""],
+  [78,"3321738","Галдаагийн булаг","Дорноговь","Сайншанд","Б.Гантулга","96610001","88050504","ХХК","Б.Мөнхбаяр Б.Гантулга",""],
+  [79,"3334317","Эртний зам баялаг","Дорноговь","Сайншанд","С.Лхагвасүрэн","99051949","99051949","ХХК","С.Лхагвасүрэн",""],
+  [80,"3320618","Ган хас сүлд","Дорноговь","Сайншанд","Б.Анхбаяр","99970053","88077007","ХХК","Б.Анхбаяр","Явуулаагүй"],
+  [81,"3319601","Огторгуйн жим","Дорноговь","Сайншанд","Ж.Ангараг","80108188","80108188","ХХК","Ж.Ангараг С.Золбаяр","Явуулаагүй"],
+  [82,"3329984","Магнай энгэр транс","Дорноговь","Сайншанд","М.Баяржавхлан","89330318","","ХХК","М.Баяржавхлан","Явуулаагүй"],
+  [83,"3335127","Мараахайн жигүүр","Дорноговь","Сайншанд","Ч.Эрхэмсайхан","99109731","","ХХК","Ч.Эрхэмсайхан","Явуулаагүй"],
+  [84,"3334945","Дэвжих тулга марал ложистик","Дорноговь","Сайншанд","Ш.Одбаяр","88782665","","ХХК","Г.Баттулга Ш.Одбаяр","Эхлээгүй"],
+  [85,"3336514","Төгс бэст говь","Дорноговь","Сайншанд","Дэлгэрмөрөн","90416688","90416688","ХХК","Б.Дэлгэрмөрөн",""],
+  [86,"3322009","Сор шанд","Дорноговь","Сайншанд","СОДГЭРЭЛ","80116480","80116480","","","Улсын бүртгэлээс хасагдсан"],
+  [87,"3322491","Дэлгэрэх хүрд хишиг","Дорноговь","Сайншанд","Тэргэл","80111169","80111169","ХХК","А.Тэргэл","Явуулаагүй"],
+  [88,"3316947","Даншиг транс","Нийслэл","Хатанбулаг сум","О.Энхмэнд","88882294","89890208","ХХК","О.Энхмэнд","Салбар"],
+  [89,"3322483","Хэттрик ложистик","Нийслэл","Хатанбулаг сум","Төмөрхуяг","99113727","","ХХК","Мончи баян транс-БНХАУ guo","Салбар"],
+  [90,"6290817","Гуо хуй олон улсын тээвэр","Нийслэл","Хатанбулаг сум","","","88162588","ХХК/ГХО/","БНХАУ Shu Hu","Салбар"],
+  [91,"5411777","Ти Ти Си энд Ти","Том татвар","Хатанбулаг сум","","","94272299","ХХК/ГХО/","Сингапур Аню Инвестмент-Стар баннер","Салбар"],
+  [92,"3323358","Баялаг хатанбулаг хөгжил","Дорноговь","Хатанбулаг сум","Одонтуяа","","99087158","ХХК","Д.Одонтуяа А.Баасанбаяр",""],
+  [93,"6284655","Тахилт хайрхан транс","Том татвар","Хатанбулаг сум","","","99092797","ХХК","БНХАУ Lai Zhenbao","Салбар"],
+  [94,"6884644","Жолооч базаар","Дорноговь","Хатанбулаг сум","Оюунбат","90100507","","ХХК","БНХАУ QINGSHAN",""],
+  [95,"5377641","Хөх-Өндөр хайрхан","Хан-Уул","Хатанбулаг сум","Мөнхтуяа","91910556","","ХХК","Ц.Мөнхтуяа","Салбар"],
+  [96,"6537995","Ди Жи Кэй ложистик","Том татвар","Хатанбулаг сум","","","99049736","ХХК","БНХАУ Peng","Салбар"],
+  [97,"3322475","Хэттрик транс","Дорноговь","Хатанбулаг сум","Мөнхбаяр","88114370","","ХХК","Б.Мөнхбаяр",""],
+  [98,"6607551","Сод тосон дэлгэрэх","Нийслэл","Хатанбулаг сум","","","99095049","ХХК","С.Отгонням","Салбар"],
+  [99,"6537987","Говь круйзер транс","Дорноговь","Хатанбулаг сум","","","99722227","ХХК","БНХАУ Dong Zhongqiang",""],
+  [100,"6980015","Ханги эко логистик","Дорноговь","Хатанбулаг сум","Бямбасүрэн","80084689","88082260","ХХК","Эм Жи Эл лайн",""],
+  [101,"3619745","Хансахиус","Нийслэл","Хатанбулаг сум","Шараа","88101808","","ХХК/ГХО/","Сингапур E-COMMODITIES INTELLIGENT LOGISTICS","Салбар"],
+  [102,"6374476","Өсөх ерөөлт","Баянзүрх","Хатанбулаг сум","Мөнгөншагай","95846565","80080868","ХХК","С.Мөнхцэцэг Л.Түвшинжаргал","Салбар"],
+  [103,"6379001","Өлзийт тал далай","Нийслэл","Хатанбулаг сум","","","89636699","ХХК","Б.Батцэцэг","Салбар"],
+  [104,"7169593","Шин чиао тай","Дорноговь","Хатанбулаг сум","","","86078637","ХХК/ГХО/","БНХАУ Huang Jianchun",""],
+  [105,"3324834","Сүжийн зам транс","Дорноговь","Хатанбулаг сум","Туул","89116562","","ХХК","Т.Туул",""],
+  [106,"6159842","Жаргалант транс","Хан-Уул","Хатанбулаг сум","Ганхуяг","99116026","89980956","ХХК","Ц.Ганхуяг-БНХАУ Alamusi","Салбар"],
+];
+
+const processData = [
+  [1,"2009765","Хэрлэн-Импекс","Том татвар","Айраг","Элбэгсайхан","99096800","ХХК/ГХО/","БНХАУ MA XIAOQIN, VAO JIANWEN","БНХАУ VAO JIANWEN",""],
+  [2,"7019145","Си эм кингс","Дорноговь","Айраг","Чин вен лунг","80330777","ХХК/ГХО/","БНХАУ Inner Mongolia Jinshi Huameng","БНХАУ Wang Jinhua",""],
+  [3,"5464145","Айраг металлуржих","Нийслэл","Айраг","Чин вен лунг","80330777","ХХК/ГХО/","БНХАУ SHI FULAI TRADE","БНХАУ Liu runqian",""],
+  [4,"5473748","Дорноговийн үйлс","Нийслэл","Айраг","Г.Ихбаяр","99880316","ХХК/ГХО/","БНХАУ Vin Zhengping, lin JIANGFENG","БНХАУ lin JIANGFENG",""],
+  [5,"2742039","Алтраг-Ахас","Том татвар","Айраг","Бат","86368999","ХХК","Эйч Ти Эм инвестмент ХХК","Бүртгэлгүй",""],
+  [6,"6100368","Хур газар","Дорноговь","Айраг","Мөнхбат","99110349","ХХК","Мэнггү эх газрын хишиг ХХК","БНХАУ Fan LIANGANG",""],
+  [7,"5467268","Инфиниттиспэйс","Дорноговь","Алтанширээ","Б.Билэгсайхан","99946346","ХХК/ГХО/","Сингапур Gobi Mining PTE.LTD","Б.Алтантуул",""],
+  [8,"5167663","КЕВИН-ИНВЕСТ","Дорноговь","Даланжаргалан сум","","","ХХК/ГХО/","Америк Feng Lei","Америк Feng Lei",""],
+  [9,"5168449","Монголиан флюор спар","Дорноговь","Даланжаргалан сум","Марал","88077733","ХХК","Л.Энхбат Я.Болдбаатар","Л.Энхбат","Зогссон"],
+  [10,"5460816","ГААС","Дорноговь","Даланжаргалан сум","Цэнгэл","88577788","ХХК","Иннер монголиа жи юунлай ХХК","БНХАУ Bao Qinggele","Зогссон"],
+  [11,"6191614","Ачир","Дорноговь","Даланжаргалан сум","Бат-Очир","88083231","ХХК/ГХО/","БНХАУ Хэн Тун Худалдааны ХХК","БНХАУ Li Gang",""],
+  [12,"6322824","Фэн шу зун","Дорноговь","Даланжаргалан сум","Цогтгэрэл","99093100","ХХК","Н.Цогтгэрэл","Н.Цогтгэрэл","Зогссон"],
+  [13,"5454034","Давхар амжилт","Дорноговь","Даланжаргалан сум","Мөнхчулуун","88109224","ХХК","Э.Төмөрхуяг Э.Хуягбаатар","Э.Төмөрбаатар","Зогссон"],
+  [14,"5878756","Хөхбишрэлт","Дорноговь","Иххэт","Dewen","99153477","ХХК","Британийн Виржинийн арлууд Everglory minerals","Австралийн Sheng Hao Ze",""],
+  [15,"2028565","Төвшин","Дорноговь","Иххэт","М.Зориг","99959005","ХХК/ГХО/","Битенш ХХК-БНХАУ Өвөр монголын Фү Рүн","Канад Chen Wenhua",""],
+  [16,"6177492","Монгол газрын тос боловсруулах үйлдвэр","Дорноговь","Алтанширээ","Алтанцэцэг","99099263","ХХК","Эрдэнэсмонгол ХХК","Д.Алтанцэцэг",""],
+];
+
+let transportFiltered = [...transportData];
+let processFiltered = [...processData];
+let transportPage = 1, processPage = 1;
+
+function filterTransport() {
+  const q = document.getElementById('transportSearch').value.toLowerCase();
+  const s = document.getElementById('transportSum').value;
+  transportFiltered = transportData.filter(r => {
+    const text = r.join(' ').toLowerCase();
+    return (!q || text.includes(q)) && (!s || r[4].includes(s));
+  });
+  transportPage = 1;
+  renderTransport();
+}
+
+function renderTransport() {
+  const start = (transportPage-1)*PER_PAGE;
+  const rows = transportFiltered.slice(start, start+PER_PAGE);
+  document.getElementById('transportCount').textContent = transportFiltered.length + ' бүртгэл';
+  const body = document.getElementById('transportBody');
+  if(!transportFiltered.length) { body.innerHTML = '<tr><td colspan="11"><div class="no-results"><div class="icon">🔍</div><div class="msg">Хайлт олдсонгүй</div></div></td></tr>'; renderPagination('transport', transportFiltered.length); return; }
+  body.innerHTML = rows.map(r => {
+    const note = r[10];
+    const noteBadge = note ? `<span class="badge ${note.includes('Зогссон')||note.includes('хасагдсан')?'badge-red':note.includes('Явуулаагүй')||note.includes('Эхлээгүй')?'badge-warn':'badge-gray'}">${note}</span>` : '—';
+    return `<tr>
+      <td class="mono muted">${r[0]}</td>
+      <td class="mono small">${r[1]}</td>
+      <td><strong>${r[2]}</strong></td>
+      <td class="small muted">${r[3]}</td>
+      <td><span class="badge badge-blue">${r[4]||'—'}</span></td>
+      <td>${r[5]||'—'}</td>
+      <td class="mono small">${r[6]||'—'}</td>
+      <td class="mono small">${r[7]||'—'}</td>
+      <td><span class="badge badge-gray">${r[8]}</span></td>
+      <td class="small">${r[9]}</td>
+      <td>${noteBadge}</td>
+    </tr>`;}).join('');
+  renderPagination('transport', transportFiltered.length);
+}
+
+function filterProcess() {
+  const q = document.getElementById('processSearch').value.toLowerCase();
+  const s = document.getElementById('processSum').value;
+  processFiltered = processData.filter(r => {
+    const text = r.join(' ').toLowerCase();
+    return (!q || text.includes(q)) && (!s || r[4].includes(s));
+  });
+  processPage = 1;
+  renderProcess();
+}
+
+function renderProcess() {
+  const start = (processPage-1)*PER_PAGE;
+  const rows = processFiltered.slice(start, start+PER_PAGE);
+  document.getElementById('processCount').textContent = processFiltered.length + ' бүртгэл';
+  const body = document.getElementById('processBody');
+  if(!processFiltered.length) { body.innerHTML = '<tr><td colspan="11"><div class="no-results"><div class="icon">🔍</div><div class="msg">Хайлт олдсонгүй</div></div></td></tr>'; renderPagination('process', processFiltered.length); return; }
+  body.innerHTML = rows.map(r => {
+    const stopped = r[10] && r[10].includes('Зогссон');
+    return `<tr>
+      <td class="mono muted">${r[0]}</td>
+      <td class="mono small">${r[1]}</td>
+      <td><strong>${r[2]}</strong></td>
+      <td class="small muted">${r[3]}</td>
+      <td><span class="badge badge-blue">${r[4]}</span></td>
+      <td>${r[5]||'—'}</td>
+      <td class="mono small">${r[6]||'—'}</td>
+      <td><span class="badge badge-gray">${r[7]}</span></td>
+      <td class="small">${r[8]}</td>
+      <td class="small">${r[9]}</td>
+      <td>${r[10]?`<span class="badge ${stopped?'badge-warn':'badge-gray'}">${r[10]}</span>`:'—'}</td>
+    </tr>`;}).join('');
+  renderPagination('process', processFiltered.length);
+}
+
+// extend goPage and renderPagination for new tabs
+const _origGoPage = goPage;
+goPage = function(name, p) {
+  if(name==='transport'){ transportPage=p; renderTransport(); document.querySelector('.tabs-wrapper').scrollIntoView({behavior:'smooth'}); return; }
+  if(name==='process'){ processPage=p; renderProcess(); document.querySelector('.tabs-wrapper').scrollIntoView({behavior:'smooth'}); return; }
+  _origGoPage(name, p);
+};
+
+// extend showTab
+const _origShowTab = showTab;
+showTab = function(name) {
+  document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if(name === 'mining') renderMining();
+  if(name === 'foreign') renderForeign();
+  if(name === 'construction') renderConstruct();
+  if(name === 'transport') renderTransport();
+  if(name === 'processing') renderProcess();
+  if(name === 'summary') renderBarChart();
+};
+
+// Update date
+const d = new Date();
+document.getElementById('dateDisplay').textContent = d.toISOString().split('T')[0];
+</script>
+</body>
+</html>
