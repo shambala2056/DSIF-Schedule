@@ -266,25 +266,29 @@
             <div id="sticky-filter">
               <div class="d-flex gap-2" id="cat-pills">
                 <button class="cat-pill active" data-cat="all">Бүгд</button>
-                <!-- categories.json-аас динамикаар ачаална -->
+                <button class="cat-pill" data-cat="energy">Эрчим хүч</button>
+                <button class="cat-pill" data-cat="mining">Уул уурхай</button>
+                <button class="cat-pill" data-cat="environment">Байгаль орчин</button>
+                <button class="cat-pill" data-cat="infra">Дэд бүтэц</button>
+                <button class="cat-pill" data-cat="edu">Боловсрол</button>
+                <button class="cat-pill" data-cat="culture">Соёл</button>
+                <button class="cat-pill" data-cat="health">Эрүүл мэнд</button>
+                <button class="cat-pill" data-cat="social">Нийгэм</button>
+                <button class="cat-pill" data-cat="agri">Хөдөө аж ахуй</button>
               </div>
-              <script>
-              (function(){
-                fetch('data/categories.json')
-                  .then(function(r){ return r.json(); })
-                  .then(function(cats){
-                    var container = document.getElementById('cat-pills');
-                    cats.forEach(function(cat){
-                      var btn = document.createElement('button');
-                      btn.className = 'cat-pill';
-                      btn.dataset.cat = cat.key;
-                      btn.textContent = cat.name;
-                      container.appendChild(btn);
-                    });
-                    if (typeof initCatPills === 'function') initCatPills();
-                  });
-              })();
-              </script>
+              <!-- Mobile dropdown — desktop-д нуугдана -->
+              <select id="cat-select" style="display:none">
+                <option value="all">Бүгд</option>
+                <option value="energy">Эрчим хүч</option>
+                <option value="mining">Уул уурхай</option>
+                <option value="environment">Байгаль орчин</option>
+                <option value="infra">Дэд бүтэц</option>
+                <option value="edu">Боловсрол</option>
+                <option value="culture">Соёл</option>
+                <option value="health">Эрүүл мэнд</option>
+                <option value="social">Нийгэм</option>
+                <option value="agri">Хөдөө аж ахуй</option>
+              </select>
               <div class="filter-controls">
                 <div class="project-search-wrap">
                   <button type="button" class="search-toggle" aria-label="Хайх" title="Хайх">
@@ -378,28 +382,6 @@
                       <div><span class="pstat-val" style="color:#4bac48">120%</span><span class="pstat-lbl">санхүүжсэн</span></div>
                       <div><span class="pstat-val">891</span><span class="pstat-lbl">оролцогч</span></div>
                       <div><span class="pstat-val">—</span><span class="pstat-lbl">дууссан</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="infra" data-name="Гүүр барилга" data-funded="45" data-days="35" data-backers="128" data-newest="3">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-5.webp" alt="Гүүр" class="pcard-img">
-                    <span class="pcard-badge">Дэд бүтэц</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Сэлэнгэ голын гүүр шинэчлэл</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Д. Мөнхбаяр</p>
-                    <p class="pcard-desc">3 аймгийг холбох стратегийн гүүрийг орчин үеийн материалаар шинэчлэх.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:45%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">45%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">128</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">35</span><span class="pstat-lbl">хоног</span></div>
                     </div>
                   </div>
                 </div>
@@ -569,28 +551,6 @@
                 </div>
               </div>
 
-<div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="infra" data-name="Интернэт сүлжээ" data-funded="53" data-days="30" data-backers="202" data-newest="14">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-9.webp" alt="Дэд бүтэц" class="pcard-img">
-                    <span class="pcard-badge">Дэд бүтэц</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Хөдөөний сумдад өргөн зурвасын интернэт</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Ж. Ганбаатар</p>
-                    <p class="pcard-desc">Сателлит технологи ашиглан 20 алслагдсан сумыг өргөн зурвасын интернэтэд холбох.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:53%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">53%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">202</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">30</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="agri" data-name="Малын эрүүл мэнд" data-funded="67" data-days="17" data-backers="318" data-newest="15">
                 <div class="pcard h-100">
                   <div class="pcard-img-wrap">
@@ -681,6 +641,464 @@
 
             </div><!-- /project-grid -->
 
+            <script>
+            // Зөвхөн "Дэд бүтэц" төслүүдийг үлдээх (бусад ангилалын төслүүдийг устгана)
+            (function() {
+              function removeNonInfra() {
+                document.querySelectorAll('#project-grid .project-card').forEach(function(card) {
+                  if (card.dataset.cat !== 'infra') card.remove();
+                });
+              }
+              removeNonInfra();
+              var grid = document.getElementById('project-grid');
+              if (grid) new MutationObserver(removeNonInfra).observe(grid, { childList: true });
+            })();
+            </script>
+
+            <!-- ══════ САНХҮҮЖҮҮЛЭХ MODAL ══════ -->
+            <div class="fund-overlay" id="fundOverlay">
+              <div class="fund-modal">
+                <div class="fund-modal-header">
+                  <h3 id="fundModalTitle">Санхүүжүүлэх</h3>
+                  <button class="fund-modal-close" onclick="closeFundModal()">&times;</button>
+                </div>
+                <div class="fund-modal-body">
+                  <!-- Tabs -->
+                  <div class="fund-tabs">
+                    <button class="fund-tab active" data-fund-tab="org">Байгууллага</button>
+                    <button class="fund-tab" data-fund-tab="person">Хувь хүн</button>
+                  </div>
+
+                  <!-- Байгууллага tab -->
+                  <div class="fund-tab-content active" id="fund-tab-org">
+                    <form id="fundOrgForm">
+                      <div class="fund-field">
+                        <label>Байгууллага</label>
+                        <input type="text" id="fundOrgName" placeholder="Байгууллагын нэр" required>
+                      </div>
+                      <div class="fund-field">
+                        <label>Албан тушаал</label>
+                        <input type="text" id="fundOrgPosition" placeholder="Албан тушаал" required>
+                      </div>
+                      <div class="fund-field">
+                        <label>Овог, нэр</label>
+                        <input type="text" id="fundOrgPerson" placeholder="Овог нэр" required>
+                      </div>
+                      <div class="fund-field">
+                        <label>Утас</label>
+                        <input type="tel" id="fundOrgPhone" placeholder="99112233" required pattern="[0-9]{6,12}" inputmode="numeric" maxlength="12">
+                      </div>
+                      <div class="fund-field fund-amount-field">
+                        <label>Санхүүжүүлэх дүн (₮) <span class="fund-amount-display" id="fundOrgAmountDisplay">0</span></label>
+                        <input type="range" id="fundOrgAmountRange" class="fund-range" min="100000" max="1000000000" step="100000" value="1000000">
+                        <input type="number" id="fundOrgAmount" placeholder="Дүнгээ оруулна уу" min="1" required>
+                      </div>
+                      <p class="fund-submit-note" id="fundOrgSubmitNote">Та төсөл санхүүжүүлэх гэж байна</p>
+                      <button type="submit" class="fund-submit"><i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх</button>
+                    </form>
+                  </div>
+
+                  <!-- Хувь хүн tab -->
+                  <div class="fund-tab-content" id="fund-tab-person">
+                    <form id="fundPersonForm">
+                      <div class="fund-field">
+                        <label>Овог, нэр</label>
+                        <input type="text" id="fundPersonName" placeholder="Овог нэр" required>
+                      </div>
+                      <div class="fund-field">
+                        <label>Утас</label>
+                        <input type="tel" id="fundPersonPhone" placeholder="99112233" required pattern="[0-9]{6,12}" inputmode="numeric" maxlength="12">
+                      </div>
+                      <div class="fund-field fund-amount-field">
+                        <label>Санхүүжүүлэх дүн (₮) <span class="fund-amount-display" id="fundPersonAmountDisplay">0</span></label>
+                        <input type="range" id="fundPersonAmountRange" class="fund-range" min="10000" max="50000000" step="10000" value="100000">
+                        <input type="number" id="fundPersonAmount" placeholder="Дүнгээ оруулна уу" min="1" required>
+                      </div>
+                      <p class="fund-submit-note" id="fundPersonSubmitNote">Та төсөл санхүүжүүлэх гэж байна</p>
+                      <button type="submit" class="fund-submit"><i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <script>
+            // ══════ Санхүүжүүлэх товч + modal логик ══════
+            (function(){
+              // Бүх .pcard дотор товчийг pcard-ын шууд хүүхэд болгож нэмнэ (баруун тийш shift)
+              document.querySelectorAll('.project-card .pcard').forEach(function(pcard){
+                if (pcard.querySelector(':scope > .pcard-fund-btn')) return; // аль хэдийн нэмэгдсэн бол алгасна
+                var card = pcard.closest('.project-card');
+                if (!card) return;
+                var btn = document.createElement('button');
+                btn.className = 'pcard-fund-btn';
+                btn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                btn.addEventListener('click', function(e){
+                  e.preventDefault();
+                  e.stopPropagation();
+                  openFundModal(card);
+                });
+                pcard.appendChild(btn);
+              });
+
+              // Package сонголт
+              document.querySelectorAll('.fund-pkg').forEach(function(pkg){
+                pkg.addEventListener('click', function(){
+                  document.querySelectorAll('.fund-pkg').forEach(function(p){ p.classList.remove('selected'); });
+                  pkg.classList.add('selected');
+                  pkg.querySelector('input[type="radio"]').checked = true;
+                });
+              });
+
+              // Tab солих
+              document.querySelectorAll('.fund-tab').forEach(function(tab){
+                tab.addEventListener('click', function(){
+                  document.querySelectorAll('.fund-tab').forEach(function(t){ t.classList.remove('active'); });
+                  document.querySelectorAll('.fund-tab-content').forEach(function(c){ c.classList.remove('active'); });
+                  tab.classList.add('active');
+                  document.getElementById('fund-tab-' + tab.dataset.fundTab).classList.add('active');
+                });
+              });
+
+              // Санхүүжилтийн дүн слайдер ↔ number input синхрончлол
+              function fmtNum(n) {
+                if (!n && n !== 0) return "0";
+                return Number(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+              }
+              function bindFundRange(rangeId, numberId, displayId) {
+                var range = document.getElementById(rangeId);
+                var num = document.getElementById(numberId);
+                var disp = document.getElementById(displayId);
+                if (!range || !num) return;
+                function updateFromRange() {
+                  num.value = range.value;
+                  if (disp) disp.textContent = fmtNum(range.value);
+                }
+                function updateFromNumber() {
+                  var v = parseInt(num.value) || 0;
+                  // Clamp to range min/max
+                  if (v < parseInt(range.min)) v = parseInt(range.min);
+                  if (v > parseInt(range.max)) v = parseInt(range.max);
+                  range.value = v;
+                  if (disp) disp.textContent = fmtNum(num.value || 0);
+                }
+                range.addEventListener('input', updateFromRange);
+                num.addEventListener('input', updateFromNumber);
+                // Анхны утга тохируулах
+                num.value = range.value;
+                if (disp) disp.textContent = fmtNum(range.value);
+              }
+              bindFundRange('fundOrgAmountRange', 'fundOrgAmount', 'fundOrgAmountDisplay');
+              bindFundRange('fundPersonAmountRange', 'fundPersonAmount', 'fundPersonAmountDisplay');
+
+              // Утасны дугаар — зөвхөн тоо
+              ['fundOrgPhone', 'fundPersonPhone'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('input', function() {
+                  el.value = el.value.replace(/[^0-9]/g, '');
+                });
+                el.addEventListener('keypress', function(e) {
+                  if (!/[0-9]/.test(e.key)) {
+                    e.preventDefault();
+                  }
+                });
+                el.addEventListener('paste', function(e) {
+                  e.preventDefault();
+                  var text = (e.clipboardData || window.clipboardData).getData('text');
+                  el.value = text.replace(/[^0-9]/g, '').substring(0, 12);
+                });
+              });
+            })();
+
+            var currentFundProject = null;
+
+            function openFundModal(card) {
+              var title = card.querySelector('.pcard-title');
+              currentFundProject = title ? title.textContent.trim() : '';
+              // Дугаар "1." гэх мэтийг салгана
+              var cleanTitle = currentFundProject.replace(/^\s*\d+\.\s*/, '');
+              document.getElementById('fundModalTitle').textContent = cleanTitle + ' — Санхүүжүүлэх';
+              document.getElementById('fundOrgForm').reset();
+              document.getElementById('fundPersonForm').reset();
+
+              // Submit баттангийн тайлбарт төслийн гарчиг
+              var noteText = 'Та "' + cleanTitle + '" төслийг санхүүжүүлэх гэж байна';
+              var orgNote = document.getElementById('fundOrgSubmitNote');
+              var personNote = document.getElementById('fundPersonSubmitNote');
+              if (orgNote) orgNote.textContent = noteText;
+              if (personNote) personNote.textContent = noteText;
+
+              // Төслийн нийт дүнгээр слайдерын max-ийг тохируулна
+              var projectAmount = parseInt(card.dataset.projectAmount) || 0;
+              function setRangeMax(rangeId, numberId, displayId, defaultMax) {
+                var range = document.getElementById(rangeId);
+                var num = document.getElementById(numberId);
+                var disp = document.getElementById(displayId);
+                if (!range) return;
+                var maxVal = projectAmount > 0 ? projectAmount : defaultMax;
+                // Алхамыг 1 болгосноор дээд хэмжээ (төслийн нийт дүн) яг таарна
+                range.min = 0;
+                range.max = maxVal;
+                range.step = 1;
+                // Анхны утга — дээд дүнгийн 10%
+                var initVal = Math.round(maxVal * 0.1);
+                if (initVal < 1) initVal = 1;
+                range.value = initVal;
+                if (num) {
+                  num.min = 1;
+                  num.max = maxVal;
+                  num.value = initVal;
+                }
+                if (disp) disp.textContent = Number(initVal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+              }
+              setRangeMax('fundOrgAmountRange', 'fundOrgAmount', 'fundOrgAmountDisplay', 1000000000);
+              setRangeMax('fundPersonAmountRange', 'fundPersonAmount', 'fundPersonAmountDisplay', 50000000);
+
+              document.getElementById('fundOverlay').classList.add('active');
+            }
+
+            function closeFundModal() {
+              document.getElementById('fundOverlay').classList.remove('active');
+            }
+            window.closeFundModal = closeFundModal;
+
+            // Overlay дарахад хаах
+            document.getElementById('fundOverlay').addEventListener('click', function(e){
+              if (e.target === this) closeFundModal();
+            });
+
+            // Form submit
+            function validateAmount(inputId) {
+              var input = document.getElementById(inputId);
+              var val = parseFloat(input.value) || 0;
+              if (val <= 0) {
+                alert('Санхүүжүүлэх дүн 0-ээс их байх ёстой. Дүнгээ оруулна уу.');
+                input.focus();
+                return false;
+              }
+              return true;
+            }
+
+            document.getElementById('fundOrgForm').addEventListener('submit', function(e){
+              e.preventDefault();
+              if (!validateAmount('fundOrgAmount')) return;
+              var data = {
+                type: 'org',
+                project: currentFundProject,
+                orgName: document.getElementById('fundOrgName').value,
+                position: document.getElementById('fundOrgPosition').value,
+                person: document.getElementById('fundOrgPerson').value,
+                phone: document.getElementById('fundOrgPhone').value,
+                amount: document.getElementById('fundOrgAmount').value
+              };
+              saveFunding(data);
+            });
+
+            document.getElementById('fundPersonForm').addEventListener('submit', function(e){
+              e.preventDefault();
+              if (!validateAmount('fundPersonAmount')) return;
+              var data = {
+                type: 'person',
+                project: currentFundProject,
+                name: document.getElementById('fundPersonName').value,
+                phone: document.getElementById('fundPersonPhone').value,
+                amount: document.getElementById('fundPersonAmount').value
+              };
+              saveFunding(data);
+            });
+
+            function saveFunding(data) {
+              // UI-д шууд амжилтын cонх харуулна (хэрэглэгчид агшин мэдэгдэнэ)
+              closeFundModal();
+              showFundSuccessModal(data);
+
+              // Firebase-д хадгалах (background)
+              import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js").then(function(mod){
+                return mod.initializeApp({
+                  apiKey:"AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+                  authDomain:"dsif-shedule.firebaseapp.com",
+                  projectId:"dsif-shedule",
+                  storageBucket:"dsif-shedule.firebasestorage.app",
+                  messagingSenderId:"973476131387",
+                  appId:"1:973476131387:web:8c2e1234567890abcdef"
+                }, "fund-" + Date.now());
+              }).then(function(app){
+                return import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js").then(function(fs){
+                  var db = fs.getFirestore(app);
+                  return fs.setDoc(fs.doc(fs.collection(db, "fundings")), Object.assign(data, { createdAt: fs.serverTimestamp() }));
+                });
+              }).then(function(){
+                console.log('[Fund] Firebase-д амжилттай хадгалагдлаа');
+              }).catch(function(err){
+                console.warn('[Fund] Firebase хадгалахад алдаа гарлаа:', err);
+              });
+            }
+
+            // ═══ Амжилттай илгээсэн cонх ═══
+            function showFundSuccessModal(data) {
+              var amount = Number(data.amount || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+              var cleanProject = (data.project || "").replace(/^\s*\d+\.\s*/, "");
+              var el = document.getElementById('fundSuccessOverlay');
+              if (!el) return;
+              document.getElementById('fundSuccessProject').textContent = cleanProject;
+              document.getElementById('fundSuccessAmount').textContent = amount;
+              el.classList.add('active');
+            }
+            window.closeFundSuccess = function() {
+              document.getElementById('fundSuccessOverlay').classList.remove('active');
+            };
+            </script>
+
+            <!-- ═══ Амжилттай илгээсэн cонх ═══ -->
+            <div class="fund-success-overlay" id="fundSuccessOverlay">
+              <div class="fund-success-modal">
+                <div class="fund-success-icon">
+                  <i class="fa fa-check"></i>
+                </div>
+                <h3>Баярлалаа!</h3>
+                <p class="fund-success-sub">Таны санхүүжилтийн хүсэлт амжилттай илгээгдлээ</p>
+                <div class="fund-success-info">
+                  <div class="fund-success-row">
+                    <span class="fund-success-lbl">Төсөл</span>
+                    <span class="fund-success-val" id="fundSuccessProject">—</span>
+                  </div>
+                  <div class="fund-success-row">
+                    <span class="fund-success-lbl">Санхүүжүүлсэн дүн</span>
+                    <span class="fund-success-val fund-success-amount" id="fundSuccessAmount">—</span>
+                  </div>
+                </div>
+                <p class="fund-success-note"><i class="fa fa-heart" style="color:#e74c3c"></i> Төслийн хөгжилд оруулсан таны хувь нэмэрт баярлалаа!</p>
+                <button class="fund-success-close" onclick="closeFundSuccess()">Хаах</button>
+              </div>
+            </div>
+            <style>
+              .fund-success-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.75);
+                z-index: 10001;
+                align-items: center;
+                justify-content: center;
+                padding: 16px;
+              }
+              .fund-success-overlay.active { display: flex; animation: fundSuccessFade .3s ease-out; }
+              @keyframes fundSuccessFade { from { opacity: 0; } to { opacity: 1; } }
+
+              .fund-success-modal {
+                background: #fff;
+                border-radius: 16px;
+                padding: 32px 24px 24px;
+                width: 100%;
+                max-width: 380px;
+                text-align: center;
+                box-shadow: 0 20px 60px rgba(0,0,0,.5);
+                animation: fundSuccessPop .4s cubic-bezier(.3, 1.5, .6, 1);
+              }
+              @keyframes fundSuccessPop {
+                from { transform: scale(.8) translateY(20px); opacity: 0; }
+                to { transform: scale(1) translateY(0); opacity: 1; }
+              }
+              .fund-success-icon {
+                width: 72px;
+                height: 72px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #4bac48, #378a35);
+                color: #fff;
+                font-size: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 18px;
+                box-shadow: 0 8px 24px rgba(75,172,72,0.4);
+                animation: fundSuccessCheck .5s cubic-bezier(.3, 1.5, .6, 1) .2s both;
+              }
+              @keyframes fundSuccessCheck {
+                from { transform: scale(0) rotate(-180deg); }
+                to { transform: scale(1) rotate(0); }
+              }
+              .fund-success-modal h3 {
+                margin: 0 0 6px;
+                font-size: 22px;
+                font-weight: 800;
+                color: #4bac48;
+                letter-spacing: .5px;
+              }
+              .fund-success-sub {
+                font-size: 13px;
+                color: #666;
+                margin: 0 0 20px;
+                line-height: 1.5;
+              }
+              .fund-success-info {
+                background: rgba(75,172,72,0.06);
+                border: 1px solid rgba(75,172,72,0.2);
+                border-radius: 10px;
+                padding: 14px 16px;
+                margin-bottom: 16px;
+                text-align: left;
+              }
+              .fund-success-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                padding: 6px 0;
+                border-bottom: 1px dashed rgba(75,172,72,0.15);
+              }
+              .fund-success-row:last-child { border-bottom: none; }
+              .fund-success-lbl {
+                font-size: 10px;
+                font-weight: 700;
+                color: #4bac48;
+                text-transform: uppercase;
+                letter-spacing: .8px;
+                flex: 0 0 auto;
+              }
+              .fund-success-val {
+                font-size: 13px;
+                color: #333;
+                font-weight: 600;
+                text-align: right;
+                line-height: 1.4;
+                flex: 1;
+              }
+              .fund-success-amount {
+                color: #4bac48 !important;
+                font-size: 16px !important;
+                font-weight: 800 !important;
+              }
+              .fund-success-note {
+                font-size: 12px;
+                color: #777;
+                margin: 0 0 18px;
+                line-height: 1.5;
+              }
+              .fund-success-close {
+                width: 100%;
+                padding: 11px;
+                background: #4bac48;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: .5px;
+                text-transform: uppercase;
+                cursor: pointer;
+                transition: background .2s;
+              }
+              .fund-success-close:hover { background: #378a35; }
+
+              @media (max-width: 480px) {
+                .fund-success-modal { padding: 24px 18px 18px; max-width: 90%; }
+                .fund-success-icon { width: 60px; height: 60px; font-size: 26px; }
+                .fund-success-modal h3 { font-size: 18px; }
+                .fund-success-sub { font-size: 12px; }
+              }
+            </style>
+
             <!-- No results message -->
             <div id="no-results" class="text-center py-5" style="display:none;">
               <i class="fa fa-search fa-3x mb-3" style="opacity:.3;"></i>
@@ -752,31 +1170,75 @@
               gap: 6px;
             }
           }
-          /* Phone */
+          /* Phone — pill-үүдийн оронд dropdown */
           @media (max-width: 640px) {
-            #sticky-filter { padding: 7px 12px; gap: 6px; }
-            #sticky-filter .cat-pill {
-              padding: 4px 10px;
-              font-size: 11px;
-              border-radius: 40px;
+            #sticky-filter {
+              padding: 6px 10px;
+              gap: 6px;
+              flex-direction: row !important;
+              align-items: center !important;
+              flex-wrap: nowrap !important;
+            }
+            #sticky-filter #cat-pills { display: none !important; }
+            #sticky-filter #cat-select {
+              display: inline-block !important;
+              order: 0;
+              flex: 1 1 auto;
+              min-width: 0;
+              max-width: 100%;
+              height: 34px;
+              padding: 6px 10px;
+              background: rgba(255,255,255,.08);
+              border: 1px solid rgba(255,255,255,.15);
+              border-radius: 6px;
+              color: #fff;
+              font-size: 12px;
+              font-weight: 600;
+              outline: none;
+              cursor: pointer;
+              appearance: none;
+              -webkit-appearance: none;
+              background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%234bac48' d='M0 0l5 6 5-6z'/></svg>");
+              background-repeat: no-repeat;
+              background-position: right 10px center;
+              padding-right: 28px;
+            }
+            body:not(.dark-scheme) #sticky-filter #cat-select {
+              background-color: rgba(0,0,0,.06);
+              border-color: rgba(0,0,0,.15);
+              color: #1a1a1a;
+            }
+            #sticky-filter .filter-controls {
+              order: 1 !important;
+              flex: 0 0 auto;
+              gap: 6px;
             }
             #sticky-filter .search-toggle {
-              width: 32px !important;
-              height: 32px !important;
-              font-size: 12px !important;
+              width: 34px !important;
+              height: 34px !important;
+              font-size: 13px !important;
             }
-            #sticky-filter #project-search { height: 32px; }
-            #sticky-filter .project-search-wrap.expanded #project-search { width: 160px; }
+            #sticky-filter #project-search { height: 34px; }
+            #sticky-filter .project-search-wrap.expanded #project-search { width: 150px; }
             #sticky-filter #sort-select {
-              font-size: 11px !important;
-              padding: 5px 8px !important;
+              font-size: 12px !important;
+              padding: 6px 10px !important;
+              height: 34px;
+            }
+
+            /* Section padding — нягт, шахуу байрлал */
+            section[aria-label="section-projects"] {
+              padding-top: 110px !important;
+              padding-bottom: 40px !important;
             }
           }
           /* Extra-narrow phone */
           @media (max-width: 400px) {
-            #sticky-filter { padding: 6px 10px; gap: 5px; }
-            #sticky-filter .cat-pill { padding: 3px 8px; font-size: 10px; }
-            #sticky-filter .project-search-wrap.expanded #project-search { width: 120px; }
+            #sticky-filter { padding: 5px 8px; gap: 5px; }
+            #sticky-filter #cat-select { height: 32px; font-size: 11px; padding: 5px 22px 5px 8px; }
+            #sticky-filter .project-search-wrap.expanded #project-search { width: 110px; }
+            section[aria-label="section-projects"] { padding-top: 105px !important; }
+            #project-grid.row { padding: 0 8px; }
           }
 
           /* Fallback reservation — JS refines this on load/resize */
@@ -823,39 +1285,417 @@
             transform: translateY(-4px);
             box-shadow: 0 12px 32px rgba(0,0,0,.35);
           }
-          .pcard-img-wrap {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 16/9;
-          }
-          .pcard-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform .4s;
-          }
-          .pcard:hover .pcard-img { transform: scale(1.06); }
-          .pcard-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0,0,0,.65);
-            color: #fff;
-            font-size: 11px;
-            padding: 3px 9px;
-            border-radius: 50px;
-            backdrop-filter: blur(4px);
-          }
+          /* Зураг болон ангилалын badge-ийг нуусан */
+          .pcard-img-wrap { display: none !important; }
+          .pcard-img { display: none !important; }
+          .pcard-badge { display: none !important; }
           .pcard-badge-funded {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            position: static;
             background: #4bac48;
             color: #fff;
             font-size: 11px;
-            padding: 3px 9px;
+            padding: 4px 10px;
             border-radius: 50px;
             font-weight: 600;
+            white-space: nowrap;
+          }
+
+          /* ═══ ЖАГСААЛТЫН ЗАГВАР ═══ */
+          #project-grid.row { row-gap: 2px !important; --bs-gutter-y: 2px !important; }
+          .project-card {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+          }
+          .project-card .pcard {
+            flex-direction: row;
+            align-items: center;
+            padding: 8px 14px;
+            gap: 12px;
+            margin: 0;
+          }
+          .project-card .pcard > .pcard-body {
+            flex: 1 1 auto;
+            min-width: 0;
+          }
+          .project-card .pcard > .pcard-fund-btn {
+            flex: 0 0 auto;
+            margin-left: auto !important;
+            order: 99;
+          }
+          .project-card .pcard-body {
+            flex: 1;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            row-gap: 0;
+            column-gap: 16px;
+            flex-wrap: wrap;
+          }
+          .project-card .pcard-title {
+            flex: 0 0 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.15;
+          }
+          .project-card .pcard-creator {
+            margin: 0;
+            font-size: 12px;
+            opacity: .75;
+            flex: 1 1 180px;
+          }
+          .project-card .pcard-desc {
+            display: none;
+          }
+          .project-card .pcard-progress-wrap {
+            flex: 1 1 160px;
+            margin: 0;
+            min-width: 100px;
+          }
+          .project-card .pcard-stats {
+            display: flex;
+            gap: 0;
+            margin: 0;
+            flex: 2 1 320px;
+            justify-content: space-between;
+          }
+          .project-card .pcard-stats > div {
+            flex: 1 1 0;
+            text-align: center;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 6px;
+          }
+          .project-card .pcard-stats .pstat-val {
+            font-size: 13px !important;
+            font-weight: 700;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+          }
+          .project-card .pcard-stats .pstat-lbl {
+            font-size: 10px;
+            opacity: .6;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+          }
+          .project-card .pcard-fund-btn {
+            margin: 0 0 0 auto !important;
+            flex: 0 0 auto;
+            padding: 8px 14px;
+            font-size: 12px;
+            white-space: nowrap;
+            align-self: center;
+          }
+
+          @media (max-width: 768px) {
+            /* ═══ МОБАЙЛ — index.html b2b стиль ═══ */
+            #project-grid.row {
+              --bs-gutter-y: 8px !important;
+              row-gap: 8px !important;
+              padding: 0 12px;
+              margin-left: 0 !important;
+              margin-right: 0 !important;
+              justify-content: center;
+            }
+            .project-card {
+              padding: 0 !important;
+              flex: 0 0 100% !important;
+              max-width: 100% !important;
+              width: 100% !important;
+              margin: 0 !important;
+            }
+
+            /* Pcard нь b2b-row шиг — нягт, тунгалаг ногоон хүрээтэй */
+            .project-card .pcard {
+              flex-direction: column !important;
+              align-items: stretch !important;
+              padding: 14px 14px 12px !important;
+              gap: 8px !important;
+              border-radius: 10px;
+              background: rgba(255,255,255,0.03) !important;
+              border: 1px solid rgba(75,172,72,0.22) !important;
+              transition: background 0.2s, border-color 0.2s;
+              width: 100%;
+              box-sizing: border-box;
+            }
+            body:not(.dark-scheme) .project-card .pcard {
+              background: #fff !important;
+              border-color: rgba(75,172,72,0.25) !important;
+            }
+
+            /* Pcard-body */
+            .project-card .pcard-body {
+              flex-direction: column !important;
+              align-items: stretch !important;
+              gap: 6px !important;
+              width: 100%;
+              padding: 0;
+            }
+
+            /* Гарчиг — b2b-text шиг UPPERCASE, тунгалаг */
+            .project-card .pcard-title {
+              font-size: 13px;
+              line-height: 1.4;
+              font-weight: 400;
+              text-transform: uppercase;
+              letter-spacing: .3px;
+              margin: 0;
+              display: -webkit-box;
+              -webkit-line-clamp: 3;
+              line-clamp: 3;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              color: inherit;
+            }
+            body:not(.dark-scheme) .project-card .pcard-title { color: #222; }
+
+            /* Дугаар — b2b-time шиг ногоон */
+            .pcard-num {
+              min-width: auto;
+              margin-right: 6px;
+              font-size: 12px;
+              font-weight: 600;
+              color: #4bac48 !important;
+            }
+
+            /* Байгууллага — b2b-meta шиг саарал, жижиг */
+            .project-card .pcard-creator {
+              font-size: 11px;
+              color: #9aa0a6;
+              font-weight: 400;
+              margin: 0;
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              opacity: .85;
+            }
+            body:not(.dark-scheme) .project-card .pcard-creator { color: #6b6b6b; }
+
+            /* Прогресс бар */
+            .pcard-progress-row {
+              flex: 0 0 auto !important;
+              width: 100% !important;
+              margin: 2px 0 !important;
+              gap: 8px;
+              display: flex;
+              align-items: center;
+            }
+            .project-card .pcard-progress-wrap {
+              flex: 1 1 auto !important;
+              width: auto !important;
+              height: 4px !important;
+              margin: 0 !important;
+              background: rgba(75,172,72,0.12) !important;
+              border-radius: 50px;
+            }
+            body:not(.dark-scheme) .project-card .pcard-progress-wrap {
+              background: rgba(75,172,72,0.1) !important;
+            }
+            .project-card .pcard-progress-bar {
+              background: #4bac48 !important;
+            }
+            .pcard-progress-pct {
+              font-size: 11px;
+              min-width: 28px;
+              color: #4bac48 !important;
+              font-weight: 600;
+            }
+
+            /* Статистик — нэг багана болгож доош цуваагаар байршуулна */
+            .project-card .pcard-stats {
+              display: flex !important;
+              flex-direction: column !important;
+              gap: 6px !important;
+              width: 100%;
+              padding: 8px 0 4px !important;
+              border-top: 1px solid rgba(75,172,72,0.2) !important;
+              margin: 2px 0 0 !important;
+            }
+            .project-card .pcard-stats > div {
+              padding: 6px 0 !important;
+              align-items: flex-start !important;
+              text-align: left !important;
+              flex-direction: row !important;
+              justify-content: space-between;
+              gap: 8px;
+              width: 100%;
+              border-bottom: 1px solid rgba(75,172,72,0.1);
+            }
+            .project-card .pcard-stats > div:last-child { border-bottom: none; }
+            .project-card .pcard-stats .pstat-val {
+              font-size: 12px !important;
+              font-weight: 700 !important;
+              line-height: 1.3;
+              color: #4bac48 !important;
+              order: 2;
+              text-align: right;
+              flex: 0 0 auto;
+            }
+            body:not(.dark-scheme) .project-card .pcard-stats .pstat-val { color: #4bac48 !important; }
+            .project-card .pcard-stats .pstat-lbl {
+              font-size: 10px !important;
+              letter-spacing: .8px !important;
+              text-transform: uppercase !important;
+              opacity: .65;
+              margin-top: 0 !important;
+              font-weight: 600;
+              order: 1;
+              flex: 1 1 auto;
+            }
+
+            /* Actions wrapper — картны доод талд наалдана */
+            .project-card .pcard-actions {
+              width: 100% !important;
+              margin: auto 0 0 0 !important;
+              padding-top: 8px;
+              justify-content: stretch !important;
+            }
+            /* Хэрэв actions байхгүй бол fund-btn-ийг шууд доод талд */
+            .project-card .pcard > .pcard-fund-btn {
+              margin-top: auto !important;
+            }
+
+            /* Санхүүжүүлэх товч — index.html btn-main стиль */
+            .project-card .pcard-actions .pcard-fund-btn,
+            .project-card .pcard-fund-btn {
+              width: 100% !important;
+              padding: 10px 14px !important;
+              font-size: 11px !important;
+              font-weight: 700 !important;
+              letter-spacing: 1px !important;
+              text-transform: uppercase !important;
+              border-radius: 4px !important;
+              background: #4bac48 !important;
+              color: #fff !important;
+              border: none !important;
+              box-shadow: none !important;
+              transition: background 0.2s !important;
+            }
+            .project-card .pcard-actions .pcard-fund-btn:hover,
+            .project-card .pcard-fund-btn:hover {
+              background: #378a35 !important;
+            }
+
+            /* Sheet-field */
+            .sheet-field,
+            .sheet-field[data-field="desc"] {
+              max-width: 100% !important;
+              white-space: normal;
+              font-size: 11px;
+              line-height: 1.4;
+            }
+            .sheet-field .sheet-lbl {
+              font-size: 9px;
+              letter-spacing: 1px;
+              text-transform: uppercase;
+              color: #4bac48 !important;
+              font-weight: 600;
+            }
+            .sheet-amount .sheet-val { font-size: 13px; color: #4bac48 !important; font-weight: 700; }
+
+            /* Инфра hover — b2b-row шиг ногоон болно */
+            .project-card[data-sheet-source="infra"] .pcard {
+              cursor: pointer;
+            }
+            .project-card[data-sheet-source="infra"] .pcard:hover {
+              background: #4bac48 !important;
+              border-color: #4bac48 !important;
+              transform: none;
+            }
+            .project-card[data-sheet-source="infra"] .pcard:hover .pcard-title,
+            .project-card[data-sheet-source="infra"] .pcard:hover .pcard-creator,
+            .project-card[data-sheet-source="infra"] .pcard:hover .pstat-val,
+            .project-card[data-sheet-source="infra"] .pcard:hover .pstat-lbl,
+            .project-card[data-sheet-source="infra"] .pcard:hover .pcard-num,
+            .project-card[data-sheet-source="infra"] .pcard:hover .pcard-progress-pct {
+              color: #fff !important;
+              opacity: 1 !important;
+            }
+
+            /* Дэлгэрэнгүй modal — b2b-discussion шиг */
+            .detail-modal {
+              max-height: 92vh;
+              border-radius: 8px;
+              margin-top: 60px;
+              border: 1px solid rgba(75,172,72,0.25) !important;
+              background: #fff !important;
+            }
+            .detail-modal-header {
+              padding: 12px 16px;
+              background: rgba(75,172,72,0.08) !important;
+              border-bottom: 1px solid rgba(75,172,72,0.2) !important;
+            }
+            .detail-modal-header h3 {
+              font-size: 13px;
+              color: #4bac48 !important;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+            .detail-modal-body { padding: 12px 16px; }
+            .detail-row-value { font-size: 12px; }
+          }
+
+          @media (max-width: 480px) {
+            .project-card .pcard {
+              padding: 10px 12px !important;
+              gap: 5px !important;
+            }
+            .project-card .pcard-title { font-size: 12px; }
+            .project-card .pcard-stats { gap: 6px !important; padding: 6px 0 3px !important; }
+            .project-card .pcard-stats .pstat-val { font-size: 11px !important; }
+            .project-card .pcard-actions .pcard-fund-btn,
+            .project-card .pcard-fund-btn { padding: 9px 12px !important; font-size: 10px !important; letter-spacing: .8px !important; }
+          }
+
+          /* Google Sheet карт — талбарын жагсаалт байдал */
+          .sheet-field {
+            font-size: 12px;
+            line-height: 1.5;
+            color: rgba(255,255,255,.85);
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .sheet-field[data-field="desc"] { max-width: 360px; }
+          .sheet-field .sheet-lbl {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            opacity: .55;
+            margin-right: 4px;
+            font-weight: 600;
+          }
+          .sheet-field .sheet-val {
+            font-weight: 500;
+          }
+          .sheet-amount .sheet-val {
+            color: var(--accent-color, #4bac48);
+            font-weight: 700;
+          }
+          body:not(.dark-scheme) .sheet-field { color: rgba(0,0,0,.8); }
+          body:not(.dark-scheme) .sheet-field .sheet-lbl { color: rgba(0,0,0,.5); }
+
+          @media (max-width: 768px) {
+            .sheet-field {
+              max-width: 100% !important;
+              white-space: normal;
+            }
           }
           .pcard-body {
             padding: 16px;
@@ -914,6 +1754,215 @@
             text-transform: uppercase;
             letter-spacing: 1px;
           }
+
+          /* Fund button inside cards — Дэлгэрэнгүй товчтой ижил outline стиль */
+          .pcard-fund-btn {
+            background: transparent;
+            border: 1px solid var(--accent-color, #4bac48);
+            color: var(--accent-color, #4bac48);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all .2s;
+            flex: 0 0 auto;
+            letter-spacing: 0;
+          }
+          .pcard-fund-btn:hover {
+            background: var(--accent-color, #4bac48);
+            color: #fff;
+          }
+
+          /* Fund modal */
+          .fund-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+          }
+          .fund-overlay.active { display: flex; }
+          .fund-modal {
+            background: #111;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 12px;
+            width: 95%;
+            max-width: 420px;
+            padding: 0;
+            box-shadow: 0 8px 40px rgba(0,0,0,.4);
+          }
+          body:not(.dark-scheme) .fund-modal { background: #fff; border-color: rgba(0,0,0,.1); }
+          .fund-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+          }
+          body:not(.dark-scheme) .fund-modal-header { border-bottom-color: rgba(0,0,0,.08); }
+          .fund-modal-header h3 { font-size: 14px; font-weight: 700; margin: 0; }
+          .fund-modal-close { background: none; border: none; color: #888; font-size: 22px; cursor: pointer; }
+          .fund-modal-body { padding: 14px 18px; }
+          .fund-tabs { display: flex; gap: 0; margin-bottom: 12px; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); }
+          body:not(.dark-scheme) .fund-tabs { border-color: rgba(0,0,0,.1); }
+          .fund-tab {
+            flex: 1;
+            padding: 7px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: #888;
+            transition: all .2s;
+          }
+          .fund-tab.active { background: #4bac48; color: #fff; }
+          .fund-tab-content { display: none; }
+          .fund-tab-content.active { display: block; }
+          .fund-field { margin-bottom: 10px; }
+          .fund-field label { display: block; font-size: 10px; font-weight: 600; color: #888; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+          .fund-modal, .fund-modal * { color: #1a1a1a !important; }
+          .fund-field label { color: #666 !important; }
+          .fund-modal-header h3 { color: #1a1a1a !important; }
+          .fund-modal-close { color: #666 !important; }
+          .fund-tab { color: #666 !important; }
+          .fund-tab.active { color: #fff !important; background: #4bac48 !important; }
+          .fund-submit { color: #fff !important; }
+
+          .fund-field input, .fund-field select {
+            width: 100%;
+            padding: 8px 12px;
+            background: #f4f6f8;
+            border: 1px solid rgba(0,0,0,.12);
+            border-radius: 6px;
+            color: #555 !important;
+            font-size: 13px;
+            font-weight: 500;
+          }
+          body:not(.dark-scheme) .fund-field input,
+          body:not(.dark-scheme) .fund-field select { background: #f4f6f8; border-color: rgba(0,0,0,.1); color: #555; }
+          .fund-field input::placeholder,
+          .fund-field select::placeholder {
+            color: #9aa0a6 !important;
+            opacity: 1;
+            font-weight: 400;
+          }
+          .fund-field input::-webkit-input-placeholder { color: #9aa0a6 !important; }
+          .fund-field input::-moz-placeholder { color: #9aa0a6 !important; opacity: 1; }
+          .fund-field input:-ms-input-placeholder { color: #9aa0a6 !important; }
+          .fund-field input:focus, .fund-field select:focus {
+            outline: none;
+            border-color: #5a9a57;
+            color: #333 !important;
+          }
+          .fund-modal { background: #fff !important; }
+
+          /* Санхүүжилтийн дүнгийн слайдер */
+          .fund-amount-field .fund-amount-display {
+            color: #4bac48 !important;
+            font-weight: 700;
+            font-size: 14px;
+            float: right;
+          }
+          .fund-range {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(75, 172, 72, 0.2);
+            border-radius: 50px;
+            outline: none;
+            margin: 10px 0 8px 0;
+            padding: 0;
+            border: none !important;
+          }
+          .fund-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #4bac48;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 6px rgba(75, 172, 72, 0.4);
+            transition: transform .15s;
+          }
+          .fund-range::-webkit-slider-thumb:hover { transform: scale(1.15); }
+          .fund-range::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #4bac48;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 6px rgba(75, 172, 72, 0.4);
+          }
+          /* Төслийн гарчгийн note (submit товчны дээр) */
+          .fund-submit-note {
+            margin: 6px 0 8px;
+            padding: 8px 10px;
+            background: rgba(75, 172, 72, 0.08);
+            border-left: 3px solid #5a9a57;
+            border-radius: 4px;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #4a4a4a !important;
+            font-weight: 500;
+            font-style: italic;
+          }
+
+          .fund-submit {
+            width: 100%;
+            padding: 9px;
+            background: #5a9a57;
+            color: #fff !important;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: background .2s;
+          }
+          .fund-submit:hover { background: #4a8047; }
+          .fund-tab.active { background: #5a9a57 !important; color: #fff !important; }
+          .fund-amount-field .fund-amount-display { color: #5a9a57 !important; }
+          .fund-range { background: rgba(90, 154, 87, 0.18) !important; }
+          .fund-range::-webkit-slider-thumb {
+            background: #5a9a57 !important;
+            box-shadow: 0 2px 6px rgba(90, 154, 87, 0.35) !important;
+          }
+          .fund-range::-moz-range-thumb {
+            background: #5a9a57 !important;
+            box-shadow: 0 2px 6px rgba(90, 154, 87, 0.35) !important;
+          }
+          .fund-field input:focus, .fund-field select:focus {
+            border-color: #5a9a57 !important;
+          }
+          .fund-packages { display: flex; flex-direction: column; gap: 5px; }
+          .fund-pkg {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: border-color .2s;
+          }
+          body:not(.dark-scheme) .fund-pkg { border-color: rgba(0,0,0,.1); }
+          .fund-pkg:hover, .fund-pkg.selected { border-color: #4bac48; }
+          .fund-pkg.selected { background: rgba(75,172,72,.08); }
+          .fund-pkg input[type="radio"] { accent-color: #4bac48; }
+          .fund-pkg-info { flex: 1; }
+          .fund-pkg-name { font-size: 12px; font-weight: 600; }
+          .fund-pkg-price { font-size: 11px; color: #4bac48; font-weight: 700; margin-top: 1px; }
 
           /* Search — collapsed icon expands to input on click */
           .project-search-wrap {
@@ -1137,12 +2186,73 @@
             searchInput.addEventListener('input', applyFilters);
             sortSelect.addEventListener('change', applyFilters);
 
+            // Mobile dropdown → pill сонголт синхрончлол
+            var catSelect = document.getElementById('cat-select');
+            if (catSelect) {
+              catSelect.addEventListener('change', function() {
+                activeCat = this.value;
+                setActivePill(activeCat);
+                var url = new URL(window.location.href);
+                if (activeCat === 'all') url.searchParams.delete('cat');
+                else url.searchParams.set('cat', activeCat);
+                history.pushState({cat: activeCat}, '', url.toString());
+                applyFilters();
+              });
+              // Pill дарахад dropdown бас шинэчлэх
+              var origSetActivePill = setActivePill;
+              setActivePill = function(cat) {
+                origSetActivePill(cat);
+                if (catSelect.value !== cat) catSelect.value = cat;
+              };
+              catSelect.value = activeCat;
+            }
+
             // Expose for async card loaders
             refreshFilters = applyFilters;
 
             // Init
             setActivePill(activeCat);
             applyFilters();
+
+            // initCatPills: динамик нэмэгдсэн pill-уудад click event холбох
+            window.initCatPills = function() {
+              pills = document.querySelectorAll('.cat-pill');
+              pills.forEach(function (pill) {
+                pill.addEventListener('click', function () {
+                  activeCat = this.dataset.cat;
+                  setActivePill(activeCat);
+                  var url = new URL(window.location.href);
+                  if (activeCat === 'all') { url.searchParams.delete('cat'); }
+                  else { url.searchParams.set('cat', activeCat); }
+                  history.pushState({cat: activeCat}, '', url.toString());
+                  applyFilters();
+                });
+              });
+              setActivePill(activeCat);
+              applyFilters();
+            };
+
+            // categories.json-аас шинэ ангилал ачаалах
+            fetch('data/categories.json')
+              .then(function(r){ return r.json(); })
+              .then(function(cats){
+                // sessionStorage-д хадгалах (admin projects loader-д хэрэглэнэ)
+                try { sessionStorage.setItem('dsif-cats', JSON.stringify(cats)); } catch(e){}
+                var container = document.getElementById('cat-pills');
+                var existing = {};
+                container.querySelectorAll('.cat-pill').forEach(function(p){ existing[p.dataset.cat] = true; });
+                cats.forEach(function(cat){
+                  if (!existing[cat.key]) {
+                    var btn = document.createElement('button');
+                    btn.className = 'cat-pill';
+                    btn.dataset.cat = cat.key;
+                    btn.textContent = cat.name;
+                    container.appendChild(btn);
+                  }
+                });
+                initCatPills();
+              })
+              .catch(function(){});
           })();
         </script>
 
@@ -1203,31 +2313,953 @@
           })();
         </script>
 
+        <!-- ══════════════════════════════════════════════════════════════
+             ADMIN PROJECTS LOADER (Firestore)
+             Админаас нэмсэн төслүүдийг Firestore-аас уншиж карт үүсгэнэ.
+             ══════════════════════════════════════════════════════════════ -->
+        <script type="module">
+          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+          import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+          const app = initializeApp({
+            apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+            authDomain: "dsif-shedule.firebaseapp.com",
+            projectId: "dsif-shedule",
+            storageBucket: "dsif-shedule.firebasestorage.app",
+            messagingSenderId: "973476131387",
+            appId: "1:973476131387:web:8c2e1234567890abcdef"
+          }, "tusul-reader");
+
+          const db = getFirestore(app);
+
+          // Устгагдсан төслүүдийн жагсаалт
+          var deletedIds = [];
+          try {
+            var delSnap = await getDoc(doc(db, "settings", "deleted_projects"));
+            if (delSnap.exists() && delSnap.data().ids) deletedIds = delSnap.data().ids;
+          } catch(e){}
+
+          // Hardcoded карт устгах
+          if (deletedIds.length) {
+            document.querySelectorAll('.project-card[data-cat]').forEach(function(card){
+              var name = card.dataset.name || '';
+              var cat = card.dataset.cat || '';
+              var slug = name.toLowerCase().replace(/\s+/g, '-');
+              var pid = cat + '_' + slug;
+              if (deletedIds.includes(pid)) card.style.display = 'none';
+            });
+            if (typeof refreshFilters === 'function') refreshFilters();
+          }
+
+          const grid = document.getElementById('project-grid');
+          if (grid) {
+            try {
+              console.log('[tusul.html] Firestore-оос төслүүд уншиж байна...');
+              const snap = await getDocs(collection(db, "projects"));
+              console.log('[tusul.html] Firestore-оос', snap.size, 'төсөл ирлээ');
+
+              // Категори жагсаалтыг нэг удаа авах (sessionStorage эсвэл data/categories.json)
+              var catsList = [];
+              try { catsList = JSON.parse(sessionStorage.getItem('dsif-cats') || '[]'); } catch(e){}
+              if (!catsList.length) {
+                try {
+                  var cr = await fetch('data/categories.json');
+                  if (cr.ok) {
+                    catsList = await cr.json();
+                    try { sessionStorage.setItem('dsif-cats', JSON.stringify(catsList)); } catch(e){}
+                  }
+                } catch(e){}
+              }
+
+              // Байгаа pill-үүдийг шалгаад дутууг нэмэх (админд нэмэгдсэн шинэ ангилалд төсөл байвал)
+              var pillContainer = document.getElementById('cat-pills');
+              var existingPills = {};
+              if (pillContainer) {
+                pillContainer.querySelectorAll('.cat-pill').forEach(function(p){ existingPills[p.dataset.cat] = true; });
+              }
+
+              // Нуугдсан ID жагсаалт (HTML hardcoded карттай тохирох бол нуух)
+              var hiddenIds = [];
+              snap.forEach(function(d) { if (d.data().hidden) hiddenIds.push(d.id); });
+              if (hiddenIds.length) {
+                document.querySelectorAll('.project-card[data-cat]').forEach(function(card){
+                  if (card.dataset.adminId) return; // admin card-г бус хард-код картыг нуух
+                  var nm = card.dataset.name || '';
+                  var ct = card.dataset.cat || '';
+                  var sl = nm.toLowerCase().replace(/\s+/g, '-');
+                  if (hiddenIds.includes(ct + '_' + sl)) card.style.display = 'none';
+                });
+              }
+
+              var added = 0;
+              snap.forEach(function(d) {
+                var p = d.data();
+                if (!p.sector || !p.title) {
+                  console.warn('[tusul.html] Төсөлд sector эсвэл title дутуу:', d.id, p);
+                  return;
+                }
+                // Нуугдсан төсөл алгасах
+                if (p.hidden) return;
+                // Firestore-д doc байгаа нь төслийг харуулах баталгаа — deletedIds алгасахгүй
+                var dup = grid.querySelector('[data-admin-id="' + d.id + '"]');
+                if (dup) return;
+
+                var funded = p.funded || 0;
+                var days = p.days || 0;
+                var backers = p.backers || 0;
+                var newest = p.newest || Date.now();
+                var thumbSrc = p.thumbnailUrl || 'images/demo/homepage-1.webp';
+                var fundedColor = funded >= 100 ? '#4bac48' : 'var(--accent-color)';
+                var fundedBadge = funded >= 100 ? '<span class="pcard-badge-funded">Санхүүжсэн!</span>' : '';
+                var daysText = days > 0 ? days : '—';
+                var daysLabel = days > 0 ? 'хоног' : 'дууссан';
+                var barClass = funded >= 100 ? 'pcard-progress-bar funded' : 'pcard-progress-bar';
+                var barWidth = Math.min(funded, 100);
+
+                // Ангилалын нэр
+                var catName = p.sector || '';
+                var foundCat = catsList.find(function(c){ return c.key === p.sector; });
+                if (foundCat) catName = foundCat.name;
+
+                // Pill алга бол нэмэх
+                if (pillContainer && !existingPills[p.sector]) {
+                  var btn = document.createElement('button');
+                  btn.className = 'cat-pill';
+                  btn.dataset.cat = p.sector;
+                  btn.textContent = catName;
+                  pillContainer.appendChild(btn);
+                  existingPills[p.sector] = true;
+                }
+
+                var col = document.createElement('div');
+                col.className = 'col-xl-3 col-lg-4 col-md-6 project-card';
+                col.dataset.cat = p.sector;
+                col.dataset.name = p.title;
+                col.dataset.funded = funded;
+                col.dataset.days = days;
+                col.dataset.backers = backers;
+                col.dataset.newest = newest;
+                col.dataset.adminId = d.id;
+                col.innerHTML =
+                  '<div class="pcard h-100">' +
+                    '<div class="pcard-img-wrap">' +
+                      '<img src="' + thumbSrc + '" alt="' + p.title + '" class="pcard-img" loading="lazy">' +
+                      '<span class="pcard-badge">' + catName + '</span>' +
+                      fundedBadge +
+                    '</div>' +
+                    '<div class="pcard-body">' +
+                      '<h5 class="pcard-title">' + p.title + '</h5>' +
+                      '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + (p.creator || '') + '</p>' +
+                      '<div class="pcard-progress-wrap"><div class="' + barClass + '" style="width:' + barWidth + '%"></div></div>' +
+                      '<div class="pcard-stats">' +
+                        '<div><span class="pstat-val" style="color:' + fundedColor + '">' + funded + '%</span><span class="pstat-lbl">санхүүжсэн</span></div>' +
+                        '<div><span class="pstat-val">' + backers + '</span><span class="pstat-lbl">оролцогч</span></div>' +
+                        '<div><span class="pstat-val">' + daysText + '</span><span class="pstat-lbl">' + daysLabel + '</span></div>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
+                grid.appendChild(col);
+                added++;
+                console.log('[tusul.html] Төсөл нэмэгдлээ:', p.title, '(' + p.sector + ')');
+              });
+              console.log('[tusul.html] Нийт', added, 'төсөл сайт дээр нэмэгдлээ');
+              // Шинэ pill-үүдэд click handler холбох
+              if (typeof window.initCatPills === 'function') window.initCatPills();
+              if (typeof refreshFilters === 'function') refreshFilters();
+            } catch(e) {
+              console.error('[tusul.html] Admin projects loader алдаа:', e);
+            }
+          }
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             GOOGLE SHEET PROJECT LOADER
+             Төслүүдийн мэдээллийг public Google Sheet-ээс уншина
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+        (function() {
+          var SHEET_ID = "1DqdkgtCK8Xapbt-HjSBZHbd40pmrBOjcbPtJEB9ymJs";
+          var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json";
+
+          // Ангилал (Салбар/Төслийн ангилал/Салбарын чиглэл) → sector key
+          // Эрэмбэ: илүү тодорхой түлхүүр үг нь эхэнд байх ёстой (жишээ: "эрүүл мэнд" > "эрүүл")
+          var SECTOR_KEYWORDS = [
+            { k: "health",      words: ["эрүүл мэнд", "эмнэлэг", "эмчилгээ", "эмч", "вакцин", "эм үйлдвэр", "эрүүл"] },
+            { k: "edu",         words: ["боловсрол", "сургал", "сургууль", "их сургууль", "мэргэжил", "багш", "сурагч"] },
+            { k: "environment", words: ["байгаль орчн", "байгал орчн", "байгал", "орчн", "ойжуулал", "цөлжилт", "био", "экологи", "ус цаг уур", "хог хаягдал", "агаарын чанар", "ногоон", "хамгаалал"] },
+            { k: "energy",      words: ["эрчим хүч", "сэргээгдэх", "нарны эрчим", "салхин эрчим", "сэргээгдэх эрчим", "цахилгаан", "дулаан", "эрчим"] },
+            { k: "mining",      words: ["уул уурхай", "уурхай", "ашигт малтмал", "геологи", "үнэт металл", "нүүрс", "зэс"] },
+            { k: "infra",       words: ["дэд бүтэц", "зам тээвэр", "төмөр зам", "авто зам", "цахилгаан шугам", "холбоо сүлжээ", "барилга", "гүүр", "интернэт"] },
+            { k: "culture",     words: ["соёл урлаг", "соёл", "урлаг", "түүх өв", "соёлын өв", "музей", "театр", "уран зохиол"] },
+            { k: "agri",        words: ["хөдөө аж ахуй", "хаа", "малчн", "мал аж ахуй", "газар тариалан", "тариалан", "үр тариа", "ногоо", "мал сүрэг", "фермер"] },
+            { k: "social",      words: ["нийгмийн", "нийгэм", "ажлын байр", "халамж", "ядуурал", "хөгжлийн бэрхшээл", "ахмад", "залуучууд"] }
+          ];
+          function mapSector(txt) {
+            if (!txt) return "";
+            var lc = txt.toString().toLowerCase().trim();
+            if (!lc) return "";
+            for (var i = 0; i < SECTOR_KEYWORDS.length; i++) {
+              for (var j = 0; j < SECTOR_KEYWORDS[i].words.length; j++) {
+                if (lc.indexOf(SECTOR_KEYWORDS[i].words[j]) !== -1) return SECTOR_KEYWORDS[i].k;
+              }
+            }
+            return "";
+          }
+          function catLabel(key, fallback) {
+            var labels = {
+              environment: "Байгаль орчин", energy: "Эрчим хүч", mining: "Уул уурхай",
+              infra: "Дэд бүтэц", edu: "Боловсрол", culture: "Соёл",
+              health: "Эрүүл мэнд", social: "Нийгэм", agri: "Хөдөө аж ахуй"
+            };
+            return labels[key] || fallback || key;
+          }
+          function esc(s) {
+            return (s == null ? "" : s.toString()).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+          function formatAmount(s) {
+            if (s == null || s === "") return "";
+            var str = s.toString().replace(/[,\s₮]/g, "").trim();
+            if (!str) return s.toString();
+            var num = parseFloat(str);
+            if (!isFinite(num)) return s.toString();
+            var formatted = Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return formatted + "₮";
+          }
+
+          console.log("[Sheet] Environment sheet loader disabled — зөвхөн Дэд бүтэц ажиллана");
+          return;
+          // eslint-disable-next-line no-unreachable
+          console.log("[Sheet] Google Sheet уншиж байна...");
+          fetch(SHEET_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var start = text.indexOf("{");
+              var end = text.lastIndexOf("}");
+              if (start === -1 || end === -1) throw new Error("JSON олдсонгүй");
+              var json = JSON.parse(text.substring(start, end + 1));
+              var cols = (json.table.cols || []).map(function(c) { return (c.label || "").trim(); });
+              var rows = json.table.rows || [];
+              console.log("[Sheet]", rows.length, "мөр ирлээ, баганууд:", cols);
+
+              // Баганы индекс хайх
+              function colIdx(partial) {
+                for (var i = 0; i < cols.length; i++) {
+                  if (cols[i] && cols[i].toLowerCase().indexOf(partial.toLowerCase()) !== -1) return i;
+                }
+                return -1;
+              }
+              var iSector    = colIdx("Төслийн салбар");
+              var iCategory  = colIdx("Төслийн ангилал");
+              var iDirection = colIdx("Салбарын чиглэл");
+              var iName      = colIdx("Төслийн нэр");
+              var iOrg       = colIdx("Төсөл санаачлагч");
+              if (iOrg === -1) iOrg = colIdx("Байгууллагын нэр");
+              var iAmount    = colIdx("Нийт санхүүжилт");
+              var iDuration  = colIdx("Хэрэгжих хугацаа");
+              var iDesc      = colIdx("Тайлбар");
+
+              var grid = document.getElementById("project-grid");
+              if (!grid) return;
+
+              var pillContainer = document.getElementById("cat-pills");
+              var existingPills = {};
+              if (pillContainer) {
+                pillContainer.querySelectorAll(".cat-pill").forEach(function(p) { existingPills[p.dataset.cat] = true; });
+              }
+
+              var added = 0;
+              rows.forEach(function(r, rowIdx) {
+                var cells = r.c || [];
+                function get(i) {
+                  if (i < 0 || i >= cells.length) return "";
+                  var c = cells[i];
+                  return c && c.v != null ? c.v.toString().trim() : "";
+                }
+                var title = get(iName);
+                if (!title) return;
+
+                var sectorText = get(iSector) || get(iDirection) || get(iCategory);
+                var sectorKey = mapSector(sectorText) || mapSector(get(iCategory)) || mapSector(get(iDirection));
+                if (!sectorKey) {
+                  console.warn("[Sheet] Ангилал олдсонгүй:", title, "— текст:", sectorText);
+                  return;
+                }
+                var catName = catLabel(sectorKey, sectorText);
+
+                var amount = get(iAmount);
+                var org = get(iOrg);
+                var duration = get(iDuration);
+                var desc = get(iDesc);
+
+                // Pill байхгүй бол нэмэх
+                if (pillContainer && !existingPills[sectorKey]) {
+                  var btn = document.createElement("button");
+                  btn.className = "cat-pill";
+                  btn.dataset.cat = sectorKey;
+                  btn.textContent = catName;
+                  pillContainer.appendChild(btn);
+                  existingPills[sectorKey] = true;
+                }
+
+                var col = document.createElement("div");
+                col.className = "col-xl-3 col-lg-4 col-md-6 project-card";
+                col.dataset.cat = sectorKey;
+                col.dataset.name = title;
+                col.dataset.funded = 0;
+                col.dataset.days = 0;
+                col.dataset.backers = 0;
+                col.dataset.newest = rowIdx;
+                col.dataset.sheetRow = rowIdx;
+
+                var shortDesc = (desc || "").replace(/\s+/g, " ").trim();
+                if (shortDesc.length > 120) shortDesc = shortDesc.substring(0, 120) + "…";
+
+                col.innerHTML =
+                  '<div class="pcard h-100">' +
+                    '<div class="pcard-img-wrap">' +
+                      '<span class="pcard-badge">' + esc(catName) + '</span>' +
+                    '</div>' +
+                    '<div class="pcard-body">' +
+                      '<h5 class="pcard-title" title="' + esc(title) + '">' + esc(title) + '</h5>' +
+                      '<div class="sheet-field sheet-amount" data-field="amount">' +
+                        '<span class="sheet-lbl">Нийт санхүүжилтийн дүн:</span> ' +
+                        '<span class="sheet-val">' + esc(formatAmount(amount) || "—") + '</span>' +
+                      '</div>' +
+                      '<div class="sheet-field" data-field="duration">' +
+                        '<span class="sheet-lbl">Хэрэгжих хугацаа:</span> ' +
+                        '<span class="sheet-val">' + esc(duration || "—") + '</span>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
+                // Санхүүжүүлэх товч нэмэх (Google Sheet-ийн карт нь IIFE-ийн дараа үүсдэг)
+                var fundBtn = document.createElement('button');
+                fundBtn.className = 'pcard-fund-btn';
+                fundBtn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                fundBtn.addEventListener('click', function(e){
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (typeof openFundModal === 'function') openFundModal(col);
+                });
+                col.querySelector('.pcard').appendChild(fundBtn);
+                grid.appendChild(col);
+                added++;
+                console.log("[Sheet] + карт:", title, "→ ангилал:", sectorKey);
+              });
+
+              // Ангилал бүрийн тоог лог хийх
+              var byCategory = {};
+              document.querySelectorAll('.project-card').forEach(function(c) {
+                var k = c.dataset.cat || 'none';
+                byCategory[k] = (byCategory[k] || 0) + 1;
+              });
+              console.log("[Sheet] Нийт", added, "төсөл нэмэгдлээ. Ангилал бүрийн тоо:", byCategory);
+
+              if (typeof window.initCatPills === "function") window.initCatPills();
+              if (typeof refreshFilters === "function") {
+                refreshFilters();
+                console.log("[Sheet] refreshFilters() дууссан");
+              } else {
+                console.warn("[Sheet] refreshFilters функц олдсонгүй");
+              }
+            })
+            .catch(function(e) {
+              console.error("[Sheet] Алдаа:", e);
+            });
+        })();
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             ДЭД БҮТЭЦ GOOGLE SHEET LOADER
+             Өөр sheet-ээс Дэд бүтцийн төслийг ангилалд албадан оруулна
+             ══════════════════════════════════════════════════════════════ -->
+
+        <!-- Дэлгэрэнгүй мэдээллийн modal -->
+        <div class="detail-overlay" id="detailOverlay">
+          <div class="detail-modal">
+            <div class="detail-modal-header">
+              <h3 id="detailModalTitle">Төслийн дэлгэрэнгүй</h3>
+              <button class="detail-modal-close" onclick="closeDetailModal()">&times;</button>
+            </div>
+            <div class="detail-modal-body" id="detailModalBody"></div>
+          </div>
+        </div>
+        <style>
+          .detail-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.65);
+            z-index: 1000;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 12px;
+            overflow: hidden;
+          }
+          .detail-overlay.active { display: flex; }
+          .detail-modal {
+            background: #1a1a1a;
+            border: 1px solid rgba(75, 172, 72, 0.35);
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 8px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(75, 172, 72, 0.25);
+            animation: detailSlideDown .3s ease-out;
+            margin-top: 80px;
+          }
+          @keyframes detailSlideDown {
+            from { transform: translateY(-40px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+          }
+          body:not(.dark-scheme) .detail-modal {
+            background: #fff;
+            border-color: rgba(0,0,0,.1);
+          }
+          .detail-modal-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, rgba(75, 172, 72, 0.15), rgba(75, 172, 72, 0.05));
+            border-bottom: 2px solid #4bac48;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+          }
+          body:not(.dark-scheme) .detail-modal-header {
+            background: linear-gradient(135deg, rgba(75, 172, 72, 0.12), rgba(75, 172, 72, 0.04));
+          }
+          .detail-modal-header h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #4bac48;
+            font-weight: 700;
+            flex: 1;
+          }
+          .detail-modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: inherit;
+            cursor: pointer;
+            opacity: .7;
+            line-height: 1;
+          }
+          .detail-modal-close:hover { opacity: 1; }
+          .detail-modal-body {
+            padding: 16px 20px;
+            overflow-y: auto;
+            flex: 1;
+          }
+          /* Инфографик загвартай дэлгэрэнгүй хэсэг */
+          .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
+          }
+          .detail-card {
+            background: rgba(75, 172, 72, 0.06);
+            border: 1px solid rgba(75, 172, 72, 0.2);
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            transition: background .2s, border-color .2s, box-shadow .2s, transform .2s;
+            cursor: default;
+          }
+          .detail-card:hover {
+            background: #4bac48;
+            border-color: #4bac48;
+            box-shadow: 0 8px 24px rgba(75, 172, 72, 0.55), 0 0 0 2px rgba(75, 172, 72, 0.3);
+            transform: translateY(-2px) scale(1.015);
+          }
+          .detail-card:hover .detail-content-label,
+          .detail-card:hover .detail-content-value {
+            color: #fff !important;
+            opacity: 1;
+          }
+          .detail-card:hover .detail-icon {
+            background: #fff;
+            color: #4bac48;
+          }
+          body:not(.dark-scheme) .detail-card {
+            background: rgba(75, 172, 72, 0.04);
+            border-color: rgba(75, 172, 72, 0.18);
+          }
+          body:not(.dark-scheme) .detail-card:hover {
+            background: #4bac48;
+            border-color: #4bac48;
+            box-shadow: 0 8px 24px rgba(75, 172, 72, 0.45), 0 0 0 2px rgba(75, 172, 72, 0.25);
+          }
+          .detail-icon {
+            flex: 0 0 36px;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--primary-color, #4bac48);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            box-shadow: 0 2px 8px rgba(75, 172, 72, 0.3);
+          }
+          .detail-content {
+            flex: 1;
+            min-width: 0;
+          }
+          .detail-content-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            opacity: 1;
+            color: #4bac48;
+            font-weight: 800;
+            margin-bottom: 6px;
+          }
+          .detail-content-value {
+            font-size: 14px;
+            line-height: 1.55;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-weight: 600;
+            color: #fff;
+            opacity: 1;
+          }
+          body:not(.dark-scheme) .detail-content-value {
+            color: #1a1a1a;
+          }
+          body:not(.dark-scheme) .detail-content-label {
+            color: #2e7d2c;
+          }
+          .detail-card.detail-wide {
+            grid-column: 1 / -1;
+          }
+          .detail-card.detail-wide .detail-content-value {
+            font-size: 13px;
+          }
+          @media (max-width: 480px) {
+            .detail-grid { grid-template-columns: 1fr; gap: 8px; }
+            .detail-card { padding: 12px; }
+            .detail-icon { flex: 0 0 32px; width: 32px; height: 32px; font-size: 13px; }
+          }
+          /* Дэд бүтэц картын дугаар */
+          .pcard-num {
+            display: inline-block;
+            color: var(--accent-color, #4bac48);
+            font-weight: 700;
+            margin-right: 6px;
+            min-width: 28px;
+          }
+
+          /* Прогресс бар + хувь (бар болон хувь ВСЕГДА нэг мөрөнд) */
+          .pcard-progress-row {
+            display: flex !important;
+            align-items: center;
+            gap: 10px;
+            flex: 1 1 160px;
+            min-width: 120px;
+            flex-wrap: nowrap !important;
+          }
+          .pcard-progress-row > .pcard-progress-wrap {
+            flex: 1 1 auto !important;
+            width: auto !important;
+            margin: 0 !important;
+            min-width: 0 !important;
+          }
+          .pcard-progress-pct {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-color, #4bac48);
+            white-space: nowrap;
+            min-width: 32px;
+            text-align: right;
+            flex: 0 0 auto;
+          }
+          @media (max-width: 768px) {
+            .pcard-progress-row {
+              flex: 1 1 100%;
+              width: 100%;
+            }
+          }
+
+          /* Дэд бүтэц карт — бүтэн дарах боломжтой, ногоон фокус */
+          .project-card[data-sheet-source="infra"] .pcard {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color .2s, box-shadow .25s, transform .2s, background .25s;
+          }
+          .project-card[data-sheet-source="infra"] .pcard,
+          .project-card[data-sheet-source="infra"] .pcard:hover {
+            box-shadow: none !important;
+          }
+          .project-card[data-sheet-source="infra"] .pcard:hover {
+            border-color: #4bac48;
+            background: rgba(75, 172, 72, 0.18);
+            transform: translateY(-2px);
+          }
+          body:not(.dark-scheme) .project-card[data-sheet-source="infra"] .pcard:hover {
+            background: rgba(75, 172, 72, 0.14);
+          }
+          /* Hover үед текст ч тод харагдах */
+          .project-card[data-sheet-source="infra"] .pcard:hover .pcard-title,
+          .project-card[data-sheet-source="infra"] .pcard:hover .pstat-val {
+            color: #fff;
+          }
+          body:not(.dark-scheme) .project-card[data-sheet-source="infra"] .pcard:hover .pcard-title {
+            color: #1a1a1a;
+          }
+
+          /* Картны баруун талын товчнуудын групп */
+          .project-card .pcard-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+            margin-left: auto;
+            order: 99;
+          }
+          /* Санхүүжүүлэх товч — ногоон, index.html-ийн .btn-main стильтэй */
+          .pcard-actions .pcard-fund-btn,
+          .project-card .pcard-fund-btn {
+            background: #4bac48 !important;
+            color: #fff !important;
+            border: none !important;
+            padding: 9px 20px !important;
+            border-radius: 4px !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            letter-spacing: 1px !important;
+            text-transform: uppercase !important;
+            cursor: pointer !important;
+            white-space: nowrap !important;
+            transition: background .2s !important;
+            flex: 0 0 auto !important;
+            margin: 0 !important;
+            order: unset !important;
+            width: auto !important;
+            box-shadow: 0 2px 8px rgba(75, 172, 72, 0.3);
+          }
+          .pcard-actions .pcard-fund-btn:hover,
+          .project-card .pcard-fund-btn:hover {
+            background: #378a35 !important;
+            color: #fff !important;
+            box-shadow: 0 4px 12px rgba(75, 172, 72, 0.5);
+          }
+          /* Дэлгэрэнгүй товч (хэрэв хэзээ нэгэн үед буцаж орвол) */
+          .pcard-detail-btn {
+            background: transparent;
+            border: 1px solid #4bac48;
+            color: #4bac48;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all .2s;
+          }
+          .pcard-detail-btn:hover {
+            background: #4bac48;
+            color: #fff;
+          }
+        </style>
+        <script>
+          // Талбар бүрт харгалзах icon (Font Awesome)
+          var DETAIL_ICONS = {
+            "Төслийн ангилал": "fa-tag",
+            "Салбарын чиглэл": "fa-route",
+            "Төсөл санаачлагч байгууллагын нэр": "fa-lightbulb",
+            "Ажлын хэлбэр": "fa-briefcase",
+            "Хэрэгжүүлэх байршил": "fa-map-marker-alt",
+            "Хэрэгжилтийн үе шат": "fa-layer-group",
+            "Хэрэгжих хугацаа": "fa-clock",
+            "Тайлбар": "fa-file-alt",
+            "Тулгарч буй асуудал": "fa-exclamation-triangle",
+            "Шийдвэрлэхийг хүсэж буй зорилго": "fa-bullseye",
+            "Хүлээгдэж буй үр дүн": "fa-chart-line",
+            "Хэрэглэгчийн тоо/хүчин чадал": "fa-users",
+            "Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?": "fa-sync-alt",
+            "Байгууллагын нэр": "fa-building",
+            "Байгууллагын хэлбэр": "fa-sitemap",
+            "И-мейл хаяг": "fa-envelope",
+            "Холбоо барих утас": "fa-phone",
+            "Нийт санхүүжилтийн дүн": "fa-coins"
+          };
+          // Урт тайлбар шаарддаг талбаруудыг бүтэн өргөнөөр харуулна
+          var DETAIL_WIDE = [
+            "Тайлбар",
+            "Тулгарч буй асуудал",
+            "Шийдвэрлэхийг хүсэж буй зорилго",
+            "Хүлээгдэж буй үр дүн",
+            "Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?"
+          ];
+
+          function escHtml(s) {
+            return String(s == null ? "" : s).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+
+          window.openDetailModal = function(title, fields) {
+            document.getElementById("detailModalTitle").textContent = title;
+            var body = document.getElementById("detailModalBody");
+
+            var cards = fields.map(function(f) {
+              if (!f.value || String(f.value).trim() === "") return "";
+              var icon = DETAIL_ICONS[f.label] || "fa-info-circle";
+              var isWide = DETAIL_WIDE.indexOf(f.label) !== -1;
+              return '<div class="detail-card' + (isWide ? ' detail-wide' : '') + '">' +
+                       '<div class="detail-icon"><i class="fa ' + icon + '"></i></div>' +
+                       '<div class="detail-content">' +
+                         '<div class="detail-content-label">' + escHtml(f.label) + '</div>' +
+                         '<div class="detail-content-value">' + escHtml(f.value) + '</div>' +
+                       '</div>' +
+                     '</div>';
+            }).filter(Boolean).join("");
+
+            body.innerHTML = cards
+              ? '<div class="detail-grid">' + cards + '</div>'
+              : '<p style="opacity:.5">Нэмэлт мэдээлэл байхгүй</p>';
+            document.getElementById("detailOverlay").classList.add("active");
+          };
+          window.closeDetailModal = function() {
+            document.getElementById("detailOverlay").classList.remove("active");
+          };
+          document.getElementById("detailOverlay").addEventListener("click", function(e) {
+            if (e.target === this) closeDetailModal();
+          });
+        </script>
+
+        <script>
+        (function() {
+          var SHEET_ID = "1eebLZJiL8lMMJ8YDEt2W06P9f8_NgICX9EXlMNdjvW8";
+          var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&gid=0";
+          var FORCED_SECTOR = "infra";
+          var FORCED_LABEL = "Дэд бүтэц";
+          var LOG = "[Sheet:Infra]";
+
+          function esc(s) {
+            return (s == null ? "" : s.toString()).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+          function parseNum(s) {
+            if (s == null || s === "") return NaN;
+            var str = s.toString().replace(/[,\s₮]/g, "").trim();
+            if (!str) return NaN;
+            return parseFloat(str);
+          }
+          function formatAmount(s) {
+            var num = parseNum(s);
+            if (!isFinite(num)) return s == null ? "" : s.toString();
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+          }
+
+          console.log(LOG, "Google Sheet уншиж байна...");
+          fetch(SHEET_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var start = text.indexOf("{");
+              var end = text.lastIndexOf("}");
+              if (start === -1 || end === -1) throw new Error("JSON олдсонгүй");
+              var json = JSON.parse(text.substring(start, end + 1));
+              var cols = (json.table.cols || []).map(function(c) { return (c.label || "").trim(); });
+              var rows = json.table.rows || [];
+              console.log(LOG, rows.length, "мөр ирлээ");
+
+              function colIdx(partial) {
+                for (var i = 0; i < cols.length; i++) {
+                  if (cols[i] && cols[i].toLowerCase().indexOf(partial.toLowerCase()) !== -1) return i;
+                }
+                return -1;
+              }
+              var iName     = colIdx("Төслийн нэр");
+              var iAmount   = colIdx("Нийт санхүүжилт");
+              var iDuration = colIdx("Хэрэгжих хугацаа");
+
+              // Дэлгэрэнгүй modal-д харуулах бусад талбарууд
+              var DETAIL_LABELS = [
+                "Төслийн ангилал", "Салбарын чиглэл", "Төсөл санаачлагч байгууллагын нэр",
+                "Ажлын хэлбэр", "Хэрэгжүүлэх байршил", "Хэрэгжилтийн үе шат",
+                "Тайлбар", "Тулгарч буй асуудал", "Шийдвэрлэхийг хүсэж буй зорилго",
+                "Хүлээгдэж буй үр дүн", "Хэрэглэгчийн тоо/хүчин чадал",
+                "Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?",
+                "Байгууллагын нэр", "Байгууллагын хэлбэр",
+                "И-мейл хаяг", "Холбоо барих утас"
+              ];
+
+              var grid = document.getElementById("project-grid");
+              if (!grid) return;
+
+              var added = 0;
+              rows.forEach(function(r, rowIdx) {
+                var cells = r.c || [];
+                function get(i) {
+                  if (i < 0 || i >= cells.length) return "";
+                  var c = cells[i];
+                  return c && c.v != null ? c.v.toString().trim() : "";
+                }
+                var title = get(iName);
+                if (!title) return;
+
+                var amount = get(iAmount);
+                var duration = get(iDuration);
+
+                // Дэлгэрэнгүй талбаруудыг цуглуулах
+                var detailFields = DETAIL_LABELS.map(function(lbl) {
+                  var idx = colIdx(lbl);
+                  return { label: lbl, value: idx !== -1 ? get(idx) : "" };
+                });
+
+                var col = document.createElement("div");
+                col.className = "col-xl-3 col-lg-4 col-md-6 project-card";
+                col.dataset.cat = FORCED_SECTOR;
+                col.dataset.name = title;
+                col.dataset.funded = 0;
+                col.dataset.days = 0;
+                col.dataset.backers = 0;
+                col.dataset.newest = 1000 + rowIdx;
+                col.dataset.sheetSource = "infra";
+                // Төслийн нийт санхүүжилтийн дүн (слайдерын дээд хэмжээ)
+                var amountNum = parseNum(amount);
+                if (isFinite(amountNum) && amountNum > 0) {
+                  col.dataset.projectAmount = Math.round(amountNum);
+                }
+
+                var num = added + 1;
+                var creatorCol = colIdx("Байгууллагын нэр");
+                if (creatorCol === -1) creatorCol = colIdx("Төсөл санаачлагч");
+                var creator = creatorCol !== -1 ? get(creatorCol) : "";
+
+                // Санхүүжилтийн хувь — одоогоор бодит өгөгдөл байхгүй тул 0%
+                var fundedPct = 0;
+                var barWidth = Math.max(0, Math.min(100, fundedPct));
+                var formattedAmount = formatAmount(amount) || "—";
+
+                col.innerHTML =
+                  '<div class="pcard h-100">' +
+                    '<div class="pcard-img-wrap">' +
+                      '<span class="pcard-badge">' + esc(FORCED_LABEL) + '</span>' +
+                    '</div>' +
+                    '<div class="pcard-body">' +
+                      '<h5 class="pcard-title" title="' + esc(title) + '"><span class="pcard-num">' + num + '.</span> ' + esc(title) + '</h5>' +
+                      '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + esc(creator || "—") + '</p>' +
+                      '<div class="pcard-progress-row">' +
+                        '<div class="pcard-progress-wrap"><div class="pcard-progress-bar funded" style="width:' + barWidth + '%"></div></div>' +
+                        '<span class="pcard-progress-pct">' + fundedPct + '%</span>' +
+                      '</div>' +
+                      '<div class="pcard-stats">' +
+                        '<div><span class="pstat-val" style="color:var(--primary-color, #4bac48)">' + esc(formattedAmount) + '</span><span class="pstat-lbl">САНХҮҮЖИЛТ</span></div>' +
+                        '<div><span class="pstat-val">' + esc(duration || "—") + '</span><span class="pstat-lbl">ХУГАЦАА</span></div>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
+
+                // Баруун талын товчны wrapper (зөвхөн Санхүүжүүлэх)
+                var actions = document.createElement("div");
+                actions.className = "pcard-actions";
+
+                var fundBtn = document.createElement("button");
+                fundBtn.className = "pcard-fund-btn";
+                fundBtn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                fundBtn.addEventListener("click", function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (typeof openFundModal === "function") openFundModal(col);
+                });
+                actions.appendChild(fundBtn);
+
+                col.querySelector(".pcard").appendChild(actions);
+
+                // Бүтэн картыг дарахад Дэлгэрэнгүй modal нээх
+                col.querySelector(".pcard").addEventListener("click", function(e) {
+                  // Хэрэв actions дотор (товч) дарсан бол эндээс гарна
+                  if (e.target.closest(".pcard-actions")) return;
+                  if (typeof openDetailModal === "function") openDetailModal(title, detailFields);
+                });
+
+                grid.appendChild(col);
+                added++;
+                console.log(LOG, "+ карт:", title);
+              });
+
+              console.log(LOG, "Нийт", added, "дэд бүтцийн төсөл нэмэгдлээ");
+              if (typeof refreshFilters === "function") refreshFilters();
+            })
+            .catch(function(e) {
+              console.error(LOG, "Алдаа:", e);
+            });
+        })();
+        </script>
+
     </div>
 
     <!-- Magic Mobile Bottom Navigation -->
     <nav id="mobile-bottom-nav">
-      <a class="mob-nav-item" href="index.html">
+      <a class="mob-nav-item" href="index.html" data-menu-label="НҮҮР">
         <div class="mnav-icon-wrap"><i class="fa fa-home"></i></div>
         <span>Нүүр</span>
       </a>
-      <a class="mob-nav-item active" href="tusul.html">
+      <a class="mob-nav-item" href="index.html#section-about" data-menu-label="ЗОРИЛГО">
+        <div class="mnav-icon-wrap"><i class="fa fa-bullseye"></i></div>
+        <span>Зорилго</span>
+      </a>
+      <a class="mob-nav-item active" href="tusul.html" data-menu-label="ТӨСӨЛ">
         <div class="mnav-icon-wrap"><i class="fa fa-folder-open"></i></div>
         <span>Төсөл</span>
       </a>
-      <a class="mob-nav-item" href="index.html#section-schedule">
+      <a class="mob-nav-item" href="index.html#section-schedule" data-menu-label="ХӨТӨЛБӨР">
         <div class="mnav-icon-wrap"><i class="fa fa-calendar-alt"></i></div>
         <span>Хөтөлбөр</span>
       </a>
-      <a class="mob-nav-item" href="index.html#section-venue">
+      <a class="mob-nav-item" href="index.html#section-venue" data-menu-label="БАЙРШИЛ">
         <div class="mnav-icon-wrap"><i class="fa fa-location-dot"></i></div>
         <span>Байршил</span>
       </a>
-      <a class="mob-nav-item" href="sudalgaa.html">
+      <a class="mob-nav-item" href="sudalgaa.html" data-menu-label="СУДАЛГАА">
         <div class="mnav-icon-wrap"><i class="fa fa-clipboard-list"></i></div>
         <span>Судалгаа</span>
       </a>
     </nav>
+    <script>
+    // Mobile nav: нуугдсан цэсийг нуух
+    (function(){
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'data/menu.json', false);
+        xhr.send();
+        if (xhr.status === 200) {
+          var items = JSON.parse(xhr.responseText);
+          var hidden = [];
+          items.forEach(function(m){ if (!m.visible && m.type !== 'section') hidden.push(m.label); });
+          document.querySelectorAll('.mob-nav-item[data-menu-label]').forEach(function(el){
+            if (hidden.indexOf(el.dataset.menuLabel) !== -1) el.style.display = 'none';
+          });
+        }
+      } catch(e){}
+    })();
+    </script>
+    <script type="module">
+    import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import{getFirestore,doc,getDoc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    try{
+      var a=initializeApp({apiKey:"AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",authDomain:"dsif-shedule.firebaseapp.com",projectId:"dsif-shedule",storageBucket:"dsif-shedule.firebasestorage.app",messagingSenderId:"973476131387",appId:"1:973476131387:web:8c2e1234567890abcdef"},"mob-menu-t");
+      var d=getFirestore(a);
+      var s=await getDoc(doc(d,"settings","menu"));
+      if(s.exists()&&s.data().list){
+        var hidden=[];
+        s.data().list.forEach(function(m){if(!m.visible&&m.type!=="section")hidden.push(m.label);});
+        document.querySelectorAll(".mob-nav-item[data-menu-label]").forEach(function(el){
+          el.style.display=hidden.indexOf(el.dataset.menuLabel)!==-1?"none":"";
+        });
+      }
+    }catch(e){}
+    </script>
 
     <style>
       #mobile-bottom-nav {

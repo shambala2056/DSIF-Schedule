@@ -169,7 +169,8 @@ const SECTION_TITLES = {
   projects: "Төслийн удирдлага",
   "sub-admins": "Дэд админ",
   roles: "Эрхийн тохиргоо",
-  sectors: "Төслийн ангилал"
+  sectors: "Төслийн ангилал",
+  menu: "Цэс тохиргоо"
 };
 
 // ── Sidebar навигаци ──
@@ -196,6 +197,7 @@ document.querySelectorAll(".sidebar-nav a[data-section]").forEach((link) => {
     if (section === "projects") loadProjects();
     if (section === "sub-admins") loadSubAdmins();
     if (section === "sectors") loadSectors();
+    if (section === "menu") loadMenu();
 
     // Mobile: sidebar хаах
     document.getElementById("sidebar").classList.remove("open");
@@ -293,6 +295,7 @@ async function logActivity(action) {
 const BASE_PATH = "../projects/";
 const SITE_PATH = "../";
 let allProjects = []; // { sector, slug, title, creator, funded, days, backers, newest, thumbUrl, desc, source }
+let deletedProjectIds = []; // Устгагдсан төслүүдийн ID жагсаалт
 
 async function loadProjects(filterSector) {
   const grid = document.getElementById("projectGrid");
@@ -302,6 +305,19 @@ async function loadProjects(filterSector) {
 
   try {
     allProjects = [];
+
+    // 0) Устгагдсан төслүүдийн жагсаалтыг Firestore-аас авах
+    try {
+      const delSnap = await getDoc(doc(db, "settings", "deleted_projects"));
+      if (delSnap.exists() && delSnap.data().ids) {
+        deletedProjectIds = delSnap.data().ids;
+      }
+    } catch(e) { deletedProjectIds = []; }
+
+    // Давхардлыг таних: sector + нэр-ийн хөнгөн хувилбараар ID үүсгэх
+    const norm = (s) => (s || "").toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\wа-яё\-]/gi, "");
+    const seen = new Map(); // key -> index in allProjects
+    const keyOf = (sector, titleOrSlug) => `${norm(sector)}::${norm(titleOrSlug)}`;
 
     // 1) tusul.html-аас hardcoded төслүүдийг parse хийж авна
     try {
@@ -324,6 +340,9 @@ async function loadProjects(filterSector) {
           const newest = parseInt(card.dataset.newest) || 0;
           const slug = (card.dataset.name || title).toLowerCase().replace(/\s+/g, "-");
 
+          const key = keyOf(sector, card.dataset.name || title);
+          if (seen.has(key)) return; // HTML дотор өөрөө давхардвал алгасна
+          seen.set(key, allProjects.length);
           allProjects.push({ sector, slug, title, creator, desc, funded, days, backers, newest, thumbUrl, source: "html" });
         });
       }
@@ -341,23 +360,109 @@ async function loadProjects(filterSector) {
             const metaRes = await fetch(BASE_PATH + sector + "/" + encodeURIComponent(slug) + "/meta.json");
             if (!metaRes.ok) continue;
             const meta = await metaRes.json();
+            const effSlug = meta.slug || slug;
+            const key = keyOf(sector, meta.title || effSlug);
+            const altKey = keyOf(sector, effSlug);
+            // Аль хэдийн HTML-оос орсон төсөл байвал manifest-ийн мэдээллээр шинэчлэн дарж бичнэ
+            if (seen.has(key) || seen.has(altKey)) {
+              const idx = seen.get(key) ?? seen.get(altKey);
+              allProjects[idx] = {
+                ...allProjects[idx],
+                title: meta.title || allProjects[idx].title,
+                creator: meta.creator || allProjects[idx].creator,
+                funded: meta.funded ?? allProjects[idx].funded,
+                days: meta.days ?? allProjects[idx].days,
+                backers: meta.backers ?? allProjects[idx].backers,
+                newest: meta.newest ?? allProjects[idx].newest,
+                thumbUrl: BASE_PATH + sector + "/" + encodeURIComponent(effSlug) + "/thumbnail.jpg",
+                slug: effSlug,
+                source: "manifest"
+              };
+              continue;
+            }
+            seen.set(key, allProjects.length);
             allProjects.push({
               sector,
-              slug: meta.slug || slug,
-              title: meta.title || slug,
+              slug: effSlug,
+              title: meta.title || effSlug,
               creator: meta.creator || "",
               desc: "",
               funded: meta.funded || 0,
               days: meta.days || 0,
               backers: meta.backers || 0,
               newest: meta.newest || 0,
-              thumbUrl: BASE_PATH + sector + "/" + encodeURIComponent(slug) + "/thumbnail.jpg",
+              thumbUrl: BASE_PATH + sector + "/" + encodeURIComponent(effSlug) + "/thumbnail.jpg",
               source: "manifest"
             });
           } catch {}
         }
       } catch {}
     }
+
+    // 3) Firestore-аас төслүүд унших (админаар нэмсэн)
+    try {
+      const snap = await getDocs(collection(db, "projects"));
+      snap.forEach((d) => {
+        const data = d.data();
+        const sector = data.sector;
+        const slug = data.slug;
+        if (!sector || !slug) return;
+        // Давхардлыг 3 түвшинд шалгана: Firestore docId, sector+slug, sector+title
+        let idx = allProjects.findIndex((p) => p.sector === sector && p.slug === slug);
+        if (idx === -1) {
+          const k1 = keyOf(sector, slug);
+          const k2 = keyOf(sector, data.title || "");
+          const seenIdx = seen.get(k1) ?? seen.get(k2);
+          if (typeof seenIdx === "number") idx = seenIdx;
+        }
+        if (idx !== -1) {
+          if (data.title) allProjects[idx].title = data.title;
+          if (data.creator) allProjects[idx].creator = data.creator;
+          if (data.thumbnailUrl) allProjects[idx].thumbUrl = data.thumbnailUrl;
+          if (typeof data.funded === "number") allProjects[idx].funded = data.funded;
+          if (typeof data.days === "number") allProjects[idx].days = data.days;
+          if (typeof data.backers === "number") allProjects[idx].backers = data.backers;
+          allProjects[idx].hidden = !!data.hidden;
+          allProjects[idx].firestoreId = d.id;
+        } else {
+          const key = keyOf(sector, data.title || slug);
+          if (seen.has(key)) return;
+          seen.set(key, allProjects.length);
+          allProjects.push({
+            sector,
+            slug,
+            title: data.title || slug,
+            creator: data.creator || "",
+            desc: "",
+            funded: data.funded || 0,
+            days: data.days || 0,
+            backers: data.backers || 0,
+            newest: data.newest || 0,
+            thumbUrl: data.thumbnailUrl || "",
+            hidden: !!data.hidden,
+            firestoreId: d.id,
+            source: "firestore"
+          });
+        }
+      });
+    } catch (e) { console.warn("Firestore projects load:", e); }
+
+    // Эцсийн давхардалыг цэвэрлэх (өөр хоорондоо нэр/sector таарч буй зүйл)
+    const uniq = new Map();
+    for (const p of allProjects) {
+      const k = keyOf(p.sector, p.title);
+      const existing = uniq.get(k);
+      if (!existing) {
+        uniq.set(k, p);
+      } else {
+        // Эрэмбэ: firestore > manifest > html (илүү шинэ эх үүсвэр давамгайлна)
+        const rank = { firestore: 3, manifest: 2, html: 1 };
+        if ((rank[p.source] || 0) > (rank[existing.source] || 0)) {
+          uniq.set(k, { ...existing, ...p });
+        }
+      }
+    }
+    allProjects = Array.from(uniq.values());
 
     renderProjects(filterSector);
   } catch (err) {
@@ -371,9 +476,14 @@ function renderProjects(filterSector) {
   const countEl = document.getElementById("projectCount");
   if (!grid) return;
 
-  let filtered = allProjects;
+  // Устгагдсан төслүүдийг шүүх
+  let filtered = allProjects.filter((p) => {
+    const pid = p.sector + "_" + p.slug;
+    return !deletedProjectIds.includes(pid);
+  });
+
   if (filterSector && filterSector !== "all") {
-    filtered = allProjects.filter((p) => p.sector === filterSector);
+    filtered = filtered.filter((p) => p.sector === filterSector);
   }
 
   // Эрхийн шүүлт
@@ -386,7 +496,8 @@ function renderProjects(filterSector) {
   if (countEl) countEl.textContent = `Нийт ${filtered.length} төсөл`;
 
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-state"><i class="fa fa-folder-open"></i><p>Төсөл байхгүй</p></div>';
+    grid.innerHTML = '<tr><td colspan="7" class="empty-state"><i class="fa fa-folder-open"></i><p>Төсөл байхгүй</p></td></tr>';
+    updateBulkBar();
     return;
   }
 
@@ -396,40 +507,488 @@ function renderProjects(filterSector) {
   grid.innerHTML = filtered.map((p) => {
     const fundedColor = p.funded >= 100 ? "#4bac48" : "var(--admin-accent)";
     const fundedPct = Math.min(p.funded, 100);
-    const daysText = p.days > 0 ? p.days + " хоног" : "дууссан";
     const viewUrl = p.source === "manifest"
       ? `${BASE_PATH}${p.sector}/${encodeURIComponent(p.slug)}/index.html`
       : `${SITE_PATH}tusul.html?cat=${p.sector}`;
+    const thumb = p.thumbUrl
+      ? `<img src="${p.thumbUrl}" style="width:50px;height:34px;object-fit:cover;border-radius:4px" onerror="this.style.display='none'">`
+      : '<span style="color:var(--admin-text-muted)">—</span>';
+    const pid = p.sector + "_" + p.slug;
+    const statusBadge = p.hidden
+      ? '<span class="badge badge-viewer"><i class="fa fa-eye-slash"></i> Нуугдсан</span>'
+      : '<span class="badge badge-admin"><i class="fa fa-eye"></i> Харагдана</span>';
+    const rowStyle = p.hidden ? "opacity:.55" : "";
 
-    return `<div class="project-card-admin">
-      <img src="${p.thumbUrl}" class="pca-img" alt="${escapeHtml(p.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="pca-img-placeholder" style="display:none"><i class="fa fa-image"></i></div>
-      <div class="pca-body">
-        <div class="pca-title">${escapeHtml(p.title)}</div>
-        <div class="pca-creator"><i class="fa fa-user-circle" style="opacity:.5"></i> ${escapeHtml(p.creator)}</div>
-        ${p.desc ? `<div style="font-size:11px;color:var(--admin-text-muted);margin-bottom:8px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${escapeHtml(p.desc)}</div>` : ""}
-        <div style="margin-bottom:8px">
-          <div style="background:var(--admin-dark-3);border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px">
+    return `<tr style="${rowStyle}" data-pid="${escapeHtml(pid)}">
+      <td><input type="checkbox" class="project-select" data-sector="${p.sector}" data-slug="${encodeURIComponent(p.slug)}" data-title="${escapeHtml(p.title)}" data-source="${p.source}" data-hidden="${p.hidden ? 1 : 0}"></td>
+      <td>${thumb}</td>
+      <td>
+        <div style="font-weight:600;margin-bottom:2px">${escapeHtml(p.title)}</div>
+        <div style="font-size:11px;color:var(--admin-text-muted)"><i class="fa fa-user-circle" style="opacity:.5"></i> ${escapeHtml(p.creator)}</div>
+      </td>
+      <td><span class="badge badge-sub-admin">${SECTOR_NAMES[p.sector] || p.sector}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;background:var(--admin-dark-3);border-radius:4px;height:6px;overflow:hidden;min-width:50px">
             <div style="width:${fundedPct}%;height:100%;background:${fundedColor};border-radius:4px"></div>
           </div>
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--admin-text-muted)">
-            <span style="color:${fundedColor};font-weight:600">${p.funded}%</span>
-            <span>${p.backers} оролцогч</span>
-            <span>${daysText}</span>
-          </div>
+          <span style="font-size:11px;font-weight:600;color:${fundedColor}">${p.funded}%</span>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <span class="badge badge-sub-admin">${SECTOR_NAMES[p.sector] || p.sector}</span>
-          <div class="pca-actions">
-            <a href="${viewUrl}" target="_blank" class="btn btn-outline btn-sm"><i class="fa fa-eye"></i></a>
-            ${canEdit ? `<button class="btn btn-info btn-sm" onclick="editProject('${p.sector}','${encodeURIComponent(p.slug)}')"><i class="fa fa-edit"></i></button>` : ""}
-            ${canDelete ? `<button class="btn btn-danger btn-sm" onclick="confirmDeleteProject('${p.sector}','${encodeURIComponent(p.slug)}','${escapeHtml(p.title)}')"><i class="fa fa-trash"></i></button>` : ""}
-          </div>
+      </td>
+      <td>${statusBadge}</td>
+      <td>
+        <div class="action-btns">
+          <a href="${viewUrl}" target="_blank" class="btn btn-outline btn-sm"><i class="fa fa-eye"></i></a>
+          ${canEdit ? `<button class="btn btn-info btn-sm" data-sector="${p.sector}" data-slug="${encodeURIComponent(p.slug)}" onclick="editProject(this.dataset.sector,this.dataset.slug)"><i class="fa fa-edit"></i></button>` : ""}
+          ${canDelete ? `<button class="btn btn-danger btn-sm" data-sector="${p.sector}" data-slug="${encodeURIComponent(p.slug)}" data-title="${escapeHtml(p.title)}" data-source="${p.source}" onclick="confirmDeleteProject(this.dataset.sector,this.dataset.slug,this.dataset.title,this.dataset.source)"><i class="fa fa-trash"></i></button>` : ""}
         </div>
-      </div>
-    </div>`;
+      </td>
+    </tr>`;
   }).join("");
+
+  // Checkbox event listeners
+  grid.querySelectorAll(".project-select").forEach((cb) => {
+    cb.addEventListener("change", updateBulkBar);
+  });
+  const selectAll = document.getElementById("projectSelectAll");
+  if (selectAll) selectAll.checked = false;
+  updateBulkBar();
 }
+
+// ── Bulk actions ──
+function getSelectedProjects() {
+  const boxes = document.querySelectorAll(".project-select:checked");
+  return Array.from(boxes).map((cb) => ({
+    sector: cb.dataset.sector,
+    slug: decodeURIComponent(cb.dataset.slug),
+    title: cb.dataset.title,
+    source: cb.dataset.source,
+    hidden: cb.dataset.hidden === "1"
+  }));
+}
+
+function updateBulkBar() {
+  const selected = getSelectedProjects();
+  const bar = document.getElementById("bulkActionsBar");
+  const cnt = document.getElementById("bulkSelectedCount");
+  if (!bar) return;
+  if (selected.length === 0) {
+    bar.style.display = "none";
+    return;
+  }
+  bar.style.display = "flex";
+  if (cnt) cnt.textContent = `${selected.length} төсөл сонгогдсон`;
+
+  // Show/Hide button-уудыг сонголтод тааруулан идэвхжүүлэх
+  const anyVisible = selected.some((s) => !s.hidden);
+  const anyHidden = selected.some((s) => s.hidden);
+  document.getElementById("bulkHideBtn").style.display = anyVisible ? "" : "none";
+  document.getElementById("bulkShowBtn").style.display = anyHidden ? "" : "none";
+}
+
+// Select all checkbox
+document.addEventListener("DOMContentLoaded", () => {}, { once: true });
+(function initBulkHandlers() {
+  const selectAll = document.getElementById("projectSelectAll");
+  if (selectAll) {
+    selectAll.addEventListener("change", (e) => {
+      document.querySelectorAll(".project-select").forEach((cb) => {
+        cb.checked = e.target.checked;
+      });
+      updateBulkBar();
+    });
+  }
+
+  const clearBtn = document.getElementById("bulkClearBtn");
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      document.querySelectorAll(".project-select").forEach((cb) => (cb.checked = false));
+      if (selectAll) selectAll.checked = false;
+      updateBulkBar();
+    });
+  }
+
+  const hideBtn = document.getElementById("bulkHideBtn");
+  if (hideBtn) hideBtn.addEventListener("click", () => bulkToggleVisibility(true));
+  const showBtn = document.getElementById("bulkShowBtn");
+  if (showBtn) showBtn.addEventListener("click", () => bulkToggleVisibility(false));
+  const bulkDelBtn = document.getElementById("bulkDeleteBtn");
+  if (bulkDelBtn) bulkDelBtn.addEventListener("click", confirmBulkDelete);
+})();
+
+async function bulkToggleVisibility(hide) {
+  const selected = getSelectedProjects();
+  if (selected.length === 0) return;
+  const btn = hide ? document.getElementById("bulkHideBtn") : document.getElementById("bulkShowBtn");
+  btn.disabled = true;
+  const originalHtml = btn.innerHTML;
+  btn.innerHTML = '<span class="spinner"></span>';
+
+  try {
+    let processed = 0;
+    for (const p of selected) {
+      const docId = p.sector + "_" + p.slug;
+      try {
+        // Firestore-д hidden талбар тохируулах
+        await setDoc(
+          doc(db, "projects", docId),
+          {
+            hidden: hide,
+            // HTML/manifest эх үүсвэртэй төсөл бол үндсэн мэдээллийг хадгалах
+            sector: p.sector,
+            slug: p.slug,
+            title: p.title,
+            updatedAt: serverTimestamp(),
+            updatedBy: currentUser.uid
+          },
+          { merge: true }
+        );
+        processed++;
+      } catch (e) {
+        console.warn("Hide/show failed for", docId, e);
+      }
+    }
+    await logActivity(hide ? `${processed} төслийг нуув` : `${processed} төслийг харуулав`);
+    showToast(hide ? `${processed} төсөл нуугдлаа` : `${processed} төсөл харагдана`, "success");
+    loadProjects();
+  } catch (err) {
+    showToast("Алдаа: " + err.message, "error");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalHtml;
+  }
+}
+
+function confirmBulkDelete() {
+  const selected = getSelectedProjects();
+  if (selected.length === 0) return;
+  deleteTarget = { type: "bulk-projects", items: selected };
+  document.getElementById("deleteMessage").textContent = `Сонгогдсон ${selected.length} төслийг устгахдаа итгэлтэй байна уу? Энэ үйлдлийг буцаах боломжгүй.`;
+  openModal("deleteModal");
+}
+
+// ═══════════════════════════════════════
+//  EXCEL IMPORT
+// ═══════════════════════════════════════
+
+// Excel-ийн багана → Firestore талбар
+const EXCEL_COLUMNS = [
+  "Төслийн ангилал", "Салбар", "Төслийн нэр", "Товч тайлбар", "Дэлгэрэнгүй тайлбар",
+  "Байгууллагын нэр", "Хэрэгжүүлэх байршил", "Хэрэгжилтийн үе шат", "Хэрэгжилтийн хугацаа",
+  "Холбоо барих хүний нэр", "Утас", "И-мэйл", "Бүртгэсэн огноо", "ХАА-н чиглэл",
+  "Хамрах малчид / Өрхийн тоо", "Экспортод чиглэсэн үү?", "Зорилтот экспортын зах зээл",
+  "Органик стандарт, гэрчилгээ авах уу?", "Хадгалалт, тээврийн дэд бүтэц",
+  "Нийт хөрөнгө оруулалт шаардлага", "Форумд хайж буй хөрөнгө оруулалт",
+  "Хөрөнгө оруулалт эргэх хугацаа (жил)", "Жилийн хүлээгдэж буй өгөөж",
+  "Санхүүжилтийн хэлбэр", "Санхүүжилтийн одоогийн байдал",
+  "CO₂ хэмнэлт / бууралт (тонн/жил)", "Орон нутгийн иргэдэд үзүүлэх ашиг тус",
+  "Үйлдвэрлэлийн хүчин чадал / Гаралт", "Шаардлагатай газар нутаг",
+  "Гадаадын технологи / түнш", "Ашиглах технологи, онцлог",
+  "Тусгай зөвшөөрлийн байдал", "Байгаль орчны үнэлгээ",
+  "Гол эрсдэл ба шийдэл", "Байгууллагын хэлбэр", "Албан тушаал",
+  "Гол зорилго", "B2B уулзалтын хүсэлт",
+  "Малчдын чадавхийг бэхжүүлэх бүрэлдэхүүн байх уу?",
+  "Бий болох ажлын байрны тоо", "Нэмэлт тэмдэглэл"
+];
+
+let importedRows = []; // parsed rows
+let importFileNameVal = "";
+
+// Ангилалын нэр → key рүү хөрвүүлэх (fuzzy)
+function mapCategoryToKey(excelCat) {
+  if (!excelCat) return "";
+  const normalized = excelCat.toString().trim().toLowerCase();
+  if (!normalized) return "";
+  // 1) Яг таарах
+  for (const cat of categoriesData) {
+    if (cat.name.toLowerCase() === normalized) return cat.key;
+    if (cat.key.toLowerCase() === normalized) return cat.key;
+  }
+  // 2) Хэсэгчлэн таарах
+  for (const cat of categoriesData) {
+    if (cat.name.toLowerCase().includes(normalized) || normalized.includes(cat.name.toLowerCase())) return cat.key;
+  }
+  return "";
+}
+
+// Загвар файл татах (XLSX)
+document.getElementById("downloadTemplateBtn")?.addEventListener("click", () => {
+  if (typeof XLSX === "undefined") { showToast("XLSX сан ачаалагдаагүй байна", "error"); return; }
+  const wb = XLSX.utils.book_new();
+  // Нэг жишээ мөр
+  const sampleRow = {};
+  EXCEL_COLUMNS.forEach((col) => { sampleRow[col] = ""; });
+  sampleRow["Төслийн ангилал"] = "Эрчим хүч";
+  sampleRow["Төслийн нэр"] = "Жишээ төсөл";
+  sampleRow["Байгууллагын нэр"] = "Жишээ ХХК";
+  sampleRow["Товч тайлбар"] = "Төслийн тухай товч тайлбар...";
+  const ws = XLSX.utils.json_to_sheet([sampleRow], { header: EXCEL_COLUMNS });
+  // Баганы өргөн
+  ws["!cols"] = EXCEL_COLUMNS.map(() => ({ wch: 22 }));
+  XLSX.utils.book_append_sheet(wb, ws, "Төслүүд");
+  XLSX.writeFile(wb, "dsif-project-template.xlsx");
+  showToast("Загвар татагдлаа", "success");
+});
+
+// Import modal нээх
+document.getElementById("importExcelBtn")?.addEventListener("click", () => {
+  document.getElementById("importStep1").style.display = "block";
+  document.getElementById("importStep2").style.display = "none";
+  document.getElementById("importStep3").style.display = "none";
+  document.getElementById("importConfirmBtn").style.display = "none";
+  document.getElementById("excelFileInput").value = "";
+  importedRows = [];
+  openModal("importModal");
+});
+
+// File upload handlers
+const excelUploadEl = document.getElementById("excelUpload");
+const excelFileInput = document.getElementById("excelFileInput");
+if (excelUploadEl && excelFileInput) {
+  excelUploadEl.addEventListener("click", () => excelFileInput.click());
+  excelUploadEl.addEventListener("dragover", (e) => { e.preventDefault(); excelUploadEl.style.borderColor = "var(--admin-primary)"; });
+  excelUploadEl.addEventListener("dragleave", () => { excelUploadEl.style.borderColor = "var(--admin-border)"; });
+  excelUploadEl.addEventListener("drop", (e) => {
+    e.preventDefault();
+    excelUploadEl.style.borderColor = "var(--admin-border)";
+    if (e.dataTransfer.files.length) handleExcelFile(e.dataTransfer.files[0]);
+  });
+  excelFileInput.addEventListener("change", () => {
+    if (excelFileInput.files.length) handleExcelFile(excelFileInput.files[0]);
+  });
+}
+
+function handleExcelFile(file) {
+  if (typeof XLSX === "undefined") { showToast("XLSX сан ачаалагдаагүй байна", "error"); return; }
+  importFileNameVal = file.name;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: "array" });
+      const firstSheet = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
+      if (!rows.length) { showToast("Файлд өгөгдөл байхгүй байна", "error"); return; }
+      importedRows = rows;
+      renderImportPreview();
+    } catch (err) {
+      console.error("Excel parse error:", err);
+      showToast("Excel уншихад алдаа гарлаа: " + err.message, "error");
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function renderImportPreview() {
+  document.getElementById("importStep1").style.display = "none";
+  document.getElementById("importStep2").style.display = "block";
+  document.getElementById("importConfirmBtn").style.display = "";
+  document.getElementById("importFileName").textContent = importFileNameVal;
+  document.getElementById("importRowCount").textContent = `— ${importedRows.length} мөр`;
+
+  // Ангиллаар нь (Салбар-аас) эрэмбэлж харуулна
+  const withKey = importedRows.map((row) => {
+    const salbar = row["Салбар"] || row["Төслийн ангилал"] || "";
+    return { row, excelCat: salbar, sectorKey: mapCategoryToKey(salbar) };
+  });
+  withKey.sort((a, b) => {
+    const ak = a.sectorKey || "zzz"; // тохирохгүйг доор нь
+    const bk = b.sectorKey || "zzz";
+    if (ak !== bk) return ak.localeCompare(bk);
+    const at = (a.row["Төслийн нэр"] || "").toString();
+    const bt = (b.row["Төслийн нэр"] || "").toString();
+    return at.localeCompare(bt);
+  });
+  importedRows = withKey.map((x) => x.row); // бодит эрэмбэлэлт
+
+  const tbody = document.getElementById("importPreview");
+  let anyUnmapped = 0;
+  tbody.innerHTML = withKey.map(({ row, excelCat, sectorKey }, i) => {
+    const title = row["Төслийн нэр"] || "";
+    const org = row["Байгууллагын нэр"] || "";
+    const brief = row["Товч тайлбар"] || "";
+    const isValid = !!title && !!sectorKey;
+    if (!sectorKey) anyUnmapped++;
+
+    let statusBadge;
+    if (!title) {
+      statusBadge = '<span class="badge badge-viewer">Нэр алга</span>';
+    } else if (!sectorKey) {
+      statusBadge = '<span class="badge badge-editor">Ангилал тохирохгүй</span>';
+    } else {
+      statusBadge = '<span class="badge badge-admin">Бэлэн</span>';
+    }
+
+    const sectorCell = sectorKey
+      ? `<span class="badge badge-sub-admin">${escapeHtml(SECTOR_NAMES[sectorKey] || sectorKey)}</span> <small style="opacity:.6">(${escapeHtml(excelCat)})</small>`
+      : `<em style="color:var(--admin-text-muted)">${escapeHtml(excelCat || "—")}</em>`;
+
+    return `<tr style="${!isValid ? 'opacity:.6' : ''}">
+      <td style="font-size:11px;color:var(--admin-text-muted)">${i + 1}</td>
+      <td style="font-weight:600">${escapeHtml(title.substring(0, 60))}${title.length > 60 ? '…' : ''}</td>
+      <td>${sectorCell}</td>
+      <td>${escapeHtml(org.substring(0, 30))}${org.length > 30 ? '…' : ''}</td>
+      <td style="font-size:12px">${escapeHtml(brief.substring(0, 50))}${brief.length > 50 ? '…' : ''}</td>
+      <td>${statusBadge}</td>
+    </tr>`;
+  }).join("");
+
+  document.getElementById("importMappingWarning").style.display = anyUnmapped > 0 ? "block" : "none";
+  const validCount = importedRows.filter((r) => r["Төслийн нэр"] && mapCategoryToKey(r["Салбар"] || r["Төслийн ангилал"])).length;
+  document.getElementById("importConfirmText").textContent = `${validCount} төсөл оруулах`;
+  document.getElementById("importConfirmBtn").disabled = validCount === 0;
+}
+
+// Буцах товч
+document.getElementById("importBackBtn")?.addEventListener("click", () => {
+  document.getElementById("importStep1").style.display = "block";
+  document.getElementById("importStep2").style.display = "none";
+  document.getElementById("importConfirmBtn").style.display = "none";
+  document.getElementById("excelFileInput").value = "";
+});
+
+// Импортыг эхлүүлэх
+document.getElementById("importConfirmBtn")?.addEventListener("click", async () => {
+  const btn = document.getElementById("importConfirmBtn");
+  btn.disabled = true;
+
+  document.getElementById("importStep2").style.display = "none";
+  document.getElementById("importStep3").style.display = "block";
+  document.getElementById("importCancelBtn").disabled = true;
+
+  const progressBar = document.getElementById("importProgressBar");
+  const progressText = document.getElementById("importProgressText");
+  const progressDetail = document.getElementById("importProgressDetail");
+
+  const validRows = importedRows
+    .map((row) => ({ row, sectorKey: mapCategoryToKey(row["Салбар"] || row["Төслийн ангилал"]), title: (row["Төслийн нэр"] || "").toString().trim() }))
+    .filter((r) => r.title && r.sectorKey)
+    // Ангиллаар эрэмбэлж багц бүрд ижил sector-ийн мөрүүд орно
+    .sort((a, b) => {
+      if (a.sectorKey !== b.sectorKey) return a.sectorKey.localeCompare(b.sectorKey);
+      return a.title.localeCompare(b.title);
+    });
+
+  let success = 0;
+  let failed = 0;
+
+  console.log("[import] Эхэлж байна:", validRows.length, "мөр");
+
+  // Параллель оруулалт (10-аар багцалж ачаалал багасгана)
+  const BATCH_SIZE = 10;
+  for (let i = 0; i < validRows.length; i += BATCH_SIZE) {
+    const batch = validRows.slice(i, i + BATCH_SIZE);
+
+    progressText.textContent = `Оруулж байна: ${Math.min(i + BATCH_SIZE, validRows.length)} / ${validRows.length}`;
+    progressBar.style.width = ((i / validRows.length) * 100) + "%";
+
+    const results = await Promise.allSettled(batch.map(async ({ row, sectorKey, title }) => {
+      const slug = title.toLowerCase().replace(/\s+/g, "-");
+      const docId = sectorKey + "_" + slug;
+
+      // Бүх талбарыг Firestore-д хадгалах (pre-check алга → хурдан)
+      const metaData = {
+        slug,
+        title,
+        creator: (row["Байгууллагын нэр"] || "").toString(),
+        sector: sectorKey,
+        funded: 0,
+        days: 0,
+        backers: 0,
+        newest: Date.now(),
+        // Дэлгэрэнгүй мэдээлэл (extra)
+        extra: {
+          category: (row["Төслийн ангилал"] || "").toString(),
+          sectorText: (row["Салбар"] || "").toString(),
+          briefDesc: (row["Товч тайлбар"] || "").toString(),
+          fullDesc: (row["Дэлгэрэнгүй тайлбар"] || "").toString(),
+          location: (row["Хэрэгжүүлэх байршил"] || "").toString(),
+          stage: (row["Хэрэгжилтийн үе шат"] || "").toString(),
+          duration: (row["Хэрэгжилтийн хугацаа"] || "").toString(),
+          contactName: (row["Холбоо барих хүний нэр"] || "").toString(),
+          phone: (row["Утас"] || "").toString(),
+          email: (row["И-мэйл"] || "").toString(),
+          registeredAt: (row["Бүртгэсэн огноо"] || "").toString(),
+          agriFocus: (row["ХАА-н чиглэл"] || "").toString(),
+          herdersCount: (row["Хамрах малчид / Өрхийн тоо"] || "").toString(),
+          exportOriented: (row["Экспортод чиглэсэн үү?"] || "").toString(),
+          exportMarket: (row["Зорилтот экспортын зах зээл"] || "").toString(),
+          organicCert: (row["Органик стандарт, гэрчилгээ авах уу?"] || "").toString(),
+          logistics: (row["Хадгалалт, тээврийн дэд бүтэц"] || "").toString(),
+          totalInvestment: (row["Нийт хөрөнгө оруулалт шаардлага"] || "").toString(),
+          forumInvestment: (row["Форумд хайж буй хөрөнгө оруулалт"] || "").toString(),
+          paybackYears: (row["Хөрөнгө оруулалт эргэх хугацаа (жил)"] || "").toString(),
+          annualReturn: (row["Жилийн хүлээгдэж буй өгөөж"] || "").toString(),
+          financingType: (row["Санхүүжилтийн хэлбэр"] || "").toString(),
+          financingStatus: (row["Санхүүжилтийн одоогийн байдал"] || "").toString(),
+          co2Reduction: (row["CO₂ хэмнэлт / бууралт (тонн/жил)"] || "").toString(),
+          communityBenefit: (row["Орон нутгийн иргэдэд үзүүлэх ашиг тус"] || "").toString(),
+          capacity: (row["Үйлдвэрлэлийн хүчин чадал / Гаралт"] || "").toString(),
+          landRequired: (row["Шаардлагатай газар нутаг"] || "").toString(),
+          foreignPartner: (row["Гадаадын технологи / түнш"] || "").toString(),
+          technology: (row["Ашиглах технологи, онцлог"] || "").toString(),
+          permits: (row["Тусгай зөвшөөрлийн байдал"] || "").toString(),
+          envAssessment: (row["Байгаль орчны үнэлгээ"] || "").toString(),
+          risks: (row["Гол эрсдэл ба шийдэл"] || "").toString(),
+          orgType: (row["Байгууллагын хэлбэр"] || "").toString(),
+          position: (row["Албан тушаал"] || "").toString(),
+          mainGoal: (row["Гол зорилго"] || "").toString(),
+          b2bRequest: (row["B2B уулзалтын хүсэлт"] || "").toString(),
+          herderCapacity: (row["Малчдын чадавхийг бэхжүүлэх бүрэлдэхүүн байх уу?"] || "").toString(),
+          jobsCreated: (row["Бий болох ажлын байрны тоо"] || "").toString(),
+          notes: (row["Нэмэлт тэмдэглэл"] || "").toString()
+        },
+        updatedAt: serverTimestamp(),
+        updatedBy: currentUser.uid,
+        createdAt: serverTimestamp(),
+        createdBy: currentUser.uid
+      };
+
+      await setDoc(doc(db, "projects", docId), metaData, { merge: true });
+
+      if (deletedProjectIds.includes(docId)) {
+        deletedProjectIds = deletedProjectIds.filter((id) => id !== docId);
+      }
+      return { ok: true, docId, title };
+    }));
+
+    results.forEach((r, j) => {
+      if (r.status === "fulfilled") {
+        success++;
+      } else {
+        failed++;
+        console.error("[import] Мөр амжилтгүй:", batch[j]?.title, r.reason);
+      }
+    });
+
+    if (batch[batch.length - 1]) {
+      progressDetail.textContent = batch[batch.length - 1].title;
+    }
+    console.log(`[import] Багц ${Math.floor(i / BATCH_SIZE) + 1}: ${success} амжилттай, ${failed} алдаа`);
+  }
+
+  // deleted_projects шинэчлэх
+  try {
+    await setDoc(doc(db, "settings", "deleted_projects"), {
+      ids: deletedProjectIds,
+      updatedAt: serverTimestamp()
+    });
+  } catch(e) {}
+
+  await logActivity(`Excel-ээр ${success} төсөл оруулав${failed ? ` (${failed} алдаа)` : ""}`);
+
+  progressBar.style.width = "100%";
+  progressText.textContent = "Дууслаа!";
+  progressDetail.textContent = `${success} амжилттай, ${failed} алдаа`;
+
+  setTimeout(() => {
+    closeModal("importModal");
+    document.getElementById("importCancelBtn").disabled = false;
+    showToast(`${success} төсөл амжилттай нэмэгдлээ${failed ? `, ${failed} алдаа` : ""}`, failed ? "info" : "success");
+    loadProjects();
+    loadDashboard();
+  }, 1500);
+});
 
 // Салбараар шүүх
 document.getElementById("projectFilterSector").addEventListener("change", (e) => {
@@ -494,11 +1053,44 @@ document.getElementById("saveProjectBtn").addEventListener("click", async () => 
     const slug = editId || name.toLowerCase().replace(/\s+/g, "-");
     let thumbnailUrl = "";
 
-    // Зураг upload (Firebase Storage)
+    // Зураг upload (Firebase Storage) — алдаа гарвал base64 fallback ашиглана
     if (selectedThumbnailFile) {
-      const storageRef = ref(storage, `projects/${sector}/${slug}/thumbnail.jpg`);
-      await uploadBytes(storageRef, selectedThumbnailFile);
-      thumbnailUrl = await getDownloadURL(storageRef);
+      console.log("[saveProject] Зураг upload эхэлж байна...", selectedThumbnailFile.name, selectedThumbnailFile.size, "bytes");
+      try {
+        // Өмнөх зургийг устгах
+        if (editId) {
+          try {
+            const oldRef = ref(storage, `projects/${sector}/${slug}/thumbnail.jpg`);
+            await deleteObject(oldRef);
+          } catch(e) { /* өмнөх зураг байхгүй бол алдаа гарахгүй */ }
+        }
+        const storageRef = ref(storage, `projects/${sector}/${slug}/thumbnail.jpg`);
+
+        // 30 секундын timeout
+        const uploadPromise = uploadBytes(storageRef, selectedThumbnailFile);
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Upload timeout (30s)")), 30000)
+        );
+        await Promise.race([uploadPromise, timeoutPromise]);
+
+        thumbnailUrl = await getDownloadURL(storageRef);
+        console.log("[saveProject] Storage upload амжилттай:", thumbnailUrl);
+      } catch (uploadErr) {
+        console.warn("[saveProject] Storage upload бүтэлгүйтлээ, base64 fallback ашиглаж байна:", uploadErr);
+        showToast("Storage-д байршуулж чадсангүй, зургийг шууд хадгалж байна...", "info");
+        // Base64 fallback: зургийг шахаад data URL хэлбэрээр Firestore-д хадгалах
+        thumbnailUrl = await compressToDataUrl(selectedThumbnailFile, 800, 0.75);
+        console.log("[saveProject] Base64 data URL үүсгэв, урт:", thumbnailUrl.length);
+      }
+    }
+
+    // Өмнөх мэдээллийг хадгалах (засварлахад funded, days гэх мэт алдагдахгүйн тулд)
+    let prevData = {};
+    if (editId) {
+      try {
+        const prevDoc = await getDoc(doc(db, "projects", sector + "_" + slug));
+        if (prevDoc.exists()) prevData = prevDoc.data();
+      } catch(e) {}
     }
 
     // Meta мэдээлэл Firestore-д хадгалах
@@ -507,16 +1099,17 @@ document.getElementById("saveProjectBtn").addEventListener("click", async () => 
       title: name,
       creator,
       sector,
-      funded: 0,
-      days: 0,
-      backers: 0,
-      newest: Date.now(),
+      funded: prevData.funded || 0,
+      days: prevData.days || 0,
+      backers: prevData.backers || 0,
+      newest: prevData.newest || Date.now(),
       updatedAt: serverTimestamp(),
       updatedBy: currentUser.uid
     };
     if (thumbnailUrl) metaData.thumbnailUrl = thumbnailUrl;
 
     const docId = sector + "_" + slug;
+    console.log("[saveProject] Firestore бичих эхэлж байна:", docId);
     if (editId) {
       await updateDoc(doc(db, "projects", docId), metaData);
       await logActivity(`"${name}" төслийг засварлав`);
@@ -528,6 +1121,20 @@ document.getElementById("saveProjectBtn").addEventListener("click", async () => 
       await logActivity(`"${name}" төслийг ${SECTOR_NAMES[sector]} ангилалд нэмэв`);
       showToast("Төсөл нэмэгдлээ", "success");
     }
+
+    // Өмнө устгагдсан жагсаалтаас хасах (ижил нэрээр дахин нэмэх тохиолдол)
+    if (deletedProjectIds.includes(docId)) {
+      deletedProjectIds = deletedProjectIds.filter((id) => id !== docId);
+      try {
+        await setDoc(doc(db, "settings", "deleted_projects"), {
+          ids: deletedProjectIds,
+          updatedAt: serverTimestamp()
+        });
+        console.log("[saveProject] deleted_projects-оос хасав:", docId);
+      } catch(e) { console.warn("deleted_projects шинэчлэх алдаа:", e); }
+    }
+
+    console.log("[saveProject] Амжилттай хадгалагдлаа");
 
     closeModal("projectModal");
     loadProjects();
@@ -545,22 +1152,48 @@ document.getElementById("saveProjectBtn").addEventListener("click", async () => 
 window.editProject = async function (sector, slug) {
   slug = decodeURIComponent(slug);
   try {
+    // allProjects-аас олох
+    const project = allProjects.find((p) => p.sector === sector && p.slug === slug);
+
     // Файлын системээс meta.json уншина
-    const res = await fetch(BASE_PATH + sector + "/" + encodeURIComponent(slug) + "/meta.json");
-    const meta = res.ok ? await res.json() : null;
+    let meta = null;
+    try {
+      const res = await fetch(BASE_PATH + sector + "/" + encodeURIComponent(slug) + "/meta.json");
+      if (res.ok) meta = await res.json();
+    } catch(e) {}
+
+    // Firestore-аас мөн шалгах
+    let firestoreMeta = null;
+    try {
+      const docId = sector + "_" + slug;
+      const d = await getDoc(doc(db, "projects", docId));
+      if (d.exists()) firestoreMeta = d.data();
+    } catch(e) {}
 
     document.getElementById("projectModalTitle").textContent = "Төсөл засварлах";
     document.getElementById("projectEditId").value = slug;
     document.getElementById("projectEditSector").value = sector;
     document.getElementById("projectSector").value = sector;
     document.getElementById("projectSector").disabled = true;
-    document.getElementById("projectName").value = meta ? meta.title : slug;
-    document.getElementById("projectCreator").value = meta ? meta.creator : "";
+    document.getElementById("projectName").value = (firestoreMeta && firestoreMeta.title) || (meta && meta.title) || (project && project.title) || slug;
+    document.getElementById("projectCreator").value = (firestoreMeta && firestoreMeta.creator) || (meta && meta.creator) || (project && project.creator) || "";
 
-    // Thumbnail
-    const thumbUrl = BASE_PATH + sector + "/" + encodeURIComponent(slug) + "/thumbnail.jpg";
-    thumbnailPreview.src = thumbUrl;
-    thumbnailPreview.style.display = "block";
+    // Thumbnail — Firestore URL эсвэл файлын систем эсвэл allProjects-аас
+    let thumbUrl = "";
+    if (firestoreMeta && firestoreMeta.thumbnailUrl) {
+      thumbUrl = firestoreMeta.thumbnailUrl;
+    } else if (project && project.thumbUrl) {
+      thumbUrl = project.thumbUrl;
+    } else {
+      thumbUrl = BASE_PATH + sector + "/" + encodeURIComponent(slug) + "/thumbnail.jpg";
+    }
+
+    if (thumbUrl) {
+      thumbnailPreview.src = thumbUrl;
+      thumbnailPreview.style.display = "block";
+    } else {
+      thumbnailPreview.style.display = "none";
+    }
 
     selectedThumbnailFile = null;
     openModal("projectModal");
@@ -572,11 +1205,16 @@ window.editProject = async function (sector, slug) {
 // Төсөл устгах
 let deleteTarget = { type: "", id: "", name: "" };
 
-window.confirmDeleteProject = function (sector, slug, name) {
+window.confirmDeleteProject = function (sector, slug, name, source) {
   slug = decodeURIComponent(slug);
   name = name || slug;
-  deleteTarget = { type: "project", id: sector + "_" + slug, name, sector, slug };
-  document.getElementById("deleteMessage").textContent = `"${name}" төслийг устгахдаа итгэлтэй байна уу?`;
+  source = source || "firestore";
+  deleteTarget = { type: "project", id: sector + "_" + slug, name, sector, slug, source };
+  if (source === "html") {
+    document.getElementById("deleteMessage").textContent = `"${name}" төсөл tusul.html файлд hardcoded байгаа тул Firestore-аас устгана. Файлаас гараар устгах шаардлагатай.`;
+  } else {
+    document.getElementById("deleteMessage").textContent = `"${name}" төслийг устгахдаа итгэлтэй байна уу?`;
+  }
   openModal("deleteModal");
 };
 
@@ -587,7 +1225,17 @@ document.getElementById("confirmDeleteBtn").addEventListener("click", async () =
 
   try {
     if (deleteTarget.type === "project") {
-      await deleteDoc(doc(db, "projects", deleteTarget.id));
+      // Firestore-аас устгах
+      try {
+        await deleteDoc(doc(db, "projects", deleteTarget.id));
+      } catch(e) { console.warn("Firestore delete:", e); }
+
+      // Устгагдсан жагсаалтад нэмэх (HTML/manifest төслүүдийг дахин харуулахгүйн тулд)
+      if (!deletedProjectIds.includes(deleteTarget.id)) {
+        deletedProjectIds.push(deleteTarget.id);
+      }
+      await setDoc(doc(db, "settings", "deleted_projects"), { ids: deletedProjectIds, updatedAt: serverTimestamp() });
+
       await logActivity(`"${deleteTarget.name}" төслийг устгав`);
       showToast("Төсөл устгагдлаа", "success");
       loadProjects();
@@ -608,6 +1256,24 @@ document.getElementById("confirmDeleteBtn").addEventListener("click", async () =
       await logActivity(`"${deleteTarget.name}" ангилалыг устгав`);
       showToast("Ангилал устгагдлаа", "success");
       loadSectors();
+      loadDashboard();
+    } else if (deleteTarget.type === "bulk-projects") {
+      let processed = 0;
+      for (const p of deleteTarget.items) {
+        const docId = p.sector + "_" + p.slug;
+        try {
+          await deleteDoc(doc(db, "projects", docId));
+        } catch(e) { console.warn("Firestore delete:", docId, e); }
+        if (!deletedProjectIds.includes(docId)) deletedProjectIds.push(docId);
+        processed++;
+      }
+      await setDoc(doc(db, "settings", "deleted_projects"), {
+        ids: deletedProjectIds,
+        updatedAt: serverTimestamp()
+      });
+      await logActivity(`${processed} төслийг нэгэн зэрэг устгав`);
+      showToast(`${processed} төсөл устгагдлаа`, "success");
+      loadProjects();
       loadDashboard();
     }
     closeModal("deleteModal");
@@ -1038,6 +1704,99 @@ async function refreshSectorLists() {
 }
 
 // ═══════════════════════════════════════
+//  MENU / ЦЭС ТОХИРГОО
+// ═══════════════════════════════════════
+const MENU_PATH = "../data/menu.json";
+let menuData = [];
+
+async function loadMenu() {
+  const tbody = document.getElementById("menuTable");
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px"><span class="spinner"></span></td></tr>';
+
+  try {
+    const res = await fetch(MENU_PATH);
+    if (res.ok) menuData = await res.json();
+
+    // Firestore-д хадгалсан тохиргоо байвал давхардуулах
+    try {
+      const snap = await getDoc(doc(db, "settings", "menu"));
+      if (snap.exists() && snap.data().list) {
+        menuData = snap.data().list;
+      }
+    } catch {}
+
+    renderMenuTable(tbody);
+  } catch (err) {
+    console.error("Menu load error:", err);
+    tbody.innerHTML = '<tr><td colspan="4" class="empty-state"><p>Алдаа гарлаа</p></td></tr>';
+  }
+}
+
+function renderMenuTable(tbody) {
+  const canManage = currentAdmin.role === "admin";
+  tbody.innerHTML = "";
+
+  const menuItems = menuData.filter((m) => m.type !== "section");
+  const sectionItems = menuData.filter((m) => m.type === "section");
+
+  // Header цэснүүд
+  tbody.innerHTML += `<tr><td colspan="4" style="padding:12px 16px;font-size:11px;font-weight:700;color:var(--admin-text-muted);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--admin-border)">Header цэс</td></tr>`;
+  menuItems.forEach((item, i) => {
+    const idx = menuData.indexOf(item);
+    renderMenuRow(tbody, item, idx, canManage);
+  });
+
+  // Хуудасны section-ууд
+  if (sectionItems.length) {
+    tbody.innerHTML += `<tr><td colspan="4" style="padding:12px 16px;font-size:11px;font-weight:700;color:var(--admin-text-muted);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--admin-border)">Нүүр хуудасны хэсгүүд</td></tr>`;
+    sectionItems.forEach((item) => {
+      const idx = menuData.indexOf(item);
+      renderMenuRow(tbody, item, idx, canManage);
+    });
+  }
+}
+
+function renderMenuRow(tbody, item, idx, canManage) {
+  const statusBadge = item.visible
+    ? '<span class="badge badge-admin">Харагдана</span>'
+    : '<span class="badge badge-viewer">Нуугдсан</span>';
+  const toggleIcon = item.visible ? "fa-eye-slash" : "fa-eye";
+  const toggleTitle = item.visible ? "Нуух" : "Харуулах";
+  const linkHref = "../" + item.href;
+
+  tbody.innerHTML += `<tr style="${!item.visible ? 'opacity:.55' : ''}">
+    <td style="font-weight:600">${escapeHtml(item.label)}</td>
+    <td><a href="${linkHref}" target="_blank" style="font-size:12px;color:var(--admin-primary);text-decoration:none">${escapeHtml(item.href)} <i class="fa fa-external-link-alt" style="font-size:10px;margin-left:4px"></i></a></td>
+    <td>${statusBadge}</td>
+    <td>
+      <div class="action-btns">
+        ${canManage ? `<button class="btn ${item.visible ? 'btn-warning' : 'btn-primary'} btn-sm" onclick="toggleMenuItem(${idx})" title="${toggleTitle}"><i class="fa ${toggleIcon}"></i></button>` : ""}
+      </div>
+    </td>
+  </tr>`;
+}
+
+window.toggleMenuItem = async function (idx) {
+  menuData[idx].visible = !menuData[idx].visible;
+  const label = menuData[idx].label;
+  const action = menuData[idx].visible ? "харуулав" : "нуулаа";
+
+  try {
+    await setDoc(doc(db, "settings", "menu"), {
+      list: menuData,
+      updatedAt: serverTimestamp()
+    });
+    await logActivity(`"${label}" цэсийг ${action}`);
+    showToast(`"${label}" цэсийг ${action}`, "success");
+    renderMenuTable(document.getElementById("menuTable"));
+  } catch (err) {
+    menuData[idx].visible = !menuData[idx].visible;
+    showToast("Алдаа: " + err.message, "error");
+  }
+};
+
+// ═══════════════════════════════════════
 //  UTILS
 // ═══════════════════════════════════════
 function openModal(id) {
@@ -1075,6 +1834,31 @@ function escapeHtml(str) {
   const div = document.createElement("div");
   div.textContent = str;
   return div.innerHTML;
+}
+
+// Зургийг шахаад data URL (base64) болгох — Storage бүтэлгүйтэх үеийн fallback
+function compressToDataUrl(file, maxWidth = 800, quality = 0.75) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("Файл унших алдаа"));
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("Зураг ачаалах алдаа"));
+      img.onload = () => {
+        const scale = Math.min(1, maxWidth / img.width);
+        const w = Math.round(img.width * scale);
+        const h = Math.round(img.height * scale);
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 function getRoleBadge(role) {
