@@ -1436,13 +1436,29 @@
               border-color: rgba(75,172,72,0.25) !important;
             }
 
-            /* Pcard-body */
+            /* Pcard-body — мобайл дээр баганат layout, контент хэмжээтэй өндөртэй */
             .project-card .pcard-body {
-              flex-direction: column !important;
+              display: flex !important;
+              flex-direction: revert-layer;
               align-items: stretch !important;
+              justify-content: flex-start !important;
+              flex: 1 1 auto !important;
               gap: 6px !important;
-              width: 100%;
-              padding: 0;
+              width: 100% !important;
+              padding: 0 !important;
+              min-width: 0 !important;
+              min-height: 0 !important;
+            }
+            /* Desktop list layout-ийн flex basis-уудыг мобайл дээр хүчингүй болгох —
+               эс тэгвэл column direction дээр бол flex-basis өндөр болчихно. */
+            .project-card .pcard-creator,
+            .project-card .pcard-progress-row,
+            .project-card .pcard-progress-wrap,
+            .project-card .pcard-stats,
+            .project-card .pcard-actions {
+              flex: 0 0 auto !important;
+              width: 100% !important;
+              min-width: 0 !important;
             }
 
             /* Гарчиг — b2b-text шиг UPPERCASE, тунгалаг */
@@ -1607,20 +1623,20 @@
             .sheet-amount .sheet-val { font-size: 13px; color: #4bac48 !important; font-weight: 700; }
 
             /* Инфра hover — b2b-row шиг ногоон болно */
-            .project-card[data-sheet-source="infra"] .pcard {
+            .project-card[data-sheet-source] .pcard {
               cursor: pointer;
             }
-            .project-card[data-sheet-source="infra"] .pcard:hover {
+            .project-card[data-sheet-source] .pcard:hover {
               background: #4bac48 !important;
               border-color: #4bac48 !important;
               transform: none;
             }
-            .project-card[data-sheet-source="infra"] .pcard:hover .pcard-title,
-            .project-card[data-sheet-source="infra"] .pcard:hover .pcard-creator,
-            .project-card[data-sheet-source="infra"] .pcard:hover .pstat-val,
-            .project-card[data-sheet-source="infra"] .pcard:hover .pstat-lbl,
-            .project-card[data-sheet-source="infra"] .pcard:hover .pcard-num,
-            .project-card[data-sheet-source="infra"] .pcard:hover .pcard-progress-pct {
+            .project-card[data-sheet-source] .pcard:hover .pcard-title,
+            .project-card[data-sheet-source] .pcard:hover .pcard-creator,
+            .project-card[data-sheet-source] .pcard:hover .pstat-val,
+            .project-card[data-sheet-source] .pcard:hover .pstat-lbl,
+            .project-card[data-sheet-source] .pcard:hover .pcard-num,
+            .project-card[data-sheet-source] .pcard:hover .pcard-progress-pct {
               color: #fff !important;
               opacity: 1 !important;
             }
@@ -2888,29 +2904,29 @@
           }
 
           /* Дэд бүтэц карт — бүтэн дарах боломжтой, ногоон фокус */
-          .project-card[data-sheet-source="infra"] .pcard {
+          .project-card[data-sheet-source] .pcard {
             cursor: pointer;
             border: 2px solid transparent;
             transition: border-color .2s, box-shadow .25s, transform .2s, background .25s;
           }
-          .project-card[data-sheet-source="infra"] .pcard,
-          .project-card[data-sheet-source="infra"] .pcard:hover {
+          .project-card[data-sheet-source] .pcard,
+          .project-card[data-sheet-source] .pcard:hover {
             box-shadow: none !important;
           }
-          .project-card[data-sheet-source="infra"] .pcard:hover {
+          .project-card[data-sheet-source] .pcard:hover {
             border-color: #4bac48;
             background: rgba(75, 172, 72, 0.18);
             transform: translateY(-2px);
           }
-          body:not(.dark-scheme) .project-card[data-sheet-source="infra"] .pcard:hover {
+          body:not(.dark-scheme) .project-card[data-sheet-source] .pcard:hover {
             background: rgba(75, 172, 72, 0.14);
           }
           /* Hover үед текст ч тод харагдах */
-          .project-card[data-sheet-source="infra"] .pcard:hover .pcard-title,
-          .project-card[data-sheet-source="infra"] .pcard:hover .pstat-val {
+          .project-card[data-sheet-source] .pcard:hover .pcard-title,
+          .project-card[data-sheet-source] .pcard:hover .pstat-val {
             color: #fff;
           }
-          body:not(.dark-scheme) .project-card[data-sheet-source="infra"] .pcard:hover .pcard-title {
+          body:not(.dark-scheme) .project-card[data-sheet-source] .pcard:hover .pcard-title {
             color: #1a1a1a;
           }
 
@@ -3189,6 +3205,163 @@
               });
 
               console.log(LOG, "Нийт", added, "дэд бүтцийн төсөл нэмэгдлээ");
+              if (typeof refreshFilters === "function") refreshFilters();
+            })
+            .catch(function(e) {
+              console.error(LOG, "Алдаа:", e);
+            });
+        })();
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             БАЙГАЛЬ ОРЧИН GOOGLE SHEET LOADER
+             Байгаль орчны төслүүдийг ангилалд албадан оруулна
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+        (function() {
+          var SHEET_ID = "1H6ORSfZh61fARTEd-F24bBPzCv88mKIHww8_MdORd68";
+          var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&gid=0";
+          var FORCED_SECTOR = "environment";
+          var FORCED_LABEL = "Байгаль орчин";
+          var LOG = "[Sheet:Env]";
+
+          function esc(s) {
+            return (s == null ? "" : s.toString()).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+          function parseNum(s) {
+            if (s == null || s === "") return NaN;
+            var str = s.toString().replace(/[,\s₮]/g, "").trim();
+            if (!str) return NaN;
+            return parseFloat(str);
+          }
+          function formatAmount(s) {
+            var num = parseNum(s);
+            if (!isFinite(num)) return s == null ? "" : s.toString();
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+          }
+
+          console.log(LOG, "Google Sheet уншиж байна...");
+          fetch(SHEET_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var start = text.indexOf("{");
+              var end = text.lastIndexOf("}");
+              if (start === -1 || end === -1) throw new Error("JSON олдсонгүй");
+              var json = JSON.parse(text.substring(start, end + 1));
+              var cols = (json.table.cols || []).map(function(c) { return (c.label || "").trim(); });
+              var rows = json.table.rows || [];
+              console.log(LOG, rows.length, "мөр ирлээ");
+
+              function colIdx(partial) {
+                for (var i = 0; i < cols.length; i++) {
+                  if (cols[i] && cols[i].toLowerCase().indexOf(partial.toLowerCase()) !== -1) return i;
+                }
+                return -1;
+              }
+              var iName     = colIdx("Төслийн нэр");
+              var iAmount   = colIdx("Нийт санхүүжилт");
+              var iDuration = colIdx("Хэрэгжих хугацаа");
+
+              var DETAIL_LABELS = [
+                "Төслийн ангилал", "Салбарын чиглэл", "Төсөл санаачлагч байгууллагын нэр",
+                "Ажлын хэлбэр", "Хэрэгжүүлэх байршил", "Хэрэгжилтийн үе шат",
+                "Дэлгэрэнгүй тайлбар", "Тайлбар", "Тулгарч буй асуудал",
+                "Шийдвэрлэхийг хүсэж буй зорилго", "Хүлээгдэж буй үр үр дүн",
+                "Хүлээгдэж буй үр дүн", "Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?",
+                "Байгууллагын нэр", "Байгууллагын хэлбэр",
+                "И-мейл хаяг", "Холбоо барих утас"
+              ];
+
+              var grid = document.getElementById("project-grid");
+              if (!grid) return;
+
+              var added = 0;
+              rows.forEach(function(r, rowIdx) {
+                var cells = r.c || [];
+                function get(i) {
+                  if (i < 0 || i >= cells.length) return "";
+                  var c = cells[i];
+                  return c && c.v != null ? c.v.toString().trim() : "";
+                }
+                var title = get(iName);
+                if (!title) return;
+
+                var amount = get(iAmount);
+                var duration = get(iDuration);
+
+                var detailFields = DETAIL_LABELS.map(function(lbl) {
+                  var idx = colIdx(lbl);
+                  return { label: lbl, value: idx !== -1 ? get(idx) : "" };
+                });
+
+                var col = document.createElement("div");
+                col.className = "col-xl-3 col-lg-4 col-md-6 project-card";
+                col.dataset.cat = FORCED_SECTOR;
+                col.dataset.name = title;
+                col.dataset.funded = 0;
+                col.dataset.days = 0;
+                col.dataset.backers = 0;
+                col.dataset.newest = 2000 + rowIdx;
+                col.dataset.sheetSource = "env";
+                var amountNum = parseNum(amount);
+                if (isFinite(amountNum) && amountNum > 0) {
+                  col.dataset.projectAmount = Math.round(amountNum);
+                }
+
+                var num = added + 1;
+                var creatorCol = colIdx("Байгууллагын нэр");
+                if (creatorCol === -1) creatorCol = colIdx("Төсөл санаачлагч");
+                var creator = creatorCol !== -1 ? get(creatorCol) : "";
+
+                var fundedPct = 0;
+                var barWidth = Math.max(0, Math.min(100, fundedPct));
+                var formattedAmount = formatAmount(amount) || "—";
+
+                col.innerHTML =
+                  '<div class="pcard h-100">' +
+                    '<div class="pcard-img-wrap">' +
+                      '<span class="pcard-badge">' + esc(FORCED_LABEL) + '</span>' +
+                    '</div>' +
+                    '<div class="pcard-body">' +
+                      '<h5 class="pcard-title" title="' + esc(title) + '"><span class="pcard-num">' + num + '.</span> ' + esc(title) + '</h5>' +
+                      '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + esc(creator || "—") + '</p>' +
+                      '<div class="pcard-progress-row">' +
+                        '<div class="pcard-progress-wrap"><div class="pcard-progress-bar funded" style="width:' + barWidth + '%"></div></div>' +
+                        '<span class="pcard-progress-pct">' + fundedPct + '%</span>' +
+                      '</div>' +
+                      '<div class="pcard-stats">' +
+                        '<div><span class="pstat-val" style="color:var(--primary-color, #4bac48)">' + esc(formattedAmount) + '</span><span class="pstat-lbl">САНХҮҮЖИЛТ</span></div>' +
+                        '<div><span class="pstat-val">' + esc(duration || "—") + '</span><span class="pstat-lbl">ХУГАЦАА</span></div>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
+
+                var actions = document.createElement("div");
+                actions.className = "pcard-actions";
+                var fundBtn = document.createElement("button");
+                fundBtn.className = "pcard-fund-btn";
+                fundBtn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                fundBtn.addEventListener("click", function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (typeof openFundModal === "function") openFundModal(col);
+                });
+                actions.appendChild(fundBtn);
+                col.querySelector(".pcard").appendChild(actions);
+
+                col.querySelector(".pcard").addEventListener("click", function(e) {
+                  if (e.target.closest(".pcard-actions")) return;
+                  if (typeof openDetailModal === "function") openDetailModal(title, detailFields);
+                });
+
+                grid.appendChild(col);
+                added++;
+                console.log(LOG, "+ карт:", title);
+              });
+
+              console.log(LOG, "Нийт", added, "байгаль орчны төсөл нэмэгдлээ");
               if (typeof refreshFilters === "function") refreshFilters();
             })
             .catch(function(e) {
