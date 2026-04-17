@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ — Нэвтрэх</title>
+  <link rel="icon" href="../images/icon.webp" type="image/webp">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <!-- Theme toggle -->
+  <button id="admin-theme-toggle" style="position:fixed;top:20px;right:20px;z-index:999" title="Цайвар/Бараан горим">&#9788;</button>
+
+  <div class="login-wrapper">
+    <div class="login-box">
+      <img src="../images/logo.webp" alt="DSIF" class="logo">
+      <h1>Дашбоард</h1>
+      <p class="subtitle">Удирдлагын самбар</p>
+
+      <div class="login-error" id="loginError"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Имэйл хаяг</label>
+          <input type="email" id="loginEmail" placeholder="admin@dsif.mn" required>
+        </div>
+        <div class="form-group">
+          <label>Нууц үг</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="loginBtn">
+          <span id="loginBtnText">Нэвтрэх</span>
+          <span id="loginSpinner" class="spinner" style="display:none"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Theme toggle logic -->
+  <script>
+    (function() {
+      const saved = localStorage.getItem('dsif-admin-theme');
+      if (saved === 'light') document.body.classList.add('light-theme');
+      document.addEventListener('DOMContentLoaded', function() {
+        const btn = document.getElementById('admin-theme-toggle');
+        function updateIcon() {
+          btn.innerHTML = document.body.classList.contains('light-theme') ? '&#9790;' : '&#9788;';
+        }
+        updateIcon();
+        btn.addEventListener('click', function() {
+          document.body.classList.toggle('light-theme');
+          localStorage.setItem('dsif-admin-theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+          updateIcon();
+        });
+      });
+    })();
+  </script>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+      authDomain: "dsif-shedule.firebaseapp.com",
+      projectId: "dsif-shedule",
+      storageBucket: "dsif-shedule.appspot.com",
+      messagingSenderId: "973476131387",
+      appId: "1:973476131387:web:8c2e1234567890abcdef"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Аль хэдийн нэвтэрсэн бол dashboard руу шилжүүлэх
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const adminDoc = await getDoc(doc(db, "admins", user.uid));
+        if (adminDoc.exists()) {
+          window.location.href = "dashboard.html";
+        }
+      }
+    });
+
+    // Нэвтрэх form
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+      const errorEl = document.getElementById("loginError");
+      const btnText = document.getElementById("loginBtnText");
+      const spinner = document.getElementById("loginSpinner");
+
+      errorEl.style.display = "none";
+      btnText.style.display = "none";
+      spinner.style.display = "inline-block";
+
+      try {
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        // Админ эрхтэй эсэхийг шалгах
+        const adminDoc = await getDoc(doc(db, "admins", cred.user.uid));
+        if (!adminDoc.exists()) {
+          await auth.signOut();
+          throw new Error("Танд админ эрх олгогдоогүй байна.");
+        }
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        errorEl.style.display = "block";
+        if (err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
+          errorEl.textContent = "Имэйл эсвэл нууц үг буруу байна.";
+        } else {
+          errorEl.textContent = err.message;
+        }
+        btnText.style.display = "inline";
+        spinner.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>

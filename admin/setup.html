@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSIF Админ — Анхны тохиргоо</title>
+  <link rel="icon" href="../images/icon.webp" type="image/webp">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <style>
+    .setup-steps { margin: 24px 0; text-align: left; }
+    .setup-steps .step {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--admin-border);
+    }
+    .step-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--admin-primary); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .step-text { font-size: 13px; line-height: 1.6; }
+    .step-text code {
+      background: rgba(75,172,72,0.15); padding: 2px 8px;
+      border-radius: 4px; font-size: 12px; color: var(--admin-primary);
+    }
+    .result-box {
+      background: var(--admin-dark-3); border: 1px solid var(--admin-border);
+      border-radius: 8px; padding: 16px; margin-top: 16px;
+      text-align: left; font-size: 13px; display: none;
+    }
+    .result-box.success { border-color: var(--admin-primary); }
+    .result-box.error { border-color: var(--admin-danger); }
+    .result-box p { margin: 6px 0; }
+    .result-box strong { color: #fff; }
+    .login-box { max-width: 520px; }
+  </style>
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-box">
+      <img src="../images/logo.webp" alt="DSIF" class="logo">
+      <h1>Анхны админ тохиргоо</h1>
+      <p class="subtitle">Системийн анхны админ хэрэглэгч үүсгэх</p>
+
+      <div class="login-error" id="setupError"></div>
+      <div class="result-box" id="setupResult"></div>
+
+      <form id="setupForm">
+        <div class="form-group">
+          <label>Админ нэр</label>
+          <input type="text" id="setupName" value="Admin" required>
+        </div>
+        <div class="form-group">
+          <label>Имэйл хаяг</label>
+          <input type="email" id="setupEmail" value="forum@dornogovi.gov.mn" required>
+        </div>
+        <div class="form-group">
+          <label>Нууц үг</label>
+          <input type="password" id="setupPassword" value="forum@dornogovi.gov.mn" minlength="6" required>
+        </div>
+        <div class="form-group">
+          <label>Нууц үг давтах</label>
+          <input type="password" id="setupPasswordConfirm" value="forum@dornogovi.gov.mn" minlength="6" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="setupBtn">
+          <i class="fa fa-user-shield"></i>
+          <span id="setupBtnText">Админ үүсгэх</span>
+          <span id="setupSpinner" class="spinner" style="display:none"></span>
+        </button>
+      </form>
+
+      <div class="setup-steps">
+        <div class="step">
+          <div class="step-num">!</div>
+          <div class="step-text">
+            Энэ хуудас нь <strong>нэг удаа</strong> ажиллана. Админ үүсгэсний дараа энэ файлыг <code>устгах</code> юм уу нэр солих хэрэгтэй.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+      authDomain: "dsif-shedule.firebaseapp.com",
+      projectId: "dsif-shedule",
+      storageBucket: "dsif-shedule.appspot.com",
+      messagingSenderId: "973476131387",
+      appId: "1:973476131387:web:8c2e1234567890abcdef"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    document.getElementById("setupForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("setupName").value.trim();
+      const email = document.getElementById("setupEmail").value.trim();
+      const password = document.getElementById("setupPassword").value;
+      const passwordConfirm = document.getElementById("setupPasswordConfirm").value;
+      const errorEl = document.getElementById("setupError");
+      const resultEl = document.getElementById("setupResult");
+      const btnText = document.getElementById("setupBtnText");
+      const spinner = document.getElementById("setupSpinner");
+
+      errorEl.style.display = "none";
+      resultEl.style.display = "none";
+
+      if (password !== passwordConfirm) {
+        errorEl.style.display = "block";
+        errorEl.textContent = "Нууц үг таарахгүй байна.";
+        return;
+      }
+
+      btnText.style.display = "none";
+      spinner.style.display = "inline-block";
+
+      try {
+        let cred;
+
+        // Эхлээд шинэ хэрэглэгч үүсгэхийг оролдоно
+        try {
+          cred = await createUserWithEmailAndPassword(auth, email, password);
+          await updateProfile(cred.user, { displayName: name });
+        } catch (createErr) {
+          if (createErr.code === "auth/email-already-in-use") {
+            // Аль хэдийн Auth-д үүссэн бол нэвтэрч ороод Firestore бичлэг хийнэ
+            cred = await signInWithEmailAndPassword(auth, email, password);
+          } else {
+            throw createErr;
+          }
+        }
+
+        // Firestore-д admin бичлэг нэмэх
+        await setDoc(doc(db, "admins", cred.user.uid), {
+          name: name,
+          email: email,
+          role: "admin",
+          allowedSectors: [],
+          createdAt: serverTimestamp(),
+          createdBy: "setup"
+        });
+
+        // Амжилттай
+        document.getElementById("setupForm").style.display = "none";
+        resultEl.style.display = "block";
+        resultEl.className = "result-box success";
+        resultEl.innerHTML = `
+          <p><i class="fa fa-check-circle" style="color:var(--admin-primary)"></i>
+          <strong> Админ амжилттай үүслээ!</strong></p>
+          <p><strong>Нэр:</strong> ${name}</p>
+          <p><strong>Имэйл:</strong> ${email}</p>
+          <p><strong>Эрх:</strong> admin (бүрэн эрх)</p>
+          <p style="margin-top:12px; color:var(--admin-warning); font-size:12px">
+            <i class="fa fa-exclamation-triangle"></i>
+            Энэ <code>setup.html</code> файлыг одоо устгах юм уу нэрийг нь солино уу.
+          </p>
+          <a href="index.html" class="btn btn-primary btn-sm" style="margin-top:16px;width:auto;display:inline-flex">
+            <i class="fa fa-sign-in-alt"></i> Нэвтрэх хуудас руу очих
+          </a>
+        `;
+      } catch (err) {
+        errorEl.style.display = "block";
+        if (err.code === "auth/weak-password") {
+          errorEl.textContent = "Нууц үг хэт богино байна. 6+ тэмдэгт оруулна уу.";
+        } else {
+          errorEl.textContent = err.message;
+        }
+        btnText.style.display = "inline";
+        spinner.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
