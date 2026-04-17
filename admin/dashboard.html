@@ -43,7 +43,7 @@
           <i class="fa fa-folder-open"></i> <span class="sidebar-text">Төслүүд</span>
         </a>
         <a href="#" data-section="sectors">
-          <i class="fa fa-layer-group"></i> <span class="sidebar-text">Төслийн салбар</span>
+          <i class="fa fa-layer-group"></i> <span class="sidebar-text">Төслийн ангилал</span>
         </a>
 
         <div class="nav-label"><span class="sidebar-text">Хэрэглэгч</span></div>
@@ -105,7 +105,7 @@
           <div class="stat-card">
             <div class="stat-icon blue"><i class="fa fa-layer-group"></i></div>
             <div class="stat-value" id="statSectors">9</div>
-            <div class="stat-label">Салбарын тоо</div>
+            <div class="stat-label">Ангилалын тоо</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon yellow"><i class="fa fa-user-shield"></i></div>
@@ -152,7 +152,7 @@
         <!-- Filter by sector -->
         <div style="margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
           <select id="projectFilterSector" style="max-width:260px;">
-            <option value="all">Бүх салбар</option>
+            <option value="all">Бүх ангилал</option>
           </select>
           <span id="projectCount" style="font-size:12px;color:var(--admin-text-muted)"></span>
         </div>
@@ -220,12 +220,12 @@
                 <tr>
                   <td><span class="badge badge-sub-admin">sub-admin</span></td>
                   <td>Дэд админ</td>
-                  <td>Төсөл нэмэх/засах, зөвхөн зөвшөөрөгдсөн салбарт</td>
+                  <td>Төсөл нэмэх/засах, зөвхөн зөвшөөрөгдсөн ангилалд</td>
                 </tr>
                 <tr>
                   <td><span class="badge badge-editor">editor</span></td>
                   <td>Засварлагч</td>
-                  <td>Зөвхөн зөвшөөрөгдсөн салбарын төслийг засах</td>
+                  <td>Зөвхөн зөвшөөрөгдсөн ангилалын төслийг засах</td>
                 </tr>
                 <tr>
                   <td><span class="badge badge-viewer">viewer</span></td>
@@ -239,41 +239,27 @@
 
         <div class="panel" style="margin-top:20px">
           <div class="panel-header">
-            <h3>Салбарын зөвшөөрөл удирдах</h3>
+            <h3>Ангилалын зөвшөөрөл удирдах</h3>
           </div>
           <div class="panel-body">
             <p style="font-size:13px; color:var(--admin-text-muted); margin-bottom:16px;">
-              Дэд админ, засварлагч нарт салбарын зөвшөөрлийг "Дэд админ" хэсгээс тохируулна.
+              Дэд админ, засварлагч нарт ангилалын зөвшөөрлийг "Дэд админ" хэсгээс тохируулна.
             </p>
           </div>
         </div>
       </div>
 
-      <!-- ── SECTORS SECTION ── -->
+      <!-- ── SECTORS / CATEGORIES SECTION ── -->
       <div class="section-page" id="sec-sectors">
         <div class="page-header">
-          <h2>Салбар <span>удирдлага</span></h2>
+          <h2>Төслийн <span>ангилал</span></h2>
           <button class="btn btn-primary btn-sm" id="addSectorBtn">
-            <i class="fa fa-plus"></i> Салбар нэмэх
+            <i class="fa fa-plus"></i> Ангилал нэмэх
           </button>
         </div>
 
-        <div class="panel">
-          <div class="panel-body" style="padding:0">
-            <table>
-              <thead>
-                <tr>
-                  <th>Түлхүүр (key)</th>
-                  <th>Монгол нэр</th>
-                  <th>Төслийн тоо</th>
-                  <th>Үйлдэл</th>
-                </tr>
-              </thead>
-              <tbody id="sectorsTable">
-                <tr><td colspan="4" class="empty-state"><i class="fa fa-layer-group"></i><p>Ачаалж байна...</p></td></tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="project-grid" id="categoriesGrid">
+          <div class="empty-state"><i class="fa fa-layer-group"></i><p>Ачаалж байна...</p></div>
         </div>
       </div>
 
@@ -294,9 +280,9 @@
           <input type="hidden" id="projectEditId">
           <input type="hidden" id="projectEditSector">
           <div class="form-group">
-            <label>Салбар</label>
+            <label>Ангилал</label>
             <select id="projectSector" required>
-              <option value="">— Салбар сонгох —</option>
+              <option value="">— Ангилал сонгох —</option>
             </select>
           </div>
           <div class="form-group">
@@ -358,7 +344,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Зөвшөөрөгдсөн салбарууд</label>
+            <label>Зөвшөөрөгдсөн ангилалууд</label>
             <div class="checkbox-list" id="sectorPermissions">
               <label><input type="checkbox" value="energy"> Эрчим хүч</label>
               <label><input type="checkbox" value="mining"> Уул уурхай</label>
@@ -386,7 +372,7 @@
   <div class="modal-overlay" id="sectorModal">
     <div class="modal" style="max-width:440px">
       <div class="modal-header">
-        <h3 id="sectorModalTitle">Салбар нэмэх</h3>
+        <h3 id="sectorModalTitle">Ангилал нэмэх</h3>
         <button class="modal-close" onclick="closeModal('sectorModal')">&times;</button>
       </div>
       <div class="modal-body">
@@ -400,6 +386,15 @@
           <div class="form-group">
             <label>Монгол нэр</label>
             <input type="text" id="sectorName" placeholder="Жишээ: Аялал жуулчлал" required>
+          </div>
+          <div class="form-group">
+            <label>Зураг</label>
+            <div class="file-upload" id="sectorImgUpload">
+              <i class="fa fa-cloud-upload-alt"></i>
+              <p>Зураг чирж оруулах эсвэл дарж сонгох</p>
+              <input type="file" id="sectorImgInput" accept="image/*" style="display:none">
+              <img class="preview" id="sectorImgPreview" style="display:none">
+            </div>
           </div>
         </form>
       </div>

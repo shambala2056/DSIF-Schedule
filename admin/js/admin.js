@@ -169,7 +169,7 @@ const SECTION_TITLES = {
   projects: "Төслийн удирдлага",
   "sub-admins": "Дэд админ",
   roles: "Эрхийн тохиргоо",
-  sectors: "Салбар удирдлага"
+  sectors: "Төслийн ангилал"
 };
 
 // ── Sidebar навигаци ──
@@ -525,7 +525,7 @@ document.getElementById("saveProjectBtn").addEventListener("click", async () => 
       metaData.createdAt = serverTimestamp();
       metaData.createdBy = currentUser.uid;
       await setDoc(doc(db, "projects", docId), metaData);
-      await logActivity(`"${name}" төслийг ${SECTOR_NAMES[sector]} салбарт нэмэв`);
+      await logActivity(`"${name}" төслийг ${SECTOR_NAMES[sector]} ангилалд нэмэв`);
       showToast("Төсөл нэмэгдлээ", "success");
     }
 
@@ -599,9 +599,14 @@ document.getElementById("confirmDeleteBtn").addEventListener("click", async () =
       loadSubAdmins();
       loadDashboard();
     } else if (deleteTarget.type === "sector") {
-      await deleteDoc(doc(db, "sectors", deleteTarget.id));
-      await logActivity(`"${deleteTarget.name}" салбарыг устгав`);
-      showToast("Салбар устгагдлаа", "success");
+      // categories.json-аас хасах
+      categoriesData = categoriesData.filter((c) => c.key !== deleteTarget.id);
+      await setDoc(doc(db, "settings", "categories"), {
+        list: categoriesData,
+        updatedAt: serverTimestamp()
+      });
+      await logActivity(`"${deleteTarget.name}" ангилалыг устгав`);
+      showToast("Ангилал устгагдлаа", "success");
       loadSectors();
       loadDashboard();
     }
@@ -783,107 +788,101 @@ window.confirmDeleteSubAdmin = function (id, name) {
 //  SECTORS
 // ═══════════════════════════════════════
 
-// Анхны салбарууд (Firestore-д байхгүй бол эндээс ачаална)
-const DEFAULT_SECTORS = {
-  energy: "Эрчим хүч",
-  mining: "Уул уурхай",
-  environment: "Байгаль орчин",
-  infra: "Дэд бүтэц",
-  edu: "Боловсрол",
-  culture: "Соёл",
-  health: "Эрүүл мэнд",
-  social: "Нийгэм",
-  agri: "Хөдөө аж ахуй"
-};
+// ── Ангилалуудын мэдээлэл (categories.json-аас) ──
+const CATEGORIES_PATH = "../data/categories.json";
+let categoriesData = [];
+let selectedSectorImgFile = null;
 
 async function loadSectors() {
-  const tbody = document.getElementById("sectorsTable");
-  if (!tbody) return;
-  tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px"><span class="spinner"></span></td></tr>';
+  const grid = document.getElementById("categoriesGrid");
+  if (!grid) return;
+  grid.innerHTML = '<div class="empty-state"><span class="spinner"></span><p>Ачаалж байна...</p></div>';
 
   try {
-    const snap = await getDocs(collection(db, "sectors"));
+    const res = await fetch(CATEGORIES_PATH);
+    if (!res.ok) throw new Error("categories.json уншигдсангүй");
+    categoriesData = await res.json();
 
-    // Firestore-д салбар байхгүй бол анхныхыг оруулах
-    if (snap.empty) {
-      for (const [key, name] of Object.entries(DEFAULT_SECTORS)) {
-        await setDoc(doc(db, "sectors", key), {
-          name,
-          createdAt: serverTimestamp()
-        });
-      }
-      // Дахин ачаалах
-      return loadSectors();
-    }
-
-    // Төсөл бүрийн салбарын тоог авах
+    // Төслийн тоо
     let projectCounts = {};
-    try {
-      const projSnap = await getDocs(collection(db, "projects"));
-      projSnap.forEach((d) => {
-        const s = d.data().sector;
-        projectCounts[s] = (projectCounts[s] || 0) + 1;
-      });
-    } catch {}
+    allProjects.forEach((p) => { projectCounts[p.sector] = (projectCounts[p.sector] || 0) + 1; });
 
     const canManage = currentAdmin.role === "admin";
 
-    tbody.innerHTML = "";
-    snap.forEach((d) => {
-      const data = d.data();
-      const count = projectCounts[d.id] || 0;
-
-      tbody.innerHTML += `<tr>
-        <td><code style="background:rgba(75,172,72,0.1);padding:3px 8px;border-radius:4px;font-size:12px;color:var(--admin-primary)">${escapeHtml(d.id)}</code></td>
-        <td>${escapeHtml(data.name)}</td>
-        <td><span class="badge badge-sub-admin">${count}</span></td>
-        <td>
-          <div class="action-btns">
-            ${canManage ? `<button class="btn btn-info btn-sm" onclick="editSector('${d.id}')"><i class="fa fa-edit"></i></button>` : ""}
-            ${canManage ? `<button class="btn btn-danger btn-sm" onclick="confirmDeleteSector('${d.id}','${escapeHtml(data.name)}')"><i class="fa fa-trash"></i></button>` : ""}
+    grid.innerHTML = categoriesData.map((cat) => {
+      const count = projectCounts[cat.key] || 0;
+      const imgSrc = "../" + cat.image;
+      return `<div class="project-card-admin">
+        <img src="${imgSrc}" class="pca-img" alt="${escapeHtml(cat.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="pca-img-placeholder" style="display:none"><i class="fa fa-image"></i></div>
+        <div class="pca-body">
+          <div class="pca-title">${escapeHtml(cat.name)}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+            <div>
+              <code style="background:rgba(75,172,72,0.1);padding:3px 8px;border-radius:4px;font-size:11px;color:var(--admin-primary)">${escapeHtml(cat.key)}</code>
+              <span class="badge badge-sub-admin" style="margin-left:6px">${count} төсөл</span>
+            </div>
+            <div class="pca-actions">
+              ${canManage ? `<button class="btn btn-info btn-sm" onclick="editSector('${cat.key}')"><i class="fa fa-edit"></i></button>` : ""}
+              ${canManage ? `<button class="btn btn-danger btn-sm" onclick="confirmDeleteSector('${cat.key}','${escapeHtml(cat.name)}')"><i class="fa fa-trash"></i></button>` : ""}
+            </div>
           </div>
-        </td>
-      </tr>`;
-    });
+        </div>
+      </div>`;
+    }).join("");
 
-    // SECTOR_NAMES болон бусад dropdown-г шинэчлэх
+    // SECTOR_NAMES шинэчлэх
+    Object.keys(SECTOR_NAMES).forEach((k) => delete SECTOR_NAMES[k]);
+    categoriesData.forEach((cat) => { SECTOR_NAMES[cat.key] = cat.name; });
+
     await refreshSectorLists();
 
   } catch (err) {
-    console.error("Sectors load error:", err);
-    // Firestore-д хандаж чадахгүй бол DEFAULT_SECTORS-г харуулна
-    renderDefaultSectors(tbody);
+    console.error("Categories load error:", err);
+    grid.innerHTML = '<div class="empty-state"><i class="fa fa-exclamation-triangle"></i><p>Алдаа: ' + escapeHtml(err.message) + '</p></div>';
   }
 }
 
-function renderDefaultSectors(tbody) {
-  const canManage = currentAdmin && currentAdmin.role === "admin";
-  tbody.innerHTML = "";
-  for (const [key, name] of Object.entries(DEFAULT_SECTORS)) {
-    tbody.innerHTML += `<tr>
-      <td><code style="background:rgba(75,172,72,0.1);padding:3px 8px;border-radius:4px;font-size:12px;color:var(--admin-primary)">${escapeHtml(key)}</code></td>
-      <td>${escapeHtml(name)}</td>
-      <td><span class="badge badge-sub-admin">—</span></td>
-      <td>
-        <div class="action-btns">
-          ${canManage ? `<button class="btn btn-info btn-sm" onclick="editSector('${key}')"><i class="fa fa-edit"></i></button>` : ""}
-          ${canManage ? `<button class="btn btn-danger btn-sm" onclick="confirmDeleteSector('${key}','${escapeHtml(name)}')"><i class="fa fa-trash"></i></button>` : ""}
-        </div>
-      </td>
-    </tr>`;
-  }
+// Sector зураг upload handler
+const sectorImgUpload = document.getElementById("sectorImgUpload");
+const sectorImgInput = document.getElementById("sectorImgInput");
+const sectorImgPreview = document.getElementById("sectorImgPreview");
+
+sectorImgUpload.addEventListener("click", () => sectorImgInput.click());
+sectorImgUpload.addEventListener("dragover", (e) => { e.preventDefault(); sectorImgUpload.style.borderColor = "var(--admin-primary)"; });
+sectorImgUpload.addEventListener("dragleave", () => { sectorImgUpload.style.borderColor = "var(--admin-border)"; });
+sectorImgUpload.addEventListener("drop", (e) => {
+  e.preventDefault();
+  sectorImgUpload.style.borderColor = "var(--admin-border)";
+  if (e.dataTransfer.files.length) handleSectorImg(e.dataTransfer.files[0]);
+});
+sectorImgInput.addEventListener("change", () => {
+  if (sectorImgInput.files.length) handleSectorImg(sectorImgInput.files[0]);
+});
+
+function handleSectorImg(file) {
+  if (!file.type.startsWith("image/")) { showToast("Зөвхөн зураг файл оруулна уу", "error"); return; }
+  selectedSectorImgFile = file;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    sectorImgPreview.src = e.target.result;
+    sectorImgPreview.style.display = "block";
+  };
+  reader.readAsDataURL(file);
 }
 
-// Салбар нэмэх modal
+// Ангилал нэмэх modal
 document.getElementById("addSectorBtn").addEventListener("click", () => {
-  document.getElementById("sectorModalTitle").textContent = "Салбар нэмэх";
+  document.getElementById("sectorModalTitle").textContent = "Ангилал нэмэх";
   document.getElementById("sectorForm").reset();
   document.getElementById("sectorEditKey").value = "";
   document.getElementById("sectorKey").disabled = false;
+  sectorImgPreview.style.display = "none";
+  selectedSectorImgFile = null;
   openModal("sectorModal");
 });
 
-// Салбар хадгалах
+// Ангилал хадгалах → categories.json шинэчлэх
 document.getElementById("saveSectorBtn").addEventListener("click", async () => {
   const key = document.getElementById("sectorKey").value.trim().toLowerCase();
   const name = document.getElementById("sectorName").value.trim();
@@ -897,27 +896,47 @@ document.getElementById("saveSectorBtn").addEventListener("click", async () => {
   btn.innerHTML = '<span class="spinner"></span>';
 
   try {
+    let imgPath = "";
+
+    // Зураг upload (Firebase Storage)
+    if (selectedSectorImgFile) {
+      const storageRef = ref(storage, `categories/${key}.webp`);
+      await uploadBytes(storageRef, selectedSectorImgFile);
+      const url = await getDownloadURL(storageRef);
+      imgPath = url; // Firebase Storage URL
+    }
+
     if (editKey) {
-      // Засварлах (нэр солих)
-      await updateDoc(doc(db, "sectors", editKey), { name });
-      await logActivity(`"${name}" салбарын нэрийг засварлав`);
-      showToast("Салбар засварлагдлаа", "success");
+      // Засварлах
+      const idx = categoriesData.findIndex((c) => c.key === editKey);
+      if (idx !== -1) {
+        categoriesData[idx].name = name;
+        if (imgPath) categoriesData[idx].image = imgPath;
+      }
+      await logActivity(`"${name}" ангилалын нэрийг засварлав`);
+      showToast("Ангилал засварлагдлаа", "success");
     } else {
-      // Шинээр нэмэх — давхардал шалгах
-      const existing = await getDoc(doc(db, "sectors", key));
-      if (existing.exists()) {
-        showToast(`"${key}" түлхүүртэй салбар аль хэдийн байна`, "error");
+      // Давхардал шалгах
+      if (categoriesData.some((c) => c.key === key)) {
+        showToast(`"${key}" түлхүүртэй ангилал аль хэдийн байна`, "error");
         btn.disabled = false;
         btn.innerHTML = '<i class="fa fa-save"></i> Хадгалах';
         return;
       }
-      await setDoc(doc(db, "sectors", key), {
+      categoriesData.push({
+        key,
         name,
-        createdAt: serverTimestamp()
+        image: imgPath || "images/demo/homepage-1.webp"
       });
-      await logActivity(`"${name}" (${key}) салбарыг нэмэв`);
-      showToast("Салбар амжилттай нэмэгдлээ", "success");
+      await logActivity(`"${name}" (${key}) ангилалыг нэмэв`);
+      showToast("Ангилал амжилттай нэмэгдлээ", "success");
     }
+
+    // Firestore-д categories мэдээлэл хадгалах (sync)
+    await setDoc(doc(db, "settings", "categories"), {
+      list: categoriesData,
+      updatedAt: serverTimestamp()
+    });
 
     closeModal("sectorModal");
     loadSectors();
@@ -929,50 +948,60 @@ document.getElementById("saveSectorBtn").addEventListener("click", async () => {
   }
 });
 
-// Салбар засварлах
-window.editSector = async function (key) {
-  try {
-    const d = await getDoc(doc(db, "sectors", key));
-    if (!d.exists()) { showToast("Олдсонгүй", "error"); return; }
+// Ангилал засварлах
+window.editSector = function (key) {
+  const cat = categoriesData.find((c) => c.key === key);
+  if (!cat) { showToast("Олдсонгүй", "error"); return; }
 
-    document.getElementById("sectorModalTitle").textContent = "Салбар засварлах";
-    document.getElementById("sectorEditKey").value = key;
-    document.getElementById("sectorKey").value = key;
-    document.getElementById("sectorKey").disabled = true;
-    document.getElementById("sectorName").value = d.data().name || "";
+  document.getElementById("sectorModalTitle").textContent = "Ангилал засварлах";
+  document.getElementById("sectorEditKey").value = key;
+  document.getElementById("sectorKey").value = key;
+  document.getElementById("sectorKey").disabled = true;
+  document.getElementById("sectorName").value = cat.name;
 
-    openModal("sectorModal");
-  } catch (err) {
-    showToast("Алдаа: " + err.message, "error");
+  // Зураг preview
+  if (cat.image) {
+    const imgSrc = cat.image.startsWith("http") ? cat.image : "../" + cat.image;
+    sectorImgPreview.src = imgSrc;
+    sectorImgPreview.style.display = "block";
+  } else {
+    sectorImgPreview.style.display = "none";
   }
+  selectedSectorImgFile = null;
+
+  openModal("sectorModal");
 };
 
-// Салбар устгах
+// Ангилал устгах
 window.confirmDeleteSector = function (key, name) {
   deleteTarget = { type: "sector", id: key, name };
-  document.getElementById("deleteMessage").textContent = `"${name}" салбарыг устгахдаа итгэлтэй байна уу? Энэ салбарт хамаарах төслүүд салбаргүй болно.`;
+  document.getElementById("deleteMessage").textContent = `"${name}" ангилалыг устгахдаа итгэлтэй байна уу? Энэ ангилалд хамаарах төслүүд ангилалгүй болно.`;
   openModal("deleteModal");
 };
 
 // Бүх dropdown-д салбар жагсаалтыг шинэчлэх
 async function refreshSectorLists() {
   try {
-    const snap = await getDocs(collection(db, "sectors"));
-    const sectors = {};
-    snap.forEach((d) => { sectors[d.id] = d.data().name; });
+    // categoriesData байхгүй бол categories.json-аас ачаалах
+    if (!categoriesData.length) {
+      try {
+        const res = await fetch(CATEGORIES_PATH);
+        if (res.ok) categoriesData = await res.json();
+      } catch {}
+    }
 
     // SECTOR_NAMES шинэчлэх
     Object.keys(SECTOR_NAMES).forEach((k) => delete SECTOR_NAMES[k]);
-    Object.assign(SECTOR_NAMES, sectors);
+    categoriesData.forEach((cat) => { SECTOR_NAMES[cat.key] = cat.name; });
 
     // Төсөл нэмэх modal дахь select
     const projectSectorEl = document.getElementById("projectSector");
     if (projectSectorEl) {
       const val = projectSectorEl.value;
-      projectSectorEl.innerHTML = '<option value="">— Салбар сонгох —</option>';
-      for (const [key, name] of Object.entries(sectors)) {
-        projectSectorEl.innerHTML += `<option value="${key}">${escapeHtml(name)}</option>`;
-      }
+      projectSectorEl.innerHTML = '<option value="">— Ангилал сонгох —</option>';
+      categoriesData.forEach((cat) => {
+        projectSectorEl.innerHTML += `<option value="${cat.key}">${escapeHtml(cat.name)}</option>`;
+      });
       if (val) projectSectorEl.value = val;
     }
 
@@ -980,28 +1009,28 @@ async function refreshSectorLists() {
     const filterEl = document.getElementById("projectFilterSector");
     if (filterEl) {
       const val = filterEl.value;
-      filterEl.innerHTML = '<option value="all">Бүх салбар</option>';
-      for (const [key, name] of Object.entries(sectors)) {
-        filterEl.innerHTML += `<option value="${key}">${escapeHtml(name)}</option>`;
-      }
+      filterEl.innerHTML = '<option value="all">Бүх ангилал</option>';
+      categoriesData.forEach((cat) => {
+        filterEl.innerHTML += `<option value="${cat.key}">${escapeHtml(cat.name)}</option>`;
+      });
       if (val) filterEl.value = val;
     }
 
-    // Дэд админ салбар checkbox
+    // Дэд админ ангилал checkbox
     const permEl = document.getElementById("sectorPermissions");
     if (permEl) {
       const checked = [];
       permEl.querySelectorAll("input:checked").forEach((cb) => checked.push(cb.value));
       permEl.innerHTML = "";
-      for (const [key, name] of Object.entries(sectors)) {
-        const isChecked = checked.includes(key) ? "checked" : "";
-        permEl.innerHTML += `<label><input type="checkbox" value="${key}" ${isChecked}> ${escapeHtml(name)}</label>`;
-      }
+      categoriesData.forEach((cat) => {
+        const isChecked = checked.includes(cat.key) ? "checked" : "";
+        permEl.innerHTML += `<label><input type="checkbox" value="${cat.key}" ${isChecked}> ${escapeHtml(cat.name)}</label>`;
+      });
     }
 
     // Dashboard stat
     const statEl = document.getElementById("statSectors");
-    if (statEl) statEl.textContent = Object.keys(sectors).length;
+    if (statEl) statEl.textContent = categoriesData.length;
 
   } catch (err) {
     console.error("Refresh sector lists error:", err);

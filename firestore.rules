@@ -27,6 +27,12 @@ service cloud.firestore {
       allow delete: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
     }
 
+    // Тохиргоо (categories гэх мэт)
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if request.auth != null && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+    }
+
     // Үйлдлийн лог
     match /activity_log/{logId} {
       allow read: if request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));

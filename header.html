@@ -24,88 +24,8 @@
                                         <li>
                                             <div class="container">
                                                 <div class="sb-menu p-4">
-                                                    <div class="row g-3">
-
-                                                        <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                            <a class="mega-cat-card" href="tusul.html?cat=energy">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                    <img src="images/demo/homepage-2.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                </div>
-                                                                <h6 class="mt-3">ЭРЧИМ ХҮЧ</h6>
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                            <a class="mega-cat-card" href="tusul.html?cat=mining">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                    <img src="images/demo/homepage-3.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                </div>
-                                                                <h6 class="mt-3">УУЛ УУРХАЙ</h6>
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                            <a class="mega-cat-card" href="tusul.html?cat=environment">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                    <img src="images/demo/homepage-4.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                </div>
-                                                                <h6 class="mt-3">БАЙГАЛЬ ОРЧИН</h6>
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                            <a class="mega-cat-card" href="tusul.html?cat=infra">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                    <img src="images/demo/homepage-5.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                </div>
-                                                                <h6 class="mt-3">ДЭД БҮТЭЦ</h6>
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                            <a class="mega-cat-card" href="tusul.html?cat=edu">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                    <img src="images/demo/homepage-6.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                </div>
-                                                                <h6 class="mt-3">БОЛОВСРОЛ</h6>
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                            <a class="mega-cat-card" href="tusul.html?cat=culture">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                    <img src="images/demo/homepage-7.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                </div>
-                                                                <h6 class="mt-3">СОЁЛ</h6>
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                            <a class="mega-cat-card" href="tusul.html?cat=health">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                    <img src="images/demo/homepage-8.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                </div>
-                                                                <h6 class="mt-3">ЭРҮҮЛ МЭНД</h6>
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                            <a class="mega-cat-card" href="tusul.html?cat=social">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                    <img src="images/demo/homepage-9.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                </div>
-                                                                <h6 class="mt-3">НИЙГЭМ</h6>
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="col-lg-2 col-md-4 col-sm-6 text-center">
-                                                            <a class="mega-cat-card" href="tusul.html?cat=agri">
-                                                                <div class="relative hover text-center overflow-hidden soft-shadow rounded-1">
-                                                                    <img src="images/demo/homepage-10.webp" class="w-100 relative hover-scale-1-1" alt="">
-                                                                </div>
-                                                                <h6 class="mt-3">ХӨДӨӨ АЖ АХУЙ</h6>
-                                                            </a>
-                                                        </div>
+                                                    <div class="row g-3" id="mega-categories">
+                                                        <!-- categories.json-аас динамикаар ачаална -->
 
                                                         <style>
                                                           .mega-cat-card {
@@ -168,4 +88,39 @@
             </div>
         </div>
     </div>
+<script>
+(function(){
+  var basePath = '';
+  var scripts = document.querySelectorAll('script[src*="site-header"]');
+  if (scripts.length) {
+    var src = scripts[0].getAttribute('src');
+    if (src.indexOf('../') === 0) basePath = '../';
+  }
+  // header.html нь projects/ дотроос ч ачаалагддаг тул path олох
+  var links = document.querySelectorAll('#logo a');
+  if (links.length) {
+    var href = links[0].getAttribute('href');
+    if (href && href.indexOf('../') === 0) basePath = '../';
+  }
+  var container = document.getElementById('mega-categories');
+  if (!container) return;
+  fetch(basePath + 'data/categories.json')
+    .then(function(r){ return r.json(); })
+    .then(function(cats){
+      cats.forEach(function(cat){
+        var col = document.createElement('div');
+        col.className = 'col-lg-2 col-md-4 col-sm-6 text-center';
+        col.innerHTML =
+          '<a class="mega-cat-card" href="' + basePath + 'tusul.html?cat=' + cat.key + '">' +
+            '<div class="relative hover text-center overflow-hidden soft-shadow rounded-1">' +
+              '<img src="' + basePath + cat.image + '" class="w-100 relative hover-scale-1-1" alt="' + cat.name + '">' +
+            '</div>' +
+            '<h6 class="mt-3">' + cat.name.toUpperCase() + '</h6>' +
+          '</a>';
+        container.appendChild(col);
+      });
+    })
+    .catch(function(e){ console.warn('Categories load failed:', e); });
+})();
+</script>
 </header>

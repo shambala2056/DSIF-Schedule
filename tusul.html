@@ -266,16 +266,25 @@
             <div id="sticky-filter">
               <div class="d-flex gap-2" id="cat-pills">
                 <button class="cat-pill active" data-cat="all">Бүгд</button>
-                <button class="cat-pill" data-cat="energy">Эрчим хүч</button>
-                <button class="cat-pill" data-cat="mining">Уул уурхай</button>
-                <button class="cat-pill" data-cat="environment">Байгаль орчин</button>
-                <button class="cat-pill" data-cat="infra">Дэд бүтэц</button>
-                <button class="cat-pill" data-cat="edu">Боловсрол</button>
-                <button class="cat-pill" data-cat="culture">Соёл</button>
-                <button class="cat-pill" data-cat="health">Эрүүл мэнд</button>
-                <button class="cat-pill" data-cat="social">Нийгэм</button>
-                <button class="cat-pill" data-cat="agri">Хөдөө аж ахуй</button>
+                <!-- categories.json-аас динамикаар ачаална -->
               </div>
+              <script>
+              (function(){
+                fetch('data/categories.json')
+                  .then(function(r){ return r.json(); })
+                  .then(function(cats){
+                    var container = document.getElementById('cat-pills');
+                    cats.forEach(function(cat){
+                      var btn = document.createElement('button');
+                      btn.className = 'cat-pill';
+                      btn.dataset.cat = cat.key;
+                      btn.textContent = cat.name;
+                      container.appendChild(btn);
+                    });
+                    if (typeof initCatPills === 'function') initCatPills();
+                  });
+              })();
+              </script>
               <div class="filter-controls">
                 <div class="project-search-wrap">
                   <button type="button" class="search-toggle" aria-label="Хайх" title="Хайх">
@@ -728,7 +737,7 @@
             flex: 1 1 auto;
             min-width: 0;
             display: flex;
-            gap: 6px 4px;
+            gap: 4px 0;
             flex-wrap: wrap !important;
             overflow: visible;
             justify-content: flex-start;
@@ -779,11 +788,11 @@
             border: none;
             color: #fff;
             border-radius: 50px;
-            padding: 7px 16px;
+            padding: 7px 10px;
             font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             cursor: pointer;
             transition: all .2s;
             white-space: nowrap;
