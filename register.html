@@ -343,14 +343,15 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
-        lastname:  data.lastname,
-        firstname: data.firstname,
-        phone:     data.phone,
-        email:     data.email,
-        org:       data.org,
-        role:      data.role,
-        hotel:     data.hotel + (data.hotelCount ? ' — ' + data.hotelCount : ''),
-        regNumber: regNum,
+        lastname:   data.lastname,
+        firstname:  data.firstname,
+        phone:      data.phone,
+        email:      data.email,
+        org:        data.org,
+        role:       data.role,
+        hotel:      data.hotel,
+        hotelCount: data.hotelCount || '',
+        regNumber:  regNum,
       })
     }).catch(() => {});
     showSuccess(data, regNum);
