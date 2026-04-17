@@ -337,6 +337,22 @@ document.getElementById('reg-form').addEventListener('submit', async function(e)
         throw new Error(t.firebaseErr);
       }
     }
+    // Sheets руу шууд sync (fire-and-forget)
+    fetch('https://script.google.com/macros/s/AKfycbz-bIGyH6kmz9BztyBWwIxPJlTLwWm4UoQa5XCLeWY2pB_8ck7cHJf85QA9lTYVb1mKhA/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        lastname:  data.lastname,
+        firstname: data.firstname,
+        phone:     data.phone,
+        email:     data.email,
+        org:       data.org,
+        role:      data.role,
+        hotel:     data.hotel + (data.hotelCount ? ' — ' + data.hotelCount : ''),
+        regNumber: regNum,
+      })
+    }).catch(() => {});
     showSuccess(data, regNum);
   } catch(err) {
     console.error(err);

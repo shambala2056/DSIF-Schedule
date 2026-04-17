@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<title>Firebase → Google Sheets Export</title>
+<style>
+  body { font-family: monospace; background: #0a0f1e; color: #fff; padding: 40px; }
+  h2 { color: #00b352; margin-bottom: 20px; }
+  #log { background: rgba(255,255,255,.05); padding: 20px; border: 1px solid rgba(255,255,255,.1); min-height: 200px; white-space: pre-wrap; font-size: .8rem; line-height: 1.8; }
+  button { padding: 14px 40px; background: #00b352; color: #fff; border: none; font-family: monospace; font-size: .9rem; font-weight: 700; cursor: pointer; margin-bottom: 20px; }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  .ok { color: #00b352; }
+  .err { color: #e63946; }
+  .info { color: rgba(255,255,255,.5); }
+</style>
+</head>
+<body>
+<h2>Firebase → Google Sheets нэг удаагийн export</h2>
+<button id="btn" onclick="run()">Бүртгэлүүдийг Google Sheet-т нэмэх</button>
+<div id="log"><span class="info">Товч дарж эхлүүл...</span></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+  authDomain: "dsif-shedule.firebaseapp.com",
+  projectId: "dsif-shedule",
+  storageBucket: "dsif-shedule.firebasestorage.app",
+  messagingSenderId: "973476131387",
+  appId: "1:973476131387:web:b045fde8fe7f363b3b621e"
+};
+
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbz-bIGyH6kmz9BztyBWwIxPJlTLwWm4UoQa5XCLeWY2pB_8ck7cHJf85QA9lTYVb1mKhA/exec';
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.run = async function() {
+  const btn = document.getElementById('btn');
+  const log = document.getElementById('log');
+  btn.disabled = true;
+  log.innerHTML = '<span class="info">Firebase-аас бүртгэлүүд татаж байна...</span>\n';
+
+  try {
+    const snap = await getDocs(collection(db, 'registrations'));
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    log.innerHTML += `<span class="ok">✓ ${docs.length} бүртгэл олдлоо</span>\n\n`;
+
+    let success = 0, fail = 0;
+    for (const data of docs) {
+      try {
+        await fetch(SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {'Content-Type':'text/plain'},
+          body: JSON.stringify({
+            lastname:  data.lastname  || '',
+            firstname: data.firstname || '',
+            phone:     data.phone     || '',
+            email:     data.email     || '',
+            org:       data.org       || '',
+            role:      data.role      || '',
+            hotel:     data.hotel     || data.hotelCount || '',
+            regNumber: data.regNumber || data.id || '',
+          })
+        });
+        success++;
+        log.innerHTML += `<span class="ok">✓</span> ${data.lastname || ''} ${data.firstname || ''} — ${data.regNumber || data.id}\n`;
+      } catch(e) {
+        fail++;
+        log.innerHTML += `<span class="err">✗</span> ${data.id} — алдаа: ${e.message}\n`;
+      }
+      // жижиг хугацаа авах
+      await new Promise(r => setTimeout(r, 300));
+    }
+
+    log.innerHTML += `\n<span class="ok">━━ Дууслаа: ${success} амжилттай${fail ? ', ' + fail + ' алдаатай' : ''} ━━</span>`;
+  } catch(e) {
+    log.innerHTML += `<span class="err">Firebase алдаа: ${e.message}</span>`;
+  }
+  btn.disabled = false;
+};
+</script>
+</body>
+</html>
