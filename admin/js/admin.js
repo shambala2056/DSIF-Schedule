@@ -170,7 +170,8 @@ const SECTION_TITLES = {
   "sub-admins": "Дэд админ",
   roles: "Эрхийн тохиргоо",
   sectors: "Төслийн ангилал",
-  menu: "Цэс тохиргоо"
+  menu: "Цэс тохиргоо",
+  funding: "Санхүүжилт тохиргоо"
 };
 
 // ── Sidebar навигаци ──
@@ -198,6 +199,7 @@ document.querySelectorAll(".sidebar-nav a[data-section]").forEach((link) => {
     if (section === "sub-admins") loadSubAdmins();
     if (section === "sectors") loadSectors();
     if (section === "menu") loadMenu();
+    if (section === "funding") loadFundingSettings();
 
     // Mobile: sidebar хаах
     document.getElementById("sidebar").classList.remove("open");
@@ -1870,3 +1872,90 @@ function getRoleBadge(role) {
   };
   return `<span class="badge ${cls[role] || "badge-viewer"}">${ROLE_LABELS[role] || role}</span>`;
 }
+
+// ═══════════════════════════════════════
+//  FUNDING SETTINGS (нээх/хаах + хүсэлтийн жагсаалт)
+// ═══════════════════════════════════════
+async function loadFundingSettings() {
+  // 1) Одоогийн тохиргоог унших
+  try {
+    const snap = await getDoc(doc(db, "settings", "funding"));
+    const enabled = snap.exists() ? snap.data().enabled !== false : true;
+    updateFundingToggleUI(enabled);
+  } catch (e) {
+    console.warn("Funding settings load:", e);
+    updateFundingToggleUI(true);
+  }
+
+  // 2) Санхүүжилтийн хүсэлтүүдийг жагсаах
+  try {
+    const q = query(collection(db, "fundings"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    const tbody = document.getElementById("fundingRequestsTable");
+    if (!tbody) return;
+    if (snap.empty) {
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжилтийн хүсэлт байхгүй</p></td></tr>';
+      return;
+    }
+    tbody.innerHTML = "";
+    snap.forEach((d) => {
+      const data = d.data();
+      const date = data.createdAt ? formatDate(data.createdAt.toDate()) : "—";
+      const name = data.type === "org"
+        ? `${escapeHtml(data.orgName || "")}<br><small style="opacity:.6">${escapeHtml(data.person || "")}</small>`
+        : escapeHtml(data.name || "");
+      const amount = (parseFloat(data.amount) || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+      const typeBadge = data.type === "org"
+        ? '<span class="badge badge-admin">Байгууллага</span>'
+        : '<span class="badge badge-sub-admin">Хувь хүн</span>';
+      tbody.innerHTML += `<tr>
+        <td style="font-size:11px">${date}</td>
+        <td>${escapeHtml((data.project || "").substring(0, 50))}${(data.project || "").length > 50 ? "…" : ""}</td>
+        <td>${name}</td>
+        <td>${escapeHtml(data.phone || "—")}</td>
+        <td style="font-weight:700;color:var(--admin-primary)">${amount}</td>
+        <td>${typeBadge}</td>
+      </tr>`;
+    });
+  } catch (e) {
+    console.warn("Funding requests load:", e);
+  }
+}
+
+function updateFundingToggleUI(enabled) {
+  const toggle = document.getElementById("fundingToggle");
+  const label = document.getElementById("fundingStatusText");
+  const track = document.querySelector(".funding-switch .toggle-track");
+  const thumb = document.querySelector(".funding-switch .toggle-thumb");
+  if (toggle) toggle.checked = enabled;
+  if (label) {
+    label.textContent = enabled ? "Нээлттэй" : "Хаалттай";
+    label.style.color = enabled ? "var(--admin-primary)" : "#c44";
+  }
+  if (track) track.style.background = enabled ? "var(--admin-primary)" : "#c44";
+  if (thumb) thumb.style.left = enabled ? "28px" : "3px";
+}
+
+// Toggle click handler
+document.addEventListener("click", async (e) => {
+  const sw = e.target.closest(".funding-switch");
+  if (!sw) return;
+  e.preventDefault();
+  const toggle = document.getElementById("fundingToggle");
+  if (!toggle) return;
+  const newVal = !toggle.checked;
+  updateFundingToggleUI(newVal);
+  try {
+    await setDoc(doc(db, "settings", "funding"), {
+      enabled: newVal,
+      updatedAt: serverTimestamp(),
+      updatedBy: currentUser ? currentUser.uid : null
+    });
+    await logActivity(`Санхүүжилтийн функцийг ${newVal ? "нээв" : "хаав"}`);
+    showToast(`Санхүүжилт ${newVal ? "нээгдлээ" : "хаагдлаа"}`, "success");
+  } catch (err) {
+    console.error("Funding toggle error:", err);
+    showToast("Алдаа: " + err.message, "error");
+    updateFundingToggleUI(!newVal); // revert
+  }
+});

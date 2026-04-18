@@ -235,6 +235,10 @@
       body:not(.dark-scheme) nav[aria-label="breadcrumb"] { color: #555 !important; }
     </style>
 
+<style>
+  /* Override тема CSS-ийн body { overflow: hidden } — scroll идэвхжүүлнэ */
+  html, body { overflow-x: hidden !important; overflow-y: auto !important; height: auto !important; }
+</style>
 </head>
 
 <body class="dark-scheme">
@@ -257,7 +261,7 @@
         
 
         <!-- Projects Discovery Page -->
-        <section class="bg-dark section-dark text-light" style="padding-top:100px;min-height:100vh;" aria-label="section-projects">
+        <section class="bg-dark section-dark text-light" style="padding-top:100px;padding-bottom:120px;" aria-label="section-projects">
           <div class="container-fluid px-4 px-lg-5">
 
  
@@ -267,26 +271,24 @@
               <div class="d-flex gap-2" id="cat-pills">
                 <button class="cat-pill active" data-cat="all">Бүгд</button>
                 <button class="cat-pill" data-cat="energy">Эрчим хүч</button>
-                <button class="cat-pill" data-cat="mining">Уул уурхай</button>
+                <button class="cat-pill" data-cat="mining">Аялал жуулчлал</button>
                 <button class="cat-pill" data-cat="environment">Байгаль орчин</button>
                 <button class="cat-pill" data-cat="infra">Дэд бүтэц</button>
                 <button class="cat-pill" data-cat="edu">Боловсрол</button>
                 <button class="cat-pill" data-cat="culture">Соёл</button>
                 <button class="cat-pill" data-cat="health">Эрүүл мэнд</button>
-                <button class="cat-pill" data-cat="social">Нийгэм</button>
                 <button class="cat-pill" data-cat="agri">Хөдөө аж ахуй</button>
               </div>
               <!-- Mobile dropdown — desktop-д нуугдана -->
               <select id="cat-select" style="display:none">
                 <option value="all">Бүгд</option>
                 <option value="energy">Эрчим хүч</option>
-                <option value="mining">Уул уурхай</option>
+                <option value="mining">Аялал жуулчлал</option>
                 <option value="environment">Байгаль орчин</option>
                 <option value="infra">Дэд бүтэц</option>
                 <option value="edu">Боловсрол</option>
                 <option value="culture">Соёл</option>
                 <option value="health">Эрүүл мэнд</option>
-                <option value="social">Нийгэм</option>
                 <option value="agri">Хөдөө аж ахуй</option>
               </select>
               <div class="filter-controls">
@@ -387,11 +389,11 @@
                 </div>
               </div>
 
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="mining" data-name="Уул уурхай аюулгүй байдал" data-funded="72" data-days="18" data-backers="504" data-newest="6">
+              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="mining" data-name="Аялал жуулчлал аюулгүй байдал" data-funded="72" data-days="18" data-backers="504" data-newest="6">
                 <div class="pcard h-100">
                   <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-3.webp" alt="Уул уурхай" class="pcard-img">
-                    <span class="pcard-badge">Уул уурхай</span>
+                    <img src="images/demo/homepage-3.webp" alt="Аялал жуулчлал" class="pcard-img">
+                    <span class="pcard-badge">Аялал жуулчлал</span>
                   </div>
                   <div class="pcard-body">
                     <h5 class="pcard-title">Уурхайн ажилчдын аюулгүй байдлын систем</h5>
@@ -435,28 +437,6 @@
                       <div><span class="pstat-val" style="color:var(--accent-color)">55%</span><span class="pstat-lbl">санхүүжсэн</span></div>
                       <div><span class="pstat-val">189</span><span class="pstat-lbl">оролцогч</span></div>
                       <div><span class="pstat-val">22</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="social" data-name="Нийгмийн дэмжлэг" data-funded="38" data-days="40" data-backers="97" data-newest="8">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-9.webp" alt="Нийгэм" class="pcard-img">
-                    <span class="pcard-badge">Нийгэм</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Ахмад настны халамжийн төв</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> С. Мөнхзул</p>
-                    <p class="pcard-desc">Нийслэлийн захад ахмад настнуудад зориулсан орчин үеийн асрамжийн газар.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:38%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">38%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">97</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">40</span><span class="pstat-lbl">хоног</span></div>
                     </div>
                   </div>
                 </div>
@@ -576,8 +556,8 @@
               <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="mining" data-name="Уурхайн хаягдал" data-funded="42" data-days="38" data-backers="143" data-newest="16">
                 <div class="pcard h-100">
                   <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-2.webp" alt="Уул уурхай" class="pcard-img">
-                    <span class="pcard-badge">Уул уурхай</span>
+                    <img src="images/demo/homepage-2.webp" alt="Аялал жуулчлал" class="pcard-img">
+                    <span class="pcard-badge">Аялал жуулчлал</span>
                   </div>
                   <div class="pcard-body">
                     <h5 class="pcard-title">Уурхайн хаягдлын боловсруулалт</h5>
@@ -595,27 +575,6 @@
                 </div>
               </div>
 
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="social" data-name="Залуучуудын хөгжил" data-funded="91" data-days="9" data-backers="557" data-newest="17">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-7.webp" alt="Нийгэм" class="pcard-img">
-                    <span class="pcard-badge">Нийгэм</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Залуучуудын манлайллын хөгжлийн хөтөлбөр</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> З. Нандинцэцэг</p>
-                    <p class="pcard-desc">Хөдөөгийн 200 залуу удирдагчид зориулсан нэг жилийн хөгжлийн хөтөлбөр.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:91%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">91%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">557</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">9</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="culture" data-name="Уламжлалт урлаг" data-funded="33" data-days="45" data-backers="88" data-newest="18">
                 <div class="pcard h-100">
@@ -642,16 +601,23 @@
             </div><!-- /project-grid -->
 
             <script>
-            // Зөвхөн "Дэд бүтэц" төслүүдийг үлдээх (бусад ангилалын төслүүдийг устгана)
+            // Hardcoded HTML төслүүдийг зөвхөн Google Sheet loader байгаа ангиллаас л устгана
+            // (health, environment, infra) — agri, energy, mining гэх мэт бусад ангиллын
+            // hardcoded картуудыг хэвээр үлдээнэ
             (function() {
-              function removeNonInfra() {
-                document.querySelectorAll('#project-grid .project-card').forEach(function(card) {
-                  if (card.dataset.cat !== 'infra') card.remove();
-                });
-              }
-              removeNonInfra();
-              var grid = document.getElementById('project-grid');
-              if (grid) new MutationObserver(removeNonInfra).observe(grid, { childList: true });
+              var sheetedCats = ['health', 'environment', 'infra', 'agri', 'edu', 'culture', 'social', 'energy', 'mining'];
+              var removed = 0;
+              var kept = {};
+              document.querySelectorAll('#project-grid .project-card').forEach(function(card) {
+                var cat = card.dataset.cat || 'unknown';
+                if (!card.dataset.sheetSource && sheetedCats.indexOf(cat) !== -1) {
+                  card.remove();
+                  removed++;
+                } else {
+                  kept[cat] = (kept[cat] || 0) + 1;
+                }
+              });
+              console.log('[tusul.html] Cleanup: устгасан', removed, ', үлдсэн:', kept);
             })();
             </script>
 
@@ -673,25 +639,21 @@
                   <div class="fund-tab-content active" id="fund-tab-org">
                     <form id="fundOrgForm">
                       <div class="fund-field">
-                        <label>Байгууллага</label>
                         <input type="text" id="fundOrgName" placeholder="Байгууллагын нэр" required>
                       </div>
                       <div class="fund-field">
-                        <label>Албан тушаал</label>
                         <input type="text" id="fundOrgPosition" placeholder="Албан тушаал" required>
                       </div>
                       <div class="fund-field">
-                        <label>Овог, нэр</label>
                         <input type="text" id="fundOrgPerson" placeholder="Овог нэр" required>
                       </div>
                       <div class="fund-field">
-                        <label>Утас</label>
-                        <input type="tel" id="fundOrgPhone" placeholder="99112233" required pattern="[0-9]{6,12}" inputmode="numeric" maxlength="12">
+                        <input type="tel" id="fundOrgPhone" placeholder="Утасны дугаар" required pattern="[0-9]{6,12}" inputmode="numeric" maxlength="12">
                       </div>
                       <div class="fund-field fund-amount-field">
                         <label>Санхүүжүүлэх дүн (₮) <span class="fund-amount-display" id="fundOrgAmountDisplay">0</span></label>
                         <input type="range" id="fundOrgAmountRange" class="fund-range" min="100000" max="1000000000" step="100000" value="1000000">
-                        <input type="number" id="fundOrgAmount" placeholder="Дүнгээ оруулна уу" min="1" required>
+                        <input type="text" id="fundOrgAmount" placeholder="Дүнгээ оруулна уу" inputmode="numeric" required>
                       </div>
                       <p class="fund-submit-note" id="fundOrgSubmitNote">Та төсөл санхүүжүүлэх гэж байна</p>
                       <button type="submit" class="fund-submit"><i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх</button>
@@ -702,17 +664,15 @@
                   <div class="fund-tab-content" id="fund-tab-person">
                     <form id="fundPersonForm">
                       <div class="fund-field">
-                        <label>Овог, нэр</label>
                         <input type="text" id="fundPersonName" placeholder="Овог нэр" required>
                       </div>
                       <div class="fund-field">
-                        <label>Утас</label>
-                        <input type="tel" id="fundPersonPhone" placeholder="99112233" required pattern="[0-9]{6,12}" inputmode="numeric" maxlength="12">
+                        <input type="tel" id="fundPersonPhone" placeholder="Утасны дугаар" required pattern="[0-9]{6,12}" inputmode="numeric" maxlength="12">
                       </div>
                       <div class="fund-field fund-amount-field">
                         <label>Санхүүжүүлэх дүн (₮) <span class="fund-amount-display" id="fundPersonAmountDisplay">0</span></label>
                         <input type="range" id="fundPersonAmountRange" class="fund-range" min="10000" max="50000000" step="10000" value="100000">
-                        <input type="number" id="fundPersonAmount" placeholder="Дүнгээ оруулна уу" min="1" required>
+                        <input type="text" id="fundPersonAmount" placeholder="Дүнгээ оруулна уу" inputmode="numeric" required>
                       </div>
                       <p class="fund-submit-note" id="fundPersonSubmitNote">Та төсөл санхүүжүүлэх гэж байна</p>
                       <button type="submit" class="fund-submit"><i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх</button>
@@ -770,22 +730,35 @@
                 var num = document.getElementById(numberId);
                 var disp = document.getElementById(displayId);
                 if (!range || !num) return;
+                function formatWithCommas(n) {
+                  return Number(n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
                 function updateFromRange() {
-                  num.value = range.value;
+                  num.value = formatWithCommas(range.value);
                   if (disp) disp.textContent = fmtNum(range.value);
                 }
                 function updateFromNumber() {
-                  var v = parseInt(num.value) || 0;
+                  // Оруулсан тэмдэгтээс зөвхөн тооны утгуудыг авах
+                  var raw = (num.value || '').replace(/[^0-9]/g, '');
+                  var v = parseInt(raw) || 0;
                   // Clamp to range min/max
                   if (v < parseInt(range.min)) v = parseInt(range.min);
                   if (v > parseInt(range.max)) v = parseInt(range.max);
                   range.value = v;
-                  if (disp) disp.textContent = fmtNum(num.value || 0);
+                  // Caret-ийн байрлалыг хадгалах
+                  var caret = num.selectionStart;
+                  var oldLen = num.value.length;
+                  num.value = formatWithCommas(raw);
+                  var newLen = num.value.length;
+                  if (document.activeElement === num) {
+                    try { num.setSelectionRange(caret + (newLen - oldLen), caret + (newLen - oldLen)); } catch(e){}
+                  }
+                  if (disp) disp.textContent = fmtNum(raw || 0);
                 }
                 range.addEventListener('input', updateFromRange);
                 num.addEventListener('input', updateFromNumber);
                 // Анхны утга тохируулах
-                num.value = range.value;
+                num.value = formatWithCommas(range.value);
                 if (disp) disp.textContent = fmtNum(range.value);
               }
               bindFundRange('fundOrgAmountRange', 'fundOrgAmount', 'fundOrgAmountDisplay');
@@ -818,7 +791,7 @@
               currentFundProject = title ? title.textContent.trim() : '';
               // Дугаар "1." гэх мэтийг салгана
               var cleanTitle = currentFundProject.replace(/^\s*\d+\.\s*/, '');
-              document.getElementById('fundModalTitle').textContent = cleanTitle + ' — Санхүүжүүлэх';
+              document.getElementById('fundModalTitle').textContent = cleanTitle;
               document.getElementById('fundOrgForm').reset();
               document.getElementById('fundPersonForm').reset();
 
@@ -846,9 +819,7 @@
                 if (initVal < 1) initVal = 1;
                 range.value = initVal;
                 if (num) {
-                  num.min = 1;
-                  num.max = maxVal;
-                  num.value = initVal;
+                  num.value = Number(initVal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
                 if (disp) disp.textContent = Number(initVal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
               }
@@ -869,12 +840,16 @@
             });
 
             // Form submit
-            function validateAmount(inputId) {
+            function getAmountValue(inputId) {
               var input = document.getElementById(inputId);
-              var val = parseFloat(input.value) || 0;
+              var raw = (input.value || '').replace(/[^0-9]/g, '');
+              return parseFloat(raw) || 0;
+            }
+            function validateAmount(inputId) {
+              var val = getAmountValue(inputId);
               if (val <= 0) {
                 alert('Санхүүжүүлэх дүн 0-ээс их байх ёстой. Дүнгээ оруулна уу.');
-                input.focus();
+                document.getElementById(inputId).focus();
                 return false;
               }
               return true;
@@ -890,7 +865,7 @@
                 position: document.getElementById('fundOrgPosition').value,
                 person: document.getElementById('fundOrgPerson').value,
                 phone: document.getElementById('fundOrgPhone').value,
-                amount: document.getElementById('fundOrgAmount').value
+                amount: getAmountValue('fundOrgAmount')
               };
               saveFunding(data);
             });
@@ -903,7 +878,7 @@
                 project: currentFundProject,
                 name: document.getElementById('fundPersonName').value,
                 phone: document.getElementById('fundPersonPhone').value,
-                amount: document.getElementById('fundPersonAmount').value
+                amount: getAmountValue('fundPersonAmount')
               };
               saveFunding(data);
             });
@@ -968,7 +943,7 @@
                     <span class="fund-success-val fund-success-amount" id="fundSuccessAmount">—</span>
                   </div>
                 </div>
-                <p class="fund-success-note"><i class="fa fa-heart" style="color:#e74c3c"></i> Төслийн хөгжилд оруулсан таны хувь нэмэрт баярлалаа!</p>
+                <p class="fund-success-note">Төслийн хөгжилд оруулсан таны хувь нэмэрт баярлалаа!</p>
                 <button class="fund-success-close" onclick="closeFundSuccess()">Хаах</button>
               </div>
             </div>
@@ -987,7 +962,9 @@
               @keyframes fundSuccessFade { from { opacity: 0; } to { opacity: 1; } }
 
               .fund-success-modal {
-                background: #fff;
+                background: #151515;
+                color: #f0f0f0;
+                border: 1px solid rgba(255,255,255,.08);
                 border-radius: 16px;
                 padding: 32px 24px 24px;
                 width: 100%;
@@ -995,6 +972,13 @@
                 text-align: center;
                 box-shadow: 0 20px 60px rgba(0,0,0,.5);
                 animation: fundSuccessPop .4s cubic-bezier(.3, 1.5, .6, 1);
+                text-transform: uppercase;
+              }
+              .fund-success-modal * { text-transform: uppercase !important; }
+              body:not(.dark-scheme) .fund-success-modal {
+                background: #fff;
+                color: #1a1a1a;
+                border-color: rgba(0,0,0,.08);
               }
               @keyframes fundSuccessPop {
                 from { transform: scale(.8) translateY(20px); opacity: 0; }
@@ -1022,22 +1006,27 @@
                 margin: 0 0 6px;
                 font-size: 22px;
                 font-weight: 800;
-                color: #4bac48;
+                color: #4bac48 !important;
                 letter-spacing: .5px;
               }
               .fund-success-sub {
                 font-size: 13px;
-                color: #666;
+                color: #aaa;
                 margin: 0 0 20px;
                 line-height: 1.5;
               }
+              body:not(.dark-scheme) .fund-success-sub { color: #666; }
               .fund-success-info {
-                background: rgba(75,172,72,0.06);
-                border: 1px solid rgba(75,172,72,0.2);
+                background: rgba(75,172,72,0.08);
+                border: 1px solid rgba(75,172,72,0.25);
                 border-radius: 10px;
                 padding: 14px 16px;
                 margin-bottom: 16px;
                 text-align: left;
+              }
+              body:not(.dark-scheme) .fund-success-info {
+                background: rgba(75,172,72,0.06);
+                border-color: rgba(75,172,72,0.2);
               }
               .fund-success-row {
                 display: flex;
@@ -1045,7 +1034,7 @@
                 align-items: center;
                 gap: 12px;
                 padding: 6px 0;
-                border-bottom: 1px dashed rgba(75,172,72,0.15);
+                border-bottom: 1px dashed rgba(75,172,72,0.2);
               }
               .fund-success-row:last-child { border-bottom: none; }
               .fund-success-lbl {
@@ -1058,12 +1047,13 @@
               }
               .fund-success-val {
                 font-size: 13px;
-                color: #333;
+                color: #e8e8e8;
                 font-weight: 600;
                 text-align: right;
                 line-height: 1.4;
                 flex: 1;
               }
+              body:not(.dark-scheme) .fund-success-val { color: #333; }
               .fund-success-amount {
                 color: #4bac48 !important;
                 font-size: 16px !important;
@@ -1071,10 +1061,12 @@
               }
               .fund-success-note {
                 font-size: 12px;
-                color: #777;
+                color: #4bac48;
+                font-weight: 600;
                 margin: 0 0 18px;
                 line-height: 1.5;
               }
+              body:not(.dark-scheme) .fund-success-note { color: #2e7d2c; }
               .fund-success-close {
                 width: 100%;
                 padding: 11px;
@@ -1226,10 +1218,16 @@
               height: 34px;
             }
 
-            /* Section padding — нягт, шахуу байрлал */
+            /* Section padding — нягт, шахуу байрлал, mobile nav-д зориулсан доод зай */
             section[aria-label="section-projects"] {
               padding-top: 110px !important;
-              padding-bottom: 40px !important;
+              padding-bottom: 100px !important;
+              min-height: auto !important;
+              height: auto !important;
+              overflow: visible !important;
+            }
+            #project-grid {
+              padding-bottom: 20px;
             }
           }
           /* Extra-narrow phone */
@@ -1422,8 +1420,8 @@
             .project-card .pcard {
               flex-direction: column !important;
               align-items: stretch !important;
-              padding: 14px 14px 12px !important;
-              gap: 8px !important;
+              padding: 8px 12px !important;
+              gap: 2px !important;
               border-radius: 10px;
               background: rgba(255,255,255,0.03) !important;
               border: 1px solid rgba(75,172,72,0.22) !important;
@@ -1443,7 +1441,7 @@
               align-items: stretch !important;
               justify-content: flex-start !important;
               flex: 1 1 auto !important;
-              gap: 6px !important;
+              gap: 2px !important;
               width: 100% !important;
               padding: 0 !important;
               min-width: 0 !important;
@@ -1464,11 +1462,12 @@
             /* Гарчиг — b2b-text шиг UPPERCASE, тунгалаг */
             .project-card .pcard-title {
               font-size: 13px;
-              line-height: 1.4;
+              line-height: 1.2;
               font-weight: 400;
               text-transform: uppercase;
               letter-spacing: .3px;
-              margin: 0;
+              margin: 0 0 1px 0;
+              padding: 0;
               display: -webkit-box;
               -webkit-line-clamp: 3;
               line-clamp: 3;
@@ -1480,8 +1479,8 @@
 
             /* Дугаар — b2b-time шиг ногоон */
             .pcard-num {
-              min-width: auto;
-              margin-right: 6px;
+              min-width: 0;
+              margin-right: 2px;
               font-size: 12px;
               font-weight: 600;
               color: #4bac48 !important;
@@ -1490,9 +1489,11 @@
             /* Байгууллага — b2b-meta шиг саарал, жижиг */
             .project-card .pcard-creator {
               font-size: 11px;
+              line-height: 1.2;
               color: #9aa0a6;
               font-weight: 400;
               margin: 0;
+              padding: 0;
               display: flex;
               align-items: center;
               gap: 4px;
@@ -1504,8 +1505,8 @@
             .pcard-progress-row {
               flex: 0 0 auto !important;
               width: 100% !important;
-              margin: 2px 0 !important;
-              gap: 8px;
+              margin: 0 !important;
+              gap: 6px;
               display: flex;
               align-items: center;
             }
@@ -1534,39 +1535,44 @@
             .project-card .pcard-stats {
               display: flex !important;
               flex-direction: column !important;
-              gap: 6px !important;
+              gap: 0 !important;
               width: 100%;
-              padding: 8px 0 4px !important;
+              padding: 2px 0 0 !important;
               border-top: 1px solid rgba(75,172,72,0.2) !important;
               margin: 2px 0 0 !important;
             }
             .project-card .pcard-stats > div {
-              padding: 6px 0 !important;
-              align-items: flex-start !important;
+              padding: 1px 0 !important;
+              align-items: center !important;
               text-align: left !important;
               flex-direction: row !important;
               justify-content: space-between;
               gap: 8px;
               width: 100%;
-              border-bottom: 1px solid rgba(75,172,72,0.1);
+              border-bottom: 1px solid rgba(75,172,72,0.08);
+              line-height: 1.2;
             }
             .project-card .pcard-stats > div:last-child { border-bottom: none; }
             .project-card .pcard-stats .pstat-val {
               font-size: 12px !important;
               font-weight: 700 !important;
-              line-height: 1.3;
+              line-height: 1.15;
               color: #4bac48 !important;
               order: 2;
               text-align: right;
               flex: 0 0 auto;
+              margin: 0;
+              padding: 0;
             }
             body:not(.dark-scheme) .project-card .pcard-stats .pstat-val { color: #4bac48 !important; }
             .project-card .pcard-stats .pstat-lbl {
               font-size: 10px !important;
+              line-height: 1.15;
               letter-spacing: .8px !important;
               text-transform: uppercase !important;
               opacity: .65;
-              margin-top: 0 !important;
+              margin: 0 !important;
+              padding: 0 !important;
               font-weight: 600;
               order: 1;
               flex: 1 1 auto;
@@ -1791,27 +1797,34 @@
             color: #fff;
           }
 
-          /* Fund modal */
+          /* Fund modal — дэлгэцийн хамгийн дээд талд наалдсан */
           .fund-overlay {
             display: none;
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,.6);
             z-index: 10000;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
+            padding: 8px 12px 12px;
+            overflow-y: auto;
           }
           .fund-overlay.active { display: flex; }
           .fund-modal {
-            background: #111;
             border: 1px solid rgba(255,255,255,.1);
             border-radius: 12px;
-            width: 95%;
-            max-width: 420px;
+            width: 420px;
+            max-width: 100%;
             padding: 0;
             box-shadow: 0 8px 40px rgba(0,0,0,.4);
+            flex: 0 0 auto;
+            align-self: flex-start;
+            margin-top: 8px;
           }
-          body:not(.dark-scheme) .fund-modal { background: #fff; border-color: rgba(0,0,0,.1); }
+          @media (max-width: 480px) {
+            .fund-overlay { padding: 6px 8px 8px; }
+            .fund-modal { width: 100%; margin-top: 4px; }
+          }
           .fund-modal-header {
             display: flex;
             align-items: center;
@@ -1820,7 +1833,20 @@
             border-bottom: 1px solid rgba(255,255,255,.08);
           }
           body:not(.dark-scheme) .fund-modal-header { border-bottom-color: rgba(0,0,0,.08); }
-          .fund-modal-header h3 { font-size: 14px; font-weight: 700; margin: 0; }
+          .fund-modal-header h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 0;
+            text-align: justify;
+            text-indent: 22px;
+            flex: 1;
+            line-height: 1.35;
+          }
+          .fund-modal-header h3::after {
+            content: "";
+            display: inline-block;
+            width: 100%;
+          }
           .fund-modal-close { background: none; border: none; color: #888; font-size: 22px; cursor: pointer; }
           .fund-modal-body { padding: 14px 18px; }
           .fund-tabs { display: flex; gap: 0; margin-bottom: 12px; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); }
@@ -1842,41 +1868,79 @@
           .fund-tab-content.active { display: block; }
           .fund-field { margin-bottom: 10px; }
           .fund-field label { display: block; font-size: 10px; font-weight: 600; color: #888; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
-          .fund-modal, .fund-modal * { color: #1a1a1a !important; }
-          .fund-field label { color: #666 !important; }
-          .fund-modal-header h3 { color: #1a1a1a !important; }
-          .fund-modal-close { color: #666 !important; }
-          .fund-tab { color: #666 !important; }
-          .fund-tab.active { color: #fff !important; background: #4bac48 !important; }
-          .fund-submit { color: #fff !important; }
+          /* ═══ САНХҮҮЖҮҮЛЭХ МОДАЛ — THEME-AWARE ═══ */
+          .fund-modal, .fund-modal * { text-transform: uppercase !important; }
+          .fund-modal input, .fund-modal input::placeholder { text-transform: uppercase !important; }
 
+          /* ── DARK THEME (default) ── */
+          .fund-modal { background: #151515; border-color: rgba(255,255,255,.08); color: #f0f0f0; }
+          .fund-modal-header { border-bottom-color: rgba(255,255,255,.08); }
+          .fund-modal-header h3 { color: #f0f0f0; }
+          .fund-modal-close { color: #aaa; }
+          .fund-modal-close:hover { color: #fff; }
+          .fund-tabs { border-color: rgba(255,255,255,.1); }
+          .fund-tab { color: #9aa0a6; background: transparent; }
+          .fund-tab:hover { color: #ddd; }
+          .fund-tab.active { background: #4bac48 !important; color: #fff !important; }
+          .fund-field label { color: #4bac48; }
           .fund-field input, .fund-field select {
             width: 100%;
             padding: 8px 12px;
-            background: #f4f6f8;
-            border: 1px solid rgba(0,0,0,.12);
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.12);
             border-radius: 6px;
-            color: #555 !important;
+            color: #f0f0f0;
             font-size: 13px;
             font-weight: 500;
           }
-          body:not(.dark-scheme) .fund-field input,
-          body:not(.dark-scheme) .fund-field select { background: #f4f6f8; border-color: rgba(0,0,0,.1); color: #555; }
-          .fund-field input::placeholder,
-          .fund-field select::placeholder {
-            color: #9aa0a6 !important;
+          .fund-field input::placeholder, .fund-field select::placeholder {
+            color: #6b6e73 !important;
             opacity: 1;
             font-weight: 400;
           }
-          .fund-field input::-webkit-input-placeholder { color: #9aa0a6 !important; }
-          .fund-field input::-moz-placeholder { color: #9aa0a6 !important; opacity: 1; }
-          .fund-field input:-ms-input-placeholder { color: #9aa0a6 !important; }
           .fund-field input:focus, .fund-field select:focus {
             outline: none;
             border-color: #5a9a57;
-            color: #333 !important;
+            background: rgba(75,172,72,0.08);
           }
-          .fund-modal { background: #fff !important; }
+          .fund-submit-note {
+            background: rgba(75,172,72,0.12) !important;
+            color: #ccc !important;
+            border-left-color: #5a9a57;
+          }
+
+          /* ── LIGHT THEME ── */
+          body:not(.dark-scheme) .fund-modal {
+            background: #fff;
+            border-color: rgba(0,0,0,.1);
+            color: #1a1a1a;
+          }
+          body:not(.dark-scheme) .fund-modal-header { border-bottom-color: rgba(0,0,0,.08); }
+          body:not(.dark-scheme) .fund-modal-header h3 { color: #1a1a1a; }
+          body:not(.dark-scheme) .fund-modal-close { color: #666; }
+          body:not(.dark-scheme) .fund-modal-close:hover { color: #1a1a1a; }
+          body:not(.dark-scheme) .fund-tabs { border-color: rgba(0,0,0,.1); }
+          body:not(.dark-scheme) .fund-tab { color: #666; }
+          body:not(.dark-scheme) .fund-tab:hover { color: #1a1a1a; }
+          body:not(.dark-scheme) .fund-field label { color: #2e7d2c; }
+          body:not(.dark-scheme) .fund-field input,
+          body:not(.dark-scheme) .fund-field select {
+            background: #f4f6f8;
+            border-color: rgba(0,0,0,.1);
+            color: #1a1a1a;
+          }
+          body:not(.dark-scheme) .fund-field input::placeholder,
+          body:not(.dark-scheme) .fund-field select::placeholder {
+            color: #9aa0a6 !important;
+          }
+          body:not(.dark-scheme) .fund-field input:focus,
+          body:not(.dark-scheme) .fund-field select:focus {
+            background: #fff;
+          }
+          body:not(.dark-scheme) .fund-submit-note {
+            background: rgba(75,172,72,0.08) !important;
+            color: #4a4a4a !important;
+          }
 
           /* Санхүүжилтийн дүнгийн слайдер */
           .fund-amount-field .fund-amount-display {
@@ -2284,8 +2348,9 @@
         <script>
           (function () {
             var anchor = document.getElementById('health-cards-anchor');
-            if (!anchor) return;
-
+            if (anchor) anchor.remove();
+            return; // Manifest-ээс ирдэг hardcoded health төслүүд идэвхгүй — зөвхөн Google Sheet-ийн health картууд харагдана
+            // eslint-disable-next-line no-unreachable
             fetch('projects/health/manifest.json')
               .then(function (r) { return r.json(); })
               .then(function (slugs) {
@@ -2507,8 +2572,7 @@
             { k: "mining",      words: ["уул уурхай", "уурхай", "ашигт малтмал", "геологи", "үнэт металл", "нүүрс", "зэс"] },
             { k: "infra",       words: ["дэд бүтэц", "зам тээвэр", "төмөр зам", "авто зам", "цахилгаан шугам", "холбоо сүлжээ", "барилга", "гүүр", "интернэт"] },
             { k: "culture",     words: ["соёл урлаг", "соёл", "урлаг", "түүх өв", "соёлын өв", "музей", "театр", "уран зохиол"] },
-            { k: "agri",        words: ["хөдөө аж ахуй", "хаа", "малчн", "мал аж ахуй", "газар тариалан", "тариалан", "үр тариа", "ногоо", "мал сүрэг", "фермер"] },
-            { k: "social",      words: ["нийгмийн", "нийгэм", "ажлын байр", "халамж", "ядуурал", "хөгжлийн бэрхшээл", "ахмад", "залуучууд"] }
+            { k: "agri",        words: ["хөдөө аж ахуй", "хаа", "малчн", "мал аж ахуй", "газар тариалан", "тариалан", "үр тариа", "ногоо", "мал сүрэг", "фермер"] }
           ];
           function mapSector(txt) {
             if (!txt) return "";
@@ -2523,9 +2587,9 @@
           }
           function catLabel(key, fallback) {
             var labels = {
-              environment: "Байгаль орчин", energy: "Эрчим хүч", mining: "Уул уурхай",
+              environment: "Байгаль орчин", energy: "Эрчим хүч", mining: "Аялал жуулчлал",
               infra: "Дэд бүтэц", edu: "Боловсрол", culture: "Соёл",
-              health: "Эрүүл мэнд", social: "Нийгэм", agri: "Хөдөө аж ахуй"
+              health: "Эрүүл мэнд", agri: "Хөдөө аж ахуй"
             };
             return labels[key] || fallback || key;
           }
@@ -2755,6 +2819,11 @@
             font-weight: 700;
             flex: 1;
           }
+          .detail-modal,
+          .detail-modal * {
+            text-transform: uppercase !important;
+          }
+          .detail-modal-close { text-transform: none !important; }
           .detail-modal-close {
             background: none;
             border: none;
@@ -2868,8 +2937,8 @@
             display: inline-block;
             color: var(--accent-color, #4bac48);
             font-weight: 700;
-            margin-right: 6px;
-            min-width: 28px;
+            margin-right: 2px;
+            min-width: 0;
           }
 
           /* Прогресс бар + хувь (бар болон хувь ВСЕГДА нэг мөрөнд) */
@@ -2995,6 +3064,7 @@
             "Хэрэгжилтийн үе шат": "fa-layer-group",
             "Хэрэгжих хугацаа": "fa-clock",
             "Тайлбар": "fa-file-alt",
+            "Дэлгэрэнгүй тайлбар": "fa-file-alt",
             "Тулгарч буй асуудал": "fa-exclamation-triangle",
             "Шийдвэрлэхийг хүсэж буй зорилго": "fa-bullseye",
             "Хүлээгдэж буй үр дүн": "fa-chart-line",
@@ -3009,6 +3079,7 @@
           // Урт тайлбар шаарддаг талбаруудыг бүтэн өргөнөөр харуулна
           var DETAIL_WIDE = [
             "Тайлбар",
+            "Дэлгэрэнгүй тайлбар",
             "Тулгарч буй асуудал",
             "Шийдвэрлэхийг хүсэж буй зорилго",
             "Хүлээгдэж буй үр дүн",
@@ -3370,6 +3441,1060 @@
         })();
         </script>
 
+        <!-- ══════════════════════════════════════════════════════════════
+             ЭРҮҮЛ МЭНД GOOGLE SHEET LOADER
+             Эрүүл мэндийн төслүүдийг ангилалд албадан оруулна
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+        (function() {
+          var SHEET_ID = "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E";
+          var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&gid=0";
+          var FORCED_SECTOR = "health";
+          var FORCED_LABEL = "Эрүүл мэнд";
+          var LOG = "[Sheet:Health]";
+
+          function esc(s) {
+            return (s == null ? "" : s.toString()).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+          function parseNum(s) {
+            if (s == null || s === "") return NaN;
+            var str = s.toString().replace(/[,\s₮]/g, "").trim();
+            if (!str) return NaN;
+            return parseFloat(str);
+          }
+          function formatAmount(s) {
+            var num = parseNum(s);
+            if (!isFinite(num)) return s == null ? "" : s.toString();
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+          }
+
+          console.log(LOG, "Google Sheet уншиж байна...");
+          fetch(SHEET_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var start = text.indexOf("{");
+              var end = text.lastIndexOf("}");
+              if (start === -1 || end === -1) throw new Error("JSON олдсонгүй");
+              var json = JSON.parse(text.substring(start, end + 1));
+              var cols = (json.table.cols || []).map(function(c) { return (c.label || "").trim(); });
+              var rows = json.table.rows || [];
+              console.log(LOG, rows.length, "мөр ирлээ");
+
+              function colIdx(partial) {
+                for (var i = 0; i < cols.length; i++) {
+                  if (cols[i] && cols[i].toLowerCase().indexOf(partial.toLowerCase()) !== -1) return i;
+                }
+                return -1;
+              }
+              var iIndex    = 0; // C1 column (№) — картны дугаар болгоно
+              var iName     = colIdx("Төслийн нэр");
+              var iAmount   = colIdx("Нийт санхүүжилт");
+              var iDuration = colIdx("Хэрэгжих хугацаа");
+
+              var DETAIL_LABELS = [
+                "Төслийн ангилал", "Салбарын чиглэл", "Төсөл санаачлагч байгууллагын нэр",
+                "Ажлын хэлбэр", "Хэрэгжүүлэх байршил", "Хэрэгжилтийн үе шат",
+                "Тайлбар", "Тулгарч буй асуудал",
+                "Шийдвэрлэхийг хүсэж буй зорилго", "Хүлээгдэж буй үр дүн",
+                "Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?",
+                "Байгууллагын нэр", "Байгууллагын хэлбэр",
+                "И-мейл хаяг", "Холбоо барих утас"
+              ];
+
+              var grid = document.getElementById("project-grid");
+              if (!grid) return;
+
+              var added = 0;
+              var skipped = 0;
+              rows.forEach(function(r, rowIdx) {
+                try {
+                var cells = r.c || [];
+                function get(i) {
+                  if (i < 0 || i >= cells.length) return "";
+                  var c = cells[i];
+                  if (!c) return "";
+                  // gviz нь тоон утгад "f" (formatted string) талбартай байдаг
+                  if (c.f != null) return c.f.toString().trim();
+                  return c.v != null ? c.v.toString().trim() : "";
+                }
+                var title = get(iName);
+                if (!title) { skipped++; console.warn(LOG, "Мөр", rowIdx + 1, "— нэр хоосон, алгасав"); return; }
+
+                var amount = get(iAmount);
+                var duration = get(iDuration);
+                // C1 column (№) — индекс болгон ашиглана
+                var indexVal = get(iIndex) || String(added + 1);
+
+                var detailFields = DETAIL_LABELS.map(function(lbl) {
+                  var idx = colIdx(lbl);
+                  return { label: lbl, value: idx !== -1 ? get(idx) : "" };
+                });
+
+                var col = document.createElement("div");
+                col.className = "col-xl-3 col-lg-4 col-md-6 project-card";
+                col.dataset.cat = FORCED_SECTOR;
+                col.dataset.name = title;
+                col.dataset.funded = 0;
+                col.dataset.days = 0;
+                col.dataset.backers = 0;
+                col.dataset.newest = 3000 + rowIdx;
+                col.dataset.sheetSource = "health";
+                var amountNum = parseNum(amount);
+                if (isFinite(amountNum) && amountNum > 0) {
+                  col.dataset.projectAmount = Math.round(amountNum);
+                }
+
+                var creatorCol = colIdx("Байгууллагын нэр");
+                if (creatorCol === -1) creatorCol = colIdx("Төсөл санаачлагч");
+                var creator = creatorCol !== -1 ? get(creatorCol) : "";
+
+                var fundedPct = 0;
+                var barWidth = Math.max(0, Math.min(100, fundedPct));
+                var formattedAmount = formatAmount(amount) || "—";
+
+                col.innerHTML =
+                  '<div class="pcard h-100">' +
+                    '<div class="pcard-img-wrap">' +
+                      '<span class="pcard-badge">' + esc(FORCED_LABEL) + '</span>' +
+                    '</div>' +
+                    '<div class="pcard-body">' +
+                      '<h5 class="pcard-title" title="' + esc(title) + '"><span class="pcard-num">' + esc(indexVal) + '.</span> ' + esc(title) + '</h5>' +
+                      '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + esc(creator || "—") + '</p>' +
+                      '<div class="pcard-progress-row">' +
+                        '<div class="pcard-progress-wrap"><div class="pcard-progress-bar funded" style="width:' + barWidth + '%"></div></div>' +
+                        '<span class="pcard-progress-pct">' + fundedPct + '%</span>' +
+                      '</div>' +
+                      '<div class="pcard-stats">' +
+                        '<div><span class="pstat-val" style="color:var(--primary-color, #4bac48)">' + esc(formattedAmount) + '</span><span class="pstat-lbl">САНХҮҮЖИЛТ</span></div>' +
+                        '<div><span class="pstat-val">' + esc(duration || "—") + '</span><span class="pstat-lbl">ХУГАЦАА</span></div>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
+
+                var actions = document.createElement("div");
+                actions.className = "pcard-actions";
+                var fundBtn = document.createElement("button");
+                fundBtn.className = "pcard-fund-btn";
+                fundBtn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                fundBtn.addEventListener("click", function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (typeof openFundModal === "function") openFundModal(col);
+                });
+                actions.appendChild(fundBtn);
+                col.querySelector(".pcard").appendChild(actions);
+
+                col.querySelector(".pcard").addEventListener("click", function(e) {
+                  if (e.target.closest(".pcard-actions")) return;
+                  if (typeof openDetailModal === "function") openDetailModal(title, detailFields);
+                });
+
+                grid.appendChild(col);
+                added++;
+                console.log(LOG, "+ карт:", indexVal, title);
+                } catch(rowErr) {
+                  skipped++;
+                  console.error(LOG, "Мөр", rowIdx + 1, "— алдаа гарлаа, алгасав:", rowErr);
+                }
+              });
+
+              console.log(LOG, "Нийт", added, "эрүүл мэндийн төсөл нэмэгдлээ. Алгассан:", skipped);
+              if (typeof refreshFilters === "function") refreshFilters();
+            })
+            .catch(function(e) {
+              console.error(LOG, "Алдаа:", e);
+            });
+        })();
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             ХӨДӨӨ АЖ АХУЙ GOOGLE SHEET LOADER
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+        (function() {
+          var SHEET_ID = "133ZKSNTFJ2ZaA7MBZPu7PtdE1tSP7hUUh-RVIKhhew8";
+          var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&gid=0";
+          var FORCED_SECTOR = "agri";
+          var FORCED_LABEL = "Хөдөө аж ахуй";
+          var LOG = "[Sheet:Agri]";
+
+          function esc(s) {
+            return (s == null ? "" : s.toString()).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+          function parseNum(s) {
+            if (s == null || s === "") return NaN;
+            var str = s.toString().replace(/[,\s₮]/g, "").trim();
+            if (!str) return NaN;
+            return parseFloat(str);
+          }
+          function formatAmount(s) {
+            var num = parseNum(s);
+            if (!isFinite(num)) return s == null ? "" : s.toString();
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+          }
+
+          console.log(LOG, "Google Sheet уншиж байна...");
+          fetch(SHEET_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var start = text.indexOf("{");
+              var end = text.lastIndexOf("}");
+              if (start === -1 || end === -1) throw new Error("JSON олдсонгүй");
+              var json = JSON.parse(text.substring(start, end + 1));
+              var cols = (json.table.cols || []).map(function(c) { return (c.label || "").trim(); });
+              var rows = json.table.rows || [];
+              console.log(LOG, rows.length, "мөр ирлээ");
+
+              function colIdx(partial) {
+                for (var i = 0; i < cols.length; i++) {
+                  if (cols[i] && cols[i].toLowerCase().indexOf(partial.toLowerCase()) !== -1) return i;
+                }
+                return -1;
+              }
+              var iIndex    = 0; // "№" багана — картын дугаар
+              var iName     = colIdx("Төслийн нэр");
+              var iAmount   = colIdx("Нийт санхүүжилт");
+              var iDuration = colIdx("Хэрэгжих хугацаа");
+
+              var DETAIL_LABELS = [
+                "Төслийн ангилал", "Салбарын чиглэл", "Төсөл санаачлагч байгууллагын нэр",
+                "Санхүүжилтийн хэлбэр", "Бий болох ажлын байрны тоо",
+                "Хэрэгжүүлэх байршил", "Хөрөнгө оруулалт эргэх хугацаа (жил)",
+                "Хэрэгжилтийн үе шат", "Үйлдвэрийн хүчин чадал",
+                "Шаардлагатай газар нутаг", "Жилийн хүлээгдэж буй өгөөж",
+                "Тайлбар", "Эрсдэл ба шийдэл", "Ашиглах технологи онцлог",
+                "Орон нутгийн иргэдэд үзүүлэх ашиг тус", "Хамрах малчид / Өрхийн тоо",
+                "Байгууллагын нэр", "Байгууллагын хэлбэр",
+                "И-мейл хаяг", "Холбоо барих утас"
+              ];
+
+              var grid = document.getElementById("project-grid");
+              if (!grid) return;
+
+              var added = 0;
+              var skipped = 0;
+              rows.forEach(function(r, rowIdx) {
+                try {
+                  var cells = r.c || [];
+                  function get(i) {
+                    if (i < 0 || i >= cells.length) return "";
+                    var c = cells[i];
+                    if (!c) return "";
+                    if (c.f != null) return c.f.toString().trim();
+                    return c.v != null ? c.v.toString().trim() : "";
+                  }
+                  var title = get(iName);
+                  if (!title) { skipped++; return; }
+
+                  var amount = get(iAmount);
+                  var duration = get(iDuration);
+                  var indexVal = get(iIndex) || String(added + 1);
+
+                  var detailFields = DETAIL_LABELS.map(function(lbl) {
+                    var idx = colIdx(lbl);
+                    return { label: lbl, value: idx !== -1 ? get(idx) : "" };
+                  });
+
+                  var col = document.createElement("div");
+                  col.className = "col-xl-3 col-lg-4 col-md-6 project-card";
+                  col.dataset.cat = FORCED_SECTOR;
+                  col.dataset.name = title;
+                  col.dataset.funded = 0;
+                  col.dataset.days = 0;
+                  col.dataset.backers = 0;
+                  col.dataset.newest = 4000 + rowIdx;
+                  col.dataset.sheetSource = "agri";
+                  var amountNum = parseNum(amount);
+                  if (isFinite(amountNum) && amountNum > 0) {
+                    col.dataset.projectAmount = Math.round(amountNum);
+                  }
+
+                  var creatorCol = colIdx("Байгууллагын нэр");
+                  if (creatorCol === -1) creatorCol = colIdx("Төсөл санаачлагч");
+                  var creator = creatorCol !== -1 ? get(creatorCol) : "";
+
+                  var fundedPct = 0;
+                  var barWidth = Math.max(0, Math.min(100, fundedPct));
+                  var formattedAmount = formatAmount(amount) || "—";
+
+                  col.innerHTML =
+                    '<div class="pcard h-100">' +
+                      '<div class="pcard-img-wrap">' +
+                        '<span class="pcard-badge">' + esc(FORCED_LABEL) + '</span>' +
+                      '</div>' +
+                      '<div class="pcard-body">' +
+                        '<h5 class="pcard-title" title="' + esc(title) + '"><span class="pcard-num">' + esc(indexVal) + '.</span> ' + esc(title) + '</h5>' +
+                        '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + esc(creator || "—") + '</p>' +
+                        '<div class="pcard-progress-row">' +
+                          '<div class="pcard-progress-wrap"><div class="pcard-progress-bar funded" style="width:' + barWidth + '%"></div></div>' +
+                          '<span class="pcard-progress-pct">' + fundedPct + '%</span>' +
+                        '</div>' +
+                        '<div class="pcard-stats">' +
+                          '<div><span class="pstat-val" style="color:var(--primary-color, #4bac48)">' + esc(formattedAmount) + '</span><span class="pstat-lbl">САНХҮҮЖИЛТ</span></div>' +
+                          '<div><span class="pstat-val">' + esc(duration || "—") + '</span><span class="pstat-lbl">ХУГАЦАА</span></div>' +
+                        '</div>' +
+                      '</div>' +
+                    '</div>';
+
+                  var actions = document.createElement("div");
+                  actions.className = "pcard-actions";
+                  var fundBtn = document.createElement("button");
+                  fundBtn.className = "pcard-fund-btn";
+                  fundBtn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                  fundBtn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (typeof openFundModal === "function") openFundModal(col);
+                  });
+                  actions.appendChild(fundBtn);
+                  col.querySelector(".pcard").appendChild(actions);
+
+                  col.querySelector(".pcard").addEventListener("click", function(e) {
+                    if (e.target.closest(".pcard-actions")) return;
+                    if (typeof openDetailModal === "function") openDetailModal(title, detailFields);
+                  });
+
+                  grid.appendChild(col);
+                  added++;
+                  console.log(LOG, "+ карт:", indexVal, title);
+                } catch(rowErr) {
+                  skipped++;
+                  console.error(LOG, "Мөр", rowIdx + 1, "— алдаа:", rowErr);
+                }
+              });
+
+              console.log(LOG, "Нийт", added, "ХАА төсөл нэмэгдлээ. Алгассан:", skipped);
+              if (typeof refreshFilters === "function") refreshFilters();
+            })
+            .catch(function(e) {
+              console.error(LOG, "Алдаа:", e);
+            });
+        })();
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             СОЁЛ GOOGLE SHEET LOADER (gid=904267116)
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+        (function() {
+          var SHEET_ID = "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E";
+          var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&gid=904267116";
+          var FORCED_SECTOR = "culture";
+          var FORCED_LABEL = "Соёл";
+          var LOG = "[Sheet:Culture]";
+
+          function esc(s) {
+            return (s == null ? "" : s.toString()).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+          function parseNum(s) {
+            if (s == null || s === "") return NaN;
+            var str = s.toString().replace(/[,\s₮]/g, "").trim();
+            if (!str) return NaN;
+            return parseFloat(str);
+          }
+          function formatAmount(s) {
+            var num = parseNum(s);
+            if (!isFinite(num)) return s == null ? "" : s.toString();
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+          }
+
+          console.log(LOG, "Google Sheet уншиж байна...");
+          fetch(SHEET_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var start = text.indexOf("{");
+              var end = text.lastIndexOf("}");
+              if (start === -1 || end === -1) throw new Error("JSON олдсонгүй");
+              var json = JSON.parse(text.substring(start, end + 1));
+              var cols = (json.table.cols || []).map(function(c) { return (c.label || "").trim(); });
+              var rows = json.table.rows || [];
+              console.log(LOG, rows.length, "мөр ирлээ");
+
+              function colIdx(partial) {
+                for (var i = 0; i < cols.length; i++) {
+                  if (cols[i] && cols[i].toLowerCase().indexOf(partial.toLowerCase()) !== -1) return i;
+                }
+                return -1;
+              }
+              var iIndex    = 0; // "№" багана
+              var iName     = colIdx("Төслийн нэр");
+              var iAmount   = colIdx("Нийт санхүүжилт");
+              var iDuration = colIdx("Хэрэгжих хугацаа");
+              var iSector   = colIdx("Төслийн салбар");
+
+              var DETAIL_LABELS = [
+                "Төслийн ангилал", "Төслийн салбар", "Салбарын чиглэл", "Төсөл санаачлагч байгууллагын нэр",
+                "Ажлын хэлбэр", "Хэрэгжүүлэх байршил", "Хэрэгжилтийн үе шат",
+                "Тайлбар", "Тулгарч буй асуудал",
+                "Шийдвэрлэхийг хүсэж буй зорилго", "Хүлээгдэж буй үр дүн",
+                "Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?",
+                "Байгууллагын нэр", "Байгууллагын хэлбэр",
+                "И-мейл хаяг", "Холбоо барих утас"
+              ];
+
+              var grid = document.getElementById("project-grid");
+              if (!grid) return;
+
+              var added = 0, skipped = 0;
+              rows.forEach(function(r, rowIdx) {
+                try {
+                  var cells = r.c || [];
+                  function get(i) {
+                    if (i < 0 || i >= cells.length) return "";
+                    var c = cells[i];
+                    if (!c) return "";
+                    if (c.f != null) return c.f.toString().trim();
+                    return c.v != null ? c.v.toString().trim() : "";
+                  }
+                  var title = get(iName);
+                  if (!title) { skipped++; return; }
+
+                  var amount = get(iAmount);
+                  var duration = get(iDuration);
+                  var indexVal = get(iIndex) || String(added + 1);
+
+                  var detailFields = DETAIL_LABELS.map(function(lbl) {
+                    var idx = colIdx(lbl);
+                    return { label: lbl, value: idx !== -1 ? get(idx) : "" };
+                  });
+
+                  var col = document.createElement("div");
+                  col.className = "col-xl-3 col-lg-4 col-md-6 project-card";
+                  col.dataset.cat = FORCED_SECTOR;
+                  col.dataset.name = title;
+                  col.dataset.funded = 0;
+                  col.dataset.days = 0;
+                  col.dataset.backers = 0;
+                  col.dataset.newest = 5000 + rowIdx;
+                  col.dataset.sheetSource = "culture";
+                  var amountNum = parseNum(amount);
+                  if (isFinite(amountNum) && amountNum > 0) {
+                    col.dataset.projectAmount = Math.round(amountNum);
+                  }
+
+                  var creatorCol = colIdx("Байгууллагын нэр");
+                  if (creatorCol === -1) creatorCol = colIdx("Төсөл санаачлагч");
+                  var creator = creatorCol !== -1 ? get(creatorCol) : "";
+
+                  var formattedAmount = formatAmount(amount) || "—";
+
+                  col.innerHTML =
+                    '<div class="pcard h-100">' +
+                      '<div class="pcard-img-wrap">' +
+                        '<span class="pcard-badge">' + esc(FORCED_LABEL) + '</span>' +
+                      '</div>' +
+                      '<div class="pcard-body">' +
+                        '<h5 class="pcard-title" title="' + esc(title) + '"><span class="pcard-num">' + esc(indexVal) + '.</span> ' + esc(title) + '</h5>' +
+                        '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + esc(creator || "—") + '</p>' +
+                        '<div class="pcard-progress-row">' +
+                          '<div class="pcard-progress-wrap"><div class="pcard-progress-bar funded" style="width:0%"></div></div>' +
+                          '<span class="pcard-progress-pct">0%</span>' +
+                        '</div>' +
+                        '<div class="pcard-stats">' +
+                          '<div><span class="pstat-val" style="color:var(--primary-color, #4bac48)">' + esc(formattedAmount) + '</span><span class="pstat-lbl">САНХҮҮЖИЛТ</span></div>' +
+                          '<div><span class="pstat-val">' + esc(duration || "—") + '</span><span class="pstat-lbl">ХУГАЦАА</span></div>' +
+                        '</div>' +
+                      '</div>' +
+                    '</div>';
+
+                  var actions = document.createElement("div");
+                  actions.className = "pcard-actions";
+                  var fundBtn = document.createElement("button");
+                  fundBtn.className = "pcard-fund-btn";
+                  fundBtn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                  fundBtn.addEventListener("click", function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    if (typeof openFundModal === "function") openFundModal(col);
+                  });
+                  actions.appendChild(fundBtn);
+                  col.querySelector(".pcard").appendChild(actions);
+
+                  col.querySelector(".pcard").addEventListener("click", function(e) {
+                    if (e.target.closest(".pcard-actions")) return;
+                    if (typeof openDetailModal === "function") openDetailModal(title, detailFields);
+                  });
+
+                  grid.appendChild(col);
+                  added++;
+                } catch(rowErr) {
+                  skipped++;
+                  console.error(LOG, "Мөр", rowIdx + 1, "—", rowErr);
+                }
+              });
+
+              console.log(LOG, "Нийт", added, "соёлын төсөл нэмэгдлээ. Алгассан:", skipped);
+              if (typeof refreshFilters === "function") refreshFilters();
+            })
+            .catch(function(e) { console.error(LOG, "Алдаа:", e); });
+        })();
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             БОЛОВСРОЛ GOOGLE SHEET LOADER (gid=797596799)
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+        (function() {
+          var SHEET_ID = "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E";
+          var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&gid=797596799";
+          var FORCED_SECTOR = "edu";
+          var FORCED_LABEL = "Боловсрол";
+          var LOG = "[Sheet:Edu]";
+
+          function esc(s) {
+            return (s == null ? "" : s.toString()).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+          function parseNum(s) {
+            if (s == null || s === "") return NaN;
+            var str = s.toString().replace(/[,\s₮]/g, "").trim();
+            if (!str) return NaN;
+            return parseFloat(str);
+          }
+          function formatAmount(s) {
+            var num = parseNum(s);
+            if (!isFinite(num)) return s == null ? "" : s.toString();
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+          }
+
+          console.log(LOG, "Google Sheet уншиж байна...");
+          fetch(SHEET_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var start = text.indexOf("{");
+              var end = text.lastIndexOf("}");
+              if (start === -1 || end === -1) throw new Error("JSON олдсонгүй");
+              var json = JSON.parse(text.substring(start, end + 1));
+              var cols = (json.table.cols || []).map(function(c) { return (c.label || "").trim(); });
+              var rows = json.table.rows || [];
+              console.log(LOG, rows.length, "мөр ирлээ");
+
+              function colIdx(partial) {
+                for (var i = 0; i < cols.length; i++) {
+                  if (cols[i] && cols[i].toLowerCase().indexOf(partial.toLowerCase()) !== -1) return i;
+                }
+                return -1;
+              }
+              var iIndex    = 0;
+              var iName     = colIdx("Төслийн нэр");
+              var iAmount   = colIdx("Нийт санхүүжилт");
+              var iDuration = colIdx("Хэрэгжих хугацаа");
+
+              var DETAIL_LABELS = [
+                "Төслийн ангилал", "Төслийн салбар", "Салбарын чиглэл", "Төсөл санаачлагч байгууллагын нэр",
+                "Ажлын хэлбэр", "Хэрэгжүүлэх байршил", "Хэрэгжилтийн үе шат",
+                "Тайлбар", "Тулгарч буй асуудал",
+                "Шийдвэрлэхийг хүсэж буй зорилго", "Хүлээгдэж буй үр дүн",
+                "Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?",
+                "Байгууллагын нэр", "Байгууллагын хэлбэр",
+                "И-мейл хаяг", "Холбоо барих утас"
+              ];
+
+              var grid = document.getElementById("project-grid");
+              if (!grid) return;
+
+              var added = 0, skipped = 0;
+              rows.forEach(function(r, rowIdx) {
+                try {
+                  var cells = r.c || [];
+                  function get(i) {
+                    if (i < 0 || i >= cells.length) return "";
+                    var c = cells[i];
+                    if (!c) return "";
+                    if (c.f != null) return c.f.toString().trim();
+                    return c.v != null ? c.v.toString().trim() : "";
+                  }
+                  var title = get(iName);
+                  if (!title) { skipped++; return; }
+
+                  var amount = get(iAmount);
+                  var duration = get(iDuration);
+                  var indexVal = get(iIndex) || String(added + 1);
+
+                  var detailFields = DETAIL_LABELS.map(function(lbl) {
+                    var idx = colIdx(lbl);
+                    return { label: lbl, value: idx !== -1 ? get(idx) : "" };
+                  });
+
+                  var col = document.createElement("div");
+                  col.className = "col-xl-3 col-lg-4 col-md-6 project-card";
+                  col.dataset.cat = FORCED_SECTOR;
+                  col.dataset.name = title;
+                  col.dataset.funded = 0;
+                  col.dataset.days = 0;
+                  col.dataset.backers = 0;
+                  col.dataset.newest = 6000 + rowIdx;
+                  col.dataset.sheetSource = "edu";
+                  var amountNum = parseNum(amount);
+                  if (isFinite(amountNum) && amountNum > 0) {
+                    col.dataset.projectAmount = Math.round(amountNum);
+                  }
+
+                  var creatorCol = colIdx("Байгууллагын нэр");
+                  if (creatorCol === -1) creatorCol = colIdx("Төсөл санаачлагч");
+                  var creator = creatorCol !== -1 ? get(creatorCol) : "";
+
+                  var formattedAmount = formatAmount(amount) || "—";
+
+                  col.innerHTML =
+                    '<div class="pcard h-100">' +
+                      '<div class="pcard-img-wrap">' +
+                        '<span class="pcard-badge">' + esc(FORCED_LABEL) + '</span>' +
+                      '</div>' +
+                      '<div class="pcard-body">' +
+                        '<h5 class="pcard-title" title="' + esc(title) + '"><span class="pcard-num">' + esc(indexVal) + '.</span> ' + esc(title) + '</h5>' +
+                        '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + esc(creator || "—") + '</p>' +
+                        '<div class="pcard-progress-row">' +
+                          '<div class="pcard-progress-wrap"><div class="pcard-progress-bar funded" style="width:0%"></div></div>' +
+                          '<span class="pcard-progress-pct">0%</span>' +
+                        '</div>' +
+                        '<div class="pcard-stats">' +
+                          '<div><span class="pstat-val" style="color:var(--primary-color, #4bac48)">' + esc(formattedAmount) + '</span><span class="pstat-lbl">САНХҮҮЖИЛТ</span></div>' +
+                          '<div><span class="pstat-val">' + esc(duration || "—") + '</span><span class="pstat-lbl">ХУГАЦАА</span></div>' +
+                        '</div>' +
+                      '</div>' +
+                    '</div>';
+
+                  var actions = document.createElement("div");
+                  actions.className = "pcard-actions";
+                  var fundBtn = document.createElement("button");
+                  fundBtn.className = "pcard-fund-btn";
+                  fundBtn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                  fundBtn.addEventListener("click", function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    if (typeof openFundModal === "function") openFundModal(col);
+                  });
+                  actions.appendChild(fundBtn);
+                  col.querySelector(".pcard").appendChild(actions);
+
+                  col.querySelector(".pcard").addEventListener("click", function(e) {
+                    if (e.target.closest(".pcard-actions")) return;
+                    if (typeof openDetailModal === "function") openDetailModal(title, detailFields);
+                  });
+
+                  grid.appendChild(col);
+                  added++;
+                } catch(rowErr) {
+                  skipped++;
+                  console.error(LOG, "Мөр", rowIdx + 1, "—", rowErr);
+                }
+              });
+
+              console.log(LOG, "Нийт", added, "боловсролын төсөл нэмэгдлээ. Алгассан:", skipped);
+              if (typeof refreshFilters === "function") refreshFilters();
+            })
+            .catch(function(e) { console.error(LOG, "Алдаа:", e); });
+        })();
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             ЭРЧИМ ХҮЧ GOOGLE SHEET LOADER (gid=0)
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+        (function() {
+          var SHEET_ID = "1ucbKdcgNMBcpyfnvpBzueFflzL-IMzqYtBYre7_uEVk";
+          var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&gid=0";
+          var FORCED_SECTOR = "energy";
+          var FORCED_LABEL = "Эрчим хүч";
+          var LOG = "[Sheet:Energy]";
+
+          function esc(s) {
+            return (s == null ? "" : s.toString()).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+          function parseNum(s) {
+            if (s == null || s === "") return NaN;
+            var str = s.toString().replace(/[,\s₮]/g, "").trim();
+            if (!str) return NaN;
+            return parseFloat(str);
+          }
+          function formatAmount(s) {
+            var num = parseNum(s);
+            if (!isFinite(num)) return s == null ? "" : s.toString();
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+          }
+
+          console.log(LOG, "Google Sheet уншиж байна...");
+          fetch(SHEET_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var start = text.indexOf("{");
+              var end = text.lastIndexOf("}");
+              if (start === -1 || end === -1) throw new Error("JSON олдсонгүй");
+              var json = JSON.parse(text.substring(start, end + 1));
+              var cols = (json.table.cols || []).map(function(c) { return (c.label || "").trim(); });
+              var rows = json.table.rows || [];
+              console.log(LOG, rows.length, "мөр ирлээ");
+
+              function colIdx(partial) {
+                for (var i = 0; i < cols.length; i++) {
+                  if (cols[i] && cols[i].toLowerCase().indexOf(partial.toLowerCase()) !== -1) return i;
+                }
+                return -1;
+              }
+              var iIndex    = 0;
+              var iName     = colIdx("Төслийн нэр");
+              var iAmount   = colIdx("Нийт санхүүжилт");
+              var iDuration = colIdx("Хэрэгжих хугацаа");
+
+              var DETAIL_LABELS = [
+                "Төслийн ангилал", "Төслийн салбар", "Салбарын чиглэл",
+                "Төсөл санаачлагч байгууллагын нэр", "Хөрөнгө оруулалт эргэх хугацаа",
+                "Жилийн хүлээгдэж буй өгөөж", "Санхүүжилтийн хэлбэр",
+                "Хэрэгжүүлэх байршил", "Бий болох ажлын байрны тоо",
+                "Хэрэгжилтийн үе шат", "Тайлбар", "Гол эрсдэл ба шийдэл",
+                "Үйлдвэрийн хүчин чадал/гаралт", "Шаардлагатай газар нутаг",
+                "Ашиглах технологи, онцлог", "Орон нутгийн иргэдэд үзүүлэх ашиг тус",
+                "Байгууллагын нэр", "Байгууллагын хэлбэр",
+                "И-мейл хаяг", "Холбоо барих утас"
+              ];
+
+              var grid = document.getElementById("project-grid");
+              if (!grid) return;
+
+              var added = 0, skipped = 0;
+              rows.forEach(function(r, rowIdx) {
+                try {
+                  var cells = r.c || [];
+                  function get(i) {
+                    if (i < 0 || i >= cells.length) return "";
+                    var c = cells[i];
+                    if (!c) return "";
+                    if (c.f != null) return c.f.toString().trim();
+                    return c.v != null ? c.v.toString().trim() : "";
+                  }
+                  var title = get(iName);
+                  if (!title) { skipped++; return; }
+
+                  var amount = get(iAmount);
+                  var duration = get(iDuration);
+                  var indexVal = get(iIndex) || String(added + 1);
+
+                  var detailFields = DETAIL_LABELS.map(function(lbl) {
+                    var idx = colIdx(lbl);
+                    return { label: lbl, value: idx !== -1 ? get(idx) : "" };
+                  });
+
+                  var col = document.createElement("div");
+                  col.className = "col-xl-3 col-lg-4 col-md-6 project-card";
+                  col.dataset.cat = FORCED_SECTOR;
+                  col.dataset.name = title;
+                  col.dataset.funded = 0;
+                  col.dataset.days = 0;
+                  col.dataset.backers = 0;
+                  col.dataset.newest = 7000 + rowIdx;
+                  col.dataset.sheetSource = "energy";
+                  var amountNum = parseNum(amount);
+                  if (isFinite(amountNum) && amountNum > 0) {
+                    col.dataset.projectAmount = Math.round(amountNum);
+                  }
+
+                  var creatorCol = colIdx("Байгууллагын нэр");
+                  if (creatorCol === -1) creatorCol = colIdx("Төсөл санаачлагч");
+                  var creator = creatorCol !== -1 ? get(creatorCol) : "";
+
+                  var formattedAmount = formatAmount(amount) || "—";
+
+                  col.innerHTML =
+                    '<div class="pcard h-100">' +
+                      '<div class="pcard-img-wrap">' +
+                        '<span class="pcard-badge">' + esc(FORCED_LABEL) + '</span>' +
+                      '</div>' +
+                      '<div class="pcard-body">' +
+                        '<h5 class="pcard-title" title="' + esc(title) + '"><span class="pcard-num">' + esc(indexVal) + '.</span> ' + esc(title) + '</h5>' +
+                        '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + esc(creator || "—") + '</p>' +
+                        '<div class="pcard-progress-row">' +
+                          '<div class="pcard-progress-wrap"><div class="pcard-progress-bar funded" style="width:0%"></div></div>' +
+                          '<span class="pcard-progress-pct">0%</span>' +
+                        '</div>' +
+                        '<div class="pcard-stats">' +
+                          '<div><span class="pstat-val" style="color:var(--primary-color, #4bac48)">' + esc(formattedAmount) + '</span><span class="pstat-lbl">САНХҮҮЖИЛТ</span></div>' +
+                          '<div><span class="pstat-val">' + esc(duration || "—") + '</span><span class="pstat-lbl">ХУГАЦАА</span></div>' +
+                        '</div>' +
+                      '</div>' +
+                    '</div>';
+
+                  var actions = document.createElement("div");
+                  actions.className = "pcard-actions";
+                  var fundBtn = document.createElement("button");
+                  fundBtn.className = "pcard-fund-btn";
+                  fundBtn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                  fundBtn.addEventListener("click", function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    if (typeof openFundModal === "function") openFundModal(col);
+                  });
+                  actions.appendChild(fundBtn);
+                  col.querySelector(".pcard").appendChild(actions);
+
+                  col.querySelector(".pcard").addEventListener("click", function(e) {
+                    if (e.target.closest(".pcard-actions")) return;
+                    if (typeof openDetailModal === "function") openDetailModal(title, detailFields);
+                  });
+
+                  grid.appendChild(col);
+                  added++;
+                } catch(rowErr) {
+                  skipped++;
+                  console.error(LOG, "Мөр", rowIdx + 1, "—", rowErr);
+                }
+              });
+
+              console.log(LOG, "Нийт", added, "эрчим хүчний төсөл нэмэгдлээ. Алгассан:", skipped);
+              if (typeof refreshFilters === "function") refreshFilters();
+            })
+            .catch(function(e) { console.error(LOG, "Алдаа:", e); });
+        })();
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             АЯЛАЛ ЖУУЛЧЛАЛ GOOGLE SHEET LOADER (internal: mining)
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+        (function() {
+          var SHEET_ID = "1gHMiQzvsHb2lIWD8_QSSb7PIWcSm4lFR51dq8npthaU";
+          var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:json&gid=0";
+          var FORCED_SECTOR = "mining"; // internal key хэвээр
+          var FORCED_LABEL = "Аялал жуулчлал";
+          var LOG = "[Sheet:Tourism]";
+
+          function esc(s) {
+            return (s == null ? "" : s.toString()).replace(/[&<>"']/g, function(c) {
+              return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+            });
+          }
+          function parseNum(s) {
+            if (s == null || s === "") return NaN;
+            var str = s.toString().replace(/[,\s₮]/g, "").trim();
+            if (!str) return NaN;
+            return parseFloat(str);
+          }
+          function formatAmount(s) {
+            var num = parseNum(s);
+            if (!isFinite(num)) return s == null ? "" : s.toString();
+            return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+          }
+
+          console.log(LOG, "Google Sheet уншиж байна...");
+          fetch(SHEET_URL)
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var start = text.indexOf("{");
+              var end = text.lastIndexOf("}");
+              if (start === -1 || end === -1) throw new Error("JSON олдсонгүй");
+              var json = JSON.parse(text.substring(start, end + 1));
+              var cols = (json.table.cols || []).map(function(c) { return (c.label || "").trim(); });
+              var rows = json.table.rows || [];
+              console.log(LOG, rows.length, "мөр ирлээ");
+
+              function colIdx(partial) {
+                for (var i = 0; i < cols.length; i++) {
+                  if (cols[i] && cols[i].toLowerCase().indexOf(partial.toLowerCase()) !== -1) return i;
+                }
+                return -1;
+              }
+              // "№" багана — sheet-ийн бүтцэд өөр өөр байршлаар байж болно
+              var iIndex    = colIdx("№");
+              if (iIndex === -1) iIndex = 0;
+              var iName     = colIdx("Төслийн нэр");
+              var iAmount   = colIdx("Нийт санхүүжилт");
+              var iDuration = colIdx("Хэрэгжих хугацаа");
+
+              var DETAIL_LABELS = [
+                "Тулгарч буй асуудал",
+                "Төслийн ангилал", "Төслийн салбар", "Салбарын чиглэл",
+                "Төсөл санаачлагч байгууллагын нэр", "Ажлын хэлбэр",
+                "Жилд хүрэх жуулчны тоо", "Хэрэгжүүлэх байршил", "Хэрэгжилтийн үе шат",
+                "Дэлгэрэнгүй тайлбар",
+                "Шийдвэрлэхийг хүсэж буй зорилго", "Хүлээгдэж буй үр дүн",
+                "Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?",
+                "Байгууллагын нэр", "Байгууллагын хэлбэр",
+                "И-мейл хаяг", "Холбоо барих утас"
+              ];
+
+              var grid = document.getElementById("project-grid");
+              if (!grid) return;
+
+              var added = 0, skipped = 0;
+              rows.forEach(function(r, rowIdx) {
+                try {
+                  var cells = r.c || [];
+                  function get(i) {
+                    if (i < 0 || i >= cells.length) return "";
+                    var c = cells[i];
+                    if (!c) return "";
+                    if (c.f != null) return c.f.toString().trim();
+                    return c.v != null ? c.v.toString().trim() : "";
+                  }
+                  var title = get(iName);
+                  if (!title) { skipped++; return; }
+
+                  var amount = get(iAmount);
+                  var duration = get(iDuration);
+                  var indexVal = get(iIndex) || String(added + 1);
+
+                  var detailFields = DETAIL_LABELS.map(function(lbl) {
+                    var idx = colIdx(lbl);
+                    return { label: lbl, value: idx !== -1 ? get(idx) : "" };
+                  });
+
+                  var col = document.createElement("div");
+                  col.className = "col-xl-3 col-lg-4 col-md-6 project-card";
+                  col.dataset.cat = FORCED_SECTOR;
+                  col.dataset.name = title;
+                  col.dataset.funded = 0;
+                  col.dataset.days = 0;
+                  col.dataset.backers = 0;
+                  col.dataset.newest = 8000 + rowIdx;
+                  col.dataset.sheetSource = "tourism";
+                  var amountNum = parseNum(amount);
+                  if (isFinite(amountNum) && amountNum > 0) {
+                    col.dataset.projectAmount = Math.round(amountNum);
+                  }
+
+                  var creatorCol = colIdx("Байгууллагын нэр");
+                  if (creatorCol === -1) creatorCol = colIdx("Төсөл санаачлагч");
+                  var creator = creatorCol !== -1 ? get(creatorCol) : "";
+
+                  var formattedAmount = formatAmount(amount) || "—";
+
+                  col.innerHTML =
+                    '<div class="pcard h-100">' +
+                      '<div class="pcard-img-wrap">' +
+                        '<span class="pcard-badge">' + esc(FORCED_LABEL) + '</span>' +
+                      '</div>' +
+                      '<div class="pcard-body">' +
+                        '<h5 class="pcard-title" title="' + esc(title) + '"><span class="pcard-num">' + esc(indexVal) + '.</span> ' + esc(title) + '</h5>' +
+                        '<p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> ' + esc(creator || "—") + '</p>' +
+                        '<div class="pcard-progress-row">' +
+                          '<div class="pcard-progress-wrap"><div class="pcard-progress-bar funded" style="width:0%"></div></div>' +
+                          '<span class="pcard-progress-pct">0%</span>' +
+                        '</div>' +
+                        '<div class="pcard-stats">' +
+                          '<div><span class="pstat-val" style="color:var(--primary-color, #4bac48)">' + esc(formattedAmount) + '</span><span class="pstat-lbl">САНХҮҮЖИЛТ</span></div>' +
+                          '<div><span class="pstat-val">' + esc(duration || "—") + '</span><span class="pstat-lbl">ХУГАЦАА</span></div>' +
+                        '</div>' +
+                      '</div>' +
+                    '</div>';
+
+                  var actions = document.createElement("div");
+                  actions.className = "pcard-actions";
+                  var fundBtn = document.createElement("button");
+                  fundBtn.className = "pcard-fund-btn";
+                  fundBtn.innerHTML = '<i class="fa fa-hand-holding-dollar"></i> Санхүүжүүлэх';
+                  fundBtn.addEventListener("click", function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    if (typeof openFundModal === "function") openFundModal(col);
+                  });
+                  actions.appendChild(fundBtn);
+                  col.querySelector(".pcard").appendChild(actions);
+
+                  col.querySelector(".pcard").addEventListener("click", function(e) {
+                    if (e.target.closest(".pcard-actions")) return;
+                    if (typeof openDetailModal === "function") openDetailModal(title, detailFields);
+                  });
+
+                  grid.appendChild(col);
+                  added++;
+                } catch(rowErr) {
+                  skipped++;
+                  console.error(LOG, "Мөр", rowIdx + 1, "—", rowErr);
+                }
+              });
+
+              console.log(LOG, "Нийт", added, "аялал жуулчлалын төсөл нэмэгдлээ. Алгассан:", skipped);
+              if (typeof refreshFilters === "function") refreshFilters();
+            })
+            .catch(function(e) { console.error(LOG, "Алдаа:", e); });
+        })();
+        </script>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             БҮГД GLOBAL RENUMBERING
+             "Бүгд" pill дарахад харагдах бүх картыг 1-ээс нийтээр дугаарлана.
+             Ангилал сонгоход тус тусын дугаарт буцна.
+             ══════════════════════════════════════════════════════════════ -->
+        <script>
+        (function() {
+          var grid = document.getElementById('project-grid');
+          if (!grid) return;
+
+          function renumberVisibleCards() {
+            var active = document.querySelector('.cat-pill.active');
+            var isAll = !active || active.dataset.cat === 'all';
+            var cards = grid.querySelectorAll('.project-card');
+            var count = 0;
+            cards.forEach(function(card) {
+              if (card.classList.contains('hidden')) return;
+              var titleEl = card.querySelector('.pcard-title');
+              if (!titleEl) return;
+              var numEl = titleEl.querySelector('.pcard-num');
+              var wasInjected = false;
+              if (!numEl) {
+                numEl = document.createElement('span');
+                numEl.className = 'pcard-num';
+                numEl.dataset.injected = '1';
+                titleEl.insertBefore(numEl, titleEl.firstChild);
+                wasInjected = true;
+              }
+              // Анхны (sheet-ээс ирсэн) дугаарыг нэг удаа хадгалах
+              if (card.dataset.originalNum === undefined) {
+                card.dataset.originalNum = numEl.dataset.injected === '1'
+                  ? ''
+                  : (numEl.textContent || '');
+              }
+              count++;
+              if (isAll) {
+                numEl.textContent = count + '. ';
+                numEl.style.display = '';
+              } else {
+                if (numEl.dataset.injected === '1') {
+                  numEl.style.display = 'none';
+                } else {
+                  numEl.textContent = card.dataset.originalNum;
+                  numEl.style.display = '';
+                }
+              }
+            });
+          }
+
+          // Pill click → renumber (filter дуусаад ажиллах учир setTimeout)
+          document.querySelectorAll('.cat-pill').forEach(function(pill) {
+            pill.addEventListener('click', function() {
+              setTimeout(renumberVisibleCards, 20);
+            });
+          });
+          // Mobile dropdown change
+          var catSelect = document.getElementById('cat-select');
+          if (catSelect) {
+            catSelect.addEventListener('change', function() {
+              setTimeout(renumberVisibleCards, 20);
+            });
+          }
+          // Search input → filter өөрчлөгдөх үед дахин дугаарлана
+          var searchInp = document.getElementById('project-search');
+          if (searchInp) {
+            searchInp.addEventListener('input', function() {
+              setTimeout(renumberVisibleCards, 20);
+            });
+          }
+          // Sheet loader-оос шинэ карт нэмэгдэх үед
+          new MutationObserver(function(muts) {
+            var hasNew = muts.some(function(m) { return m.addedNodes.length > 0; });
+            if (hasNew) setTimeout(renumberVisibleCards, 20);
+          }).observe(grid, { childList: true });
+
+          // Анхны renumber (initial load)
+          setTimeout(renumberVisibleCards, 100);
+        })();
+        </script>
+
     </div>
 
     <!-- Magic Mobile Bottom Navigation -->
@@ -3432,6 +4557,31 @@
         });
       }
     }catch(e){}
+    </script>
+
+    <!-- Санхүүжилт төлөв Firestore-оос уншиж хаагдсан бол бүх fund товчийг нуух -->
+    <script type="module">
+      import { initializeApp as ftInit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import { getFirestore as ftFirestore, doc as ftDoc, getDoc as ftGetDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      try {
+        const ftApp = ftInit({
+          apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+          authDomain: "dsif-shedule.firebaseapp.com",
+          projectId: "dsif-shedule",
+          storageBucket: "dsif-shedule.firebasestorage.app",
+          messagingSenderId: "973476131387",
+          appId: "1:973476131387:web:8c2e1234567890abcdef"
+        }, "funding-toggle-reader");
+        const ftDb = ftFirestore(ftApp);
+        const ftSnap = await ftGetDoc(ftDoc(ftDb, "settings", "funding"));
+        const ftEnabled = ftSnap.exists() ? ftSnap.data().enabled !== false : true;
+        if (!ftEnabled) {
+          const ftStyle = document.createElement("style");
+          ftStyle.textContent = ".pcard-fund-btn, .pcard-actions { display: none !important; }";
+          document.head.appendChild(ftStyle);
+          console.log("[Funding] Санхүүжилт хаалттай байна.");
+        }
+      } catch(e) { console.warn("[Funding] Status read:", e); }
     </script>
 
     <style>
@@ -3516,7 +4666,7 @@
                     <h3 class="footer-title">САЛБАРУУД</h3>
                     <ul class="footer-nav">
                         <li><a href="tusul.html?cat=energy">Эрчим хүч</a></li>
-                        <li><a href="tusul.html?cat=mining">Уул уурхай</a></li>
+                        <li><a href="tusul.html?cat=mining">Аялал жуулчлал</a></li>
                         <li><a href="tusul.html?cat=agri">Хөдөө аж ахуй</a></li>
                         <li><a href="tusul.html?cat=infra">Дэд бүтэц</a></li>
                         <li><a href="tusul.html?cat=edu">Боловсрол</a></li>

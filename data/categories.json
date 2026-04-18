@@ -1,11 +1,10 @@
 [
   { "key": "energy", "name": "Эрчим хүч", "image": "images/demo/homepage-2.webp" },
-  { "key": "mining", "name": "Уул уурхай", "image": "images/demo/homepage-3.webp" },
+  { "key": "mining", "name": "Аялал жуулчлал", "image": "images/demo/homepage-3.webp" },
   { "key": "environment", "name": "Байгаль орчин", "image": "images/demo/homepage-4.webp" },
   { "key": "infra", "name": "Дэд бүтэц", "image": "images/demo/homepage-5.webp" },
   { "key": "edu", "name": "Боловсрол", "image": "images/demo/homepage-6.webp" },
   { "key": "culture", "name": "Соёл", "image": "images/demo/homepage-7.webp" },
   { "key": "health", "name": "Эрүүл мэнд", "image": "images/demo/homepage-8.webp" },
-  { "key": "social", "name": "Нийгэм", "image": "images/demo/homepage-9.webp" },
   { "key": "agri", "name": "Хөдөө аж ахуй", "image": "images/demo/homepage-10.webp" }
 ]
