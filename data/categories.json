@@ -1,6 +1,6 @@
 [
   { "key": "energy", "name": "Эрчим хүч", "image": "images/demo/homepage-2.webp" },
-  { "key": "mining", "name": "Аялал жуулчлал", "image": "images/demo/homepage-3.webp" },
+  { "key": "mining", "name": "Аялал жуулчлал", "image": "images/demo/homepage-31.webp" },
   { "key": "environment", "name": "Байгаль орчин", "image": "images/demo/homepage-4.webp" },
   { "key": "infra", "name": "Дэд бүтэц", "image": "images/demo/homepage-5.webp" },
   { "key": "edu", "name": "Боловсрол", "image": "images/demo/homepage-6.webp" },

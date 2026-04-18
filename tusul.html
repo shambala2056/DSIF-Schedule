@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>AIvent - AI Event, Conference and Meetup Website Template</title>
+    <title>НОГООН ХӨГЖИЛ ФОРУМ 2026</title>
     <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport" >
@@ -300,10 +300,11 @@
                 </div>
                 <select id="sort-select"
                   style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:7px 10px;color:#fff;font-size:13px;outline:none;cursor:pointer;">
-                  <option value="popular">Алдартай</option>
-                  <option value="newest">Шинэ</option>
-                  <option value="funded">Санхүүжилт</option>
-                  <option value="ending">Дуусах</option>
+                  <option value="featured">Онцлох</option>
+                  <option value="under50m">50 сая хүртэл</option>
+                  <option value="over50m">50 сая-с дээш</option>
+                  <option value="duration">Хугацаа (багаас их рүү)</option>
+                  <option value="completed">Дууссан</option>
                 </select>
               </div>
             </div>
@@ -366,51 +367,6 @@
                 </div>
               </div>
 
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="edu" data-name="Онлайн боловсрол" data-funded="120" data-days="0" data-backers="891" data-newest="5">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-6.webp" alt="Онлайн боловсрол" class="pcard-img">
-                    <span class="pcard-badge">Боловсрол</span>
-                    <span class="pcard-badge-funded">Санхүүжсэн!</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Хөдөөгийн хүүхдэд зориулсан онлайн платформ</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Э. Наранцэцэг</p>
-                    <p class="pcard-desc">Интернэт хязгаарлагдмал нөхцөлд ажиллах боловсролын платформ бий болгох.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar funded" style="width:100%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:#4bac48">120%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">891</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">—</span><span class="pstat-lbl">дууссан</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="mining" data-name="Аялал жуулчлал аюулгүй байдал" data-funded="72" data-days="18" data-backers="504" data-newest="6">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-3.webp" alt="Аялал жуулчлал" class="pcard-img">
-                    <span class="pcard-badge">Аялал жуулчлал</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Уурхайн ажилчдын аюулгүй байдлын систем</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Г. Сүхбаатар</p>
-                    <p class="pcard-desc">IoT мэдрэгч ашиглан уурхайн доторх аюулгүй байдлыг бодит цагт хянах.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:72%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">72%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">504</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">18</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <!-- ╔══════════════════════════════════════════════════════════════╗
                    ║  ЭРҮҮЛ МЭНДИЙН ТӨСЛҮҮД — автомат ачаалагддаг               ║
                    ║  Шинэ төсөл нэмэхийн тулд:                                 ║
@@ -419,28 +375,6 @@
                    ║    3. projects/health/manifest.json жагсаалтад нэм         ║
                    ╚══════════════════════════════════════════════════════════════╝ -->
               <div id="health-cards-anchor" style="display:none;"></div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="culture" data-name="Соёл урлаг" data-funded="55" data-days="22" data-backers="189" data-newest="7">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-7.webp" alt="Соёл" class="pcard-img">
-                    <span class="pcard-badge">Соёл</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Монгол бичгийн дижитал архив</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Т. Энхжаргал</p>
-                    <p class="pcard-desc">Уламжлалт гар бичмэл эх сурвалжуудыг дижитал хэлбэрт шилжүүлэх.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:55%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">55%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">189</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">22</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="agri" data-name="Ухаалаг тариалан" data-funded="81" data-days="15" data-backers="420" data-newest="9">
                 <div class="pcard h-100">
@@ -508,29 +442,6 @@
                 </div>
               </div>
 
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="edu" data-name="Кодчлол сурах" data-funded="109" data-days="0" data-backers="744" data-newest="12">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-3.webp" alt="Кодчлол" class="pcard-img">
-                    <span class="pcard-badge">Боловсрол</span>
-                    <span class="pcard-badge-funded">Санхүүжсэн!</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Бага насны хүүхдэд кодчлол заах хөтөлбөр</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Х. Оюунчимэг</p>
-                    <p class="pcard-desc">6-12 насны хүүхдүүдэд тоглоомоор дамжуулан программчлалын суурь ойлголт өгөх.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar funded" style="width:100%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:#4bac48">109%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">744</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">—</span><span class="pstat-lbl">дууссан</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="agri" data-name="Малын эрүүл мэнд" data-funded="67" data-days="17" data-backers="318" data-newest="15">
                 <div class="pcard h-100">
                   <div class="pcard-img-wrap">
@@ -576,27 +487,6 @@
               </div>
 
 
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="culture" data-name="Уламжлалт урлаг" data-funded="33" data-days="45" data-backers="88" data-newest="18">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-8.webp" alt="Соёл" class="pcard-img">
-                    <span class="pcard-badge">Соёл</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Уламжлалт хөгжмийн дижитал сан</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Ц. Батчимэг</p>
-                    <p class="pcard-desc">Монгол уламжлалт хөгжмийн бичлэг, хотавчуудыг ирээдүй үедэд хадгалах.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:33%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">33%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">88</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">45</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
             </div><!-- /project-grid -->
 
@@ -2200,6 +2090,18 @@
               });
             }
 
+            function parseDurationYears(card) {
+              var stats = card.querySelectorAll('.pcard-stats .pstat-val');
+              var txt = stats.length >= 2 ? (stats[1].textContent || '') : '';
+              if (!txt) return 9999;
+              var m = txt.match(/[\d.]+/);
+              var n = m ? parseFloat(m[0]) : 0;
+              if (!n) return 9999;
+              if (txt.indexOf('сар') !== -1) return n / 12;
+              if (txt.indexOf('хоног') !== -1) return n / 365;
+              return n; // жил эсвэл ангилалгүй бол жилээр
+            }
+
             function applyFilters() {
               var q = searchInput.value.toLowerCase().trim();
               var sortVal = sortSelect.value;
@@ -2209,14 +2111,11 @@
 
               // Sort
               cardsArr.sort(function (a, b) {
-                if (sortVal === 'popular') return parseInt(b.dataset.backers) - parseInt(a.dataset.backers);
-                if (sortVal === 'newest')  return parseInt(a.dataset.newest)  - parseInt(b.dataset.newest);
-                if (sortVal === 'funded')  return parseInt(b.dataset.funded)  - parseInt(a.dataset.funded);
-                if (sortVal === 'ending') {
-                  var da = parseInt(a.dataset.days) || 999;
-                  var db = parseInt(b.dataset.days) || 999;
-                  return da - db;
-                }
+                if (sortVal === 'featured') return parseInt(b.dataset.funded || 0) - parseInt(a.dataset.funded || 0);
+                if (sortVal === 'under50m') return (parseInt(a.dataset.projectAmount) || 0) - (parseInt(b.dataset.projectAmount) || 0);
+                if (sortVal === 'over50m')  return (parseInt(b.dataset.projectAmount) || 0) - (parseInt(a.dataset.projectAmount) || 0);
+                if (sortVal === 'duration') return parseDurationYears(a) - parseDurationYears(b);
+                if (sortVal === 'completed') return parseInt(b.dataset.funded || 0) - parseInt(a.dataset.funded || 0);
                 return 0;
               });
 
@@ -2228,7 +2127,13 @@
               cardsArr.forEach(function (card) {
                 var catMatch = activeCat === 'all' || card.dataset.cat === activeCat;
                 var nameMatch = !q || card.dataset.name.toLowerCase().indexOf(q) !== -1;
-                if (catMatch && nameMatch) {
+                var amount = parseInt(card.dataset.projectAmount) || 0;
+                var funded = parseInt(card.dataset.funded) || 0;
+                var amountMatch = true;
+                if (sortVal === 'under50m') amountMatch = (amount > 0 && amount <= 50000000);
+                else if (sortVal === 'over50m') amountMatch = (amount > 50000000);
+                var completedMatch = sortVal !== 'completed' || funded >= 100;
+                if (catMatch && nameMatch && amountMatch && completedMatch) {
                   card.classList.remove('hidden');
                   visible++;
                 } else {

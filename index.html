@@ -70,10 +70,6 @@
         background: #0a0a0a !important;
       }
       * { letter-spacing: 1px; }
-      @media (max-width: 576px) {
-        * { letter-spacing: 0.3px !important; }
-        p, span, li, td, th { word-spacing: normal !important; }
-      }
       .btn-main { background: var(--primary-color) !important; }
       .btn-main:hover { background: var(--secondary-color) !important; }
       h1 em, h2 em, h3 em { color: var(--accent-color); font-style: normal; }
@@ -459,7 +455,7 @@
                           <div class="ms-lg-3 ps-lg-3 py-3 my-2">
                              
                               <h2 class="wow fadeInUp" data-wow-delay=".4s" style="font-size:1.6rem">ЗОРИЛГО</h2>
-                              <p class="wow fadeInUp" data-wow-delay=".6s" style="text-align:left;text-indent:2em;letter-spacing:clamp(0.5px,0.5vw,3px);word-spacing:normal">ДОРНОГОВЬ АЙМГИЙН "ТОГТВОРТОЙ БОДЛОГО-ТАСРАЛТГҮЙ ХӨГЖИЛ" ХӨТӨЛБӨРИЙН ХҮРЭЭНД СЭРГЭЭГДЭХ ЭРЧИМ ХҮЧ, БАЙГАЛЬ ОРЧИН, ХӨДӨӨ АЖ АХУЙ, АЯЛАЛ ЖУУЛЧЛАЛ, ДЭД БҮТЦИЙН САЛБАРТ ХӨРӨНГӨ ОРУУЛАЛТ ТАТАХ.</p>
+                              <p class="wow fadeInUp" data-wow-delay=".6s" style="text-align:justify;text-indent:2em;font-size:.85rem;line-height:1.55">ДОРНОГОВЬ АЙМГИЙН "ТОГТВОРТОЙ БОДЛОГО-ТАСРАЛТГҮЙ ХӨГЖИЛ" ХӨТӨЛБӨРИЙН ХҮРЭЭНД СЭРГЭЭГДЭХ ЭРЧИМ ХҮЧ, БАЙГАЛЬ ОРЧИН, ХӨДӨӨ АЖ АХУЙ, АЯЛАЛ ЖУУЛЧЛАЛ, ДЭД БҮТЦИЙН САЛБАРТ ХӨРӨНГӨ ОРУУЛАЛТ ТАТАХ.</p>
 
                               <!-- <ul style="list-style:none;padding:0;margin:0;font-size:0.78em;">
                                   <li class="wow fadeInUp" data-wow-delay=".8s" style="white-space:nowrap;">АЙМГИЙН СТРАТЕГИЙН ДАВУУ ТАЛЫГ ОЛОН УЛСАД СУРТАЛЧЛАХ</li>
@@ -651,19 +647,16 @@
                             </div>
                             <img src="images/misc/s10.webp" class="w-100 rounded-1 wow scale-in-mask" alt="">
                         </div>
-                        <!-- Desktop: name under photo -->
-                        <div class="d-none d-md-block" style="margin-top:12px;font-size:clamp(11px,1.1vw,13px);font-weight:700;letter-spacing:clamp(1px,0.4vw,2px);color:#fff;text-transform:uppercase;opacity:0.85;">ДОРНОГОВЬ АЙМГИЙН ЗАСАГ ДАРГА О.БАТЖАРГАЛ</div>
                     </div>
 
                     <div class="col-md-8">
-                        <h4 class="fs-32 mb-3 wow fadeInUp" style="font-size:clamp(18px,2.2vw,28px);line-height:1.4;">ДОРНОГОВЬЧУУДЫН ӨМНӨ ХӨГЖЛӨӨ ОГЦОМ ХУРДАСГАН ТҮҮЧЭЭЛЭХ ТҮҮХЭН ЦАГ ҮЕ ИРЛЭЭ.</h4>
-                        <!-- Mobile: name under text -->
-                        <div class="d-md-none" style="font-size:clamp(11px,1.1vw,13px);font-weight:700;letter-spacing:clamp(1px,0.4vw,2px);color:#fff;text-transform:uppercase;opacity:0.85;">ДОРНОГОВЬ АЙМГИЙН ЗАСАГ ДАРГА О.БАТЖАРГАЛ</div>
+                        <h4 class="fs-32 mb-4 wow fadeInUp" style="font-size:clamp(18px,2.2vw,28px);line-height:1.4;">ДОРНОГОВЬЧУУДЫН ӨМНӨ ХӨГЖЛӨӨ ОГЦОМ ХУРДАСГАН ТҮҮЧЭЭЛЭХ ТҮҮХЭН ЦАГ ҮЕ ИРЛЭЭ.</h4>
+
+                        <span>ДОРНОГОВЬ АЙМГИЙН ЗАСАГ ДАРГА О.БАТЖАРГАЛ</span>
                     </div>
                 </div>
             </div>
         </section>
-
 
         <!-- <section id="section-speakers" class="bg-dark section-dark text-light">
             <div class="container">
@@ -862,26 +855,26 @@
                             <li>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-center">
-                                        <div class="col-4 col-md-2 op-6">08:30–09:00</div>
-                                        <div class="col-8 col-md-10"><h5 class="mb-0">Бүртгэл</h5></div>
+                                        <div class="col-md-2 op-6">08:30–09:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Бүртгэл</h5></div>
                                     </div>
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-center">
-                                        <div class="col-4 col-md-2 op-6">09:00–09:10</div>
-                                        <div class="col-8 col-md-10"><h5 class="mb-0">Нээлтийн үг</h5></div>
+                                        <div class="col-md-2 op-6">09:00–09:10</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Нээлтийн үг</h5></div>
                                     </div>
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-center">
-                                        <div class="col-4 col-md-2 op-6">09:10–09:30</div>
-                                        <div class="col-8 col-md-10"><h5 class="mb-0">Мэндчилгээ</h5></div>
+                                        <div class="col-md-2 op-6">09:10–09:30</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Мэндчилгээ</h5></div>
                                     </div>
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">09:30–10:10</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">09:30–10:10</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Форумын зорилго, Хүлээгдэж буй үр дүн</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Татварын өсөлт, ДНБ өсөлт, нэг хүнд ногдох ДНБ, хөрөнгө оруулагчийн эрх, татварын тогтвортой байдал, зохицуулалтын тогтвортой байдал, залуучуудын оролцоо, хөдөлмөрийн нөхцөл, жендерийн тэгш байдал, ажилгүйдлийг бууруулах, хүний эрх, ажилгүйдлийн түвшин, орон нутгийн иргэдийн оролцоог хангах</p> -->
                                         </div>
@@ -889,8 +882,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">10:10–10:25</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">10:10–10:25</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Дорноговь аймагт хийсэн хөрөнгө оруулалтын сайн туршлага</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Дорноговь аймагт хийсэн хөрөнгө оруулалтын сайн туршлага</p> -->
                                         </div>
@@ -898,8 +891,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">10:25–10:45</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">10:25–10:45</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Ногоон эдийн засаг — Ногоон санхүүжилт</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Ногоон санхүүжилт, хөрөнгө оруулалтын сан, ТОС — Тогтвортой санхүүжилтийн холбоо</p> -->
                                         </div>
@@ -907,14 +900,14 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-center">
-                                        <div class="col-4 col-md-2 op-6">10:45–11:05</div>
-                                        <div class="col-8 col-md-10"><h5 class="mb-0">Орон нутгийн иргэд хөрөнгө оруулалтаас ямар үр шим хүртэх вэ?</h5></div>
+                                        <div class="col-md-2 op-6">10:45–11:05</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Орон нутгийн иргэд хөрөнгө оруулалтаас ямар үр шим хүртэх вэ?</h5></div>
                                     </div>
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">11:05–11:45</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">11:05–11:45</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Тогтвортой ХАА — Тойрог эдийн засаг</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Дундын хоршоо, ханган нийлүүлэлтийн сүлжээ</p> -->
                                         </div>
@@ -922,8 +915,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">11:45–12:15</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">11:45–12:15</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Дорноговь аймгийн ханган нийлүүлэлтийн платформ</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Цахим технологи ба ногоон хөгжил — Дорноговьд хөгжих загвар</p> -->
                                         </div>
@@ -931,23 +924,23 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">12:15–12:30</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">12:15–12:30</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Дорноговь аймгийн аялал жуулчлал ба түүнийг дагасан дэд бүтэц</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Тусгай сонирхлын аялал жуулчлал, эрүүл мэндийн аялал жуулчлал, шашин соёлын аялал жуулчлал ба түүнийг дагасан бүтээн байгуулалт</p> -->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="border-white-bottom-op-2 pb-3 mb-3" style="background:rgba(255,255,255,.03);border-radius:6px;padding:12px 0;">
+                                <div class="border-white-bottom-op-2 pb-3 mb-3" style="background:rgba(255,255,255,.03);border-radius:6px;padding:12px 16px;">
                                     <div class="row g-3 align-items-center">
-                                        <div class="col-4 col-md-2 op-6">12:30–13:45</div>
-                                        <div class="col-8 col-md-10"><h5 class="mb-0">Үдийн хоол, Networking</h5></div>
+                                        <div class="col-md-2 op-6">12:30–13:45</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Үдийн хоол, Networking</h5></div>
                                     </div>
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">13:45–14:25</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">13:45–14:25</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Хөрөнгө оруулагчдад зориулсан Боловсрол, соёлын салбаруудын төслийн танилцуулга, салбаруудын хамтын ажиллагаа</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Next-Gen Дорноговь — аймагт шаардлагатай хүний нөөцийг бэлтгэх, сургалтын төлбөрийн тэтгэлэгт хөтөлбөр; Монцемент; бусад ААН-тэй санамж бичиг байгуулах</p> -->
                                         </div>
@@ -955,23 +948,23 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">14:25–14:45</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">14:25–14:45</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Ногоон хот төлөвлөлт 1.0</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Эрчим хүчний хэмнэлттэй орон сууц; агаарын бохирдлыг бууруулах — Дашваанжил газ</p> -->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="border-white-bottom-op-2 pb-3 mb-3" style="background:rgba(255,255,255,.03);border-radius:6px;padding:12px 0;">
+                                <div class="border-white-bottom-op-2 pb-3 mb-3" style="background:rgba(255,255,255,.03);border-radius:6px;padding:12px 16px;">
                                     <div class="row g-3 align-items-center">
-                                        <div class="col-4 col-md-2 op-6">14:45–15:00</div>
-                                        <div class="col-8 col-md-10"><h5 class="mb-0">Coffee break</h5></div>
+                                        <div class="col-md-2 op-6">14:45–15:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Coffee break</h5></div>
                                     </div>
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">15:00–15:40</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">15:00–15:40</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Хөрөнгө оруулагчдад зориулсан Эрүүл мэнд, нийгмийн салбаруудын төслийн танилцуулга, салбаруудын хамтын ажиллагаа</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Дорноговь аймагт шаардлагатай эмнэлгийн тоног төхөөрөмж, тасгуудын тохижилт, хөдөлмөр нийгмийн хамгааллын салбарын төслүүд (HUB CENTER); ААН-тэй санамж бичиг байгуулах</p> -->
                                         </div>
@@ -979,8 +972,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">15:40–16:30</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">15:40–16:30</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Уул уурхай ба хүнд үйлдвэрлэлийн жишиг төслүүд, Дэлхийн тогтвортой хөгжлийн зорилтууд</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Тогтвортой хөгжлийн зорилтуудад нийцсэн хөрөнгө оруулалт (MAK, Монцемент)</p> -->
                                         </div>
@@ -988,17 +981,17 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">16:30–17:00</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">16:30–17:00</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Дүгнэлт, хаалт</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Форумын эхний өдрийн үйл ажиллагааг товч дүгнэх</p> -->
                                         </div>
                                     </div>
                                 </div>
-                                <div class="border-white-bottom-op-2 pb-3 mb-3">
+                                <div class="pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">17:30–18:30</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">17:30–18:30</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">ААН-тэй нийгмийн хариуцлагын гэрээ байгуулах</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Уул уурхай ААН-тэй ЗДТГ-н хурлын зааланд гэрээ байгуулах</p> -->
                                         </div>
@@ -1010,14 +1003,14 @@
                             <li>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-center">
-                                        <div class="col-4 col-md-2 op-6">08:30–09:00</div>
-                                        <div class="col-8 col-md-10"><h5 class="mb-0">Бүртгэл</h5></div>
+                                        <div class="col-md-2 op-6">08:30–09:00</div>
+                                        <div class="col-md-10"><h5 class="mb-0">Бүртгэл</h5></div>
                                     </div>
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">09:00–09:20</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">09:00–09:20</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Форумын зорилго, Хүлээгдэж буй үр дүн</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Хөрөнгө оруулагчийн эрх, зохицуулалтын тогтвортой байдал, хүрээлэн буй орчин, хөдөлмөрийн нөхцөл, жендерийн тэгш байдал, хүний эрх, орон нутгийн иргэдийн оролцоог хангах</p> -->
                                         </div>
@@ -1025,8 +1018,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">09:20–09:45</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">09:20–09:45</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Гадаадын хөрөнгө оруулалтын боломж ба Дорноговь аймаг</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Олон улсын зах зээл дэх олон улсын донор байгууллагууд ба Монгол улсын банкны систем</p> -->
                                         </div>
@@ -1034,8 +1027,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">09:45–10:05</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">09:45–10:05</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Эрчим хүчний ирээдүйн чиг хандлага ба Дорноговь аймаг</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Сэргээгдэх эрчим хүч, эрчим хүчний үр ашиг</p> -->
                                         </div>
@@ -1043,8 +1036,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">10:05–10:25</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">10:05–10:25</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Хариуцлагатай уул уурхай ба усны менежмент — түүний дагасан хөв цөөрөм байгуулах нь</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Хаягдал усыг дахин ашиглах, гадаргын усны нөөцийг нэмэгдүүлэх, түүнийг дагасан хүрээлэн буй орчны нөхөн сэргээлт</p> -->
                                         </div>
@@ -1052,8 +1045,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">10:25–11:10</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">10:25–11:10</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Хөрөнгө оруулагчдад зориулсан Дэд бүтэц, Байгаль орчны салбаруудын төслийн танилцуулга, салбаруудын хамтын ажиллагаа</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Сэргээгдэх эрчим хүч, авто зам, уст цэгийг нэмэгдүүлэх, цөлжилт, томоохон суурьшлын бүсүүдэд (Сайншанд, Замын-Үүд) цэцэрлэгт хүрээлэнг нэмэгдүүлэх, уур амьсгалын өөрчлөлтийг бууруулах төслүүд; БНХАУ Mianyang болон бусад ААН-тэй санамж бичиг байгуулах</p> -->
                                         </div>
@@ -1061,8 +1054,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">11:10–11:35</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">11:10–11:35</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Ногоон хот төлөвлөлт 2.0</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Нүхэн жорлонг бууруулах; ногоон байгууламжийг нэмэгдүүлэх</p> -->
                                         </div>
@@ -1070,8 +1063,8 @@
                                 </div>
                                 <div class="border-white-bottom-op-2 pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">11:35–12:30</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">11:35–12:30</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Ногоон хөгжил, тогтвортой хөрөнгө оруулалт - Шагнал гардуулах ёслол</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Боловсролын салбарт хийсэн хөрөнгө оруулалт; эмнэлэг, эрүүл мэндийн салбарт хийсэн хөрөнгө оруулалт; Тогтвортой хөгжлийг дэмжигч байгууллага; Ногоон хөгжлийг дэмжигч байгууллага; Нийгмийн шилдэг коммунити; Хөдөө аж ахуйн шилдэг үйлдвэрлэгч; Ногоон эрчим хүчний шилдэг төсөл; Шилдэг Стартап</p> -->
                                         </div>
@@ -1079,8 +1072,8 @@
                                 </div>
                                 <div class="pb-3 mb-3">
                                     <div class="row g-3 align-items-start">
-                                        <div class="col-4 col-md-2 op-6">12:30–12:40</div>
-                                        <div class="col-8 col-md-10">
+                                        <div class="col-md-2 op-6">12:30–12:40</div>
+                                        <div class="col-md-10">
                                             <h5 class="mb-1">Дүгнэлт, хаалт</h5>
                                             <!-- <p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">Форумын хоёр дахь өдрийн үйл ажиллагааг товч дүгнэлт</p> -->
                                         </div>
@@ -1266,13 +1259,6 @@
                 .b2b-scope .b2b-disc-label { min-width: auto; }
                 .b2b-scope .b2b-time { min-width: 86px; }
                 .b2b-scope .b2b-days-nav > li { padding: 10px 14px; }
-              }
-              @media (max-width: 576px) {
-                .b2b-scope .b2b-subtitle { letter-spacing: 0.5px; font-size: 12px; }
-                .b2b-scope .b2b-coord-title { letter-spacing: 0.5px; font-size: 13px; }
-                .b2b-scope .b2b-days-nav { flex-wrap: wrap; gap: 4px; }
-                .b2b-scope .b2b-days-nav > li { padding: 8px 10px; font-size: 11px; }
-                .b2b-scope .b2b-disc-label { font-size: 12px; }
               }
             </style>
             <script>
@@ -2005,11 +1991,6 @@
             .dsif-footer { padding-top: 40px; }
             .dsif-footer .subfooter { text-align: center; }
             .dsif-footer .sdg-pill { margin: 4px 3px 0; }
-          }
-          @media (max-width: 576px) {
-            .dsif-footer .footer-title { letter-spacing: 1px; font-size: 13px; }
-            .dsif-footer .subfooter { letter-spacing: 0.3px; font-size: 11px; }
-            .dsif-footer .footer-nav a { letter-spacing: 0.3px; }
           }
         </style>
     </footer>

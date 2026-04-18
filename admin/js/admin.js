@@ -50,7 +50,7 @@ const storage = getStorage(app);
 // ── Салбарын нэрс (монгол) ──
 const SECTOR_NAMES = {
   energy: "Эрчим хүч",
-  mining: "Уул уурхай",
+  mining: "Аялал жуулчлал",
   environment: "Байгаль орчин",
   infra: "Дэд бүтэц",
   edu: "Боловсрол",
@@ -59,6 +59,18 @@ const SECTOR_NAMES = {
   social: "Нийгэм",
   agri: "Хөдөө аж ахуй"
 };
+
+// tusul.html-ийн 8 Google Sheet loader-той ижил — админд бүх төслийг харуулах
+const PROJECT_SHEETS = [
+  { sector: "infra",       id: "1eebLZJiL8lMMJ8YDEt2W06P9f8_NgICX9EXlMNdjvW8", gid: "0" },
+  { sector: "environment", id: "1H6ORSfZh61fARTEd-F24bBPzCv88mKIHww8_MdORd68", gid: "0" },
+  { sector: "health",      id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "0" },
+  { sector: "culture",     id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "904267116" },
+  { sector: "edu",         id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "797596799" },
+  { sector: "agri",        id: "133ZKSNTFJ2ZaA7MBZPu7PtdE1tSP7hUUh-RVIKhhew8", gid: "0" },
+  { sector: "energy",      id: "1ucbKdcgNMBcpyfnvpBzueFflzL-IMzqYtBYre7_uEVk", gid: "0" },
+  { sector: "mining",      id: "1gHMiQzvsHb2lIWD8_QSSb7PIWcSm4lFR51dq8npthaU", gid: "0" }
+];
 
 const ROLE_LABELS = {
   admin: "Админ",
@@ -449,6 +461,64 @@ async function loadProjects(filterSector) {
       });
     } catch (e) { console.warn("Firestore projects load:", e); }
 
+    // 4) Google Sheet loader-уудаас төслүүдийг унших (tusul.html-тэй ижил эх үүсвэр)
+    await Promise.all(PROJECT_SHEETS.map(async (s) => {
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${s.id}/gviz/tq?tqx=out:json&gid=${s.gid}`;
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const text = await res.text();
+        const jsonStart = text.indexOf("{");
+        const jsonEnd = text.lastIndexOf("}");
+        if (jsonStart < 0 || jsonEnd < 0) return;
+        const json = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
+        const cols = (json.table.cols || []).map((c) => (c.label || "").trim());
+        const rows = json.table.rows || [];
+        const colIdx = (p) => cols.findIndex((c) => c && c.toLowerCase().indexOf(p.toLowerCase()) !== -1);
+        const iName = colIdx("Төслийн нэр");
+        let iCreator = colIdx("Байгууллагын нэр");
+        if (iCreator === -1) iCreator = colIdx("Төсөл санаачлагч");
+        const iAmount = colIdx("Нийт санхүүжилт");
+        const iDuration = colIdx("Хэрэгжих хугацаа");
+        const get = (cells, i) => {
+          if (i < 0 || i >= cells.length) return "";
+          const c = cells[i];
+          if (!c) return "";
+          if (c.f != null) return c.f.toString().trim();
+          return c.v != null ? c.v.toString().trim() : "";
+        };
+        rows.forEach((r) => {
+          const cells = r.c || [];
+          const title = get(cells, iName);
+          if (!title) return;
+          const creator = iCreator !== -1 ? get(cells, iCreator) : "";
+          const amountStr = iAmount !== -1 ? get(cells, iAmount) : "";
+          const amountNum = Number((amountStr || "").toString().replace(/[^\d.]/g, "")) || 0;
+          const slug = norm(title) || "sheet-" + Math.random().toString(36).slice(2, 8);
+          const key = keyOf(s.sector, title);
+          if (seen.has(key)) return;
+          seen.set(key, allProjects.length);
+          allProjects.push({
+            sector: s.sector,
+            slug,
+            title,
+            creator,
+            desc: "",
+            funded: 0,
+            days: 0,
+            backers: 0,
+            newest: 0,
+            thumbUrl: "",
+            amount: amountNum,
+            duration: iDuration !== -1 ? get(cells, iDuration) : "",
+            source: "sheet"
+          });
+        });
+      } catch (e) {
+        console.warn("Sheet load:", s.sector, e);
+      }
+    }));
+
     // Эцсийн давхардалыг цэвэрлэх (өөр хоорондоо нэр/sector таарч буй зүйл)
     const uniq = new Map();
     for (const p of allProjects) {
@@ -457,8 +527,8 @@ async function loadProjects(filterSector) {
       if (!existing) {
         uniq.set(k, p);
       } else {
-        // Эрэмбэ: firestore > manifest > html (илүү шинэ эх үүсвэр давамгайлна)
-        const rank = { firestore: 3, manifest: 2, html: 1 };
+        // Эрэмбэ: firestore > manifest > sheet > html (илүү шинэ эх үүсвэр давамгайлна)
+        const rank = { firestore: 4, manifest: 3, sheet: 2, html: 1 };
         if ((rank[p.source] || 0) > (rank[existing.source] || 0)) {
           uniq.set(k, { ...existing, ...p });
         }
