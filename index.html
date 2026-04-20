@@ -1278,9 +1278,39 @@
                 </div>
             </div>
 
-            <div class="row g-4">
-                <div class="col-sm-6">
-  
+            <div class="row g-4 venue-main-row">
+                <div class="col-lg-7 order-lg-1">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42704.6!2d110.1306!3d44.8953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d96e3b5e3d3e3d3%3A0x3d3e3d3e3d3e3d3e!2sSainshand%2C%20Dornogovi%20Province%2C%20Mongolia!5e0!3m2!1smn!2smn!4v1713200000000!5m2!1smn!2smn" class="w-100 rounded-1" style="min-height:380px;border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+
+                <div class="col-lg-5 order-lg-2 venue-contact-panel">
+                    <div class="v-contact-item">
+                        <i class="icofont-google-map contact-icon"></i>
+                        <div class="v-contact-text">
+                            <h4 class="mb-0">ХАЯГ</h4>
+                            <p>ДОРНОГОВЬ АЙМАГ, САЙНШАНД СУМ, СПОРТЫН ОРДОН</p>
+                        </div>
+                    </div>
+                    <div class="v-contact-item">
+                        <i class="icofont-phone contact-icon"></i>
+                        <div class="v-contact-text">
+                            <h4 class="mb-0">ХОЛБОО БАРИХ</h4>
+                            <p>77006933, 91116933, 95111149</p>
+                        </div>
+                    </div>
+                    <div class="v-contact-item">
+                        <i class="icofont-envelope contact-icon"></i>
+                        <div class="v-contact-text">
+                            <h4 class="mb-0">И-МЭЙЛ</h4>
+                            <p>FORUM@DORNOGOVI.GOV.MN</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mt-2">
+                <div class="col-lg-12">
+
                     <style>
                       #venue-slider {
                         position: relative;
@@ -1445,49 +1475,45 @@
                     </script>
                 </div>
 
-                <div class="col-sm-6">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42704.6!2d110.1306!3d44.8953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d96e3b5e3d3e3d3%3A0x3d3e3d3e3d3e3d3e!2sSainshand%2C%20Dornogovi%20Province%2C%20Mongolia!5e0!3m2!1smn!2smn!4v1713200000000!5m2!1smn!2smn" class="w-100 rounded-1" style="min-height:300px;border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-
-                <div class="clearfix"></div>
-
-                <div class="col-lg-4 col-md-6 mb-sm-30">
-                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".2s">
-                        <i class="icofont-google-map contact-icon"></i>
-                        <div class="ms-3">
-                            <h4 class="mb-0">ХАЯГ</h4>
-                            <p>ДОРНОГВЬ АЙМАГ, САЙНШАНД СУМ,<BR> СПОРТЫН ОРДОН</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-sm-30">
-                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".4s">
-                        <i class="icofont-phone contact-icon"></i>
-                        <div class="ms-3">
-                            <h4 class="mb-0">ХОЛБОО БАРИХ</h4>
-                            <p>77006933, 91116933, 95111149</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-sm-30">
-                    <div class="d-flex justify-content-center wow fadeInUp" data-wow-delay=".6s">
-                        <i class="icofont-envelope contact-icon"></i>
-                        <div class="ms-3">
-                            <h4 class="mb-0">И-МЭЙЛ</h4>
-                            <p>FORUM@DORNOGOVI.GOV.MN</p>
-                        </div>
-                    </div>
-                </div>
                 <style>
-                  .contact-icon {
-                    font-size: 42px !important;
-                    color: #4bac48 !important;
-                    line-height: 1;
+                  .contact-icon { font-size: 28px !important; color: #4bac48 !important; line-height: 1; }
+                  .venue-contact-panel { display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+                  .venue-contact-panel .v-contact-item {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 14px;
+                    padding: 12px 14px;
+                    background: rgba(255,255,255,0.03);
+                    border: 1px solid rgba(255,255,255,0.08);
+                    border-radius: 8px;
+                    transition: background 0.2s, border-color 0.2s;
                   }
-                  @media (max-width: 768px) {
-                    .contact-icon { font-size: 36px !important; }
+                  .venue-contact-panel .v-contact-item:hover {
+                    background: rgba(75,172,72,0.08);
+                    border-color: rgba(75,172,72,0.35);
+                  }
+                  .venue-contact-panel .v-contact-item i { font-size: 24px !important; color: #4bac48; min-width: 28px; margin-top: 2px; }
+                  .venue-contact-panel .v-contact-text h4 {
+                    font-size: 12px;
+                    letter-spacing: 1px;
+                    color: #4bac48;
+                    text-transform: uppercase;
+                    margin-bottom: 4px !important;
+                    font-weight: 700;
+                  }
+                  .venue-contact-panel .v-contact-text p {
+                    font-size: 12px;
+                    line-height: 1.5;
+                    margin-bottom: 0;
+                    opacity: 0.9;
+                    word-break: break-word;
+                  }
+                  @media (max-width: 991.98px) {
+                    .venue-contact-panel { margin-top: 12px; }
+                    .venue-contact-panel .v-contact-item { padding: 10px 12px; gap: 10px; }
+                    .venue-contact-panel .v-contact-item i { font-size: 20px !important; min-width: 22px; }
+                    .venue-contact-panel .v-contact-text h4 { font-size: 11px; }
+                    .venue-contact-panel .v-contact-text p { font-size: 11px; line-height: 1.4; }
                   }
                 </style>
             </div>
@@ -1883,9 +1909,9 @@
     <footer class="text-light section-dark dsif-footer">
         <div class="container">
             <div class="row g-5">
-                <div class="col-lg-4 col-md-12">
+                <div class="col-lg-3 col-md-12">
                     <div class="footer-brand">
-                        <img src="images/logo.webp" class="w-150px mb-3" alt="DSIF">
+                        <img src="images/logo.webp" class="footer-logo mb-3" alt="DSIF">
                         <p class="footer-desc">
                             Ногоон хөгжил — Тогтвортой хөрөнгө оруулалтын форум 2026.
                             Дорноговь аймгийн эдийн засгийн өсөлт, ногоон технологи,
@@ -1902,22 +1928,19 @@
 
                 <div class="col-lg-3 col-md-4">
                     <h3 class="footer-title">ФОРУМ</h3>
-                    <ul class="footer-nav">
-                        <li><a href="#section-about">ЗОРИЛГО</a></li>
-                        <li><a href="#section-schedule">ХӨТӨЛБӨР</a></li>
-                        <li><a href="#section-speakers">ИЛТГЭГЧИД</a></li>
-                        <li><a href="#section-venue">ТӨЛӨВЛӨЛТ · БАЙРШИЛ</a></li>
+                    <ul class="footer-nav" id="footer-menu">
+                        <li><a href="index.html#section-about">ЗОРИЛГО</a></li>
+                        <li><a href="tusul.html">ТӨСӨЛ</a></li>
+                        <li><a href="index.html#section-schedule">ХӨТӨЛБӨР</a></li>
+                        <li><a href="index.html#section-venue">БАЙРШИЛ</a></li>
+                        <li><a href="sudalgaa.html">СУДАЛГАА</a></li>
                     </ul>
                 </div>
 
-                <div class="col-lg-2 col-md-4">
-                    <h3 class="footer-title">САЛБАРУУД</h3>
-                    <ul class="footer-nav">
-                        <li><a href="tusul.html">Эрчим хүч</a></li>
-                        <li><a href="tusul.html">Уул уурхай</a></li>
-                        <li><a href="tusul.html">Хөдөө аж ахуй</a></li>
-                        <li><a href="tusul.html">Дэд бүтэц</a></li>
-                        <li><a href="tusul.html">Боловсрол</a></li>
+                <div class="col-lg-3 col-md-4 footer-col-categories">
+                    <h3 class="footer-title">ТӨСЛИЙН АНГИЛАЛ</h3>
+                    <ul class="footer-nav" id="footer-categories">
+                        <!-- data/categories.json-оос динамикаар ачаалагдана -->
                     </ul>
                 </div>
 
@@ -1949,10 +1972,15 @@
 
         <style>
           .dsif-footer { padding-top: 60px; padding-bottom: 24px; }
-          .dsif-footer .footer-desc { font-size: 13px; line-height: 1.7; opacity: 0.75; margin-bottom: 0; }
+          .dsif-footer .footer-logo { width: 70px; display: block; }
+          .dsif-footer .footer-desc { font-size: 13px; line-height: 1.7; opacity: 0.75; margin-bottom: 0; text-align: justify; }
           .dsif-footer .footer-title { font-size: 14px; font-weight: 700; letter-spacing: 2px; color: #4bac48; text-transform: uppercase; margin-bottom: 18px; }
           .dsif-footer .footer-nav { list-style: none; padding: 0; margin: 0; }
-          .dsif-footer .footer-nav li { margin-bottom: 10px; }
+          .dsif-footer .footer-nav li { margin-bottom: 4px; }
+          @media (min-width: 992px) {
+            .dsif-footer .footer-col-categories { padding-left: 40px; padding-right: 40px; }
+          }
+          .dsif-footer #footer-categories a { white-space: nowrap; }
           .dsif-footer .footer-nav a { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; transition: color 0.2s, opacity 0.2s; text-decoration: none; color: inherit; }
           .dsif-footer .footer-nav a:hover { color: #4bac48; opacity: 1; }
           .dsif-footer .footer-contact p { font-size: 13px; line-height: 1.6; margin-bottom: 10px; opacity: 0.85; display: flex; align-items: flex-start; gap: 10px; }
@@ -1970,6 +1998,39 @@
             .dsif-footer .sdg-pill { margin: 4px 3px 0; }
           }
         </style>
+        <script>
+          // Footer-ийн төслийн ангилал — data/categories.json-оос ачаалагдана
+          (function() {
+            var ul = document.getElementById('footer-categories');
+            if (!ul) return;
+            fetch('data/categories.json')
+              .then(function(r) { return r.json(); })
+              .then(function(cats) {
+                ul.innerHTML = cats.map(function(c) {
+                  return '<li><a href="tusul.html?cat=' + encodeURIComponent(c.key) + '">' + c.name + '</a></li>';
+                }).join('');
+              })
+              .catch(function(e) { console.warn('Footer categories load error:', e); });
+          })();
+
+          // Footer-ийн үндсэн цэсийг header-ийн menu.json тохиргоогоор нуух
+          (function() {
+            var menuUl = document.getElementById('footer-menu');
+            if (!menuUl) return;
+            fetch('data/menu.json')
+              .then(function(r) { return r.json(); })
+              .then(function(items) {
+                var hidden = [];
+                items.forEach(function(m) { if (!m.visible && m.type !== 'section') hidden.push(m.label); });
+                if (!hidden.length) return;
+                menuUl.querySelectorAll('li').forEach(function(li) {
+                  var a = li.querySelector('a');
+                  if (a && hidden.indexOf(a.textContent.trim()) !== -1) li.style.display = 'none';
+                });
+              })
+              .catch(function(e) { /* menu.json байхгүй бол бүх цэс харагдана */ });
+          })();
+        </script>
     </footer>
     <!-- footer end -->
     

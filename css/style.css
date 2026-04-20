@@ -4426,7 +4426,7 @@ ol.ol-style-1.c2 li::before{
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: #4bac48;
   margin: -2px 0 0 -2px;
 }
 
