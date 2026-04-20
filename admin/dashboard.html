@@ -227,33 +227,36 @@
           <div class="panel-body" style="padding:0; overflow-x:auto;">
             <table class="projects-tbl">
               <thead>
-                <tr>
+                <tr class="projects-col-header">
                   <th style="width:40px"><input type="checkbox" id="projectSelectAll" title="Бүгдийг сонгох"></th>
-                  <th>Зураг</th>
-                  <th>Төслийн нэр</th>
-                  <th>Ангилал</th>
-                  <th>Санхүүжилт</th>
-                  <th>Төлөв</th>
-                  <th>Үйлдэл</th>
-                </tr>
-                <tr class="projects-col-search">
-                  <th></th>
-                  <th></th>
-                  <th><input type="text" data-proj-search="name" placeholder="🔍 нэр" class="col-search-input"></th>
+                  <th><span class="col-label">Зураг</span></th>
                   <th>
+                    <span class="col-label">Төслийн нэр</span>
+                    <input type="text" data-proj-search="name" placeholder="🔍 нэр" class="col-search-input">
+                  </th>
+                  <th>
+                    <span class="col-label">Ангилал</span>
                     <select data-proj-search="sector" class="col-search-input">
                       <option value="">бүгд</option>
                     </select>
                   </th>
-                  <th><input type="text" data-proj-search="amount" placeholder="🔍 дүн" class="col-search-input"></th>
                   <th>
-                    <select data-proj-search="status" class="col-search-input">
-                      <option value="">бүгд</option>
-                      <option value="visible">Идэвхтэй</option>
-                      <option value="hidden">Нуугдсан</option>
+                    <span class="col-label">Санхүүжилт</span>
+                    <select data-proj-search="amount" class="col-search-input">
+                      <option value="">дараалал</option>
+                      <option value="desc">↓ Ихээс бага</option>
+                      <option value="asc">↑ Багаас их</option>
                     </select>
                   </th>
-                  <th></th>
+                  <th>
+                    <span class="col-label">Төлөв</span>
+                    <select data-proj-search="status" class="col-search-input">
+                      <option value="">бүгд</option>
+                      <option value="visible" data-icon="eye">👁 Идэвхтэй</option>
+                      <option value="hidden" data-icon="eye-slash">🚫 Нуугдсан</option>
+                    </select>
+                  </th>
+                  <th><span class="col-label">Үйлдэл</span></th>
                 </tr>
               </thead>
               <tbody id="projectGrid">
@@ -550,7 +553,23 @@
         </div>
       </div>
 
-      <!-- Note modal — санхүүжүүлэгчийн тэмдэглэл -->
+      <!-- Project Funders List Modal — тухайн төслийн санхүүжүүлэгчдийг харуулах -->
+      <div class="modal-overlay" id="projectFundersModal">
+        <div class="modal funders-modal" style="max-width:780px">
+          <div class="modal-header funders-modal-header">
+            <h3 class="funders-modal-title">
+              <span class="funders-modal-icon"><i class="fa fa-users"></i></span>
+              <span id="projectFundersTitle">Санхүүжүүлэгчид</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('projectFundersModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div id="projectFundersSummary" class="funders-summary"></div>
+            <div id="projectFundersList" class="funders-list"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="modal-overlay" id="funderNoteModal">
         <div class="modal" style="max-width:520px">
           <div class="modal-header">
