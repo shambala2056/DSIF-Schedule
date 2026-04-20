@@ -117,7 +117,7 @@ Table of content:
   --mainmenu-letter-spacing: 1px;
   --mainmenu-text-transform: none;
   /* header logo */
-  --logo-width: 120px;
+  --logo-width: 100px;
   --logo-footer-width: 150px;
   /* misc */
   --border-default: solid 1px rgba(30, 30, 30, 1);

@@ -26,8 +26,9 @@
     <!-- ═══════════ SIDEBAR ═══════════ -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <img src="../images/logo.webp" alt="DSIF">
-        <div class="brand sidebar-text" style="flex:1">
+        <img class="sidebar-logo-full sidebar-text" src="../images/logo.webp" alt="DSIF">
+        <img class="sidebar-logo-icon" src="../images/icon.webp" alt="DSIF">
+        <div class="brand sidebar-text">
           DSIF Админ
           <small>Удирдлагын самбар</small>
         </div>
@@ -39,7 +40,7 @@
           <i class="fa fa-chart-pie"></i> <span class="sidebar-text">Хянах самбар</span>
         </a>
 
-        <div class="nav-label"><span class="sidebar-text">Төсөл</span></div>
+        <div class="nav-label"><span class="sidebar-text">Төсөл, хөтөлбөр</span></div>
         <a href="#" data-section="projects">
           <i class="fa fa-folder-open"></i> <span class="sidebar-text">Төслүүд</span>
         </a>
@@ -47,20 +48,23 @@
           <i class="fa fa-layer-group"></i> <span class="sidebar-text">Төслийн ангилал</span>
         </a>
 
-        <div class="nav-label"><span class="sidebar-text">Сайт</span></div>
-        <a href="#" data-section="menu">
-          <i class="fa fa-bars"></i> <span class="sidebar-text">Цэс тохиргоо</span>
-        </a>
-        <a href="#" data-section="funding">
-          <i class="fa fa-hand-holding-dollar"></i> <span class="sidebar-text">Санхүүжилт тохиргоо</span>
+        <div class="nav-label"><span class="sidebar-text">Санхүүжилт</span></div>
+        <a href="#" data-section="funders">
+          <i class="fa fa-users-line"></i> <span class="sidebar-text">Санхүүжүүлэгчид</span>
         </a>
 
-        <div class="nav-label"><span class="sidebar-text">Хэрэглэгч</span></div>
+        <div class="nav-label"><span class="sidebar-text">Тохиргоо</span></div>
         <a href="#" data-section="sub-admins">
           <i class="fa fa-user-shield"></i> <span class="sidebar-text">Дэд админ</span>
         </a>
         <a href="#" data-section="roles">
           <i class="fa fa-key"></i> <span class="sidebar-text">Эрхийн тохиргоо</span>
+        </a>
+        <a href="#" data-section="funding">
+          <i class="fa fa-hand-holding-dollar"></i> <span class="sidebar-text">Санхүүжилт тохиргоо</span>
+        </a>
+        <a href="#" data-section="menu">
+          <i class="fa fa-bars"></i> <span class="sidebar-text">Цэс тохиргоо</span>
         </a>
       </nav>
 
@@ -130,6 +134,32 @@
 
         <div class="panel">
           <div class="panel-header">
+            <h3><i class="fa fa-hand-holding-dollar"></i>&nbsp; Сүүлийн санхүүжилт хүсэлтүүд</h3>
+            <a href="#" data-section="funding" class="btn btn-outline btn-sm" style="margin-left:auto" onclick="document.querySelector('[data-section=funding]').click(); return false;">
+              <i class="fa fa-arrow-right"></i> Бүгдийг харах
+            </a>
+          </div>
+          <div class="panel-body" style="padding:0">
+            <table>
+              <thead>
+                <tr>
+                  <th>Огноо</th>
+                  <th>Төсөл</th>
+                  <th>Нэр / Байгууллага</th>
+                  <th>Утас</th>
+                  <th>Дүн</th>
+                  <th>Төрөл</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardFundingTable">
+                <tr><td colspan="6" class="empty-state"><i class="fa fa-inbox"></i><p>Ачаалж байна...</p></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:20px">
+          <div class="panel-header">
             <h3><i class="fa fa-clock"></i>&nbsp; Сүүлийн үйлдлүүд</h3>
           </div>
           <div class="panel-body">
@@ -194,8 +224,8 @@
 
         <!-- Projects table -->
         <div class="panel">
-          <div class="panel-body" style="padding:0">
-            <table>
+          <div class="panel-body" style="padding:0; overflow-x:auto;">
+            <table class="projects-tbl">
               <thead>
                 <tr>
                   <th style="width:40px"><input type="checkbox" id="projectSelectAll" title="Бүгдийг сонгох"></th>
@@ -205,6 +235,25 @@
                   <th>Санхүүжилт</th>
                   <th>Төлөв</th>
                   <th>Үйлдэл</th>
+                </tr>
+                <tr class="projects-col-search">
+                  <th></th>
+                  <th></th>
+                  <th><input type="text" data-proj-search="name" placeholder="🔍 нэр" class="col-search-input"></th>
+                  <th>
+                    <select data-proj-search="sector" class="col-search-input">
+                      <option value="">бүгд</option>
+                    </select>
+                  </th>
+                  <th><input type="text" data-proj-search="amount" placeholder="🔍 дүн" class="col-search-input"></th>
+                  <th>
+                    <select data-proj-search="status" class="col-search-input">
+                      <option value="">бүгд</option>
+                      <option value="visible">Идэвхтэй</option>
+                      <option value="hidden">Нуугдсан</option>
+                    </select>
+                  </th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="projectGrid">
@@ -398,6 +447,125 @@
                 <tr><td colspan="6" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжилтийн хүсэлт байхгүй</p></td></tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FUNDERS SECTION ── -->
+      <div class="section-page" id="sec-funders">
+        <div class="page-header">
+          <h2>Санхүү<span>үлэгчид</span></h2>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-info btn-sm" id="refreshFundersBtn" title="Дахин ачаалах">
+              <i class="fa fa-rotate"></i> Дахин ачаалах
+            </button>
+            <button class="btn btn-outline btn-sm" id="exportFundersBtn">
+              <i class="fa fa-file-csv"></i> CSV экспорт
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fa fa-users"></i></div>
+            <div class="stat-value" id="statFundersTotal">0</div>
+            <div class="stat-label">Нийт санхүүжүүлэгч</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fa fa-building"></i></div>
+            <div class="stat-value" id="statFundersOrg">0</div>
+            <div class="stat-label">Байгууллага</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon yellow"><i class="fa fa-user"></i></div>
+            <div class="stat-value" id="statFundersPerson">0</div>
+            <div class="stat-label">Хувь хүн</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red"><i class="fa fa-coins"></i></div>
+            <div class="stat-value" id="statFundersAmount">0₮</div>
+            <div class="stat-label">Нийт дүн</div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div style="margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <input type="text" id="fundersSearch" class="brand-input" placeholder="Хайх (нэр, утас, төсөл)..." style="flex:1; min-width:220px;">
+          <select id="fundersSectorFilter" class="brand-input" style="max-width:200px;">
+            <option value="all">Бүх ангилал</option>
+          </select>
+          <select id="fundersProjectFilter" class="brand-input" style="max-width:280px;">
+            <option value="all">Бүх төсөл</option>
+          </select>
+          <select id="fundersTypeFilter" class="brand-input" style="max-width:160px;">
+            <option value="all">Бүх төрөл</option>
+            <option value="org">Байгууллага</option>
+            <option value="person">Хувь хүн</option>
+          </select>
+          <button class="btn btn-outline btn-sm" id="fundersResetFilters" title="Шүүлт цэвэрлэх">
+            <i class="fa fa-rotate-left"></i> Цэвэрлэх
+          </button>
+          <span id="fundersCount" style="font-size:12px; color:var(--admin-text-muted);"></span>
+        </div>
+
+        <div class="panel">
+          <div class="panel-body" style="padding:0; overflow-x:auto;">
+            <table class="funders-tbl">
+              <thead>
+                <tr>
+                  <th style="width:40px">№</th>
+                  <th>Огноо</th>
+                  <th>Төрөл</th>
+                  <th>Байгууллага / Нэр</th>
+                  <th>Албан тушаал</th>
+                  <th>Утас</th>
+                  <th>Төслийн нэр</th>
+                  <th style="text-align:right">Санхүүжүүлэх дүн</th>
+                  <th style="width:120px">Үйлдэл</th>
+                </tr>
+                <tr class="funders-col-search">
+                  <th></th>
+                  <th><input type="text" data-col-search="date" placeholder="🔍" class="col-search-input"></th>
+                  <th>
+                    <select data-col-search="type" class="col-search-input">
+                      <option value="">бүгд</option>
+                      <option value="org">Байгууллага</option>
+                      <option value="person">Хувь хүн</option>
+                    </select>
+                  </th>
+                  <th><input type="text" data-col-search="name" placeholder="🔍" class="col-search-input"></th>
+                  <th><input type="text" data-col-search="position" placeholder="🔍" class="col-search-input"></th>
+                  <th><input type="text" data-col-search="phone" placeholder="🔍" class="col-search-input"></th>
+                  <th><input type="text" data-col-search="project" placeholder="🔍" class="col-search-input"></th>
+                  <th><input type="text" data-col-search="amount" placeholder="🔍" class="col-search-input" style="text-align:right"></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="fundersTable">
+                <tr><td colspan="9" class="empty-state"><i class="fa fa-inbox"></i><p>Ачаалж байна...</p></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Note modal — санхүүжүүлэгчийн тэмдэглэл -->
+      <div class="modal-overlay" id="funderNoteModal">
+        <div class="modal" style="max-width:520px">
+          <div class="modal-header">
+            <h3 id="funderNoteTitle">Тэмдэглэл</h3>
+            <button class="modal-close" onclick="closeModal('funderNoteModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p style="font-size:12px; color:var(--admin-text-muted); margin:0 0 12px;" id="funderNoteSub"></p>
+            <textarea id="funderNoteText" rows="6" style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid var(--admin-border); background:var(--admin-dark-2); color:inherit; resize:vertical;" placeholder="Тэмдэглэл бичих..."></textarea>
+            <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:12px;">
+              <button class="btn btn-outline btn-sm" onclick="closeModal('funderNoteModal')">Болих</button>
+              <button class="btn btn-primary btn-sm" id="funderNoteSaveBtn">
+                <i class="fa fa-save"></i> Хадгалах
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -643,6 +811,6 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Firebase + Admin JS -->
-  <script type="module" src="js/admin.js"></script>
+  <script type="module" src="js/admin.js?v=20260419-funded-pct"></script>
 </body>
 </html>
