@@ -675,12 +675,36 @@
             })();
 
             var currentFundProject = null;
+            var currentFundMeta = { sector: '', sectorName: '', projectAmount: 0, projectId: '' };
+
+            // Sector кодыг монгол нэрэнд хөрвүүлэх — админд илүү унших боломжтой болгох
+            var SECTOR_NAMES_MN = {
+              energy: 'Эрчим хүч',
+              mining: 'Аялал жуулчлал',
+              environment: 'Байгаль орчин',
+              infra: 'Дэд бүтэц',
+              edu: 'Боловсрол',
+              culture: 'Соёл',
+              health: 'Эрүүл мэнд',
+              social: 'Нийгэм',
+              agri: 'Хөдөө аж ахуй',
+              tourism: 'Аялал жуулчлал'
+            };
 
             function openFundModal(card) {
               var title = card.querySelector('.pcard-title');
               currentFundProject = title ? title.textContent.trim() : '';
               // Дугаар "1." гэх мэтийг салгана
               var cleanTitle = currentFundProject.replace(/^\s*\d+\.\s*/, '');
+
+              // Төслийн ангилал, мэдээллийг capture хийх (админд хадгалахад хэрэгтэй)
+              var sectorCode = (card.dataset.cat || card.dataset.sector || '').toLowerCase();
+              currentFundMeta = {
+                sector: sectorCode,
+                sectorName: SECTOR_NAMES_MN[sectorCode] || sectorCode || '',
+                projectAmount: parseInt(card.dataset.projectAmount) || 0,
+                projectId: card.dataset.projectId || card.dataset.name || cleanTitle
+              };
               document.getElementById('fundModalTitle').textContent = cleanTitle;
               document.getElementById('fundOrgForm').reset();
               document.getElementById('fundPersonForm').reset();
@@ -751,6 +775,10 @@
               var data = {
                 type: 'org',
                 project: currentFundProject,
+                projectId: currentFundMeta.projectId,
+                projectAmount: currentFundMeta.projectAmount,
+                sector: currentFundMeta.sector,
+                sectorName: currentFundMeta.sectorName,
                 orgName: document.getElementById('fundOrgName').value,
                 position: document.getElementById('fundOrgPosition').value,
                 person: document.getElementById('fundOrgPerson').value,
@@ -766,6 +794,10 @@
               var data = {
                 type: 'person',
                 project: currentFundProject,
+                projectId: currentFundMeta.projectId,
+                projectAmount: currentFundMeta.projectAmount,
+                sector: currentFundMeta.sector,
+                sectorName: currentFundMeta.sectorName,
                 name: document.getElementById('fundPersonName').value,
                 phone: document.getElementById('fundPersonPhone').value,
                 amount: getAmountValue('fundPersonAmount')
@@ -774,11 +806,10 @@
             });
 
             function saveFunding(data) {
-              // UI-д шууд амжилтын cонх харуулна (хэрэглэгчид агшин мэдэгдэнэ)
-              closeFundModal();
-              showFundSuccessModal(data);
+              // Firebase-д хадгалах эхлээд оролдоно — амжилттай л бол success харуулна
+              console.log('[Fund] Хадгалах гэж байна:', data);
+              var savedDocId = null;
 
-              // Firebase-д хадгалах (background)
               import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js").then(function(mod){
                 return mod.initializeApp({
                   apiKey:"AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
@@ -791,12 +822,17 @@
               }).then(function(app){
                 return import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js").then(function(fs){
                   var db = fs.getFirestore(app);
-                  return fs.setDoc(fs.doc(fs.collection(db, "fundings")), Object.assign(data, { createdAt: fs.serverTimestamp() }));
+                  var docRef = fs.doc(fs.collection(db, "fundings"));
+                  savedDocId = docRef.id;
+                  return fs.setDoc(docRef, Object.assign({}, data, { createdAt: fs.serverTimestamp() }));
                 });
               }).then(function(){
-                console.log('[Fund] Firebase-д амжилттай хадгалагдлаа');
+                console.log('[Fund] ✅ Firebase-д амжилттай хадгалагдлаа. Doc ID:', savedDocId);
+                closeFundModal();
+                showFundSuccessModal(data);
               }).catch(function(err){
-                console.warn('[Fund] Firebase хадгалахад алдаа гарлаа:', err);
+                console.error('[Fund] ❌ Firebase хадгалахад алдаа гарлаа:', err);
+                alert('Алдаа: Санхүүжилтийн хүсэлт хадгалагдсангүй.\n\n' + (err && err.message ? err.message : err) + '\n\nЭнэ алдааг админд мэдэгдэж шийдвэрлүүлнэ үү.');
               });
             }
 
@@ -4212,11 +4248,11 @@
               var iDuration = colIdx("Хэрэгжих хугацаа");
 
               var DETAIL_LABELS = [
-                "Тулгарч буй асуудал",
                 "Төслийн ангилал", "Төслийн салбар", "Салбарын чиглэл",
                 "Төсөл санаачлагч байгууллагын нэр", "Ажлын хэлбэр",
                 "Жилд хүрэх жуулчны тоо", "Хэрэгжүүлэх байршил", "Хэрэгжилтийн үе шат",
                 "Дэлгэрэнгүй тайлбар",
+                "Тулгарч буй асуудал",
                 "Шийдвэрлэхийг хүсэж буй зорилго", "Хүлээгдэж буй үр дүн",
                 "Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?",
                 "Байгууллагын нэр", "Байгууллагын хэлбэр",

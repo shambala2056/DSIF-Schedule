@@ -197,25 +197,40 @@ body {
 }
 
 .sidebar-header {
-  padding: 24px 20px;
+  padding: 20px 16px;
   border-bottom: 1px solid var(--admin-border);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  min-height: 80px;
 }
 
-.sidebar-header img {
+/* Бүтэн logo (expanded үед) */
+.sidebar-header .sidebar-logo-full {
   width: auto;
-  height: 36px;
-  max-width: 160px;
+  height: 42px;
+  max-width: 150px;
   object-fit: contain;
   flex-shrink: 0;
+  display: block;
+}
+
+/* Зөвхөн icon (collapsed үед) */
+.sidebar-header .sidebar-logo-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: none; /* expanded үед нуугдана */
 }
 
 .sidebar-header .brand {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
+  line-height: 1.2;
+  margin-left: 0;
+  min-width: 0;
 }
 
 .sidebar-header .brand small {
@@ -223,6 +238,7 @@ body {
   font-size: 11px;
   font-weight: 400;
   color: var(--admin-text-muted);
+  margin-top: 2px;
 }
 
 .sidebar-nav {
@@ -993,14 +1009,25 @@ body.light-theme .project-card-admin .pca-creator {
 
 .sidebar.collapsed .sidebar-header {
   justify-content: center;
-  padding: 20px 10px;
+  padding: 20px 8px;
+  gap: 0;
 }
 
-.sidebar.collapsed .sidebar-header img {
-  width: auto;
-  height: 28px;
-  max-width: 40px;
-  object-fit: contain;
+/* Collapsed үед бүтэн logo нуугдана */
+.sidebar.collapsed .sidebar-header .sidebar-logo-full {
+  display: none;
+}
+
+/* Collapsed үед зөвхөн icon бүтэн хэмжээгээр харагдана */
+.sidebar.collapsed .sidebar-header .sidebar-logo-icon {
+  display: block;
+  width: 44px;
+  height: 44px;
+  max-width: none;
+}
+
+.sidebar.collapsed .sidebar-header .brand {
+  display: none;
 }
 
 .sidebar.collapsed .sidebar-nav {
@@ -1166,6 +1193,11 @@ body.light-theme .sidebar {
 
 body.light-theme .sidebar-header {
   border-bottom-color: rgba(0,0,0,0.08) !important;
+}
+
+/* Light theme — цагаан текст хар фоноор харуулах */
+body.light-theme .sidebar-header .sidebar-logo-full {
+  filter: invert(1) hue-rotate(180deg);
 }
 
 body.light-theme .sidebar-header .brand {
@@ -1396,4 +1428,119 @@ body.light-theme .empty-state {
 /* ── Login error ── */
 body.light-theme .login-error {
   background: rgba(231,76,60,0.08) !important;
+}
+
+/* ── Funders per-column search ── */
+.funders-tbl .funders-col-search th {
+  padding: 6px 8px;
+  background: var(--admin-dark-2);
+  border-top: 1px solid var(--admin-border);
+}
+.funders-tbl .col-search-input {
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 11px;
+  border-radius: 6px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-dark);
+  color: inherit;
+}
+.funders-tbl .col-search-input:focus {
+  outline: none;
+  border-color: var(--admin-primary);
+}
+body.light-theme .funders-tbl .funders-col-search th {
+  background: #f8f9fa;
+}
+body.light-theme .funders-tbl .col-search-input {
+  background: #fff;
+  border-color: rgba(0,0,0,0.12);
+}
+.funders-tbl .has-note {
+  position: relative;
+}
+.funders-tbl .has-note::after {
+  content: "•";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  color: var(--admin-primary);
+  font-size: 18px;
+  line-height: 1;
+}
+
+
+/* ── Brand-aligned input + select (Санхүүжүүлэгчид хайлт) ── */
+.brand-input {
+  padding: 10px 14px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-dark-3);
+  color: var(--admin-text);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  font-family: inherit;
+}
+.brand-input::placeholder {
+  color: var(--admin-text-muted);
+  opacity: 0.85;
+}
+.brand-input:hover {
+  border-color: rgba(75,172,72,0.5);
+}
+.brand-input:focus {
+  outline: none;
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(75,172,72,0.15);
+  background: var(--admin-dark-2);
+}
+body.light-theme .brand-input {
+  background: #fff;
+  color: #1a1a1a;
+  border-color: rgba(0,0,0,0.12);
+}
+body.light-theme .brand-input::placeholder { color: #999; }
+body.light-theme .brand-input:focus {
+  background: #fff;
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(75,172,72,0.15);
+}
+
+/* Per-column хайлт — мөн брэнд өнгөөр */
+.funders-tbl .col-search-input {
+  background: var(--admin-dark-3);
+  border-color: var(--admin-border);
+  color: var(--admin-text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.funders-tbl .col-search-input::placeholder {
+  color: var(--admin-text-muted);
+}
+.funders-tbl .col-search-input:hover {
+  border-color: rgba(75,172,72,0.5);
+}
+.funders-tbl .col-search-input:focus {
+  outline: none;
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 2px rgba(75,172,72,0.15);
+}
+body.light-theme .funders-tbl .col-search-input {
+  background: #fff !important;
+  color: #1a1a1a !important;
+  border-color: rgba(0,0,0,0.12) !important;
+}
+
+/* Brand-input select option styling */
+select.brand-input {
+  cursor: pointer;
+  appearance: auto;
+}
+select.brand-input option {
+  background: var(--admin-dark-3);
+  color: var(--admin-text);
+  padding: 8px;
+}
+body.light-theme select.brand-input option {
+  background: #fff;
+  color: #1a1a1a;
 }

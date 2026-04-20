@@ -183,7 +183,8 @@ const SECTION_TITLES = {
   roles: "Эрхийн тохиргоо",
   sectors: "Төслийн ангилал",
   menu: "Цэс тохиргоо",
-  funding: "Санхүүжилт тохиргоо"
+  funding: "Санхүүжилт тохиргоо",
+  funders: "Санхүүжүүлэгчид"
 };
 
 // ── Sidebar навигаци ──
@@ -212,6 +213,7 @@ document.querySelectorAll(".sidebar-nav a[data-section]").forEach((link) => {
     if (section === "sectors") loadSectors();
     if (section === "menu") loadMenu();
     if (section === "funding") loadFundingSettings();
+    if (section === "funders") loadFunders();
 
     // Mobile: sidebar хаах
     document.getElementById("sidebar").classList.remove("open");
@@ -258,10 +260,60 @@ async function loadDashboard() {
     // Салбар жагсаалт шинэчлэх
     refreshSectorLists();
 
+    // Сүүлийн санхүүжилт хүсэлтүүд
+    loadDashboardFunding();
+
     // Сүүлийн үйлдлүүд
     loadActivityLog();
   } catch (err) {
     console.error("Dashboard load error:", err);
+  }
+}
+
+async function loadDashboardFunding() {
+  const tbody = document.getElementById("dashboardFundingTable");
+  if (!tbody) return;
+  try {
+    const q = query(collection(db, "fundings"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    if (snap.empty) {
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжилтийн хүсэлт байхгүй</p></td></tr>';
+      return;
+    }
+    tbody.innerHTML = "";
+    let count = 0;
+    snap.forEach((d) => {
+      if (count >= 5) return; // зөвхөн сүүлийн 5
+      count++;
+      const data = d.data();
+      const date = data.createdAt ? formatDate(data.createdAt.toDate()) : "—";
+      let nameCell;
+      if (data.type === "org") {
+        const parts = [
+          `<strong>${escapeHtml(data.orgName || "—")}</strong>`,
+          data.person ? `<small style="opacity:.75">${escapeHtml(data.person)}</small>` : "",
+          data.position ? `<small style="opacity:.55;font-style:italic">${escapeHtml(data.position)}</small>` : ""
+        ].filter(Boolean);
+        nameCell = parts.join("<br>");
+      } else {
+        nameCell = `<strong>${escapeHtml(data.name || "—")}</strong>`;
+      }
+      const amount = (parseFloat(data.amount) || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+      const typeBadge = data.type === "org"
+        ? '<span class="badge badge-admin">Байгууллага</span>'
+        : '<span class="badge badge-sub-admin">Хувь хүн</span>';
+      tbody.innerHTML += `<tr>
+        <td style="font-size:11px">${date}</td>
+        <td>${escapeHtml((data.project || "").substring(0, 50))}${(data.project || "").length > 50 ? "…" : ""}</td>
+        <td>${nameCell}</td>
+        <td>${escapeHtml(data.phone || "—")}</td>
+        <td style="font-weight:700;color:var(--admin-primary)">${amount}</td>
+        <td>${typeBadge}</td>
+      </tr>`;
+    });
+  } catch (e) {
+    console.warn("Dashboard funding load:", e);
+    tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжилтийн хүсэлт байхгүй</p></td></tr>';
   }
 }
 
@@ -536,6 +588,18 @@ async function loadProjects(filterSector) {
     }
     allProjects = Array.from(uniq.values());
 
+    // 5) Санхүүжилтийн жинхэнэ хувийг тооцоолох — fundings collection-оос
+    try {
+      if (allFunders.length === 0) {
+        const fSnap = await getDocs(collection(db, "fundings"));
+        allFunders = [];
+        fSnap.forEach((d) => allFunders.push(Object.assign({ id: d.id }, d.data())));
+      }
+      computeProjectFundedPercent();
+    } catch (e) {
+      console.warn("Funded% compute fail:", e);
+    }
+
     renderProjects(filterSector);
   } catch (err) {
     console.error("Projects load error:", err);
@@ -543,10 +607,89 @@ async function loadProjects(filterSector) {
   }
 }
 
+// Funder-уудаас төсөл тус бүрийн санхүүжсэн дүнг тооцоолж funded% (0–100+)-ийг шинэчилнэ
+function computeProjectFundedPercent() {
+  // Төслийн нэрээр funder-уудыг бүлэглэж дүн нийлбэрлэх
+  const sumByTitle = new Map();      // norm title → нийт дүн
+  const goalByTitle = new Map();      // norm title → projectAmount (funder-аас)
+
+  allFunders.forEach((f) => {
+    const key = normProjectTitle(f.project);
+    if (!key) return;
+    sumByTitle.set(key, (sumByTitle.get(key) || 0) + (parseFloat(f.amount) || 0));
+    // Funder өгөгдөлд projectAmount байгаа бол ашиглана
+    if (f.projectAmount && !goalByTitle.has(key)) {
+      goalByTitle.set(key, parseFloat(f.projectAmount) || 0);
+    }
+  });
+
+  let updated = 0;
+  allProjects.forEach((p) => {
+    const titleKey = normProjectTitle(p.title);
+    const raised = sumByTitle.get(titleKey) || 0;
+    if (raised <= 0) return; // Funder байхгүй төслүүдийг алгасах
+
+    // Зорилго: project-ийн өөрийн amount > funder-ээс ирсэн projectAmount
+    const goal = parseFloat(p.amount) || goalByTitle.get(titleKey) || 0;
+    p.raisedAmount = raised;
+    if (goal > 0) {
+      p.funded = Math.round((raised / goal) * 100);
+      p.amount = goal; // зорилго багана дүн харуулахад хэрэгтэй
+    } else {
+      p.funded = 0; // зорилго мэдэгдэхгүй
+    }
+    updated++;
+  });
+  console.log(`[Funded%] Updated ${updated}/${allProjects.length} projects from ${allFunders.length} funders`);
+}
+
+function populateProjectColumnFilters() {
+  const sectorSel = document.querySelector('[data-proj-search="sector"]');
+  if (!sectorSel) return;
+  const prev = sectorSel.value || "";
+  const sectorsInData = new Set();
+  allProjects.forEach((p) => { if (p.sector) sectorsInData.add(p.sector); });
+  // Бүх ангилал — SECTOR_NAMES-аас давхар + санхүүжүүлэгчтэй ч байсан төслүүд
+  const all = new Set([...sectorsInData, ...Object.keys(SECTOR_NAMES)]);
+  sectorSel.innerHTML = '<option value="">бүгд</option>';
+  Array.from(all)
+    .sort((a, b) => (SECTOR_NAMES[a] || a).localeCompare(SECTOR_NAMES[b] || b, "mn"))
+    .forEach((s) => {
+      const cnt = allProjects.filter((p) => p.sector === s).length;
+      if (cnt === 0) return; // хоосон ангиллыг алгасах
+      const opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = (SECTOR_NAMES[s] || s) + ` (${cnt})`;
+      sectorSel.appendChild(opt);
+    });
+  if (Array.from(sectorSel.options).some((o) => o.value === prev)) sectorSel.value = prev;
+}
+
+// Project col-search input listeners
+document.addEventListener("input", (e) => {
+  if (e.target && e.target.dataset && e.target.dataset.projSearch) {
+    renderProjects(document.getElementById("projectFilterSector")?.value);
+  }
+});
+document.addEventListener("change", (e) => {
+  if (e.target && e.target.dataset && e.target.dataset.projSearch) {
+    renderProjects(document.getElementById("projectFilterSector")?.value);
+  }
+});
+
 function renderProjects(filterSector) {
   const grid = document.getElementById("projectGrid");
   const countEl = document.getElementById("projectCount");
   if (!grid) return;
+
+  // Per-column хайлтын утгууд
+  const colSearch = {};
+  document.querySelectorAll("[data-proj-search]").forEach((el) => {
+    colSearch[el.dataset.projSearch] = (el.value || "").toString().toLowerCase().trim();
+  });
+
+  // Sector dropdown-ыг бөглөх (одоо ачаалагдсан төслүүдээс)
+  populateProjectColumnFilters();
 
   // Устгагдсан төслүүдийг шүүх
   let filtered = allProjects.filter((p) => {
@@ -564,6 +707,20 @@ function renderProjects(filterSector) {
   if (isRestricted && allowedSectors.length > 0) {
     filtered = filtered.filter((p) => allowedSectors.includes(p.sector));
   }
+
+  // Per-column шүүлт
+  filtered = filtered.filter((p) => {
+    if (colSearch.name && !(p.title || "").toLowerCase().includes(colSearch.name)
+        && !(p.creator || "").toLowerCase().includes(colSearch.name)) return false;
+    if (colSearch.sector && p.sector !== colSearch.sector) return false;
+    if (colSearch.amount) {
+      const fundedStr = (p.funded || 0).toString();
+      if (!fundedStr.includes(colSearch.amount.replace(/[^0-9]/g, ""))) return false;
+    }
+    if (colSearch.status === "visible" && p.hidden) return false;
+    if (colSearch.status === "hidden" && !p.hidden) return false;
+    return true;
+  });
 
   if (countEl) countEl.textContent = `Нийт ${filtered.length} төсөл`;
 
@@ -599,13 +756,16 @@ function renderProjects(filterSector) {
         <div style="font-size:11px;color:var(--admin-text-muted)"><i class="fa fa-user-circle" style="opacity:.5"></i> ${escapeHtml(p.creator)}</div>
       </td>
       <td><span class="badge badge-sub-admin">${SECTOR_NAMES[p.sector] || p.sector}</span></td>
-      <td>
+      <td style="min-width:160px">
         <div style="display:flex;align-items:center;gap:6px">
-          <div style="flex:1;background:var(--admin-dark-3);border-radius:4px;height:6px;overflow:hidden;min-width:50px">
+          <div style="flex:1;background:var(--admin-dark-3);border-radius:4px;height:6px;overflow:hidden;min-width:60px">
             <div style="width:${fundedPct}%;height:100%;background:${fundedColor};border-radius:4px"></div>
           </div>
-          <span style="font-size:11px;font-weight:600;color:${fundedColor}">${p.funded}%</span>
+          <span style="font-size:11px;font-weight:700;color:${fundedColor};white-space:nowrap">${p.funded}%</span>
         </div>
+        ${p.raisedAmount > 0 ? `<div style="font-size:10px;color:var(--admin-text-muted);margin-top:3px">
+          <strong style="color:var(--admin-primary)">${p.raisedAmount.toLocaleString()}₮</strong>${p.amount ? ` / ${p.amount.toLocaleString()}₮` : ""}
+        </div>` : (p.amount ? `<div style="font-size:10px;color:var(--admin-text-muted);margin-top:3px">Зорилго: ${p.amount.toLocaleString()}₮</div>` : "")}
       </td>
       <td>${statusBadge}</td>
       <td>
@@ -1971,9 +2131,17 @@ async function loadFundingSettings() {
     snap.forEach((d) => {
       const data = d.data();
       const date = data.createdAt ? formatDate(data.createdAt.toDate()) : "—";
-      const name = data.type === "org"
-        ? `${escapeHtml(data.orgName || "")}<br><small style="opacity:.6">${escapeHtml(data.person || "")}</small>`
-        : escapeHtml(data.name || "");
+      let nameCell;
+      if (data.type === "org") {
+        const parts = [
+          `<strong>${escapeHtml(data.orgName || "—")}</strong>`,
+          data.person ? `<small style="opacity:.75">${escapeHtml(data.person)}</small>` : "",
+          data.position ? `<small style="opacity:.55;font-style:italic">${escapeHtml(data.position)}</small>` : ""
+        ].filter(Boolean);
+        nameCell = parts.join("<br>");
+      } else {
+        nameCell = `<strong>${escapeHtml(data.name || "—")}</strong>`;
+      }
       const amount = (parseFloat(data.amount) || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
       const typeBadge = data.type === "org"
         ? '<span class="badge badge-admin">Байгууллага</span>'
@@ -1981,7 +2149,7 @@ async function loadFundingSettings() {
       tbody.innerHTML += `<tr>
         <td style="font-size:11px">${date}</td>
         <td>${escapeHtml((data.project || "").substring(0, 50))}${(data.project || "").length > 50 ? "…" : ""}</td>
-        <td>${name}</td>
+        <td>${nameCell}</td>
         <td>${escapeHtml(data.phone || "—")}</td>
         <td style="font-weight:700;color:var(--admin-primary)">${amount}</td>
         <td>${typeBadge}</td>
@@ -2028,4 +2196,361 @@ document.addEventListener("click", async (e) => {
     showToast("Алдаа: " + err.message, "error");
     updateFundingToggleUI(!newVal); // revert
   }
+});
+
+// ═══════════════════════════════════════
+//  FUNDERS (санхүүжүүлэгчдийн жагсаалт)
+// ═══════════════════════════════════════
+let allFunders = []; // {id, ...data}
+
+// Төсөл нэрийг хэвийн болгох — ангилахад/харьцуулахад
+function normProjectTitle(s) {
+  return (s || "").toString().toLowerCase().trim()
+    .replace(/^\s*\d+\.\s*/, "") // эхний "1.", "2." гэх мэт
+    .replace(/\s+/g, " ");
+}
+
+async function loadFunders() {
+  const tbody = document.getElementById("fundersTable");
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><span class="spinner"></span><p>Ачаалж байна...</p></td></tr>';
+
+  try {
+    // 1) Funder өгөгдлийг авах — orderBy байхгүй, fundings-д createdAt байхгүй doc байж болзошгүй
+    let snap;
+    try {
+      snap = await getDocs(query(collection(db, "fundings"), orderBy("createdAt", "desc")));
+    } catch (orderErr) {
+      console.warn("Funders: orderBy fail, fallback", orderErr);
+      snap = await getDocs(collection(db, "fundings"));
+    }
+
+    allFunders = [];
+    snap.forEach((d) => allFunders.push(Object.assign({ id: d.id }, d.data())));
+    // createdAt байхгүй doc-уудыг доош нь жагсаах (date desc)
+    allFunders.sort((a, b) => {
+      const ta = a.createdAt && typeof a.createdAt.toMillis === "function" ? a.createdAt.toMillis() : 0;
+      const tb = b.createdAt && typeof b.createdAt.toMillis === "function" ? b.createdAt.toMillis() : 0;
+      return tb - ta;
+    });
+    console.log("[Funders] Loaded:", allFunders.length, "items");
+
+    // 2) Filter + render — шууд харуулна
+    populateFunderFilters();
+    renderFunders();
+
+    // 3) allProjects ачаалаагүй бол background-д ачаалаад дараа sector mapping-г шинэчлэх
+    if (allProjects.length === 0) {
+      loadProjects().then(() => {
+        populateFunderFilters();
+        renderFunders();
+      }).catch((e) => console.warn("Funders: bg project load fail", e));
+    }
+  } catch (e) {
+    console.error("Funders load error:", e);
+    tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><i class="fa fa-triangle-exclamation"></i><p>Ачаалахад алдаа: ${escapeHtml(e.message || String(e))}</p></td></tr>`;
+  }
+}
+
+// Funder-ийн ангилалыг тодорхойлох — хадгалагдсан sector эсвэл нэрээр fallback
+function getFunderSector(f) {
+  if (f.sector) return f.sector; // tusul.html-ээс шууд хадгалсан
+  // Хуучин өгөгдөл — нэрээр allProjects-аас хайх
+  const norm = normProjectTitle(f.project);
+  if (!norm) return "";
+  const match = allProjects.find((p) => normProjectTitle(p.title) === norm);
+  return match ? match.sector : "";
+}
+
+function populateFunderFilters() {
+  // Ангилалын dropdown — бүх боломжит ангиллуудыг үргэлж харуулна
+  const sectorsWithFunders = new Set();
+  allFunders.forEach((f) => {
+    const s = getFunderSector(f);
+    if (s) sectorsWithFunders.add(s);
+  });
+
+  const sectorSel = document.getElementById("fundersSectorFilter");
+  if (sectorSel) {
+    const prev = sectorSel.value || "all";
+    sectorSel.innerHTML = '<option value="all">Бүх ангилал</option>';
+    // Бүх ангилал — SECTOR_NAMES-аас, тэмдгээр ялгана:
+    //  • тоо — санхүүжүүлэгчтэй
+    Object.keys(SECTOR_NAMES).sort((a, b) => SECTOR_NAMES[a].localeCompare(SECTOR_NAMES[b], "mn")).forEach((s) => {
+      const cnt = allFunders.filter((f) => getFunderSector(f) === s).length;
+      const opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = SECTOR_NAMES[s] + (cnt > 0 ? ` (${cnt})` : "");
+      sectorSel.appendChild(opt);
+    });
+    sectorSel.value = prev;
+  }
+
+  // Төслийн dropdown — ангилалаар шүүгдсэн төслүүд
+  refreshFunderProjectOptions();
+}
+
+function refreshFunderProjectOptions() {
+  const sectorSel = document.getElementById("fundersSectorFilter");
+  const projSel = document.getElementById("fundersProjectFilter");
+  if (!projSel) return;
+  const sectorVal = sectorSel ? sectorSel.value : "all";
+  const prev = projSel.value || "all";
+
+  // Funder өгөгдлөөс уникал төслийн нэрс цуглуулах (ангилалаар шүүсэн)
+  const map = new Map(); // norm → display title
+  allFunders.forEach((f) => {
+    const n = normProjectTitle(f.project);
+    if (!n) return;
+    if (sectorVal !== "all" && getFunderSector(f) !== sectorVal) return;
+    if (!map.has(n)) map.set(n, (f.project || "").replace(/^\s*\d+\.\s*/, "").trim());
+  });
+
+  projSel.innerHTML = '<option value="all">Бүх төсөл</option>';
+  Array.from(map.entries())
+    .sort((a, b) => a[1].localeCompare(b[1], "mn"))
+    .forEach(([norm, display]) => {
+      const opt = document.createElement("option");
+      opt.value = norm;
+      opt.textContent = display.length > 60 ? display.substring(0, 60) + "…" : display;
+      opt.title = display;
+      projSel.appendChild(opt);
+    });
+  if (Array.from(projSel.options).some((o) => o.value === prev)) projSel.value = prev;
+  else projSel.value = "all";
+}
+
+function renderFunders() {
+  const tbody = document.getElementById("fundersTable");
+  const countEl = document.getElementById("fundersCount");
+  if (!tbody) return;
+
+  const search = (document.getElementById("fundersSearch")?.value || "").toLowerCase().trim();
+  const typeFilter = document.getElementById("fundersTypeFilter")?.value || "all";
+  const sectorFilter = document.getElementById("fundersSectorFilter")?.value || "all";
+  const projectFilter = document.getElementById("fundersProjectFilter")?.value || "all";
+
+  // Per-column хайлт
+  const colSearch = {};
+  document.querySelectorAll("[data-col-search]").forEach((el) => {
+    colSearch[el.dataset.colSearch] = (el.value || "").toString().toLowerCase().trim();
+  });
+
+  const filtered = allFunders.filter((f) => {
+    if (typeFilter !== "all" && f.type !== typeFilter) return false;
+    if (sectorFilter !== "all" && getFunderSector(f) !== sectorFilter) return false;
+    const projNorm = normProjectTitle(f.project);
+    if (projectFilter !== "all" && projNorm !== projectFilter) return false;
+    if (search) {
+      const hay = [f.orgName, f.name, f.person, f.position, f.phone, f.project, f.sectorName, f.note].filter(Boolean).join(" ").toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    // Per-column шүүлт
+    if (colSearch.date && !(f.createdAt && formatDate(f.createdAt.toDate()).toLowerCase().includes(colSearch.date))) return false;
+    if (colSearch.type && f.type !== colSearch.type) return false;
+    if (colSearch.name) {
+      const nm = (f.type === "org" ? (f.orgName + " " + (f.person || "")) : (f.name || "")).toLowerCase();
+      if (!nm.includes(colSearch.name)) return false;
+    }
+    if (colSearch.position && !(f.position || "").toLowerCase().includes(colSearch.position)) return false;
+    if (colSearch.phone && !(f.phone || "").toString().toLowerCase().includes(colSearch.phone)) return false;
+    if (colSearch.project && !(f.project || "").toLowerCase().includes(colSearch.project)) return false;
+    if (colSearch.amount) {
+      const amtStr = (parseFloat(f.amount) || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      if (!amtStr.includes(colSearch.amount.replace(/[,\s]/g, ""))) return false;
+    }
+    return true;
+  });
+
+  // Stats (бүх өгөгдлийн дээр — шүүлтээр биш)
+  const totals = allFunders.reduce((acc, f) => {
+    acc.total++;
+    if (f.type === "org") acc.org++; else acc.person++;
+    acc.amount += parseFloat(f.amount) || 0;
+    return acc;
+  }, { total: 0, org: 0, person: 0, amount: 0 });
+  const fmtNum = (n) => Number(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  setText("statFundersTotal", fmtNum(totals.total));
+  setText("statFundersOrg", fmtNum(totals.org));
+  setText("statFundersPerson", fmtNum(totals.person));
+  setText("statFundersAmount", fmtNum(totals.amount) + "₮");
+
+  if (countEl) countEl.textContent = `${filtered.length} / ${allFunders.length}`;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжүүлэгч олдсонгүй</p></td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = "";
+  filtered.forEach((f, idx) => {
+    const date = f.createdAt ? formatDate(f.createdAt.toDate()) : "—";
+    const typeBadge = f.type === "org"
+      ? '<span class="badge badge-admin">Байгууллага</span>'
+      : '<span class="badge badge-sub-admin">Хувь хүн</span>';
+    let nameCell;
+    if (f.type === "org") {
+      const parts = [
+        `<strong>${escapeHtml(f.orgName || "—")}</strong>`,
+        f.person ? `<small style="opacity:.75">${escapeHtml(f.person)}</small>` : ""
+      ].filter(Boolean);
+      nameCell = parts.join("<br>");
+    } else {
+      nameCell = `<strong>${escapeHtml(f.name || "—")}</strong>`;
+    }
+    const amount = fmtNum(parseFloat(f.amount) || 0) + "₮";
+    const projectText = (f.project || "—").substring(0, 40);
+    const projectFull = f.project || "";
+    const sectorKey = getFunderSector(f);
+    const sectorLabel = f.sectorName || SECTOR_NAMES[sectorKey] || "";
+    const sectorBadge = sectorLabel
+      ? `<br><small style="display:inline-block;margin-top:4px;font-size:10px;font-weight:600;background:rgba(75,172,72,0.15);color:var(--admin-primary);padding:3px 8px;border-radius:999px;border:1px solid rgba(75,172,72,0.35)">${escapeHtml(sectorLabel)}</small>`
+      : "";
+    const hasNote = !!(f.note && f.note.trim());
+    const noteBtnClass = hasNote ? "btn btn-warning btn-sm has-note" : "btn btn-outline btn-sm";
+    const noteTitle = hasNote ? `Тэмдэглэл: ${f.note.substring(0, 60)}${f.note.length > 60 ? "…" : ""}` : "Тэмдэглэл нэмэх";
+    tbody.innerHTML += `<tr>
+      <td style="font-size:12px;color:var(--admin-text-muted)">${idx + 1}</td>
+      <td style="font-size:11px">${date}</td>
+      <td>${typeBadge}</td>
+      <td>${nameCell}</td>
+      <td>${escapeHtml(f.position || "—")}</td>
+      <td>${escapeHtml(f.phone || "—")}</td>
+      <td title="${escapeHtml(projectFull)}">${escapeHtml(projectText)}${projectFull.length > 40 ? "…" : ""}${sectorBadge}</td>
+      <td style="text-align:right;font-weight:700;color:var(--admin-primary)">${amount}</td>
+      <td style="white-space:nowrap">
+        <button class="${noteBtnClass}" data-funder-note="${f.id}" title="${escapeHtml(noteTitle)}" style="margin-right:4px"><i class="fa fa-note-sticky"></i></button>
+        <button class="btn btn-danger btn-sm" data-funder-delete="${f.id}" title="Устгах"><i class="fa fa-trash"></i></button>
+      </td>
+    </tr>`;
+  });
+}
+
+// Filter / search listeners
+const FUNDER_FILTER_IDS = ["fundersSearch", "fundersTypeFilter", "fundersSectorFilter", "fundersProjectFilter"];
+document.addEventListener("input", (e) => {
+  if (!e.target) return;
+  if (FUNDER_FILTER_IDS.includes(e.target.id)) renderFunders();
+  else if (e.target.dataset && e.target.dataset.colSearch) renderFunders();
+});
+document.addEventListener("change", (e) => {
+  if (!e.target) return;
+  if (e.target.id === "fundersSectorFilter") {
+    refreshFunderProjectOptions();
+    renderFunders();
+  } else if (FUNDER_FILTER_IDS.includes(e.target.id)) {
+    renderFunders();
+  } else if (e.target.dataset && e.target.dataset.colSearch) {
+    renderFunders();
+  }
+});
+
+// Reset filters
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#fundersResetFilters")) return;
+  const sel = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+  sel("fundersSearch", "");
+  sel("fundersTypeFilter", "all");
+  sel("fundersSectorFilter", "all");
+  refreshFunderProjectOptions();
+  sel("fundersProjectFilter", "all");
+  renderFunders();
+});
+
+// Refresh funders
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#refreshFundersBtn")) return;
+  loadFunders();
+  showToast("Шинэчилж байна...", "success");
+});
+
+// Note товч дарвал modal нээх
+let currentNoteFunderId = null;
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-funder-note]");
+  if (!btn) return;
+  const id = btn.dataset.funderNote;
+  const funder = allFunders.find((f) => f.id === id);
+  if (!funder) return;
+  currentNoteFunderId = id;
+  const titleEl = document.getElementById("funderNoteTitle");
+  const subEl = document.getElementById("funderNoteSub");
+  const txt = document.getElementById("funderNoteText");
+  const name = funder.type === "org" ? funder.orgName : funder.name;
+  if (titleEl) titleEl.textContent = "Тэмдэглэл — " + (name || "Санхүүжүүлэгч");
+  if (subEl) subEl.textContent = (funder.project || "").substring(0, 80);
+  if (txt) txt.value = funder.note || "";
+  document.getElementById("funderNoteModal").classList.add("active");
+});
+
+// Note хадгалах
+document.addEventListener("click", async (e) => {
+  if (!e.target.closest("#funderNoteSaveBtn")) return;
+  if (!currentNoteFunderId) return;
+  const txt = document.getElementById("funderNoteText");
+  const note = (txt?.value || "").trim();
+  try {
+    await updateDoc(doc(db, "fundings", currentNoteFunderId), {
+      note: note,
+      noteUpdatedAt: serverTimestamp(),
+      noteUpdatedBy: currentUser ? currentUser.uid : null
+    });
+    const funder = allFunders.find((f) => f.id === currentNoteFunderId);
+    if (funder) funder.note = note;
+    document.getElementById("funderNoteModal").classList.remove("active");
+    renderFunders();
+    showToast(note ? "Тэмдэглэл хадгалагдлаа" : "Тэмдэглэл устгагдлаа", "success");
+    await logActivity("Санхүүжүүлэгчийн тэмдэглэл шинэчлэв");
+  } catch (err) {
+    console.error("Note save:", err);
+    showToast("Алдаа: " + err.message, "error");
+  }
+});
+
+// Delete funder
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-funder-delete]");
+  if (!btn) return;
+  const id = btn.dataset.funderDelete;
+  if (!confirm("Энэ санхүүжүүлэгчийг устгах уу?")) return;
+  try {
+    await deleteDoc(doc(db, "fundings", id));
+    allFunders = allFunders.filter((f) => f.id !== id);
+    renderFunders();
+    showToast("Устгалаа", "success");
+    await logActivity("Санхүүжүүлэгч устгав");
+  } catch (err) {
+    console.error("Funder delete:", err);
+    showToast("Алдаа: " + err.message, "error");
+  }
+});
+
+// CSV export
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#exportFundersBtn")) return;
+  if (!allFunders.length) { showToast("Өгөгдөл байхгүй", "error"); return; }
+  const headers = ["Огноо", "Төрөл", "Байгууллага/Нэр", "Албан тушаал", "Холбогдох хүн", "Утас", "Ангилал", "Төсөл", "Дүн"];
+  const rows = allFunders.map((f) => {
+    const date = f.createdAt ? formatDate(f.createdAt.toDate()) : "";
+    const type = f.type === "org" ? "Байгууллага" : "Хувь хүн";
+    const orgOrName = f.type === "org" ? (f.orgName || "") : (f.name || "");
+    const sectorKey = getFunderSector(f);
+    const sectorLabel = f.sectorName || SECTOR_NAMES[sectorKey] || "";
+    return [date, type, orgOrName, f.position || "", f.person || "", f.phone || "", sectorLabel, f.project || "", f.amount || 0];
+  });
+  const csv = [headers, ...rows].map((r) => r.map((c) => {
+    const s = String(c).replace(/"/g, '""');
+    return /[",\n]/.test(s) ? `"${s}"` : s;
+  }).join(",")).join("\n");
+  const bom = "\uFEFF"; // Excel UTF-8
+  const blob = new Blob([bom + csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `funders_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 });
