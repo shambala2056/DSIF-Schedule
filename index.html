@@ -420,10 +420,8 @@
                 <div class="row gx-3 align-items-center justify-content-between">
                     <div class="col-lg-5">
                         <div class="wow scaleIn" id="about-slider" style="position:relative;height:100%;min-height:320px;border-radius:6px;overflow:hidden;">
-                            <img src="images/misc/c1.webp" class="about-slide active-slide" alt="">
-                            <img src="images/misc/c2.webp" class="about-slide" alt="">
+                            <img src="images/misc/c2.webp" class="about-slide active-slide" alt="">
                             <img src="images/misc/c3.webp" class="about-slide" alt="">
-                            <img src="images/misc/c4.webp" class="about-slide" alt="">
                         </div>
                         <style>
                           .about-slide {
@@ -1078,25 +1076,63 @@
                 border-radius: 4px;
               }
               #section-schedule .schedule-group-head h4 {
-                color: #4bac48;
+                color: inherit !important;
                 font-size: 15px;
                 letter-spacing: 1.2px;
                 text-transform: uppercase;
                 font-weight: 700;
               }
               #section-schedule .schedule-group-head h4 small {
-                color: rgba(255,255,255,0.55);
-                font-size: 12px;
-                letter-spacing: 0.6px;
+                color: inherit !important;
+                opacity: 0.7;
+                font-size: 10px;
+                letter-spacing: 0.4px;
                 text-transform: none;
                 font-weight: 500;
                 margin-left: 6px;
+              }
+              #section-schedule .schedule-group-head h4 small::before {
+                content: "· ";
               }
 
               @media (max-width: 768px) {
                 /* Хөтөлбөр section: mobile дээр нягт харуулах */
                 #section-schedule { padding-top: 30px !important; padding-bottom: 30px !important; }
                 #section-schedule .container { padding-left: 12px !important; padding-right: 12px !important; }
+                /* Баруун зүүн зайг тэнцүүлэх */
+                #schedule-day1 > div, #schedule-day2 > div {
+                  padding-left: 10px !important;
+                  padding-right: 10px !important;
+                  margin-left: 0 !important;
+                  margin-right: 0 !important;
+                }
+                /* Row-ийн gutter-ийг тэнцвэржүүлж, мөрний дотор нь тэгш зай */
+                #schedule-day1 > div > .row,
+                #schedule-day2 > div > .row {
+                  --bs-gutter-x: 10px !important;
+                  margin-left: 0 !important;
+                  margin-right: 0 !important;
+                }
+                #schedule-day1 > div > .row > [class*="col-"],
+                #schedule-day2 > div > .row > [class*="col-"] {
+                  padding-left: calc(var(--bs-gutter-x) * .5) !important;
+                  padding-right: calc(var(--bs-gutter-x) * .5) !important;
+                }
+                /* Бүлгийн гарчиг: subtitle доод мөрөнд, жижиг */
+                #section-schedule .schedule-group-head h4 small {
+                  display: block !important;
+                  margin-left: 0 !important;
+                  margin-top: 3px !important;
+                  font-size: 9px !important;
+                  opacity: 0.65;
+                }
+                #section-schedule .schedule-group-head h4 small::before {
+                  content: "" !important;
+                }
+                #section-schedule .schedule-group-head h4 {
+                  font-size: 13px !important;
+                  line-height: 1.25;
+                }
 
                 /* Мөр бүрийг flex-ээр цаг зүүн, бичвэр баруун */
                 #section-schedule .border-white-bottom-op-2 .row {
@@ -1119,11 +1155,15 @@
                   font-size: 11px !important;
                   line-height: 1.35 !important;
                   font-weight: 500 !important;
+                  text-align: justify !important;
+                  text-align-last: left !important;
                 }
                 #section-schedule .border-white-bottom-op-2 .col-md-10 p {
                   font-size: 10px !important;
                   line-height: 1.45 !important;
                   margin-top: 3px !important;
+                  text-align: justify !important;
+                  text-align-last: left !important;
                 }
                 /* Дээд доод зай багасгах */
                 #section-schedule .border-white-bottom-op-2 {
@@ -1144,8 +1184,9 @@
             (function() {
               var SHEET_ID = "1Tjjf9jTo7PTl_RWjQPAqXnhOtrQ4QbQ93X5_5Ssnr3Q";
               var GID = "611523800";
+              // Cache-busting: хуудас сэргээх бүрт sheet-ийн шинэ агуулга татаж ирнэ
               var SHEET_URL = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
-                              "/gviz/tq?tqx=out:json&gid=" + GID;
+                              "/gviz/tq?tqx=out:json&gid=" + GID + "&_=" + Date.now();
               var LOG = "[Sheet:Schedule]";
 
               var day1El = document.getElementById("schedule-day1");
@@ -1172,40 +1213,46 @@
                 return m ? (m[1] + "–" + m[2]) : null;
               }
 
-              function renderSession(time, titleRaw) {
+              function renderSession(time, titleRaw, content2, content3) {
                 var parts = String(titleRaw || "").split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean);
                 var title = parts[0] || "";
-                var sub = parts.slice(1).join(" · ");
-                var isAward = isAwardRow(title) || parts.length > 4;
+                var extras = parts.slice(1);
+                // Өөр баганаас ирсэн агуулга/илтгэгчийг ч нэмнэ
+                if (content2) extras = extras.concat(String(content2).split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean));
+                if (content3) extras = extras.concat(String(content3).split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean));
+                var isAward = isAwardRow(title) || extras.length > 4;
                 var wrapOpen = '<div class="border-white-bottom-op-2 pb-3 mb-3">';
-                var align = (sub || isAward) ? "align-items-start" : "align-items-center";
+                var hasExtras = extras.length > 0;
+                var align = hasExtras ? "align-items-start" : "align-items-center";
 
-                var content;
-                if (isAward && parts.length > 1) {
-                  var lis = parts.slice(1).map(function(p){ return '<li>' + esc(p) + '</li>'; }).join("");
-                  content = '<h5 class="mb-2">' + esc(title) + '</h5>' +
-                            '<ul class="mb-0 ps-3" style="font-size:14px; opacity:.85; line-height:1.7;">' + lis + '</ul>';
-                } else if (sub) {
-                  content = '<h5 class="mb-1">' + esc(title) + '</h5>' +
-                            '<p class="mb-0" style="font-size:13px; opacity:.7; line-height:1.55;">' + esc(sub) + '</p>';
+                var contentHtml;
+                if (isAward && extras.length) {
+                  var lis = extras.map(function(p){ return '<li>' + esc(p) + '</li>'; }).join("");
+                  contentHtml = '<h5 class="mb-2">' + esc(title) + '</h5>' +
+                                '<ul class="mb-0 ps-3 schedule-speakers" style="font-size:13px; opacity:.85; line-height:1.6;">' + lis + '</ul>';
+                } else if (hasExtras) {
+                  var speakerLines = extras.map(function(p) {
+                    return '<p class="mb-0 schedule-speaker" style="font-size:12px; opacity:.7; line-height:1.45; font-weight:400;">' + esc(p) + '</p>';
+                  }).join("");
+                  contentHtml = '<h5 class="mb-1">' + esc(title) + '</h5>' + speakerLines;
                 } else {
-                  content = '<h5 class="mb-0">' + esc(title) + '</h5>';
+                  contentHtml = '<h5 class="mb-0">' + esc(title) + '</h5>';
                 }
 
                 return wrapOpen +
                   '<div class="row g-3 ' + align + '">' +
                     '<div class="col-md-2 op-6">' + esc(time) + '</div>' +
-                    '<div class="col-md-10">' + content + '</div>' +
+                    '<div class="col-md-10">' + contentHtml + '</div>' +
                   '</div></div>';
               }
 
               function renderGroup(title) {
                 var clean = String(title || "").replace(/\s+/g, " ").trim();
-                // "Дэд бүтэц - Ногоон Эдийн засаг   1-р бүлэг" → title + small
-                var m = clean.match(/^(.*?)\s+(\d+-р\s*бүлэг)\s*$/i);
+                // "Дэд бүтэц - Ногоон Эдийн засаг 1 дүгээр бүлэг" → title + small
+                var m = clean.match(/^(.*?)\s+(\d+\s*(?:-р|дугаар|дүгээр)\s*бүлэг)\s*$/i);
                 var main = m ? m[1].trim() : clean;
                 var chip = m ? m[2].trim() : "";
-                var chipHtml = chip ? ' <small>· ' + esc(chip) + '</small>' : '';
+                var chipHtml = chip ? ' <small>' + esc(chip) + '</small>' : '';
                 return '<div class="schedule-group-head mb-3 mt-3">' +
                        '<h4 class="mb-0">' + esc(main) + chipHtml + '</h4></div>';
               }
@@ -1233,8 +1280,8 @@
                       var v = cell.f != null ? cell.f : cell.v;
                       return v == null ? "" : String(v).trim();
                     }
-                    var c0 = get(0), c1 = get(1);
-                    if (!c0 && !c1) return;
+                    var c0 = get(0), c1 = get(1), c2 = get(2), c3 = get(3);
+                    if (!c0 && !c1 && !c2 && !c3) return;
 
                     // Day separator
                     if (/^1-р\s*өдөр/i.test(c0))      { currentDay = 1; return; }
@@ -1243,7 +1290,7 @@
                     var time = normalizeTime(c0);
                     var chunk;
                     if (time) {
-                      chunk = renderSession(time, c1);
+                      chunk = renderSession(time, c1, c2, c3);
                     } else {
                       // Group header (row with text only in col 0)
                       chunk = renderGroup(c0);
@@ -1656,7 +1703,7 @@
         left: 0;
         right: 0;
         z-index: 9999;
-        height: calc(64px + env(safe-area-inset-bottom, 0px));
+        height: calc(52px + env(safe-area-inset-bottom, 0px));
         padding-bottom: env(safe-area-inset-bottom, 0px);
         background: rgba(14,14,14,0.96);
         backdrop-filter: blur(14px);
@@ -1685,20 +1732,25 @@
         align-items: center;
         justify-content: center;
         flex: 1;
-        gap: 2px;
+        gap: 1px;
         text-decoration: none !important;
-        color: rgba(255,255,255,0.4) !important;
-        transition: color 0.25s;
-        padding: 4px 0;
+        color: #000 !important;
+        opacity: 0.75;
+        transition: opacity 0.25s, transform 0.25s;
+        padding: 2px 2px;
+        border-radius: 10px;
       }
       body:not(.dark-scheme) .mob-nav-item {
-        color: rgba(0,0,0,0.35) !important;
+        color: #000 !important;
+      }
+      body.dark-scheme .mob-nav-item {
+        color: #ffffff !important;
       }
 
       /* Icon bubble */
       .mnav-icon-wrap {
-        width: 32px;
-        height: 32px;
+        width: 26px;
+        height: 26px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1707,32 +1759,61 @@
                     background 0.25s;
       }
       .mob-nav-item i {
-        font-size: 18px;
+        font-size: 14px;
         line-height: 1;
         transition: color 0.25s;
       }
       .mob-nav-item span {
-        font-size: 9px;
+        font-size: 8px;
         letter-spacing: 0.2px;
         line-height: 1;
         color: inherit !important;
         transition: color 0.25s, opacity 0.25s;
-        opacity: 0.7;
+        opacity: 0.85;
       }
 
-      /* Active state */
-      .mob-nav-item.active {
+      /* Active (selected) — зөвхөн ногоон текст, хүрээ/дэвсгэр байхгүй */
+      .mob-nav-item.active,
+      body:not(.dark-scheme) .mob-nav-item.active,
+      body.dark-scheme .mob-nav-item.active {
         color: #4bac48 !important;
-      }
-      body:not(.dark-scheme) .mob-nav-item.active {
-        color: #4bac48 !important;
-      }
-      .mob-nav-item.active .mnav-icon-wrap {
-        transform: translateY(-6px) scale(1.15);
+        opacity: 1;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
       }
       .mob-nav-item.active span {
         opacity: 1;
-        font-weight: 600;
+        font-weight: 700;
+      }
+
+      /* Төсөл — голын том содон цэс */
+      .mob-nav-item[data-menu-label="ТӨСӨЛ"] {
+        flex: 0 0 auto;
+        transform: translateY(-10px);
+        padding: 4px 6px;
+      }
+      .mob-nav-item[data-menu-label="ТӨСӨЛ"] .mnav-icon-wrap {
+        width: 44px;
+        height: 44px;
+        background: #4bac48;
+        border: 2.5px solid #fff;
+      }
+      body.dark-scheme .mob-nav-item[data-menu-label="ТӨСӨЛ"] .mnav-icon-wrap {
+        border-color: rgba(14,14,14,0.96);
+      }
+      .mob-nav-item[data-menu-label="ТӨСӨЛ"] i {
+        font-size: 18px;
+        color: #fff !important;
+      }
+      .mob-nav-item[data-menu-label="ТӨСӨЛ"] span {
+        font-weight: 700;
+        margin-top: 2px;
+      }
+      .mob-nav-item[data-menu-label="ТӨСӨЛ"].active {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
       }
 
       /* Schedule tabs — active green */
@@ -1846,7 +1927,7 @@
       /* Show only on mobile */
       @media (max-width: 991px) {
         #mobile-bottom-nav { display: flex; }
-        body { padding-bottom: 70px; }
+        body { padding-bottom: 56px; }
       }
     </style>
 
