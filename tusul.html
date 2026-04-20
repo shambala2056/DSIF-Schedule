@@ -321,195 +321,8 @@
             <!-- Project Grid -->
             <div class="row g-4" id="project-grid">
 
-              <!-- Card template (repeated 18 times with different data) -->
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="energy" data-name="Нарны эрчим хүч" data-funded="87" data-days="12" data-backers="342" data-newest="1">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-2.webp" alt="Нарны эрчим хүч" class="pcard-img">
-                    <span class="pcard-badge">Эрчим хүч</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Нарны эрчим хүчний хамтарсан станц</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Ч. Батбаяр</p>
-                    <p class="pcard-desc">Говь-Алтай аймгийн 3 сумд 500 өрхийг нарны эрчим хүчээр хангах төсөл.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:87%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">87%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">342</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">12</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="environment" data-name="Ойжуулалт" data-funded="63" data-days="28" data-backers="215" data-newest="2">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-4.webp" alt="Ойжуулалт" class="pcard-img">
-                    <span class="pcard-badge">Байгаль орчин</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Хангайн ойжуулалт — 1 сая мод</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Б. Отгонбаяр</p>
-                    <p class="pcard-desc">Хангайн уулын бэлд 1 сая мод тарих хамтарсан байгаль хамгаалах санаачилга.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:63%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">63%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">215</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">28</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- ╔══════════════════════════════════════════════════════════════╗
-                   ║  ЭРҮҮЛ МЭНДИЙН ТӨСЛҮҮД — автомат ачаалагддаг               ║
-                   ║  Шинэ төсөл нэмэхийн тулд:                                 ║
-                   ║    1. projects/health/{slug}/ фолдер үүсгэ                  ║
-                   ║    2. index.html, thumbnail.jpg, meta.json нэмэ             ║
-                   ║    3. projects/health/manifest.json жагсаалтад нэм         ║
-                   ╚══════════════════════════════════════════════════════════════╝ -->
-              <div id="health-cards-anchor" style="display:none;"></div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="agri" data-name="Ухаалаг тариалан" data-funded="81" data-days="15" data-backers="420" data-newest="9">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-10.webp" alt="Хөдөө аж ахуй" class="pcard-img">
-                    <span class="pcard-badge">Хөдөө аж ахуй</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Ухаалаг хүлэмжийн тариалан</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> А. Дулмаа</p>
-                    <p class="pcard-desc">Автомат усалгаа, температур хяналттай хүлэмжийн систем суурилуулах.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:81%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">81%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">420</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">15</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="energy" data-name="Салхины эрчим хүч" data-funded="60" data-days="25" data-backers="260" data-newest="10">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-1.webp" alt="Салхины эрчим хүч" class="pcard-img">
-                    <span class="pcard-badge">Эрчим хүч</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Мини салхины турбин сүлжээ</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> Б. Эрдэнэбат</p>
-                    <p class="pcard-desc">Говийн бүсэд 50 кВт-ийн салхины турбин байршуулж цахилгааны хүртээмжийг нэмэгдүүлэх.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:60%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">60%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">260</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">25</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="environment" data-name="Цэвэр ус" data-funded="44" data-days="32" data-backers="155" data-newest="11">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-5.webp" alt="Цэвэр ус" class="pcard-img">
-                    <span class="pcard-badge">Байгаль орчин</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Цэвэр усны шүүлтүүр — 10 суманд</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> О. Ганзориг</p>
-                    <p class="pcard-desc">Нано шүүлтүүрийн технологи ашиглан гэрийн хэрэглэгчдэд цэвэр ус хүргэх.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:44%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">44%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">155</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">32</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="agri" data-name="Малын эрүүл мэнд" data-funded="67" data-days="17" data-backers="318" data-newest="15">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-10.webp" alt="Мал аж ахуй" class="pcard-img">
-                    <span class="pcard-badge">Хөдөө аж ахуй</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Малын эрүүл мэндийн хяналтын чип</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> П. Лхагвасүрэн</p>
-                    <p class="pcard-desc">GPS болон биометрик мэдрэгчтэй чип бүхий малыг хянах ухаалаг систем.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:67%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">67%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">318</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">17</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-xl-3 col-lg-4 col-md-6 project-card" data-cat="mining" data-name="Уурхайн хаягдал" data-funded="42" data-days="38" data-backers="143" data-newest="16">
-                <div class="pcard h-100">
-                  <div class="pcard-img-wrap">
-                    <img src="images/demo/homepage-2.webp" alt="Аялал жуулчлал" class="pcard-img">
-                    <span class="pcard-badge">Аялал жуулчлал</span>
-                  </div>
-                  <div class="pcard-body">
-                    <h5 class="pcard-title">Уурхайн хаягдлын боловсруулалт</h5>
-                    <p class="pcard-creator"><i class="fa fa-user-circle me-1" style="opacity:.5;"></i> В. Энхтүвшин</p>
-                    <p class="pcard-desc">Уурхайн хаягдлыг дахин боловсруулж байгаль орчинд үзүүлэх нөлөөг бууруулах.</p>
-                    <div class="pcard-progress-wrap">
-                      <div class="pcard-progress-bar" style="width:42%"></div>
-                    </div>
-                    <div class="pcard-stats">
-                      <div><span class="pstat-val" style="color:var(--accent-color)">42%</span><span class="pstat-lbl">санхүүжсэн</span></div>
-                      <div><span class="pstat-val">143</span><span class="pstat-lbl">оролцогч</span></div>
-                      <div><span class="pstat-val">38</span><span class="pstat-lbl">хоног</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-
             </div><!-- /project-grid -->
 
-            <script>
-            // Hardcoded HTML төслүүдийг зөвхөн Google Sheet loader байгаа ангиллаас л устгана
-            // (health, environment, infra) — agri, energy, mining гэх мэт бусад ангиллын
-            // hardcoded картуудыг хэвээр үлдээнэ
-            (function() {
-              var sheetedCats = ['health', 'environment', 'infra', 'agri', 'edu', 'culture', 'social', 'energy', 'mining'];
-              var removed = 0;
-              var kept = {};
-              document.querySelectorAll('#project-grid .project-card').forEach(function(card) {
-                var cat = card.dataset.cat || 'unknown';
-                if (!card.dataset.sheetSource && sheetedCats.indexOf(cat) !== -1) {
-                  card.remove();
-                  removed++;
-                } else {
-                  kept[cat] = (kept[cat] || 0) + 1;
-                }
-              });
-              console.log('[tusul.html] Cleanup: устгасан', removed, ', үлдсэн:', kept);
-            })();
-            </script>
 
             <!-- ══════ САНХҮҮЖҮҮЛЭХ MODAL ══════ -->
             <div class="fund-overlay" id="fundOverlay">
@@ -4438,67 +4251,6 @@
 
     </div>
 
-    <!-- Magic Mobile Bottom Navigation -->
-    <nav id="mobile-bottom-nav">
-      <a class="mob-nav-item" href="index.html" data-menu-label="НҮҮР">
-        <div class="mnav-icon-wrap"><i class="fa fa-home"></i></div>
-        <span>Нүүр</span>
-      </a>
-      <a class="mob-nav-item" href="index.html#section-about" data-menu-label="ЗОРИЛГО">
-        <div class="mnav-icon-wrap"><i class="fa fa-bullseye"></i></div>
-        <span>Зорилго</span>
-      </a>
-      <a class="mob-nav-item active" href="tusul.html" data-menu-label="ТӨСӨЛ">
-        <div class="mnav-icon-wrap"><i class="fa fa-folder-open"></i></div>
-        <span>Төсөл</span>
-      </a>
-      <a class="mob-nav-item" href="index.html#section-schedule" data-menu-label="ХӨТӨЛБӨР">
-        <div class="mnav-icon-wrap"><i class="fa fa-calendar-alt"></i></div>
-        <span>Хөтөлбөр</span>
-      </a>
-      <a class="mob-nav-item" href="index.html#section-venue" data-menu-label="БАЙРШИЛ">
-        <div class="mnav-icon-wrap"><i class="fa fa-location-dot"></i></div>
-        <span>Байршил</span>
-      </a>
-      <a class="mob-nav-item" href="sudalgaa.html" data-menu-label="СУДАЛГАА">
-        <div class="mnav-icon-wrap"><i class="fa fa-clipboard-list"></i></div>
-        <span>Судалгаа</span>
-      </a>
-    </nav>
-    <script>
-    // Mobile nav: нуугдсан цэсийг нуух
-    (function(){
-      try {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'data/menu.json', false);
-        xhr.send();
-        if (xhr.status === 200) {
-          var items = JSON.parse(xhr.responseText);
-          var hidden = [];
-          items.forEach(function(m){ if (!m.visible && m.type !== 'section') hidden.push(m.label); });
-          document.querySelectorAll('.mob-nav-item[data-menu-label]').forEach(function(el){
-            if (hidden.indexOf(el.dataset.menuLabel) !== -1) el.style.display = 'none';
-          });
-        }
-      } catch(e){}
-    })();
-    </script>
-    <script type="module">
-    import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import{getFirestore,doc,getDoc}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    try{
-      var a=initializeApp({apiKey:"AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",authDomain:"dsif-shedule.firebaseapp.com",projectId:"dsif-shedule",storageBucket:"dsif-shedule.firebasestorage.app",messagingSenderId:"973476131387",appId:"1:973476131387:web:8c2e1234567890abcdef"},"mob-menu-t");
-      var d=getFirestore(a);
-      var s=await getDoc(doc(d,"settings","menu"));
-      if(s.exists()&&s.data().list){
-        var hidden=[];
-        s.data().list.forEach(function(m){if(!m.visible&&m.type!=="section")hidden.push(m.label);});
-        document.querySelectorAll(".mob-nav-item[data-menu-label]").forEach(function(el){
-          el.style.display=hidden.indexOf(el.dataset.menuLabel)!==-1?"none":"";
-        });
-      }
-    }catch(e){}
-    </script>
 
     <!-- Санхүүжилт төлөв Firestore-оос уншиж хаагдсан бол бүх fund товчийг нуух -->
     <script type="module">
@@ -4517,60 +4269,213 @@
         const ftSnap = await ftGetDoc(ftDoc(ftDb, "settings", "funding"));
         const ftEnabled = ftSnap.exists() ? ftSnap.data().enabled !== false : true;
         if (!ftEnabled) {
-          const ftStyle = document.createElement("style");
-          ftStyle.textContent = ".pcard-fund-btn, .pcard-actions { display: none !important; }";
-          document.head.appendChild(ftStyle);
-          console.log("[Funding] Санхүүжилт хаалттай байна.");
+          console.log("[Funding] Санхүүжилт хаалттай — товчийг дарахад мэдээлэл модал гарна.");
+          window.__fundingDisabled = true;
+          ensureFundingDisabledModal();
         }
       } catch(e) { console.warn("[Funding] Status read:", e); }
+
+      // Санхүүжилт хаалттай үеийн мэдээлэл модал + click handler
+      function ensureFundingDisabledModal() {
+        if (document.getElementById("fundingClosedOverlay")) return;
+
+        var style = document.createElement("style");
+        style.textContent = (
+          "#fundingClosedOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:10010;" +
+            "display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);}" +
+          "#fundingClosedOverlay.active{display:flex;}" +
+          ".fc-modal{background:#fff;color:#1a1a1a;border-radius:14px;max-width:400px;width:100%;" +
+            "padding:26px 22px 22px;box-shadow:0 16px 48px rgba(0,0,0,0.35);text-align:center;position:relative;" +
+            "animation:fcIn .2s ease-out;}" +
+          "body.dark-scheme .fc-modal{background:#1a1a1a;color:#eee;}" +
+          "@keyframes fcIn{from{opacity:0;transform:translateY(12px) scale(.96);}to{opacity:1;transform:translateY(0) scale(1);}}" +
+          ".fc-modal .fc-close{position:absolute;top:10px;right:12px;background:transparent;border:0;font-size:22px;" +
+            "color:inherit;opacity:.55;cursor:pointer;line-height:1;}" +
+          ".fc-modal .fc-close:hover{opacity:1;}" +
+          ".fc-modal .fc-icon{width:56px;height:56px;border-radius:50%;margin:0 auto 14px;display:flex;" +
+            "align-items:center;justify-content:center;font-size:24px;background:rgba(75,172,72,0.12);color:#4bac48;}" +
+          ".fc-modal h3{margin:0 0 8px;font-size:18px;font-weight:700;}" +
+          ".fc-modal p{margin:0 0 16px;font-size:13.5px;line-height:1.55;opacity:.85;}" +
+          ".fc-modal .fc-link{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:#4bac48;" +
+            "color:#fff !important;text-decoration:none;font-weight:600;font-size:13px;border-radius:8px;" +
+            "letter-spacing:.3px;transition:background .2s;}" +
+          ".fc-modal .fc-link:hover{background:#378a35;}"
+        );
+        document.head.appendChild(style);
+
+        var overlay = document.createElement("div");
+        overlay.id = "fundingClosedOverlay";
+        overlay.innerHTML = (
+          '<div class="fc-modal" role="dialog" aria-modal="true" aria-labelledby="fcTitle">' +
+            '<button class="fc-close" aria-label="Хаах">&times;</button>' +
+            '<div class="fc-icon"><i class="fa fa-hourglass-half"></i></div>' +
+            '<h3 id="fcTitle">Санхүүжүүлэх хугацаа болоогүй байна</h3>' +
+            '<p>Санхүүжүүлэх хэсэг дараах өдөр нээгдэнэ. Хөтөлбөртэй танилцаж, хугацааг урьдчилан мэдээрэй.</p>' +
+            '<a class="fc-link" href="index.html#section-schedule">' +
+              '<i class="fa fa-calendar-alt"></i> Хөтөлбөр үзэх' +
+            '</a>' +
+          '</div>'
+        );
+        document.body.appendChild(overlay);
+
+        function close() { overlay.classList.remove("active"); }
+        overlay.addEventListener("click", function(e) { if (e.target === overlay) close(); });
+        overlay.querySelector(".fc-close").addEventListener("click", close);
+        document.addEventListener("keydown", function(e) {
+          if (e.key === "Escape" && overlay.classList.contains("active")) close();
+        });
+
+        // Санхүүжүүлэх товч дарахад модалыг нээнэ
+        document.addEventListener("click", function(e) {
+          if (!window.__fundingDisabled) return;
+          var btn = e.target.closest(".pcard-fund-btn");
+          if (!btn) return;
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          overlay.classList.add("active");
+        }, true);
+      }
     </script>
 
-    <style>
-      #mobile-bottom-nav {
-        display: none;
-        position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
-        height: calc(64px + env(safe-area-inset-bottom, 0px));
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-        background: rgba(14,14,14,0.96);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        border-top: 1px solid rgba(255,255,255,0.08);
-        box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
-        flex-direction: row; align-items: center; justify-content: space-around;
+    <!-- URL ?project=NAME параметрээр тухайн төслийн дэлгэрэнгүй модалыг автоматаар нээх -->
+    <script>
+      (function() {
+        var params = new URLSearchParams(window.location.search);
+        var target = params.get("project");
+        if (!target) return;
+        var targetSector = params.get("cat") || "";
+
+        // Нэрийг нормчилох — "1.", "2." prefix хасах, нэмэлт зай багасгах
+        function norm(s) {
+          return String(s || "")
+            .toLowerCase()
+            .replace(/^\s*\d+\s*[\.\)]\s*/, "")
+            .replace(/\s+/g, " ")
+            .trim();
+        }
+
+        var normalized = norm(target);
+        if (!normalized) return;
+
+        var opened = false;
+        var tries = 0;
+        var iv = setInterval(function() {
+          if (opened || ++tries > 30) { clearInterval(iv); return; }
+          var cards = document.querySelectorAll(".project-card");
+          if (!cards.length) return;
+
+          // Салбараар шүүх (card.dataset.cat === targetSector)
+          var pool = [];
+          cards.forEach(function(c) {
+            if (!targetSector || (c.dataset.cat || "") === targetSector) pool.push(c);
+          });
+          if (!pool.length) pool = Array.prototype.slice.call(cards);
+
+          // 1) Яг тэнцүү
+          var hit = null;
+          for (var i = 0; i < pool.length; i++) {
+            if (norm(pool[i].dataset.name) === normalized) { hit = pool[i]; break; }
+          }
+          // 2) Хоорондоо багтсан (аль нь ч нөгөөгөө агуулбал)
+          if (!hit) {
+            for (var j = 0; j < pool.length; j++) {
+              var n = norm(pool[j].dataset.name);
+              if (!n) continue;
+              if (n.indexOf(normalized) !== -1 || normalized.indexOf(n) !== -1) {
+                hit = pool[j];
+                break;
+              }
+            }
+          }
+          if (!hit) return;
+
+          var pcard = hit.querySelector(".pcard");
+          if (pcard) {
+            pcard.scrollIntoView({ behavior: "smooth", block: "center" });
+            setTimeout(function() { pcard.click(); }, 400);
+            opened = true;
+            clearInterval(iv);
+          }
+        }, 500);
+      })();
+    </script>
+
+    <!-- Төслийн санхүүжсэн хувийг Firebase fundings-ээс тооцоолж, картуудыг шинэчлэх
+         ШААРДЛАГА: firestore.rules-д /fundings/{id}-ийн read-ийг "if true" болгосон байх ёстой.
+         Хэрэв permission-denied алдаа гарвал rules-ийг Firebase Console → Firestore → Rules
+         дээр шинэчилж publish хийнэ. -->
+    <script type="module">
+      import { initializeApp as fpInit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import { getFirestore as fpFirestore, collection as fpCol, getDocs as fpGet } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      function normTitle(t) {
+        return String(t || "").toLowerCase().replace(/^\s*\d+\.\s*/, "").replace(/\s+/g, " ").trim();
       }
-      body:not(.dark-scheme) #mobile-bottom-nav {
-        background: rgba(248,249,250,0.97);
-        border-top: 1px solid rgba(0,0,0,0.08);
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+
+      function applyFunding(sumByTitle) {
+        var cards = document.querySelectorAll('.project-card');
+        if (!cards.length) return 0;
+        var updated = 0;
+        cards.forEach(function(card) {
+          var name = card.dataset.name || "";
+          var key = normTitle(name);
+          var raised = sumByTitle.get(key) || 0;
+          if (raised <= 0) return;
+          var goal = parseFloat(card.dataset.projectAmount) || 0;
+          if (goal <= 0) return;
+          var pct = Math.round((raised / goal) * 100);
+          var shownPct = Math.min(pct, 100);
+          if (String(card.dataset.funded) === String(pct)) return;
+          card.dataset.funded = pct;
+          var bar = card.querySelector('.pcard-progress-bar');
+          var pctEl = card.querySelector('.pcard-progress-pct');
+          if (bar) bar.style.width = shownPct + '%';
+          if (pctEl) pctEl.textContent = pct + '%';
+          updated++;
+        });
+        return updated;
       }
-      .mob-nav-item {
-        position: relative; z-index: 1;
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        flex: 1; gap: 2px; text-decoration: none !important;
-        color: rgba(255,255,255,0.4) !important;
-        transition: color 0.25s; padding: 4px 0;
-      }
-      body:not(.dark-scheme) .mob-nav-item { color: rgba(0,0,0,0.35) !important; }
-      .mnav-icon-wrap {
-        width: 32px; height: 32px;
-        display: flex; align-items: center; justify-content: center;
-        border-radius: 50%;
-        transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s;
-      }
-      .mob-nav-item i { font-size: 18px; line-height: 1; transition: color 0.25s; }
-      .mob-nav-item span {
-        font-size: 9px; letter-spacing: 0.2px; line-height: 1;
-        color: inherit !important; transition: color 0.25s, opacity 0.25s; opacity: 0.7;
-      }
-      .mob-nav-item.active { color: var(--accent-color) !important; }
-      body:not(.dark-scheme) .mob-nav-item.active { color: var(--accent-color) !important; }
-      .mob-nav-item.active .mnav-icon-wrap { transform: translateY(-6px) scale(1.15); }
-      .mob-nav-item.active span { opacity: 1; font-weight: 600; }
-      @media (max-width: 991px) {
-        #mobile-bottom-nav { display: flex; }
-        body { padding-bottom: 70px; }
-      }
-    </style>
+
+      (async function() {
+        try {
+          var app = fpInit({
+            apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+            authDomain: "dsif-shedule.firebaseapp.com",
+            projectId: "dsif-shedule",
+            storageBucket: "dsif-shedule.firebasestorage.app",
+            messagingSenderId: "973476131387",
+            appId: "1:973476131387:web:8c2e1234567890abcdef"
+          }, "funded-pct-reader");
+          var db = fpFirestore(app);
+          var snap = await fpGet(fpCol(db, "fundings"));
+          var sumByTitle = new Map();
+          snap.forEach(function(d) {
+            var f = d.data();
+            var key = normTitle(f.project);
+            if (!key) return;
+            sumByTitle.set(key, (sumByTitle.get(key) || 0) + (parseFloat(f.amount) || 0));
+          });
+          console.log("[Funded%] Loaded", snap.size, "fundings; grouped into", sumByTitle.size, "projects.");
+
+          // Sheets async ачаалагдах учир давтан apply хийнэ
+          var tries = 0;
+          var iv = setInterval(function() {
+            var n = applyFunding(sumByTitle);
+            if (n) console.log("[Funded%] Updated", n, "card(s)");
+            if (++tries > 20) clearInterval(iv);
+          }, 1000);
+          // Гарын шууд эхний хэрэглэлт
+          applyFunding(sumByTitle);
+        } catch (err) {
+          console.warn("[Funded%] load error:", err);
+          if (err && err.code === "permission-denied") {
+            console.warn("[Funded%] Firestore rules нь fundings-ийн read-ийг public болгоогүй байна. " +
+                         "Firebase Console → Firestore → Rules дээр доорх мөрийг хадгалж publish хийнэ үү:\n" +
+                         "  allow read: if true;   // /fundings/{fundId} дотор");
+          }
+        }
+      })();
+    </script>
 
     <!-- footer begin -->
     <footer class="text-light section-dark dsif-footer">
@@ -4702,6 +4607,7 @@
       })();
     </script>
 
+    <script src="js/site-mobile-nav.js" data-active="ТӨСӨЛ"></script>
 </body>
 
 </html>

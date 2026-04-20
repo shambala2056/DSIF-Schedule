@@ -381,7 +381,8 @@ async function loadProjects(filterSector) {
     } catch(e) { deletedProjectIds = []; }
 
     // Давхардлыг таних: sector + нэр-ийн хөнгөн хувилбараар ID үүсгэх
-    const norm = (s) => (s || "").toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\wа-яё\-]/gi, "");
+    // Mongolian Cyrillic letters (ө, ү, ң гэх мэт) алдахгүйн тулд Unicode property-ийг ашиглана
+    const norm = (s) => (s || "").toString().toLowerCase().trim().replace(/\s+/g, "-").replace(/[^\p{L}\p{N}\-]/gu, "");
     const seen = new Map(); // key -> index in allProjects
     const keyOf = (sector, titleOrSlug) => `${norm(sector)}::${norm(titleOrSlug)}`;
 
@@ -514,6 +515,8 @@ async function loadProjects(filterSector) {
     } catch (e) { console.warn("Firestore projects load:", e); }
 
     // 4) Google Sheet loader-уудаас төслүүдийг унших (tusul.html-тэй ижил эх үүсвэр)
+    // Зөвхөн sheet-д байгаа төслүүдийг эцэст нь үлдээхийн тулд түлхүүрүүдийг цуглуулна
+    const sheetKeys = new Set();
     await Promise.all(PROJECT_SHEETS.map(async (s) => {
       try {
         const url = `https://docs.google.com/spreadsheets/d/${s.id}/gviz/tq?tqx=out:json&gid=${s.gid}`;
@@ -526,12 +529,35 @@ async function loadProjects(filterSector) {
         const json = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
         const cols = (json.table.cols || []).map((c) => (c.label || "").trim());
         const rows = json.table.rows || [];
-        const colIdx = (p) => cols.findIndex((c) => c && c.toLowerCase().indexOf(p.toLowerCase()) !== -1);
-        const iName = colIdx("Төслийн нэр");
-        let iCreator = colIdx("Байгууллагын нэр");
-        if (iCreator === -1) iCreator = colIdx("Төсөл санаачлагч");
-        const iAmount = colIdx("Нийт санхүүжилт");
-        const iDuration = colIdx("Хэрэгжих хугацаа");
+        // Mongolian Cyrillic NFC/NFD normalization-аас үүдэх алдагдлыг арилгахын тулд NFC-д оруулна
+        const normLabel = (s) => (s || "").toString().toLowerCase().normalize("NFC");
+        // 1) Яг таарах label, 2) substring таарах, 3) fallback index
+        const colIdxStrict = (p) => {
+          const needle = normLabel(p);
+          // exact
+          let idx = cols.findIndex((c) => c && normLabel(c) === needle);
+          if (idx !== -1) return idx;
+          // substring
+          return cols.findIndex((c) => c && normLabel(c).indexOf(needle) !== -1);
+        };
+        // "Төслийн нэр" гэж хэмээгч байгуулж өөр "...нэр" багана эхэлж гармаас сэргийлнэ
+        // → exact match-ийг эхэлж оролдох, substring бол "төсөл санаачлагч ... нэр"-ийг хоёрдугаарт үлдээнэ
+        let iName = cols.findIndex((c) => c && normLabel(c) === normLabel("Төслийн нэр"));
+        if (iName === -1) {
+          // Зөв "төсл(и|и)йн нэр" substring, гэхдээ "санаачлагч"-тай биш
+          iName = cols.findIndex((c) => {
+            const n = c ? normLabel(c) : "";
+            return n.indexOf("төслийн нэр") !== -1 && n.indexOf("санаачлагч") === -1;
+          });
+        }
+        if (iName === -1) {
+          // Эцсийн fallback: нэртэй сүүлчийн "нэр" багана — энэ Google Sheet-ийн нийтлэг бүтцэд 5-р багана байдаг
+          iName = 5;
+        }
+        let iCreator = colIdxStrict("Байгууллагын нэр");
+        if (iCreator === -1) iCreator = colIdxStrict("Төсөл санаачлагч");
+        const iAmount = colIdxStrict("Нийт санхүүжил"); // "Нийт санхүүжилтйн" typo-г ч хамруулна
+        const iDuration = colIdxStrict("Хэрэгжих хугацаа");
         const get = (cells, i) => {
           if (i < 0 || i >= cells.length) return "";
           const c = cells[i];
@@ -539,17 +565,18 @@ async function loadProjects(filterSector) {
           if (c.f != null) return c.f.toString().trim();
           return c.v != null ? c.v.toString().trim() : "";
         };
-        rows.forEach((r) => {
+        let sheetAdded = 0;
+        rows.forEach((r, rowIdx) => {
           const cells = r.c || [];
           const title = get(cells, iName);
           if (!title) return;
           const creator = iCreator !== -1 ? get(cells, iCreator) : "";
           const amountStr = iAmount !== -1 ? get(cells, iAmount) : "";
           const amountNum = Number((amountStr || "").toString().replace(/[^\d.]/g, "")) || 0;
-          const slug = norm(title) || "sheet-" + Math.random().toString(36).slice(2, 8);
+          const slug = (norm(title) || "sheet") + "-" + rowIdx;
           const key = keyOf(s.sector, title);
-          if (seen.has(key)) return;
-          seen.set(key, allProjects.length);
+          sheetKeys.add(key);
+          sheetAdded++;
           allProjects.push({
             sector: s.sector,
             slug,
@@ -563,30 +590,51 @@ async function loadProjects(filterSector) {
             thumbUrl: "",
             amount: amountNum,
             duration: iDuration !== -1 ? get(cells, iDuration) : "",
-            source: "sheet"
+            source: "sheet",
+            sheetRowIdx: rowIdx,
+            sheetId: s.id,
+            sheetGid: s.gid
           });
         });
+        console.log(`[Admin/Sheet] ${s.sector}: ${sheetAdded} төсөл (iName=${iName}, cols=${cols.length})`);
       } catch (e) {
         console.warn("Sheet load:", s.sector, e);
       }
     }));
 
-    // Эцсийн давхардалыг цэвэрлэх (өөр хоорондоо нэр/sector таарч буй зүйл)
-    const uniq = new Map();
-    for (const p of allProjects) {
-      const k = keyOf(p.sector, p.title);
-      const existing = uniq.get(k);
-      if (!existing) {
-        uniq.set(k, p);
-      } else {
-        // Эрэмбэ: firestore > manifest > sheet > html (илүү шинэ эх үүсвэр давамгайлна)
-        const rank = { firestore: 4, manifest: 3, sheet: 2, html: 1 };
-        if ((rank[p.source] || 0) > (rank[existing.source] || 0)) {
-          uniq.set(k, { ...existing, ...p });
-        }
-      }
+    // Sheet-ийн мөрүүдийг үндсэн жагсаалт. Давхардалыг: sector + title + creator
+    // (ижил нэртэй ч өөр байгууллагаас ирсэн төслүүдийг хоёуланг үлдээнэ)
+    const sheetProjectsRaw = allProjects.filter((p) => p.source === "sheet");
+    const otherProjects = allProjects.filter((p) => p.source !== "sheet");
+
+    const dedupMap = new Map();
+    let dupCount = 0;
+    sheetProjectsRaw.forEach((p) => {
+      const titleKey = norm(p.title);
+      const creatorKey = norm(p.creator || "");
+      const k = `${norm(p.sector)}::${titleKey}::${creatorKey}`;
+      if (dedupMap.has(k)) { dupCount++; return; }
+      dedupMap.set(k, p);
+    });
+
+    // Metadata давхарлах (Firestore/manifest-аас ирсэн thumbnail, hidden г.м)
+    const titleLookup = new Map();
+    for (const p of dedupMap.values()) {
+      const tk = keyOf(p.sector, p.title);
+      if (!titleLookup.has(tk)) titleLookup.set(tk, p);
     }
-    allProjects = Array.from(uniq.values());
+    otherProjects.forEach((op) => {
+      const sp = titleLookup.get(keyOf(op.sector, op.title))
+              || (op.slug ? titleLookup.get(keyOf(op.sector, op.slug)) : null);
+      if (!sp) return;
+      if (op.thumbUrl && !sp.thumbUrl) sp.thumbUrl = op.thumbUrl;
+      if (typeof op.hidden === "boolean") sp.hidden = op.hidden;
+      if (op.firestoreId) sp.firestoreId = op.firestoreId;
+      if (op.creator && !sp.creator) sp.creator = op.creator;
+    });
+
+    allProjects = Array.from(dedupMap.values());
+    console.log(`[Admin/Projects] Нийт төсөл: ${allProjects.length}, давхардсан: ${dupCount}`);
 
     // 5) Санхүүжилтийн жинхэнэ хувийг тооцоолох — fundings collection-оос
     try {
@@ -713,14 +761,25 @@ function renderProjects(filterSector) {
     if (colSearch.name && !(p.title || "").toLowerCase().includes(colSearch.name)
         && !(p.creator || "").toLowerCase().includes(colSearch.name)) return false;
     if (colSearch.sector && p.sector !== colSearch.sector) return false;
-    if (colSearch.amount) {
-      const fundedStr = (p.funded || 0).toString();
-      if (!fundedStr.includes(colSearch.amount.replace(/[^0-9]/g, ""))) return false;
-    }
     if (colSearch.status === "visible" && p.hidden) return false;
     if (colSearch.status === "hidden" && !p.hidden) return false;
     return true;
   });
+
+  // Санхүүжилтийн дараалал (ихээс бага / багаас их)
+  if (colSearch.amount === "desc" || colSearch.amount === "asc") {
+    const dir = colSearch.amount === "desc" ? -1 : 1;
+    filtered.sort((a, b) => {
+      const av = (parseFloat(a.raisedAmount) || 0);
+      const bv = (parseFloat(b.raisedAmount) || 0);
+      if (av !== bv) return (av - bv) * dir;
+      // Тэнцүү бол funded% —> amount (goal) дарааллаар
+      const af = (parseFloat(a.funded) || 0);
+      const bf = (parseFloat(b.funded) || 0);
+      if (af !== bf) return (af - bf) * dir;
+      return ((parseFloat(a.amount) || 0) - (parseFloat(b.amount) || 0)) * dir;
+    });
+  }
 
   if (countEl) countEl.textContent = `Нийт ${filtered.length} төсөл`;
 
@@ -733,19 +792,37 @@ function renderProjects(filterSector) {
   const canEdit = currentAdmin.role === "admin" || currentAdmin.role === "sub-admin" || currentAdmin.role === "editor";
   const canDelete = currentAdmin.role === "admin";
 
+  // Салбар бүрийн Google Sheet edit URL (tusul.html доторх loader-уудтай таарна)
+  const SECTOR_SHEETS = {
+    infra:       { id: "1eebLZJiL8lMMJ8YDEt2W06P9f8_NgICX9EXlMNdjvW8", gid: "0" },
+    environment: { id: "1H6ORSfZh61fARTEd-F24bBPzCv88mKIHww8_MdORd68", gid: "0" },
+    health:      { id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "0" },
+    agri:        { id: "133ZKSNTFJ2ZaA7MBZPu7PtdE1tSP7hUUh-RVIKhhew8", gid: "0" },
+    culture:     { id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "904267116" },
+    edu:         { id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "797596799" },
+    energy:      { id: "1ucbKdcgNMBcpyfnvpBzueFflzL-IMzqYtBYre7_uEVk", gid: "0" },
+    mining:      { id: "1gHMiQzvsHb2lIWD8_QSSb7PIWcSm4lFR51dq8npthaU", gid: "0" }
+  };
+
   grid.innerHTML = filtered.map((p) => {
     const fundedColor = p.funded >= 100 ? "#4bac48" : "var(--admin-accent)";
     const fundedPct = Math.min(p.funded, 100);
+    // View: тухайн төслийн дэлгэрэнгүй модал автоматаар нээгдэхээр параметр дамжуулна
     const viewUrl = p.source === "manifest"
       ? `${BASE_PATH}${p.sector}/${encodeURIComponent(p.slug)}/index.html`
-      : `${SITE_PATH}tusul.html?cat=${p.sector}`;
+      : `${SITE_PATH}tusul.html?cat=${p.sector}&project=${encodeURIComponent(p.title)}`;
+    // Edit: тухайн салбарын Google Sheet-ийг шууд нээнэ
+    const sheet = SECTOR_SHEETS[p.sector];
+    const sheetUrl = sheet
+      ? `https://docs.google.com/spreadsheets/d/${sheet.id}/edit#gid=${sheet.gid}`
+      : null;
     const thumb = p.thumbUrl
       ? `<img src="${p.thumbUrl}" style="width:50px;height:34px;object-fit:cover;border-radius:4px" onerror="this.style.display='none'">`
       : '<span style="color:var(--admin-text-muted)">—</span>';
     const pid = p.sector + "_" + p.slug;
     const statusBadge = p.hidden
       ? '<span class="badge badge-viewer"><i class="fa fa-eye-slash"></i> Нуугдсан</span>'
-      : '<span class="badge badge-admin"><i class="fa fa-eye"></i> Харагдана</span>';
+      : "";
     const rowStyle = p.hidden ? "opacity:.55" : "";
 
     return `<tr style="${rowStyle}" data-pid="${escapeHtml(pid)}">
@@ -770,9 +847,9 @@ function renderProjects(filterSector) {
       <td>${statusBadge}</td>
       <td>
         <div class="action-btns">
-          <a href="${viewUrl}" target="_blank" class="btn btn-outline btn-sm"><i class="fa fa-eye"></i></a>
-          ${canEdit ? `<button class="btn btn-info btn-sm" data-sector="${p.sector}" data-slug="${encodeURIComponent(p.slug)}" onclick="editProject(this.dataset.sector,this.dataset.slug)"><i class="fa fa-edit"></i></button>` : ""}
-          ${canDelete ? `<button class="btn btn-danger btn-sm" data-sector="${p.sector}" data-slug="${encodeURIComponent(p.slug)}" data-title="${escapeHtml(p.title)}" data-source="${p.source}" onclick="confirmDeleteProject(this.dataset.sector,this.dataset.slug,this.dataset.title,this.dataset.source)"><i class="fa fa-trash"></i></button>` : ""}
+          <a href="${viewUrl}" target="_blank" class="btn btn-outline btn-sm" title="Төслийн дэлгэрэнгүй"><i class="fa fa-eye"></i></a>
+          <button class="btn btn-outline btn-sm" data-title="${escapeHtml(p.title)}" onclick="showProjectFunders(this.dataset.title)" title="Санхүүжүүлэгчид"><i class="fa fa-users"></i></button>
+          ${canEdit && sheetUrl ? `<a href="${sheetUrl}" target="_blank" rel="noopener" class="btn btn-info btn-sm" title="Google Sheet-ээр засах"><i class="fa fa-edit"></i></a>` : ""}
         </div>
       </td>
     </tr>`;
@@ -786,6 +863,123 @@ function renderProjects(filterSector) {
   if (selectAll) selectAll.checked = false;
   updateBulkBar();
 }
+
+// ── Тухайн төслийн санхүүжүүлэгчдийн жагсаалт харуулах ──
+function showProjectFunders(title) {
+  const modal = document.getElementById("projectFundersModal");
+  const titleEl = document.getElementById("projectFundersTitle");
+  const summaryEl = document.getElementById("projectFundersSummary");
+  const listEl = document.getElementById("projectFundersList");
+  if (!modal || !listEl || !summaryEl) return;
+
+  titleEl.textContent = title;
+  const key = normProjectTitle(title);
+  const funders = (allFunders || []).filter((f) => normProjectTitle(f.project) === key);
+
+  // Нийлбэр ба төслийн зорилго
+  const totalRaised = funders.reduce((s, f) => s + (parseFloat(f.amount) || 0), 0);
+  const project = (allProjects || []).find((p) => normProjectTitle(p.title) === key);
+  const goal = project ? (parseFloat(project.amount) || 0) : 0;
+  const pct = goal > 0 ? Math.round((totalRaised / goal) * 100) : 0;
+
+  const pctStatus = pct >= 100 ? "fs-pct-complete" : (pct >= 50 ? "fs-pct-mid" : "fs-pct-low");
+  summaryEl.innerHTML = `
+    <div class="fs-grid">
+      <div class="fs-stat">
+        <div class="fs-stat-icon"><i class="fa fa-users"></i></div>
+        <div class="fs-stat-val">${funders.length}</div>
+        <div class="fs-stat-lbl">САНХҮҮЖҮҮЛЭГЧ</div>
+      </div>
+      <div class="fs-stat">
+        <div class="fs-stat-icon"><i class="fa fa-coins"></i></div>
+        <div class="fs-stat-val">${totalRaised.toLocaleString()}<span class="fs-currency">₮</span></div>
+        <div class="fs-stat-lbl">ЦУГЛАСАН ДҮН</div>
+      </div>
+      ${goal > 0 ? `<div class="fs-stat">
+        <div class="fs-stat-icon"><i class="fa fa-bullseye"></i></div>
+        <div class="fs-stat-val fs-stat-muted">${goal.toLocaleString()}<span class="fs-currency">₮</span></div>
+        <div class="fs-stat-lbl">ЗОРИЛГО</div>
+      </div>
+      <div class="fs-stat ${pctStatus}">
+        <div class="fs-stat-icon"><i class="fa fa-percent"></i></div>
+        <div class="fs-stat-val">${pct}<span class="fs-currency">%</span></div>
+        <div class="fs-stat-lbl">БИЕЛЭЛТ</div>
+      </div>` : ""}
+    </div>
+    ${goal > 0 ? `<div class="fs-bar-wrap">
+      <div class="fs-bar-fill" style="width:${Math.min(pct, 100)}%"></div>
+    </div>` : ""}
+  `;
+
+  if (funders.length === 0) {
+    listEl.innerHTML = `<div class="funders-empty">
+      <i class="fa fa-inbox"></i>
+      <p>Одоогоор санхүүжүүлэгч байхгүй байна</p>
+    </div>`;
+  } else {
+    // Хамгийн сүүлд илгээснийг дээр байрлуулах
+    funders.sort((a, b) => {
+      const ta = a.createdAt?.seconds || 0;
+      const tb = b.createdAt?.seconds || 0;
+      return tb - ta;
+    });
+    listEl.innerHTML = `
+      <table class="funders-tbl-brand">
+        <thead>
+          <tr>
+            <th style="width:40px">#</th>
+            <th>Нэр / Байгууллага</th>
+            <th>Утас</th>
+            <th style="text-align:right">Дүн</th>
+            <th style="text-align:right;white-space:nowrap">Хувь</th>
+            <th>Огноо</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${funders.map((f, i) => {
+            const dt = f.createdAt?.seconds
+              ? new Date(f.createdAt.seconds * 1000).toLocaleString("mn-MN", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })
+              : "—";
+            const amt = parseFloat(f.amount) || 0;
+            const isOrg = f.type === "org" || f.orgName;
+            const displayName = isOrg
+              ? (f.orgName || "—")
+              : (f.name || "—");
+            const subLine = isOrg && (f.person || f.position)
+              ? `<div class="funder-sub">${escapeHtml([f.person, f.position].filter(Boolean).join(" · "))}</div>`
+              : "";
+            const typeBadge = isOrg
+              ? `<span class="funder-type-badge funder-org"><i class="fa fa-building"></i> ААН</span>`
+              : `<span class="funder-type-badge funder-person"><i class="fa fa-user"></i> Иргэн</span>`;
+            const sharePct = totalRaised > 0 ? ((amt / totalRaised) * 100) : 0;
+            const shareText = sharePct >= 10 ? sharePct.toFixed(0) : sharePct.toFixed(1);
+            const goalShare = goal > 0 ? ((amt / goal) * 100).toFixed(1) : null;
+            return `<tr>
+              <td class="funder-num">${i + 1}</td>
+              <td>
+                <div class="funder-name-row">
+                  ${typeBadge}
+                  <strong class="funder-name">${escapeHtml(displayName)}</strong>
+                </div>
+                ${subLine}
+              </td>
+              <td class="funder-phone">${escapeHtml(f.phone || "—")}</td>
+              <td class="funder-amount">${amt.toLocaleString()}<span class="fs-currency">₮</span></td>
+              <td class="funder-share">
+                <div class="funder-share-val">${shareText}%</div>
+                ${goalShare !== null ? `<div class="funder-share-sub">зорилгоос ${goalShare}%</div>` : ""}
+              </td>
+              <td class="funder-date">${dt}</td>
+            </tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+    `;
+  }
+
+  modal.classList.add("active");
+}
+window.showProjectFunders = showProjectFunders;
 
 // ── Bulk actions ──
 function getSelectedProjects() {

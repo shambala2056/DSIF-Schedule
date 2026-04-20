@@ -1530,6 +1530,274 @@ body.light-theme .funders-tbl .col-search-input {
   border-color: rgba(0,0,0,0.12) !important;
 }
 
+/* ── Projects table merged header (label + search input нэг нүдэнд) ── */
+.projects-tbl .projects-col-header th {
+  vertical-align: top;
+  padding: 10px 10px;
+}
+.projects-tbl .projects-col-header .col-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: var(--admin-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.projects-tbl .projects-col-header .col-search-input {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-dark-3);
+  color: var(--admin-text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.projects-tbl .projects-col-header .col-search-input::placeholder {
+  color: var(--admin-text-muted);
+}
+.projects-tbl .projects-col-header .col-search-input:hover {
+  border-color: rgba(75,172,72,0.5);
+}
+.projects-tbl .projects-col-header .col-search-input:focus {
+  outline: none;
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 2px rgba(75,172,72,0.15);
+}
+body.light-theme .projects-tbl .projects-col-header .col-search-input {
+  background: #fff !important;
+  color: #1a1a1a !important;
+  border-color: rgba(0,0,0,0.12) !important;
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   Project Funders modal (брэндбүүкын өнгөөр нийцүүлсэн)
+   ═════════════════════════════════════════════════════════════════ */
+.funders-modal {
+  border: 1px solid rgba(75, 172, 72, 0.18);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(75, 172, 72, 0.06);
+}
+.funders-modal-header {
+  background: linear-gradient(135deg, rgba(75, 172, 72, 0.14), rgba(55, 138, 53, 0.06));
+  border-bottom: 2px solid #4bac48;
+}
+.funders-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-weight: 600;
+}
+.funders-modal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #4bac48;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(75, 172, 72, 0.45);
+}
+
+/* Summary stats (дээд хэсгийн картууд) */
+.funders-summary { margin-bottom: 16px; }
+.funders-summary .fs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+.funders-summary .fs-stat {
+  background: var(--admin-dark-2);
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  position: relative;
+  text-align: left;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.funders-summary .fs-stat:hover {
+  border-color: rgba(75, 172, 72, 0.5);
+  transform: translateY(-1px);
+}
+.funders-summary .fs-stat-icon {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  font-size: 12px;
+  color: rgba(75, 172, 72, 0.6);
+}
+.funders-summary .fs-stat-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4bac48;
+  line-height: 1.1;
+  margin-bottom: 2px;
+  letter-spacing: -0.2px;
+}
+.funders-summary .fs-stat-muted .fs-stat-val { color: var(--admin-text); }
+.funders-summary .fs-pct-complete .fs-stat-val { color: #4bac48; }
+.funders-summary .fs-pct-mid .fs-stat-val { color: #378a35; }
+.funders-summary .fs-pct-low .fs-stat-val { color: var(--admin-text); }
+.funders-summary .fs-stat-lbl {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--admin-text-muted);
+  text-transform: uppercase;
+}
+.funders-summary .fs-currency {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--admin-text-muted);
+  margin-left: 1px;
+}
+
+/* Биелэлтийн progress bar */
+.funders-summary .fs-bar-wrap {
+  margin-top: 10px;
+  height: 6px;
+  background: var(--admin-dark-3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.funders-summary .fs-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #378a35, #4bac48);
+  border-radius: 3px;
+  transition: width 0.4s ease-out;
+}
+
+/* Funders list table */
+.funders-tbl-brand {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.funders-tbl-brand thead th {
+  padding: 10px 12px;
+  background: var(--admin-dark-2);
+  border-bottom: 1px solid var(--admin-border);
+  text-align: left;
+  font-size: 10.5px;
+  letter-spacing: 0.8px;
+  font-weight: 700;
+  color: var(--admin-text-muted);
+  text-transform: uppercase;
+}
+.funders-tbl-brand tbody tr {
+  transition: background 0.15s;
+}
+.funders-tbl-brand tbody tr:hover {
+  background: rgba(75, 172, 72, 0.05);
+}
+.funders-tbl-brand tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(75, 172, 72, 0.08);
+  vertical-align: top;
+}
+.funders-tbl-brand .funder-num {
+  color: var(--admin-text-muted);
+  font-weight: 600;
+  font-size: 12px;
+}
+.funders-tbl-brand .funder-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.funders-tbl-brand .funder-name { font-weight: 600; }
+.funders-tbl-brand .funder-sub {
+  font-size: 11px;
+  color: var(--admin-text-muted);
+  margin-top: 2px;
+}
+.funders-tbl-brand .funder-phone {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--admin-text);
+}
+.funders-tbl-brand .funder-amount {
+  text-align: right;
+  font-weight: 700;
+  color: #4bac48;
+  white-space: nowrap;
+}
+.funders-tbl-brand .funder-share {
+  text-align: right;
+  white-space: nowrap;
+}
+.funders-tbl-brand .funder-share-val {
+  font-weight: 700;
+  color: #378a35;
+}
+.funders-tbl-brand .funder-share-sub {
+  font-size: 10px;
+  color: var(--admin-text-muted);
+  margin-top: 1px;
+}
+.funders-tbl-brand .funder-date {
+  font-size: 11px;
+  color: var(--admin-text-muted);
+}
+
+/* Funder type badge (ААН / Иргэн) */
+.funder-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+.funder-type-badge.funder-org {
+  background: rgba(75, 172, 72, 0.12);
+  color: #4bac48;
+  border-color: rgba(75, 172, 72, 0.35);
+}
+.funder-type-badge.funder-person {
+  background: rgba(55, 138, 53, 0.14);
+  color: #378a35;
+  border-color: rgba(55, 138, 53, 0.35);
+}
+
+/* Empty state */
+.funders-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--admin-text-muted);
+  border: 1px dashed var(--admin-border);
+  border-radius: 10px;
+}
+.funders-empty i { font-size: 32px; margin-bottom: 10px; opacity: 0.5; }
+.funders-empty p { margin: 0; font-size: 13px; }
+
+/* Light theme overrides */
+body.light-theme .funders-modal {
+  border-color: rgba(75, 172, 72, 0.22);
+}
+body.light-theme .funders-modal-header {
+  background: linear-gradient(135deg, rgba(75, 172, 72, 0.08), rgba(55, 138, 53, 0.03));
+}
+body.light-theme .funders-summary .fs-stat {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+body.light-theme .funders-tbl-brand thead th {
+  background: #fafafa;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+body.light-theme .funders-tbl-brand tbody td {
+  border-bottom-color: rgba(75, 172, 72, 0.12);
+}
+
 /* Brand-input select option styling */
 select.brand-input {
   cursor: pointer;
