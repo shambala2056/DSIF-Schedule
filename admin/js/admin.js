@@ -263,7 +263,7 @@ async function loadDashboard() {
     const activeFunders = (allFunders || []).filter((f) => f.hidden !== true);
     const totalRaised = activeFunders.reduce((s, f) => s + (parseFloat(f.amount) || 0), 0);
     const totalGoal = allProjects.reduce((s, p) => s + (parseFloat(p.amount) || 0), 0);
-    const avgPct = totalGoal > 0 ? Math.round((totalRaised / totalGoal) * 100) : 0;
+    const avgPct = totalGoal > 0 ? Math.min(100, Math.round((totalRaised / totalGoal) * 100)) : 0;
 
     setText("statProjects", allProjects.length);
     setText("statFunders", activeFunders.length);
@@ -364,7 +364,7 @@ async function loadAnalyticsDashboard() {
     const activeFunders = (allFunders || []).filter((f) => f.hidden !== true);
     const totalRaised = activeFunders.reduce((s, f) => s + (parseFloat(f.amount) || 0), 0);
     const totalGoal = allProjects.reduce((s, p) => s + (parseFloat(p.amount) || 0), 0);
-    const avgPct = totalGoal > 0 ? Math.round((totalRaised / totalGoal) * 100) : 0;
+    const avgPct = totalGoal > 0 ? Math.min(100, Math.round((totalRaised / totalGoal) * 100)) : 0;
 
     setText("anaProjects", allProjects.length);
     setText("anaFunders", activeFunders.length);
@@ -417,7 +417,7 @@ function renderDashboardCharts(activeFunders) {
   const raisedData = sectorKeys.map((k) => raisedBySector.get(k) || 0);
   const fundedPctBySector = sectorKeys.map((k, i) => {
     const g = goalBySector[i];
-    return g > 0 ? Math.round((raisedData[i] / g) * 100) : 0;
+    return g > 0 ? Math.min(100, Math.round((raisedData[i] / g) * 100)) : 0;
   });
 
   // 1) Ангилал тус бүрийн төслийн тоо + санхүүжсэн хувь (donut)
@@ -1007,12 +1007,14 @@ function computeProjectFundedPercent() {
 
     // Зорилго: project-ийн өөрийн amount > funder-ээс ирсэн projectAmount
     const goal = parseFloat(p.amount) || goalByTitle.get(titleKey) || 0;
-    p.raisedAmount = raised;
+    // Цугласан дүн нь зорилгоос хэтэрсэн бол зорилгоор хязгаарлана
+    p.raisedAmount = goal > 0 ? Math.min(raised, goal) : raised;
     if (goal > 0) {
-      p.funded = Math.round((raised / goal) * 100);
-      p.amount = goal; // зорилго багана дүн харуулахад хэрэгтэй
+      // funded% 100-аас хэтрэхгүй хязгаарлалт
+      p.funded = Math.min(100, Math.round((raised / goal) * 100));
+      p.amount = goal;
     } else {
-      p.funded = 0; // зорилго мэдэгдэхгүй
+      p.funded = 0;
     }
     updated++;
   });
@@ -1282,7 +1284,7 @@ function showProjectFunders(title) {
   const totalRaised = funders.reduce((s, f) => s + (parseFloat(f.amount) || 0), 0);
   const project = (allProjects || []).find((p) => normProjectTitle(p.title) === key);
   const goal = project ? (parseFloat(project.amount) || 0) : 0;
-  const pct = goal > 0 ? Math.round((totalRaised / goal) * 100) : 0;
+  const pct = goal > 0 ? Math.min(100, Math.round((totalRaised / goal) * 100)) : 0;
 
   const pctStatus = pct >= 100 ? "fs-pct-complete" : (pct >= 50 ? "fs-pct-mid" : "fs-pct-low");
   summaryEl.innerHTML = `

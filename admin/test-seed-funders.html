@@ -35,6 +35,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, Timestamp, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const app = initializeApp({
@@ -45,7 +46,15 @@
       messagingSenderId: "973476131387",
       appId: "1:973476131387:web:8c2e1234567890abcdef"
     });
+    const auth = getAuth(app);
     const db = getFirestore(app);
+
+    // Админ нэвтэрсэн эсэхийг шалгана — Firebase auth session нь
+    // админ dashboard-той хуваалцагдана (ижил домэйны доор)
+    let currentUser = null;
+    const authReady = new Promise((resolve) => {
+      onAuthStateChanged(auth, (u) => { currentUser = u; resolve(u); });
+    });
 
     const SECTORS = [
       { sector: "infra",       id: "1eebLZJiL8lMMJ8YDEt2W06P9f8_NgICX9EXlMNdjvW8", gid: "0",         label: "Дэд бүтэц" },
@@ -193,23 +202,60 @@
       }
     }
 
+    async function ensureAdminAuth() {
+      await authReady;
+      if (currentUser) {
+        log("✓ Нэвтрэлт: " + (currentUser.email || currentUser.uid));
+        return true;
+      }
+      // Нэвтрээгүй бол имэйл/нууц үг асууна
+      log("⚠ Устгахын тулд админаар нэвтрэх шаардлагатай.");
+      const email = prompt("Админ имэйл:");
+      if (!email) return false;
+      const pass = prompt("Нууц үг:");
+      if (!pass) return false;
+      try {
+        const cred = await signInWithEmailAndPassword(auth, email, pass);
+        currentUser = cred.user;
+        log("✓ Амжилттай нэвтрэв: " + currentUser.email);
+        return true;
+      } catch (err) {
+        log("✗ Нэвтрэхэд алдаа гарлаа: " + err.message);
+        return false;
+      }
+    }
+
     async function cleanTest() {
       if (!confirm("Бүх _test: true тэмдэглэгдсэн санхүүжүүлэгчдийг устгах уу?")) return;
       document.getElementById("seedBtn").disabled = true;
       document.getElementById("cleanBtn").disabled = true;
       document.getElementById("log").textContent = "▶ Тест өгөгдлийг устгаж байна...";
+
+      const authed = await ensureAdminAuth();
+      if (!authed) {
+        log("✗ Устгах үйлдэл цуцлагдав.");
+        document.getElementById("seedBtn").disabled = false;
+        document.getElementById("cleanBtn").disabled = false;
+        return;
+      }
+
       try {
         const snap = await getDocs(query(collection(db, "fundings"), where("_test", "==", true)));
         log(`• ${snap.size} тест doc олдлоо.`);
         let removed = 0;
+        let errors = 0;
         for (const d of snap.docs) {
           try {
             await deleteDoc(doc(db, "fundings", d.id));
             removed++;
             if (removed % 10 === 0) log(`  ${removed} устгалаа`);
-          } catch (err) { log(`  ✗ ${err.message}`); }
+          } catch (err) {
+            errors++;
+            if (errors <= 3) log(`  ✗ ${err.code || ""} ${err.message}`);
+          }
         }
-        log(`✓ ${removed} устгалаа.`);
+        log(`✓ ${removed} устгалаа. ${errors > 0 ? `(${errors} алдаа)` : ""}`);
+        if (errors > 0) log("⚠ Хэрэв permission-denied алдаа бол таны эрх 'admin' биш байж магадгүй.");
       } catch (err) {
         log("✗ " + err.message);
       } finally {
