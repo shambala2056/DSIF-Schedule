@@ -39,7 +39,7 @@ const firebaseConfig = {
   projectId: "dsif-shedule",
   storageBucket: "dsif-shedule.firebasestorage.app",
   messagingSenderId: "973476131387",
-  appId: "1:973476131387:web:b045fde8fe7f363b3b621e"
+  appId: "1:973476131387:web:8c2e1234567890abcdef"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -137,13 +137,13 @@ let selectedThumbnailFile = null;
 // ── Auth guard ──
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    window.location.href = "/admin/index";
+    window.location.href = "/admin/";
     return;
   }
   const adminDoc = await getDoc(doc(db, "admins", user.uid));
   if (!adminDoc.exists()) {
     await signOut(auth);
-    window.location.href = "/admin/index";
+    window.location.href = "/admin/";
     return;
   }
   currentUser = user;
@@ -234,7 +234,7 @@ document.getElementById("mobileToggle").addEventListener("click", () => {
 // ── Logout ──
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   await signOut(auth);
-  window.location.href = "/admin/index";
+  window.location.href = "/admin/";
 });
 
 // ═══════════════════════════════════════

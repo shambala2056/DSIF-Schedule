@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ДОРОНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026</title>
-  <link rel="icon" href="../images/icon.webp" type="image/webp">
+  <link rel="icon" href="/images/icon.webp" type="image/webp">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="/admin/css/admin.css">
 </head>
 <body>
   <!-- Theme toggle -->
@@ -14,7 +14,7 @@
 
   <div class="login-wrapper">
     <div class="login-box">
-      <img src="../images/logo.webp" alt="DSIF" class="logo">
+      <img src="/images/logo.webp" alt="DSIF" class="logo">
       <h1>Дашбоард</h1>
       <p class="subtitle">Удирдлагын самбар</p>
 
@@ -69,7 +69,7 @@
       projectId: "dsif-shedule",
       storageBucket: "dsif-shedule.firebasestorage.app",
       messagingSenderId: "973476131387",
-      appId: "1:973476131387:web:b045fde8fe7f363b3b621e"
+      appId: "1:973476131387:web:8c2e1234567890abcdef"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -81,7 +81,7 @@
       if (user) {
         const adminDoc = await getDoc(doc(db, "admins", user.uid));
         if (adminDoc.exists()) {
-          window.location.href = "/admin/dashboard";
+          window.location.href = "/admin/dashboard.html";
         }
       }
     });
@@ -107,7 +107,7 @@
           await auth.signOut();
           throw new Error("Танд админ эрх олгогдоогүй байна.");
         }
-        window.location.href = "/admin/dashboard";
+        window.location.href = "/admin/dashboard.html";
       } catch (err) {
         errorEl.style.display = "block";
         if (err.code === "auth/invalid-credential" || err.code === "auth/user-not-found" || err.code === "auth/wrong-password") {
