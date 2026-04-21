@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <title>Test: 100 санхүүжүүлэгч үүсгэх</title>
+  <style>
+    body { font-family: Montserrat, sans-serif; background: #111; color: #eee; padding: 30px; max-width: 800px; margin: 0 auto; }
+    h1 { color: #2a8b27; margin: 0 0 10px; }
+    button { padding: 12px 24px; background: #2a8b27; color: #fff; border: 0; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+    button:hover { background: #1f6b1d; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .log { margin-top: 20px; background: #000; color: #0f0; font-family: monospace; font-size: 12px; padding: 14px; border-radius: 6px; max-height: 500px; overflow-y: auto; white-space: pre-wrap; }
+    .info { padding: 12px; background: rgba(42,139,39,0.15); border-left: 3px solid #2a8b27; margin: 16px 0; font-size: 13px; line-height: 1.6; }
+    .warn { padding: 12px; background: rgba(231,76,60,0.12); border-left: 3px solid #e74c3c; margin: 16px 0; font-size: 13px; line-height: 1.6; color: #f0d0d0; }
+  </style>
+</head>
+<body>
+  <h1>Test Seed: 100 санхүүжүүлэгч</h1>
+  <div class="info">
+    Энэ хуудас Firestore-ийн <code>fundings</code> коллекцид <strong>100 санамсаргүй тест хандив</strong> оруулна:
+    <ul style="margin:8px 0">
+      <li>~40% ААН, ~60% хувь хүн</li>
+      <li>Хандивын дүн 100,000₮ — 500,000,000₮</li>
+      <li>Төслүүд — 8 sheet-ээс санамсаргүй авна</li>
+      <li>Огноо — сүүлийн 30 хоногийн дотор санамсаргүй</li>
+    </ul>
+  </div>
+  <div class="warn">
+    ⚠ Хэрэглэсний дараа "Санхүүжилт тохиргоо" эсвэл "Санхүүжүүлэгчид" цэсэнд орж зайлуулж болно. <br>
+    Эсвэл <code>/admin/test-seed-funders.html?clean=1</code> URL-аар тест доткументуудыг <strong>ҮҮ устгана</strong>.
+  </div>
+  <button id="seedBtn">▶ 100 санхүүжүүлэгч үүсгэх</button>
+  <button id="cleanBtn" style="background:#e74c3c;margin-left:8px">🗑 Тест өгөгдөл устгах</button>
+  <pre id="log" class="log">Товч дарна уу...</pre>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, Timestamp, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const app = initializeApp({
+      apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+      authDomain: "dsif-shedule.firebaseapp.com",
+      projectId: "dsif-shedule",
+      storageBucket: "dsif-shedule.firebasestorage.app",
+      messagingSenderId: "973476131387",
+      appId: "1:973476131387:web:8c2e1234567890abcdef"
+    });
+    const db = getFirestore(app);
+
+    const SECTORS = [
+      { sector: "infra",       id: "1eebLZJiL8lMMJ8YDEt2W06P9f8_NgICX9EXlMNdjvW8", gid: "0",         label: "Дэд бүтэц" },
+      { sector: "environment", id: "1H6ORSfZh61fARTEd-F24bBPzCv88mKIHww8_MdORd68", gid: "0",         label: "Байгаль орчин" },
+      { sector: "health",      id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "0",         label: "Эрүүл мэнд" },
+      { sector: "culture",     id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "904267116", label: "Соёл" },
+      { sector: "edu",         id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "797596799", label: "Боловсрол" },
+      { sector: "agri",        id: "133ZKSNTFJ2ZaA7MBZPu7PtdE1tSP7hUUh-RVIKhhew8", gid: "0",         label: "Хөдөө аж ахуй" },
+      { sector: "energy",      id: "1ucbKdcgNMBcpyfnvpBzueFflzL-IMzqYtBYre7_uEVk", gid: "0",         label: "Эрчим хүч" },
+      { sector: "mining",      id: "1gHMiQzvsHb2lIWD8_QSSb7PIWcSm4lFR51dq8npthaU", gid: "0",         label: "Аялал жуулчлал" }
+    ];
+
+    const ORG_NAMES = [
+      "Монголиан Майнинг Корпорэйшн", "Оюутолгой ХХК", "Эрдэнэт үйлдвэр", "Таван толгой ХК", "MAK",
+      "Монцемент", "МCM", "ТДБ", "ХаанБанк", "Голомт банк", "Хас банк", "Төрийн банк",
+      "МИАТ", "Монгол Шуудан", "МобиКом", "Юнител", "G-Mobile", "Skytel",
+      "Гоби ХК", "Атар Өргөө", "Их говийн хөгжлийн гарц", "Дашваанжил ХХК",
+      "Цахилгаан түгээх сүлжээ ТӨХК", "Нэгдсэн эмнэлгийн тус", "Улсын их сургууль",
+      "ШУТИС", "МУИС", "Pearson Mongolia", "Азийн хөгжлийн банк"
+    ];
+    const POSITIONS = ["Гүйцэтгэх захирал", "Хөтөлбөрийн менежер", "Санхүүгийн захирал", "ХОХ-ын менежер", "Директор", "Ерөнхий инженер", "Хариуцлагатай"];
+    const FIRST = ["Батбаяр", "Мөнхбат", "Ариунбаяр", "Энхжаргал", "Нямсүрэн", "Отгонбаяр", "Ганбаатар", "Цэрэнпил", "Болормаа", "Оюунчимэг", "Халиун", "Түмэн", "Анударь", "Наран", "Тэнгис"];
+    const LAST = ["Б.", "Д.", "О.", "Ч.", "Ц.", "Э.", "Н.", "Т.", "С.", "Г."];
+
+    const log = (m) => {
+      const el = document.getElementById("log");
+      el.textContent += "\n" + m;
+      el.scrollTop = el.scrollHeight;
+    };
+
+    function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function randPhone() { return "9" + randInt(0, 9) + randInt(1000000, 9999999); }
+
+    async function loadProjectTitles() {
+      log("• Sheet-үүдээс төслийн нэрсийг татаж байна...");
+      const all = [];
+      for (const s of SECTORS) {
+        try {
+          const url = `https://docs.google.com/spreadsheets/d/${s.id}/gviz/tq?tqx=out:json&gid=${s.gid}&_=${Date.now()}`;
+          const res = await fetch(url);
+          const text = await res.text();
+          const js = text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1);
+          const json = JSON.parse(js);
+          const cols = (json.table.cols || []).map(c => (c.label || "").trim().toLowerCase());
+          let iName = cols.findIndex(c => c === "төслийн нэр");
+          if (iName === -1) iName = cols.findIndex(c => c.includes("төслийн нэр") && !c.includes("санаачлагч"));
+          if (iName === -1) iName = 5;
+          let iAmount = cols.findIndex(c => c.includes("нийт санхүүжил"));
+          (json.table.rows || []).forEach(r => {
+            const c = r.c || [];
+            const t = c[iName] && c[iName].v ? c[iName].v.toString().trim() : "";
+            const amt = c[iAmount] && c[iAmount].v ? Number(c[iAmount].v.toString().replace(/[^\d.]/g, "")) : 0;
+            if (t) all.push({ title: t, sector: s.sector, sectorName: s.label, projectAmount: amt });
+          });
+        } catch (e) { log("  warn: " + s.sector + ": " + e.message); }
+      }
+      log(`• ${all.length} төсөл олдлоо.`);
+      return all;
+    }
+
+    async function seed() {
+      document.getElementById("seedBtn").disabled = true;
+      document.getElementById("cleanBtn").disabled = true;
+      document.getElementById("log").textContent = "▶ Эхэллээ...";
+      try {
+        const projects = await loadProjectTitles();
+        if (!projects.length) { log("✗ Төсөл олдсонгүй."); return; }
+
+        log("• 100 тест санхүүжүүлэгч үүсгэж байна...");
+        let ok = 0;
+        const now = Date.now();
+        // Нэг төсөлд хэдэн төгрөг цугларсныг хянах (goal-оос хэтрүүлэхгүй)
+        const raisedByProject = new Map();
+
+        for (let i = 0; i < 100; i++) {
+          const proj = rand(projects);
+          const goal = parseFloat(proj.projectAmount) || 0;
+          const already = raisedByProject.get(proj.title) || 0;
+          const remaining = Math.max(0, goal - already);
+
+          // Хэрэв goal аль хэдийн дүүрсэн бол өөр төсөл сонгоно
+          if (goal > 0 && remaining <= 0) { i--; continue; }
+
+          const isOrg = Math.random() < 0.4;
+          // Сонголтуудаас remaining-аас хэтрэхгүй дүнг сонгох
+          let amount;
+          const buckets = [100000, 500000, 1000000, 5000000, 10000000, 25000000, 50000000, 100000000, 250000000, 500000000];
+          if (goal > 0) {
+            const allowed = buckets.filter((b) => b <= remaining);
+            if (allowed.length) {
+              amount = rand(allowed);
+            } else {
+              // Хамгийн жижиг bucket ч багтахгүй бол тухайн остатокыг өгнө
+              amount = Math.max(10000, remaining);
+            }
+          } else {
+            amount = rand(buckets);
+          }
+          raisedByProject.set(proj.title, already + amount);
+
+          const when = new Date(now - randInt(0, 30 * 24 * 3600 * 1000));
+
+          const base = {
+            _test: true,
+            project: proj.title,
+            projectAmount: proj.projectAmount || 0,
+            sector: proj.sector,
+            sectorName: proj.sectorName,
+            amount,
+            phone: randPhone(),
+            createdAt: Timestamp.fromDate(when)
+          };
+
+          let data;
+          if (isOrg) {
+            data = Object.assign({}, base, {
+              type: "org",
+              orgName: rand(ORG_NAMES),
+              position: rand(POSITIONS),
+              person: rand(LAST) + rand(FIRST)
+            });
+          } else {
+            data = Object.assign({}, base, {
+              type: "person",
+              name: rand(LAST) + rand(FIRST)
+            });
+          }
+
+          try {
+            await addDoc(collection(db, "fundings"), data);
+            ok++;
+            if (ok % 10 === 0) log(`  ${ok}/100 нэмэгдэв`);
+          } catch (err) {
+            log(`  ✗ Алдаа: ${err.message}`);
+          }
+        }
+        log(`✓ Амжилттай: ${ok}/100 нэмэгдэв.`);
+        log(`→ Админ > Дашбоард руу орж харна уу.`);
+      } catch (err) {
+        log("✗ " + err.message);
+      } finally {
+        document.getElementById("seedBtn").disabled = false;
+        document.getElementById("cleanBtn").disabled = false;
+      }
+    }
+
+    async function cleanTest() {
+      if (!confirm("Бүх _test: true тэмдэглэгдсэн санхүүжүүлэгчдийг устгах уу?")) return;
+      document.getElementById("seedBtn").disabled = true;
+      document.getElementById("cleanBtn").disabled = true;
+      document.getElementById("log").textContent = "▶ Тест өгөгдлийг устгаж байна...";
+      try {
+        const snap = await getDocs(query(collection(db, "fundings"), where("_test", "==", true)));
+        log(`• ${snap.size} тест doc олдлоо.`);
+        let removed = 0;
+        for (const d of snap.docs) {
+          try {
+            await deleteDoc(doc(db, "fundings", d.id));
+            removed++;
+            if (removed % 10 === 0) log(`  ${removed} устгалаа`);
+          } catch (err) { log(`  ✗ ${err.message}`); }
+        }
+        log(`✓ ${removed} устгалаа.`);
+      } catch (err) {
+        log("✗ " + err.message);
+      } finally {
+        document.getElementById("seedBtn").disabled = false;
+        document.getElementById("cleanBtn").disabled = false;
+      }
+    }
+
+    document.getElementById("seedBtn").addEventListener("click", seed);
+    document.getElementById("cleanBtn").addEventListener("click", cleanTest);
+
+    // ?clean=1 параметртэй бол автомат устгана
+    if (new URLSearchParams(location.search).get("clean") === "1") {
+      cleanTest();
+    }
+  </script>
+</body>
+</html>
