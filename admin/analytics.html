@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Аналитик дашбоард — ДОРОНОГОВЬ ФОРУМ 2026</title>
+  <link rel="icon" href="../images/icon.webp" type="image/webp">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body {
+      background: var(--admin-dark);
+      color: var(--admin-text);
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+    }
+    body.light-theme { background: #f4f6f8; color: #1a1a1a; }
+
+    .fs-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: var(--admin-dark-2);
+      border-bottom: 1px solid var(--admin-border);
+      height: 52px;
+    }
+    body.light-theme .fs-header {
+      background: #fff;
+      border-bottom-color: rgba(0,0,0,0.08);
+    }
+    .fs-header h1 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--admin-primary);
+    }
+    .fs-header h1 span { color: var(--admin-text); font-weight: 400; margin-left: 6px; }
+    .fs-controls { display: flex; gap: 8px; align-items: center; }
+    .fs-clock { font-size: 13px; color: var(--admin-text-muted); margin-right: 16px; font-variant-numeric: tabular-nums; }
+    .fs-controls .btn { padding: 6px 12px; font-size: 12px; }
+
+    .fs-main {
+      height: calc(100vh - 52px);
+      padding: 16px 24px;
+      overflow-y: auto;
+    }
+
+    /* KPI cards — том харагдацтай */
+    .fs-stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .fs-stat {
+      background: var(--admin-dark-2);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    body.light-theme .fs-stat { background: #fff; border-color: rgba(0,0,0,0.08); }
+    .fs-stat::before {
+      content: "";
+      position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+      background: #2a8b27;
+    }
+    .fs-stat-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      color: var(--admin-text-muted); text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .fs-stat-value {
+      font-size: 28px; font-weight: 800; color: #2a8b27;
+      line-height: 1.1; letter-spacing: -0.5px;
+    }
+    .fs-stat-value .cur { font-size: 16px; color: var(--admin-text-muted); margin-left: 2px; }
+    .fs-stat-icon {
+      position: absolute; top: 12px; right: 14px;
+      font-size: 20px; color: rgba(42,139,39,0.25);
+    }
+
+    /* Charts grid */
+    .fs-charts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .fs-chart {
+      background: var(--admin-dark-2);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    body.light-theme .fs-chart { background: #fff; border-color: rgba(0,0,0,0.08); }
+    .fs-chart-title {
+      font-size: 12px; font-weight: 700; color: #2a8b27;
+      letter-spacing: 0.5px; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .fs-chart-body {
+      height: 220px;
+      position: relative;
+    }
+
+    /* Top projects table */
+    .fs-top {
+      background: var(--admin-dark-2);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+    }
+    body.light-theme .fs-top { background: #fff; border-color: rgba(0,0,0,0.08); }
+    .fs-top-title {
+      font-size: 12px; font-weight: 700; color: #2a8b27;
+      letter-spacing: 0.5px; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .fs-top-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .fs-top-table th {
+      text-align: left; font-size: 10.5px; color: var(--admin-text-muted);
+      letter-spacing: 0.6px; text-transform: uppercase; font-weight: 700;
+      padding: 8px 10px; border-bottom: 1px solid var(--admin-border);
+    }
+    .fs-top-table td {
+      padding: 8px 10px; border-bottom: 1px solid rgba(42,139,39,0.08);
+    }
+    .fs-top-table .num { color: var(--admin-text-muted); font-weight: 700; }
+    .fs-top-table .amt { text-align: right; color: #2a8b27; font-weight: 700; white-space: nowrap; }
+    .fs-top-table .goal { text-align: right; color: var(--admin-text-muted); white-space: nowrap; }
+    .fs-top-table .pct { text-align: right; font-weight: 700; white-space: nowrap; }
+
+    @media (max-width: 1200px) {
+      .fs-stats { grid-template-columns: repeat(3, 1fr); }
+      .fs-charts { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .fs-stats { grid-template-columns: repeat(2, 1fr); }
+      .fs-charts { grid-template-columns: 1fr; }
+      .fs-main { padding: 10px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    (function() {
+      if (localStorage.getItem('dsif-admin-theme') === 'light') document.body.classList.add('light-theme');
+    })();
+  </script>
+
+  <header class="fs-header">
+    <h1>ДАШБОАРД <span>· Аналитик</span></h1>
+    <div class="fs-controls">
+      <div class="fs-clock" id="fsClock">—</div>
+      <button class="btn btn-outline btn-sm" onclick="reloadData()" title="Шинэчлэх">
+        <i class="fa fa-rotate"></i> Шинэчлэх
+      </button>
+      <button class="btn btn-outline btn-sm" onclick="toggleFullscreen()" title="Бүтэн дэлгэц">
+        <i class="fa fa-expand"></i> Fullscreen
+      </button>
+      <button class="btn btn-outline btn-sm" onclick="window.close()" title="Хаах">
+        <i class="fa fa-xmark"></i>
+      </button>
+    </div>
+  </header>
+
+  <main class="fs-main">
+    <!-- KPI -->
+    <div class="fs-stats">
+      <div class="fs-stat">
+        <i class="fa fa-folder-open fs-stat-icon"></i>
+        <div class="fs-stat-label">Нийт төсөл</div>
+        <div class="fs-stat-value" id="kProjects">0</div>
+      </div>
+      <div class="fs-stat">
+        <i class="fa fa-users fs-stat-icon"></i>
+        <div class="fs-stat-label">Санхүүжүүлэгч</div>
+        <div class="fs-stat-value" id="kFunders">0</div>
+      </div>
+      <div class="fs-stat">
+        <i class="fa fa-sack-dollar fs-stat-icon"></i>
+        <div class="fs-stat-label">Цугласан дүн</div>
+        <div class="fs-stat-value" id="kRaised">0<span class="cur">₮</span></div>
+      </div>
+      <div class="fs-stat">
+        <i class="fa fa-bullseye fs-stat-icon"></i>
+        <div class="fs-stat-label">Нийт зорилго</div>
+        <div class="fs-stat-value" id="kGoal">0<span class="cur">₮</span></div>
+      </div>
+      <div class="fs-stat">
+        <i class="fa fa-percent fs-stat-icon"></i>
+        <div class="fs-stat-label">Дундаж биелэлт</div>
+        <div class="fs-stat-value" id="kAvgPct">0<span class="cur">%</span></div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="fs-charts">
+      <div class="fs-chart">
+        <div class="fs-chart-title"><i class="fa fa-chart-pie"></i> Ангилал дэх төсөл</div>
+        <div class="fs-chart-body"><canvas id="fsChart1"></canvas></div>
+      </div>
+      <div class="fs-chart">
+        <div class="fs-chart-title"><i class="fa fa-chart-bar"></i> Ангилалын санхүүжилт</div>
+        <div class="fs-chart-body"><canvas id="fsChart2"></canvas></div>
+      </div>
+      <div class="fs-chart">
+        <div class="fs-chart-title"><i class="fa fa-chart-line"></i> Цаг хугацаагаар</div>
+        <div class="fs-chart-body"><canvas id="fsChart3"></canvas></div>
+      </div>
+      <div class="fs-chart">
+        <div class="fs-chart-title"><i class="fa fa-chart-column"></i> Санхүүжүүлэгчийн төрөл</div>
+        <div class="fs-chart-body"><canvas id="fsChart4"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Top 10 -->
+    <div class="fs-top">
+      <div class="fs-top-title"><i class="fa fa-trophy"></i> Top 10 санхүүжилт авсан төсөл</div>
+      <table class="fs-top-table">
+        <thead>
+          <tr>
+            <th style="width:36px">№</th>
+            <th>Төсөл</th>
+            <th>Ангилал</th>
+            <th style="text-align:right">Цугласан</th>
+            <th style="text-align:right">Зорилго</th>
+            <th style="text-align:right">Биелэлт</th>
+          </tr>
+        </thead>
+        <tbody id="fsTopTable">
+          <tr><td colspan="6" style="text-align:center;padding:20px;color:var(--admin-text-muted)">Ачаалж байна...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAXYu7yseh6J6d21m-Jhiwt-EjVIeU5gQ8",
+      authDomain: "dsif-shedule.firebaseapp.com",
+      projectId: "dsif-shedule",
+      storageBucket: "dsif-shedule.firebasestorage.app",
+      messagingSenderId: "973476131387",
+      appId: "1:973476131387:web:8c2e1234567890abcdef"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const SECTOR_NAMES = {
+      mining: "Аялал жуулчлал", infra: "Дэд бүтэц", energy: "Эрчим хүч",
+      environment: "Байгаль орчин", agri: "Хөдөө аж ахуй", health: "Эрүүл мэнд",
+      culture: "Соёл", edu: "Боловсрол", social: "Нийгэм"
+    };
+    const PROJECT_SHEETS = [
+      { sector: "infra",       id: "1eebLZJiL8lMMJ8YDEt2W06P9f8_NgICX9EXlMNdjvW8", gid: "0" },
+      { sector: "environment", id: "1H6ORSfZh61fARTEd-F24bBPzCv88mKIHww8_MdORd68", gid: "0" },
+      { sector: "health",      id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "0" },
+      { sector: "culture",     id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "904267116" },
+      { sector: "edu",         id: "1ah0aKyf2xfXGAu3TljHw-h3Q_kkdiaabo6SuYhsXP8E", gid: "797596799" },
+      { sector: "agri",        id: "133ZKSNTFJ2ZaA7MBZPu7PtdE1tSP7hUUh-RVIKhhew8", gid: "0" },
+      { sector: "energy",      id: "1ucbKdcgNMBcpyfnvpBzueFflzL-IMzqYtBYre7_uEVk", gid: "0" },
+      { sector: "mining",      id: "1gHMiQzvsHb2lIWD8_QSSb7PIWcSm4lFR51dq8npthaU", gid: "0" }
+    ];
+
+    const normLabel = (s) => (s || "").toString().toLowerCase().normalize("NFC");
+    function normTitle(t) {
+      return String(t || "").toLowerCase().replace(/^\s*\d+\.\s*/, "").replace(/\s+/g, " ").trim();
+    }
+
+    async function loadSheetProjects() {
+      const all = [];
+      await Promise.all(PROJECT_SHEETS.map(async (s) => {
+        try {
+          const url = `https://docs.google.com/spreadsheets/d/${s.id}/gviz/tq?tqx=out:json&gid=${s.gid}&_=${Date.now()}`;
+          const res = await fetch(url);
+          const text = await res.text();
+          const js = text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1);
+          const json = JSON.parse(js);
+          const cols = (json.table.cols || []).map((c) => (c.label || "").trim());
+          const colIdx = (p) => cols.findIndex((c) => c && normLabel(c).indexOf(normLabel(p)) !== -1);
+          let iName = cols.findIndex((c) => c && normLabel(c) === normLabel("Төслийн нэр"));
+          if (iName === -1) iName = cols.findIndex((c) => { const n = normLabel(c); return n.indexOf("төслийн нэр") !== -1 && n.indexOf("санаачлагч") === -1; });
+          if (iName === -1) iName = 5;
+          const iAmount = colIdx("Нийт санхүүжил");
+          const get = (cells, i) => i < 0 || i >= cells.length || !cells[i] ? "" : (cells[i].f || cells[i].v || "").toString().trim();
+          (json.table.rows || []).forEach((r) => {
+            const c = r.c || [];
+            const title = get(c, iName);
+            if (!title) return;
+            const amt = Number((get(c, iAmount) || "").replace(/[^\d.]/g, "")) || 0;
+            all.push({ sector: s.sector, title, amount: amt });
+          });
+        } catch (e) { console.warn("Sheet load:", s.sector, e); }
+      }));
+      return all;
+    }
+
+    async function loadFunders() {
+      try {
+        const snap = await getDocs(collection(db, "fundings"));
+        const list = [];
+        snap.forEach((d) => { const data = d.data(); if (data.hidden !== true) list.push(data); });
+        return list;
+      } catch (e) { console.warn("Funders load:", e); return []; }
+    }
+
+    function fmtAmt(n) {
+      return (n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    let charts = {};
+    window.reloadData = async function () {
+      const [projects, funders] = await Promise.all([loadSheetProjects(), loadFunders()]);
+
+      // Aggregate raised per project
+      const raisedByProject = new Map();
+      funders.forEach((f) => {
+        const key = normTitle(f.project);
+        if (!key) return;
+        raisedByProject.set(key, (raisedByProject.get(key) || 0) + (parseFloat(f.amount) || 0));
+      });
+      projects.forEach((p) => {
+        p.raisedAmount = raisedByProject.get(normTitle(p.title)) || 0;
+        p.funded = p.amount > 0 ? Math.round((p.raisedAmount / p.amount) * 100) : 0;
+      });
+
+      // KPIs
+      const totalRaised = funders.reduce((s, f) => s + (parseFloat(f.amount) || 0), 0);
+      const totalGoal = projects.reduce((s, p) => s + (parseFloat(p.amount) || 0), 0);
+      const avgPct = totalGoal > 0 ? Math.round((totalRaised / totalGoal) * 100) : 0;
+
+      document.getElementById("kProjects").textContent = projects.length;
+      document.getElementById("kFunders").textContent = funders.length;
+      document.getElementById("kRaised").innerHTML = fmtAmt(totalRaised) + '<span class="cur">₮</span>';
+      document.getElementById("kGoal").innerHTML = fmtAmt(totalGoal) + '<span class="cur">₮</span>';
+      document.getElementById("kAvgPct").innerHTML = avgPct + '<span class="cur">%</span>';
+
+      // Charts
+      Object.values(charts).forEach((c) => { try { c.destroy(); } catch (e) {} });
+      charts = {};
+      const palette = ["#2a8b27", "#f4b917", "#e74c3c", "#3498db", "#9b59b6", "#e67e22", "#1abc9c", "#34495e", "#c0392b"];
+    // Datalabels plugin-ийг нийт chart-уудад идэвхжүүлэх
+    if (window.ChartDataLabels) Chart.register(window.ChartDataLabels);
+      const sectorKeys = Object.keys(SECTOR_NAMES);
+      const sectorLabels = sectorKeys.map((k) => SECTOR_NAMES[k]);
+      const projCounts = sectorKeys.map((k) => projects.filter((p) => p.sector === k).length);
+      const raisedBySector = sectorKeys.map((k) => projects.filter((p) => p.sector === k).reduce((s, p) => s + p.raisedAmount, 0));
+      const goalBySector = sectorKeys.map((k) => projects.filter((p) => p.sector === k).reduce((s, p) => s + (parseFloat(p.amount) || 0), 0));
+
+      const totalProjCount = projCounts.reduce((s, v) => s + v, 0);
+      charts.c1 = new Chart(document.getElementById("fsChart1"), {
+        type: "doughnut",
+        data: { labels: sectorLabels, datasets: [{ data: projCounts, backgroundColor: palette, borderWidth: 2, borderColor: "#0a0a0a" }] },
+        options: {
+          maintainAspectRatio: false,
+          layout: { padding: 90 },
+          plugins: {
+            legend: { display: false },
+            datalabels: {
+              anchor: "end",
+              align: "end",
+              offset: 16,
+              clamp: true,
+              display: true,
+              color: (ctx) => palette[ctx.dataIndex % palette.length],
+              font: { size: 11, weight: 700, lineHeight: 1.2 },
+              textAlign: "center",
+              formatter: (v, ctx) => {
+                if (!v || v <= 0) return "";
+                const pct = totalProjCount > 0 ? Math.round(v / totalProjCount * 100) : 0;
+                const name = ctx.chart.data.labels[ctx.dataIndex] || "";
+                return [name, `${v} (${pct}%)`];
+              }
+            }
+          }
+        }
+      });
+
+      charts.c2 = new Chart(document.getElementById("fsChart2"), {
+        type: "bar",
+        data: { labels: sectorLabels, datasets: [
+          { label: "Зорилго", data: goalBySector, backgroundColor: "rgba(42,139,39,0.25)" },
+          { label: "Цугласан", data: raisedBySector, backgroundColor: "#2a8b27" }
+        ] },
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: "#aaa" } },
+            datalabels: {
+              anchor: "end",
+              align: "top",
+              color: "#2a8b27",
+              font: { size: 9, weight: 700 },
+              formatter: (v) => v > 0 ? (v / 1e6).toFixed(1) + "М" : ""
+            }
+          },
+          scales: {
+            x: { ticks: { color: "#aaa", font: { size: 10 } } },
+            y: { ticks: { color: "#aaa", callback: (v) => (v / 1e6).toFixed(0) + "М" } }
+          }
+        }
+      });
+
+      const byDay = new Map();
+      funders.forEach((f) => {
+        if (!f.createdAt || !f.createdAt.seconds) return;
+        const d = new Date(f.createdAt.seconds * 1000);
+        const key = d.toISOString().slice(0, 10);
+        byDay.set(key, (byDay.get(key) || 0) + (parseFloat(f.amount) || 0));
+      });
+      const dayKeys = Array.from(byDay.keys()).sort();
+      let cum = 0;
+      const cumVals = dayKeys.map((k) => (cum += byDay.get(k)));
+      charts.c3 = new Chart(document.getElementById("fsChart3"), {
+        type: "line",
+        data: { labels: dayKeys, datasets: [
+          { label: "Өдрийн", data: dayKeys.map((k) => byDay.get(k)), borderColor: "#1f6b1d", backgroundColor: "rgba(31,107,29,0.15)", tension: 0.3, datalabels: { display: false } },
+          { label: "Өссөн", data: cumVals, borderColor: "#2a8b27", backgroundColor: "rgba(42,139,39,0.25)", tension: 0.3, fill: true,
+            datalabels: { align: "top", color: "#2a8b27", font: { size: 9, weight: 700 }, formatter: (v) => v > 0 ? (v / 1e6).toFixed(1) + "М" : "" } }
+        ] },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: "#aaa" } } },
+          scales: {
+            x: { ticks: { color: "#aaa", font: { size: 10 } } },
+            y: { ticks: { color: "#aaa", callback: (v) => (v / 1e6).toFixed(0) + "М" } }
+          }
+        }
+      });
+
+      const orgCnt = funders.filter((f) => f.type === "org" || f.orgName).length;
+      const perCnt = funders.length - orgCnt;
+      const orgAmt = funders.filter((f) => f.type === "org" || f.orgName).reduce((s, f) => s + (parseFloat(f.amount) || 0), 0);
+      const perAmt = totalRaised - orgAmt;
+      charts.c4 = new Chart(document.getElementById("fsChart4"), {
+        type: "bar",
+        data: { labels: ["ААН", "Хувь хүн"], datasets: [
+          { label: "Тоо", data: [orgCnt, perCnt], backgroundColor: "#1f6b1d", yAxisID: "y",
+            datalabels: { anchor: "end", align: "top", color: "#1f6b1d", font: { size: 11, weight: 700 }, formatter: (v) => v > 0 ? v : "" } },
+          { label: "Дүн", data: [orgAmt, perAmt], backgroundColor: "#2a8b27", yAxisID: "y1",
+            datalabels: { anchor: "end", align: "top", color: "#2a8b27", font: { size: 10, weight: 700 }, formatter: (v) => v > 0 ? (v / 1e6).toFixed(1) + "М" : "" } }
+        ] },
+        options: {
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: "#aaa" } } },
+          scales: {
+            x: { ticks: { color: "#aaa" } },
+            y: { position: "left", ticks: { color: "#aaa" } },
+            y1: { position: "right", ticks: { color: "#aaa", callback: (v) => (v / 1e6).toFixed(0) + "М" }, grid: { drawOnChartArea: false } }
+          }
+        }
+      });
+
+      // Top 10
+      const top = [...projects].filter((p) => p.raisedAmount > 0).sort((a, b) => b.raisedAmount - a.raisedAmount).slice(0, 10);
+      const tbody = document.getElementById("fsTopTable");
+      if (top.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--admin-text-muted)">Санхүүжилт авсан төсөл байхгүй</td></tr>';
+      } else {
+        tbody.innerHTML = top.map((p, i) => {
+          const pctColor = p.funded >= 100 ? "#2a8b27" : (p.funded >= 50 ? "#378a35" : "var(--admin-text-muted)");
+          return `<tr>
+            <td class="num">${i + 1}</td>
+            <td><strong>${p.title}</strong></td>
+            <td>${SECTOR_NAMES[p.sector] || p.sector}</td>
+            <td class="amt">${fmtAmt(p.raisedAmount)}₮</td>
+            <td class="goal">${fmtAmt(p.amount)}₮</td>
+            <td class="pct" style="color:${pctColor}">${p.funded}%</td>
+          </tr>`;
+        }).join("");
+      }
+    };
+
+    window.toggleFullscreen = function () {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+      else document.exitFullscreen();
+    };
+
+    function tickClock() {
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      document.getElementById("fsClock").textContent =
+        `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+    setInterval(tickClock, 1000); tickClock();
+
+    // Анх ачаалал + 60 секунд бүр автомат шинэчлэл
+    reloadData();
+    setInterval(reloadData, 60000);
+  </script>
+</body>
+</html>

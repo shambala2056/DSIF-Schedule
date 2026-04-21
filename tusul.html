@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>НОГООН ХӨГЖИЛ ФОРУМ 2026</title>
+    <title>ДОРОНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026</title>
     <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport" >
@@ -4451,6 +4451,7 @@
           var sumByTitle = new Map();
           snap.forEach(function(d) {
             var f = d.data();
+            if (f.hidden === true) return; // Админаас нуугдсан санхүүжүүлэгчийг алгасна
             var key = normTitle(f.project);
             if (!key) return;
             sumByTitle.set(key, (sumByTitle.get(key) || 0) + (parseFloat(f.amount) || 0));
