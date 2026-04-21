@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>ДОРОНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026</title>
+    <title>ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026</title>
     <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="width=device-width, initial-scale=1.0" name="viewport" >
@@ -1165,10 +1165,14 @@
                   text-align: justify !important;
                   text-align-last: left !important;
                 }
-                /* Дээд доод зай багасгах */
-                #section-schedule .border-white-bottom-op-2 {
-                  padding-bottom: 8px !important;
-                  margin-bottom: 8px !important;
+                /* Дээд доод зайг тэнцүүлэх */
+                #section-schedule .border-white-bottom-op-2,
+                #schedule-day1 > div:not(.schedule-group-head),
+                #schedule-day2 > div:not(.schedule-group-head) {
+                  padding-top: 10px !important;
+                  padding-bottom: 10px !important;
+                  margin-bottom: 4px !important;
+                  margin-top: 0 !important;
                 }
                 /* Tab nav жижигрүүлэх */
                 #section-schedule .d-tab-nav { gap: 16px !important; margin-bottom: 12px !important; padding-bottom: 12px !important; }
@@ -1893,19 +1897,84 @@
         font-size: 13px;
         font-weight: 400;
       }
+      /* Цаг ба бичвэр нэг мөрөнд — цаг зүүн талд, title + илтгэгч нь баруун талд зэрэгцэн */
+      #section-schedule .d-tab-content .row.g-3 {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        flex-wrap: nowrap;
+      }
       #section-schedule .d-tab-content .col-md-2 {
         font-size: 12px;
-        padding-left: 8px;
-        text-align: right;
-        border-right: 1px solid rgba(255,255,255,0.12);
+        padding-left: 15px;
+        padding-right: 16px;
+        text-align: left;
         flex: 0 0 auto;
         width: auto;
-        min-width: 90px;
-        max-width: 110px;
+        min-width: 120px;
+        max-width: none;
+        border: 0;
+        opacity: 0.75;
+        padding-top: 2px;
+        white-space: nowrap;
+      }
+      #section-schedule .d-tab-content .col-md-10 {
+        max-width: none;
       }
       #section-schedule .d-tab-content .col-md-10 {
         flex: 1 1 auto;
-        max-width: 900px;
+        text-align: left;
+        padding-left: 0;
+      }
+      /* Title + speaker нь col-md-10 дотор нэг зүүн ирмэгтэй */
+      #section-schedule .d-tab-content .col-md-10 h5,
+      #section-schedule .d-tab-content .col-md-10 p {
+        text-align: left !important;
+        text-align-last: left !important;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+      }
+
+      /* Гар утас (≤768px) — цаг ба бичвэрийг нэг мөрөнд үлдээнэ */
+      @media (max-width: 768px) {
+        #section-schedule .d-tab-content .row.g-3 {
+          flex-direction: row !important;
+          flex-wrap: nowrap !important;
+          align-items: flex-start !important;
+        }
+        #section-schedule .d-tab-content .col-md-2 {
+          width: 100px !important;
+          min-width: 100px !important;
+          max-width: 100px !important;
+          flex: 0 0 100px !important;
+          font-size: 11px !important;
+          padding-left: 12px !important;
+          padding-right: 8px !important;
+          padding-top: 0 !important;
+          white-space: nowrap !important;
+        }
+        #section-schedule .d-tab-content .row.g-3 {
+          align-items: flex-start !important;
+        }
+        #section-schedule .d-tab-content .col-md-10 {
+          max-width: calc(100% - 100px) !important;
+        }
+        #section-schedule .d-tab-content .col-md-10 h5,
+        #section-schedule .d-tab-content .col-md-10 p {
+          text-align: justify !important;
+          text-align-last: left !important;
+          hyphens: auto;
+          word-break: break-word;
+        }
+        #section-schedule .d-tab-content .col-md-10 {
+          flex: 1 1 auto !important;
+          width: auto !important;
+          max-width: none !important;
+        }
+      }
+      #section-schedule .d-tab-content .col-md-10 h5,
+      #section-schedule .d-tab-content .col-md-10 p {
+        text-align: left !important;
+        text-align-last: left !important;
       }
       #section-schedule .d-tab-content .col-md-10 h5 {
         white-space: nowrap;
@@ -2044,9 +2113,9 @@
         <div class="subfooter">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-md-6 text-center text-md-start">
-                        © ДОРОНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026 · ДОРНОГОВЬ АЙМАГ · САЙНШАНД СУМ
-
+                    <div class="col-12 text-center subfooter-line">
+                        © ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026 · ДОРНОГОВЬ АЙМАГ · САЙНШАНД СУМ
+                    </div>
                 </div>
             </div>
         </div>
@@ -2071,6 +2140,10 @@
           .dsif-footer .social-icons a { width: 36px; height: 36px; border-radius: 50%; background: rgba(75,172,72,0.12); color: #4bac48; display: inline-flex; align-items: center; justify-content: center; margin-right: 8px; transition: background 0.2s, color 0.2s; }
           .dsif-footer .social-icons a:hover { background: #4bac48; color: #fff; }
           .dsif-footer .subfooter { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px; margin-top: 40px; font-size: 12px; opacity: 0.75; letter-spacing: 1px; }
+          .dsif-footer .subfooter-line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+          @media (max-width: 767px) {
+            .dsif-footer .subfooter-line { font-size: 10px; letter-spacing: 0.4px; }
+          }
           .dsif-footer .sdg-pill { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 4px 10px; border: 1px solid rgba(75,172,72,0.4); color: #4bac48; border-radius: 999px; margin-left: 6px; }
           body:not(.dark-scheme) .dsif-footer .subfooter { border-top-color: rgba(0,0,0,0.08); }
           @media (max-width: 767px) {
