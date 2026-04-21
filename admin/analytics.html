@@ -316,7 +316,17 @@
     }
 
     function fmtAmt(n) {
-      return (n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      const val = parseFloat(n) || 0;
+      const sep = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      if (val >= 1e9) return sep((val / 1e9).toFixed(2)) + " тэрбум";
+      if (val >= 1e6) return sep((val / 1e6).toFixed(1)) + " сая";
+      return sep(Math.round(val));
+    }
+    function fmtShort(v) {
+      if (v >= 1e9) return (v / 1e9).toFixed(1) + " тэрбум";
+      if (v >= 1e6) return (v / 1e6).toFixed(1) + " сая";
+      if (v >= 1e3) return (v / 1e3).toFixed(0) + " мян";
+      return (v || 0).toString();
     }
 
     let charts = {};
@@ -402,12 +412,12 @@
               align: "top",
               color: "#2a8b27",
               font: { size: 9, weight: 700 },
-              formatter: (v) => v > 0 ? (v / 1e6).toFixed(1) + "М" : ""
+              formatter: (v) => v > 0 ? fmtShort(v) : ""
             }
           },
           scales: {
             x: { ticks: { color: "#aaa", font: { size: 10 } } },
-            y: { ticks: { color: "#aaa", callback: (v) => (v / 1e6).toFixed(0) + "М" } }
+            y: { ticks: { color: "#aaa", callback: (v) => fmtShort(v) } }
           }
         }
       });
@@ -427,14 +437,14 @@
         data: { labels: dayKeys, datasets: [
           { label: "Өдрийн", data: dayKeys.map((k) => byDay.get(k)), borderColor: "#1f6b1d", backgroundColor: "rgba(31,107,29,0.15)", tension: 0.3, datalabels: { display: false } },
           { label: "Өссөн", data: cumVals, borderColor: "#2a8b27", backgroundColor: "rgba(42,139,39,0.25)", tension: 0.3, fill: true,
-            datalabels: { align: "top", color: "#2a8b27", font: { size: 9, weight: 700 }, formatter: (v) => v > 0 ? (v / 1e6).toFixed(1) + "М" : "" } }
+            datalabels: { align: "top", color: "#2a8b27", font: { size: 9, weight: 700 }, formatter: (v) => v > 0 ? fmtShort(v) : "" } }
         ] },
         options: {
           maintainAspectRatio: false,
           plugins: { legend: { labels: { color: "#aaa" } } },
           scales: {
             x: { ticks: { color: "#aaa", font: { size: 10 } } },
-            y: { ticks: { color: "#aaa", callback: (v) => (v / 1e6).toFixed(0) + "М" } }
+            y: { ticks: { color: "#aaa", callback: (v) => fmtShort(v) } }
           }
         }
       });
@@ -449,7 +459,7 @@
           { label: "Тоо", data: [orgCnt, perCnt], backgroundColor: "#1f6b1d", yAxisID: "y",
             datalabels: { anchor: "end", align: "top", color: "#1f6b1d", font: { size: 11, weight: 700 }, formatter: (v) => v > 0 ? v : "" } },
           { label: "Дүн", data: [orgAmt, perAmt], backgroundColor: "#2a8b27", yAxisID: "y1",
-            datalabels: { anchor: "end", align: "top", color: "#2a8b27", font: { size: 10, weight: 700 }, formatter: (v) => v > 0 ? (v / 1e6).toFixed(1) + "М" : "" } }
+            datalabels: { anchor: "end", align: "top", color: "#2a8b27", font: { size: 10, weight: 700 }, formatter: (v) => v > 0 ? fmtShort(v) : "" } }
         ] },
         options: {
           maintainAspectRatio: false,
@@ -457,7 +467,7 @@
           scales: {
             x: { ticks: { color: "#aaa" } },
             y: { position: "left", ticks: { color: "#aaa" } },
-            y1: { position: "right", ticks: { color: "#aaa", callback: (v) => (v / 1e6).toFixed(0) + "М" }, grid: { drawOnChartArea: false } }
+            y1: { position: "right", ticks: { color: "#aaa", callback: (v) => fmtShort(v) }, grid: { drawOnChartArea: false } }
           }
         }
       });

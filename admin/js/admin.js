@@ -244,7 +244,13 @@ async function loadDashboard() {
   try {
     if (allProjects.length === 0) await loadProjects();
     const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    const fmtAmount = (n) => (n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+    const fmtAmount = (n) => {
+      const val = parseFloat(n) || 0;
+      const sep = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      if (val >= 1e9) return sep((val / 1e9).toFixed(2)) + " тэрбум₮";
+      if (val >= 1e6) return sep((val / 1e6).toFixed(1)) + " сая₮";
+      return sep(Math.round(val)) + "₮";
+    };
 
     if (!allFunders || allFunders.length === 0) {
       try {
@@ -279,7 +285,13 @@ async function loadAnalyticsDashboard() {
   try {
     if (allProjects.length === 0) await loadProjects();
     const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    const fmtAmount = (n) => (n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₮";
+    const fmtAmount = (n) => {
+      const val = parseFloat(n) || 0;
+      const sep = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      if (val >= 1e9) return sep((val / 1e9).toFixed(2)) + " тэрбум₮";
+      if (val >= 1e6) return sep((val / 1e6).toFixed(1)) + " сая₮";
+      return sep(Math.round(val)) + "₮";
+    };
 
     if (!allFunders || allFunders.length === 0) {
       try {
@@ -338,17 +350,18 @@ function renderDashboardCharts(activeFunders) {
         datasets: [{ data: sectorProjCounts, backgroundColor: brandColors, borderWidth: 2, borderColor: "#0a0a0a" }]
       },
       options: {
-        layout: { padding: 80 }, // бүх label-г багтаахын тулд их зай
+        maintainAspectRatio: false,
+        layout: { padding: { top: 40, bottom: 40, left: 60, right: 60 } },
         plugins: {
           legend: { display: false },
           datalabels: {
             anchor: "end",
             align: "end",
-            offset: 14,
+            offset: 8,
             clamp: true,
-            display: true, // бүх label харуулна (overlap үүсвэл ч)
+            display: true,
             color: (ctx) => brandColors[ctx.dataIndex % brandColors.length],
-            font: { size: 10, weight: 700, lineHeight: 1.2 },
+            font: { size: 11, weight: 700, lineHeight: 1.2 },
             textAlign: "center",
             formatter: (v, ctx) => {
               if (!v || v <= 0) return "";
@@ -361,6 +374,14 @@ function renderDashboardCharts(activeFunders) {
       }
     });
   }
+
+  // Хэмжээнд тохируулсан богино формат (chart label/axis-т зориулсан)
+  const fmtShort = (v) => {
+    if (v >= 1e9) return (v / 1e9).toFixed(1) + " тэрбум";
+    if (v >= 1e6) return fmtShort(v);
+    if (v >= 1e3) return (v / 1e3).toFixed(0) + " мян";
+    return (v || 0).toString();
+  };
 
   // 2) Ангилал тус бүрийн санхүүжилт (bar — raised vs goal)
   const raisedBySector = new Map();
@@ -388,12 +409,12 @@ function renderDashboardCharts(activeFunders) {
           datalabels: {
             anchor: "end", align: "top",
             color: "#2a8b27", font: { size: 9, weight: 700 },
-            formatter: (v) => v > 0 ? (v / 1e6).toFixed(1) + "М" : ""
+            formatter: (v) => v > 0 ? fmtShort(v) : ""
           }
         },
         scales: {
           x: { ticks: { color: "#aaa", font: { size: 10 } } },
-          y: { ticks: { color: "#aaa", callback: (v) => (v / 1e6).toFixed(0) + "М" } }
+          y: { ticks: { color: "#aaa", callback: (v) => fmtShort(v) } }
         }
       }
     });
@@ -420,14 +441,14 @@ function renderDashboardCharts(activeFunders) {
         datasets: [
           { label: "Өдрийн", data: dayVals, borderColor: "#1f6b1d", backgroundColor: "rgba(31,107,29,0.15)", tension: 0.3, datalabels: { display: false } },
           { label: "Өссөн нийлбэр", data: cumVals, borderColor: "#2a8b27", backgroundColor: "rgba(42,139,39,0.25)", tension: 0.3, fill: true,
-            datalabels: { align: "top", color: "#2a8b27", font: { size: 9, weight: 700 }, formatter: (v) => v > 0 ? (v / 1e6).toFixed(1) + "М" : "" } }
+            datalabels: { align: "top", color: "#2a8b27", font: { size: 9, weight: 700 }, formatter: (v) => v > 0 ? fmtShort(v) : "" } }
         ]
       },
       options: {
         plugins: { legend: { labels: { color: "#aaa" } } },
         scales: {
           x: { ticks: { color: "#aaa", font: { size: 10 } } },
-          y: { ticks: { color: "#aaa", callback: (v) => (v / 1e6).toFixed(0) + "М" } }
+          y: { ticks: { color: "#aaa", callback: (v) => fmtShort(v) } }
         }
       }
     });
@@ -448,7 +469,7 @@ function renderDashboardCharts(activeFunders) {
           { label: "Тоо", data: [orgCount, personCount], backgroundColor: "#1f6b1d", yAxisID: "y",
             datalabels: { anchor: "end", align: "top", color: "#1f6b1d", font: { size: 11, weight: 700 }, formatter: (v) => v > 0 ? v : "" } },
           { label: "Дүн", data: [orgAmount, personAmount], backgroundColor: "#2a8b27", yAxisID: "y1",
-            datalabels: { anchor: "end", align: "top", color: "#2a8b27", font: { size: 10, weight: 700 }, formatter: (v) => v > 0 ? (v / 1e6).toFixed(1) + "М" : "" } }
+            datalabels: { anchor: "end", align: "top", color: "#2a8b27", font: { size: 10, weight: 700 }, formatter: (v) => v > 0 ? fmtShort(v) : "" } }
         ]
       },
       options: {
@@ -456,7 +477,7 @@ function renderDashboardCharts(activeFunders) {
         scales: {
           x: { ticks: { color: "#aaa" } },
           y: { position: "left", ticks: { color: "#aaa" }, title: { display: true, text: "Тоо", color: "#aaa" } },
-          y1: { position: "right", ticks: { color: "#aaa", callback: (v) => (v / 1e6).toFixed(0) + "М" }, grid: { drawOnChartArea: false }, title: { display: true, text: "Дүн (сая₮)", color: "#aaa" } }
+          y1: { position: "right", ticks: { color: "#aaa", callback: (v) => fmtShort(v) }, grid: { drawOnChartArea: false }, title: { display: true, text: "Дүн (сая₮)", color: "#aaa" } }
         }
       }
     });
@@ -475,17 +496,24 @@ function renderTopFundedProjects() {
     tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжилт авсан төсөл байхгүй</p></td></tr>';
     return;
   }
+  const fmtSaya = (n) => {
+    const val = parseFloat(n) || 0;
+    const sep = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (val >= 1e9) return sep((val / 1e9).toFixed(2)) + " тэрбум₮";
+    if (val >= 1e6) return sep((val / 1e6).toFixed(1)) + " сая₮";
+    return sep(Math.round(val)) + "₮";
+  };
   tbody.innerHTML = top.map((p, i) => {
-    const raised = (p.raisedAmount || 0).toLocaleString();
-    const goal = (parseFloat(p.amount) || 0).toLocaleString();
+    const raised = fmtSaya(p.raisedAmount);
+    const goal = fmtSaya(p.amount);
     const pct = p.funded || 0;
     const pctColor = pct >= 100 ? "#4bac48" : (pct >= 50 ? "#378a35" : "var(--admin-text-muted)");
     return `<tr>
       <td style="color:var(--admin-text-muted);font-weight:700">${i + 1}</td>
       <td><strong>${escapeHtml(p.title)}</strong></td>
       <td><span class="badge badge-sub-admin">${SECTOR_NAMES[p.sector] || p.sector}</span></td>
-      <td style="text-align:right;color:#4bac48;font-weight:700">${raised}₮</td>
-      <td style="text-align:right;color:var(--admin-text-muted)">${goal}₮</td>
+      <td style="text-align:right;color:#4bac48;font-weight:700">${raised}</td>
+      <td style="text-align:right;color:var(--admin-text-muted)">${goal}</td>
       <td style="text-align:right;font-weight:700;color:${pctColor}">${pct}%</td>
     </tr>`;
   }).join("");
