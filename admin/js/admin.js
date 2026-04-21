@@ -281,6 +281,66 @@ async function loadDashboard() {
 // ═══════════════════════════════════════════
 //  АНАЛИТИК ДАШБОАРД (Chart.js-тэй)
 // ═══════════════════════════════════════════
+// Tab switcher (Санхүүжилт / Форумын мэдээлэл)
+(function initAnaTabs() {
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".ana-tab");
+    if (!btn) return;
+    const key = btn.dataset.anaTab;
+    document.querySelectorAll(".ana-tab").forEach((b) => b.classList.toggle("active", b === btn));
+    document.querySelectorAll(".ana-tab-content").forEach((p) => {
+      p.classList.toggle("active", p.dataset.anaPanel === key);
+    });
+    if (key === "forum") loadForumInfo();
+    else if (key === "funding") renderDashboardCharts((allFunders || []).filter((f) => f.hidden !== true));
+  });
+})();
+
+async function loadForumInfo() {
+  const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+
+  // Үлдсэн хоног — 2026-04-27
+  const eventDate = new Date(2026, 3, 27);
+  const now = new Date();
+  const diffDays = Math.max(0, Math.ceil((eventDate - now) / (1000 * 60 * 60 * 24)));
+  setText("forumDaysLeft", diffDays > 0 ? diffDays : "Эхэллээ");
+
+  // Салбарын тоо
+  setText("forumSectors", Object.keys(SECTOR_NAMES).length);
+
+  // Бүртгэлийн тоо + сүүлийн 5 бүртгэл
+  try {
+    const snap = await getDocs(collection(db, "registrations"));
+    setText("forumRegistrations", snap.size);
+    const regs = [];
+    snap.forEach((d) => regs.push(Object.assign({ id: d.id }, d.data())));
+    regs.sort((a, b) => (b.registeredAt?.seconds || 0) - (a.registeredAt?.seconds || 0));
+    const tbody = document.getElementById("forumLatestRegs");
+    if (tbody) {
+      if (!regs.length) {
+        tbody.innerHTML = '<tr><td colspan="3" class="empty-state"><i class="fa fa-inbox"></i><p>Бүртгэл байхгүй</p></td></tr>';
+      } else {
+        tbody.innerHTML = regs.slice(0, 10).map((r) => {
+          const name = `${r.lastname || ""} ${r.firstname || ""}`.trim() || "—";
+          const dt = r.registeredAt?.seconds
+            ? new Date(r.registeredAt.seconds * 1000).toLocaleString("mn-MN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })
+            : "—";
+          return `<tr>
+            <td>${escapeHtml(name)}</td>
+            <td style="font-family:monospace;font-size:12px">${escapeHtml(r.phone || "—")}</td>
+            <td style="text-align:right;font-size:11px;color:var(--admin-text-muted)">${dt}</td>
+          </tr>`;
+        }).join("");
+      }
+    }
+  } catch (e) {
+    setText("forumRegistrations", "—");
+    const tbody = document.getElementById("forumLatestRegs");
+    if (tbody) tbody.innerHTML = '<tr><td colspan="3" class="empty-state"><i class="fa fa-exclamation-triangle"></i><p>Уншиж чадсангүй</p></td></tr>';
+  }
+}
+window.loadForumInfo = loadForumInfo;
+
 async function loadAnalyticsDashboard() {
   try {
     if (allProjects.length === 0) await loadProjects();
@@ -338,7 +398,29 @@ function renderDashboardCharts(activeFunders) {
   const sectorLabels = Object.keys(SECTOR_NAMES).map((k) => SECTOR_NAMES[k]);
   const sectorKeys = Object.keys(SECTOR_NAMES);
 
-  // 1) Ангилал тус бүр дэх төслийн тоо (donut) — label-уудыг гадна талд, slice өнгөтэй, давхцвал автомат нуух
+  // Хэмжээнд тохируулсан богино формат (chart label/axis-т зориулсан)
+  const fmtShort = (v) => {
+    if (v >= 1e9) return (v / 1e9).toFixed(1) + " тэрбум";
+    if (v >= 1e6) return (v / 1e6).toFixed(1) + " сая";
+    if (v >= 1e3) return (v / 1e3).toFixed(0) + " мян";
+    return (v || 0).toString();
+  };
+
+  // Salbar тус бүрийн raised / goal / funded% тооцоолж урьдчилан бэлтгэх
+  const raisedBySector = new Map();
+  activeFunders.forEach((f) => {
+    const proj = allProjects.find((p) => (p.title || "").toLowerCase().trim() === (f.project || "").toLowerCase().trim());
+    if (!proj) return;
+    raisedBySector.set(proj.sector, (raisedBySector.get(proj.sector) || 0) + (parseFloat(f.amount) || 0));
+  });
+  const goalBySector = sectorKeys.map((k) => allProjects.filter((p) => p.sector === k).reduce((s, p) => s + (parseFloat(p.amount) || 0), 0));
+  const raisedData = sectorKeys.map((k) => raisedBySector.get(k) || 0);
+  const fundedPctBySector = sectorKeys.map((k, i) => {
+    const g = goalBySector[i];
+    return g > 0 ? Math.round((raisedData[i] / g) * 100) : 0;
+  });
+
+  // 1) Ангилал тус бүрийн төслийн тоо + санхүүжсэн хувь (donut)
   const sectorProjCounts = sectorKeys.map((k) => allProjects.filter((p) => p.sector === k).length);
   const totalProjCount = sectorProjCounts.reduce((s, v) => s + v, 0);
   const c1 = document.getElementById("anaChartSectorProjects");
@@ -351,23 +433,25 @@ function renderDashboardCharts(activeFunders) {
       },
       options: {
         maintainAspectRatio: false,
-        layout: { padding: { top: 40, bottom: 40, left: 60, right: 60 } },
+        layout: { padding: { top: 70, bottom: 70, left: 160, right: 160 } },
         plugins: {
           legend: { display: false },
           datalabels: {
             anchor: "end",
             align: "end",
-            offset: 8,
+            offset: 16,
             clamp: true,
-            display: true,
+            display: "auto", // давхардвал автомат нуух
+            clip: false,
             color: (ctx) => brandColors[ctx.dataIndex % brandColors.length],
-            font: { size: 11, weight: 700, lineHeight: 1.2 },
+            font: { size: 12, weight: 700, lineHeight: 1.25 },
             textAlign: "center",
             formatter: (v, ctx) => {
               if (!v || v <= 0) return "";
-              const pct = totalProjCount > 0 ? Math.round(v / totalProjCount * 100) : 0;
-              const name = ctx.chart.data.labels[ctx.dataIndex] || "";
-              return [name, `${v} (${pct}%)`];
+              const i = ctx.dataIndex;
+              const name = ctx.chart.data.labels[i] || "";
+              const fundedPct = fundedPctBySector[i] || 0;
+              return [name, `${v} төсөл · ${fundedPct}% санхүүжсэн`];
             }
           }
         }
@@ -375,23 +459,7 @@ function renderDashboardCharts(activeFunders) {
     });
   }
 
-  // Хэмжээнд тохируулсан богино формат (chart label/axis-т зориулсан)
-  const fmtShort = (v) => {
-    if (v >= 1e9) return (v / 1e9).toFixed(1) + " тэрбум";
-    if (v >= 1e6) return fmtShort(v);
-    if (v >= 1e3) return (v / 1e3).toFixed(0) + " мян";
-    return (v || 0).toString();
-  };
-
   // 2) Ангилал тус бүрийн санхүүжилт (bar — raised vs goal)
-  const raisedBySector = new Map();
-  activeFunders.forEach((f) => {
-    const proj = allProjects.find((p) => (p.title || "").toLowerCase().trim() === (f.project || "").toLowerCase().trim());
-    if (!proj) return;
-    raisedBySector.set(proj.sector, (raisedBySector.get(proj.sector) || 0) + (parseFloat(f.amount) || 0));
-  });
-  const goalBySector = sectorKeys.map((k) => allProjects.filter((p) => p.sector === k).reduce((s, p) => s + (parseFloat(p.amount) || 0), 0));
-  const raisedData = sectorKeys.map((k) => raisedBySector.get(k) || 0);
   const c2 = document.getElementById("anaChartSectorFunding");
   if (c2) {
     _dashCharts.sec2 = new Chart(c2.getContext("2d"), {
