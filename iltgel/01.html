@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<title>Сайншанд — Ирээдүйн Ухаалаг Ногоон Хот | Дорноговь 2026</title>
+<!-- Stylesheets -->
+<link href="assets/css/bootstrap.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+<link href="assets/css/responsive.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<style>
+/* ============ THEME OVERRIDE: Sainshand Smart Green City ============ */
+:root {
+  --main-color: #2fa56b;
+  --main-color-rgb: 47,165,107;
+  --color-two: #15613a;
+  --color-two-rgb: 21,97,58;
+  --color-three: #0d1f15;
+  --color-three-rgb: 13,31,21;
+  --color-four: #0a1410;
+  --color-four-rgb: 10,20,16;
+  --accent-yellow: #f4b917;
+  --accent-cyan: #2dc4e8;
+  --accent-lime: #8ac24a;
+  --bg-page: #0a1410;
+  --bg-section: #0f1c16;
+  --bg-card: rgba(255,255,255,0.04);
+  --text-on-light: #eef2ee;
+  --text-soft: rgba(238,242,238,0.6);
+  --border-soft: rgba(255, 255, 255, 0.1);
+}
+[data-theme="dark"] {
+  --bg-page: #050a07;
+  --bg-section: #0a1410;
+  --bg-card: rgba(255,255,255,0.04);
+  --text-on-light: #eef2ee;
+  --text-soft: rgba(238,242,238,0.6);
+  --border-soft: rgba(255, 255, 255, 0.1);
+}
+
+/* Font override across template */
+body, .banner-one_heading, .sec-title_heading, h1, h2, h3, h4, h5, h6,
+.service-block_one-heading, .gallery-block_one-heading, .journal-block_one-heading,
+.testimonial-block_one-name, .counter-block_one-counter, .awards-block_one-title,
+nav .navigation > li > a, .footer-text, .stats-one_contact-content h3 {
+  font-family: 'Montserrat', sans-serif !important;
+}
+body { font-weight: 300; background-color: var(--bg-page); color: var(--text-on-light); transition: background 0.3s, color 0.3s; }
+.bold, b, strong, h1, h2, h3, h4, h5, h6,
+.banner-one_heading, .sec-title_heading,
+.service-block_one-heading, .gallery-block_one-heading, .journal-block_one-heading,
+.counter-block_one-counter, .awards-block_one-title { font-weight: 700 !important; }
+.light, p, .banner-one_text, .banner-one_text-two,
+.gallery-block_one-title, .journal-block_one-title, .testimonial-block_one-lower,
+.counter-block_one-text, .awards-block_one-title span,
+nav .navigation > li > a { font-weight: 300 !important; }
+
+/* Header refinements */
+.main-header { background: transparent; backdrop-filter: none; border-bottom: none; box-shadow: none; transition: background 0.3s; }
+.main-header.scrolled { background: rgba(10,20,16,0.85); backdrop-filter: blur(12px); }
+.main-header .inner-container { border: none !important; outline: none !important; box-shadow: none !important; }
+nav .navigation > li > a { color: rgba(255,255,255,0.85) !important; }
+[data-theme="dark"] .main-header { background: rgba(10,20,16,0.92); }
+.header-lower { padding: 6px 0; }
+.main-header .inner-container { padding: 0 20px; }
+.logo-img img { height: 42px; }
+nav .navigation > li > a { padding: 8px 14px !important; font-size: 0.72rem; letter-spacing: 1.2px; }
+nav .navigation > li { margin: 0 !important; }
+.theme-toggle { width: 34px; height: 34px; margin-left: 12px; }
+.theme-toggle svg { width: 16px; height: 16px; }
+nav .navigation > li > a { color: var(--text-on-light); text-transform: uppercase; font-size: 0.78rem; letter-spacing: 1.5px; }
+nav .navigation > li > a:hover { color: var(--main-color); }
+.logo-img { display: inline-block; }
+.logo-img img { height: 56px; width: auto; display: block; }
+
+.theme-toggle { background: var(--bg-card); border: 1px solid var(--border-soft); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-on-light); transition: all 0.2s; margin-left: 18px; }
+.theme-toggle:hover { border-color: var(--main-color); transform: rotate(15deg); }
+.theme-toggle svg { width: 18px; height: 18px; }
+.sun { display: none; }
+[data-theme="dark"] .sun { display: block; }
+[data-theme="dark"] .moon { display: none; }
+
+/* Banner — overlapping headline + center robot */
+.banner-one {
+  background: radial-gradient(ellipse at center, #1a2820 0%, #0a1410 70%);
+  padding: 160px 0 80px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.banner-one:before { display: none; }
+.banner-one .robot {
+  position: absolute;
+  top: 90px;
+  left: 0; right: 0; bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  pointer-events: auto;
+}
+.banner-one .robot spline-viewer {
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+}
+.banner-one .auto-container {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+.banner-one .hero-tag,
+.banner-one .lower-box { position: relative; z-index: 5; }
+.banner-one_content { max-width: 100%; text-align: center; }
+.banner-one_content-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding-top: 32vh;
+}
+
+/* Faded background numbers/text */
+.hero-bg-text {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(4rem, 14vw, 14rem);
+  color: rgba(255,255,255,0.04);
+  letter-spacing: -4px;
+  white-space: nowrap;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.banner-one_heading {
+  color: white;
+  text-align: center;
+  margin-bottom: 0;
+  font-size: clamp(3.5rem, 13vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: -4px;
+  text-transform: uppercase;
+  font-weight: 700 !important;
+  position: relative;
+}
+.banner-one_heading .row1,
+.banner-one_heading .row2 {
+  display: block;
+  color: white;
+}
+
+.banner-one_text, .banner-one_text-two {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  padding-right: 0;
+  border-color: rgba(255,255,255,0.12) !important;
+  pointer-events: auto;
+}
+.banner-one .lower-box {
+  gap: 32px;
+  margin-top: 60px;
+  width: 100%;
+  max-width: 900px;
+  pointer-events: auto;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-left: 3px solid var(--main-color);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 32px;
+  pointer-events: auto;
+}
+.hero-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--main-color); animation: pulse 2s infinite; }
+[data-theme="dark"] .banner-one { background: radial-gradient(ellipse at center, #142019 0%, #050a07 70%); }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(1.3);} }
+
+/* Section title */
+.sec-title { margin-bottom: 64px; }
+.sec-title_heading { color: white; font-size: clamp(2.2rem, 5vw, 4rem); letter-spacing: -1.5px; line-height: 1; text-transform: uppercase; font-weight: 700 !important; }
+.sec-title_heading .accent { background: linear-gradient(120deg, var(--main-color), var(--accent-cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.sec-num { display: inline-block; font-weight: 700; font-size: 0.72rem; letter-spacing: 3px; color: var(--main-color); margin-bottom: 18px; text-transform: uppercase; }
+.sec-title_icon img { filter: hue-rotate(120deg) saturate(0.8); opacity: 0.6; }
+
+/* Services */
+.services-one { padding: 120px 0; background: radial-gradient(ellipse at top, #1a2820 0%, #0a1410 70%); position: relative; }
+.services-one + .services-one { padding-top: 0; background: #0a1410; }
+.service-block_one-inner { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid var(--main-color); padding: 36px; margin-bottom: 24px; transition: all 0.3s; min-height: 200px; position: relative; overflow: hidden; backdrop-filter: blur(10px); }
+.service-block_one-inner:hover { transform: translateY(-4px); background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); box-shadow: 0 16px 50px rgba(0,0,0,0.4); }
+.service-block_one:nth-child(2) .service-block_one-inner { border-left-color: var(--accent-yellow); }
+.service-block_one:nth-child(3) .service-block_one-inner { border-left-color: var(--accent-cyan); }
+.service-block_one:nth-child(4) .service-block_one-inner { border-left-color: var(--accent-lime); }
+.service-block_one:nth-child(5) .service-block_one-inner { border-left-color: var(--main-color); }
+.service-block_one:nth-child(6) .service-block_one-inner { border-left-color: var(--accent-cyan); }
+.block-kicker { font-weight: 700; font-size: 0.68rem; letter-spacing: 2px; color: var(--main-color); text-transform: uppercase; margin-bottom: 10px; }
+.service-block_one:nth-child(2) .block-kicker { color: var(--accent-yellow); }
+.service-block_one:nth-child(3) .block-kicker { color: var(--accent-cyan); }
+.service-block_one:nth-child(4) .block-kicker { color: var(--accent-lime); }
+.service-block_one-heading { color: white; font-size: 1.3rem; line-height: 1.2; margin-bottom: 12px; max-width: 70%; text-transform: uppercase; letter-spacing: -0.5px; }
+.service-block_one-text { font-weight: 300; font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.6; max-width: 75%; }
+.service-block_one-icon { width: 56px; height: 56px; background: linear-gradient(135deg, var(--main-color), var(--color-two)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.service-block_one:nth-child(2) .service-block_one-icon { background: linear-gradient(135deg, var(--accent-yellow), #d99a0c); }
+.service-block_one:nth-child(3) .service-block_one-icon { background: linear-gradient(135deg, var(--accent-cyan), #1ba0c4); }
+.service-block_one:nth-child(4) .service-block_one-icon { background: linear-gradient(135deg, var(--accent-lime), #4f8a1f); }
+.service-block_one:nth-child(6) .service-block_one-icon { background: linear-gradient(135deg, var(--accent-cyan), #1ba0c4); }
+.service-block_one-icon svg { width: 26px; height: 26px; color: white; }
+.tech-tags { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+.tech-tags span { font-weight: 700; font-size: 0.62rem; padding: 4px 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); letter-spacing: 0.8px; color: rgba(255,255,255,0.7); text-transform: uppercase; }
+
+/* Gallery -> Strategic advantages */
+.gallery-one { padding: 120px 0; background: #0a1410; position: relative; }
+.gallery-block_one-inner { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-top: 3px solid var(--main-color); padding: 32px 28px; margin-bottom: 24px; transition: all 0.3s; min-height: 320px; backdrop-filter: blur(10px); }
+.gallery-block_one-inner:hover { transform: translateY(-6px); background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); box-shadow: 0 16px 50px rgba(0,0,0,0.4); }
+.gallery-block_one:nth-child(2) .gallery-block_one-inner { border-top-color: var(--accent-yellow); }
+.gallery-block_one:nth-child(3) .gallery-block_one-inner { border-top-color: var(--accent-cyan); }
+.gallery-block_one:nth-child(4) .gallery-block_one-inner { border-top-color: var(--accent-lime); }
+.gallery-block_one-image { display: none; }
+.gallery-block_one-title { font-size: 0.7rem; letter-spacing: 2px; color: var(--main-color); text-transform: uppercase; margin-bottom: 12px; font-weight: 700 !important; }
+.gallery-block_one-heading { font-size: 1.3rem; color: white; margin-bottom: 18px; line-height: 1.2; text-transform: uppercase; letter-spacing: -0.3px; }
+.gallery-block_one-list { list-style: none; padding: 0; margin: 0; }
+.gallery-block_one-list li { font-weight: 300; font-size: 0.85rem; color: rgba(255,255,255,0.6); padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.08); line-height: 1.4; }
+.gallery-block_one-list li:last-child { border-bottom: none; }
+.gallery-block_one-list li b { color: white; font-weight: 700; }
+
+/* Journal -> Sectors */
+.journal-one { padding: 120px 0; background: radial-gradient(ellipse at bottom, #1a2820 0%, #0a1410 70%) !important; background-image: radial-gradient(ellipse at bottom, #1a2820 0%, #0a1410 70%) !important; }
+.journal-one .sec-title_heading { color: white; }
+.journal-one .sec-num { color: var(--main-color); }
+.journal-block_one { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); margin-bottom: 14px; transition: all 0.3s; backdrop-filter: blur(10px); }
+.journal-block_one:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); transform: translateX(8px); }
+.journal-block_one-inner { padding: 28px 32px; display: flex; align-items: center; gap: 24px; }
+.journal-block_one-title { color: var(--main-color); font-size: 0.75rem; letter-spacing: 2px; min-width: 60px; font-weight: 700 !important; }
+.journal-block_one-heading { color: white; font-size: 1.1rem; flex: 1; line-height: 1.3; text-transform: uppercase; letter-spacing: -0.3px; }
+.journal-block_one-heading a { color: white; text-decoration: none; }
+.journal-block_one-arrow { color: var(--main-color); }
+
+/* Testimonial -> ESG */
+.testimonial-one { padding: 120px 0; background: #0a1410; }
+.esg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.esg-card { padding: 44px 36px; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; color: white; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-top: 3px solid var(--main-color); transition: all 0.3s; backdrop-filter: blur(10px); }
+.esg-card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); border-top-color: var(--main-color); }
+.esg-card.env { border-top-color: var(--main-color); }
+.esg-card.soc { border-top-color: var(--accent-yellow); }
+.esg-card.gov { border-top-color: var(--accent-cyan); }
+.esg-card .letter { position: absolute; top: 10px; right: 24px; font-weight: 700; font-size: 9rem; opacity: 0.06; line-height: 1; color: white; }
+.esg-card.env .letter { color: var(--main-color); opacity: 0.2; }
+.esg-card.soc .letter { color: var(--accent-yellow); opacity: 0.2; }
+.esg-card.gov .letter { color: var(--accent-cyan); opacity: 0.2; }
+.esg-card h4 { font-size: 1.4rem; letter-spacing: -0.3px; text-transform: uppercase; margin-bottom: 18px; color: white; }
+.esg-card p { font-size: 0.92rem; line-height: 1.6; color: rgba(255,255,255,0.65); font-weight: 300; }
+
+/* Stats */
+.stats-one { padding: 120px 0; background: radial-gradient(ellipse at center, #1a2820 0%, #0a1410 70%) !important; }
+.stats-one:before { display: none; }
+.stats-one .sec-title_heading { color: white; }
+.stats-one .sec-num { color: var(--main-color); }
+.stats-one .inner-container { background: transparent; border: none; padding: 0; }
+.counter-block_one-inner { padding: 36px 28px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); margin-bottom: 16px; transition: all 0.3s; backdrop-filter: blur(10px); text-align: left; }
+.counter-block_one-inner:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.18); transform: translateY(-4px); }
+.counter-block_one-counter { color: white; font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; margin-bottom: 10px; font-weight: 700 !important; letter-spacing: -2px; background: linear-gradient(120deg, var(--main-color), var(--accent-cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.counter-block_one-text { color: rgba(255,255,255,0.65); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 300; }
+.stats-one_contact-inner { background: linear-gradient(135deg, var(--main-color), var(--color-two)); padding: 36px 28px; text-align: left; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.15); }
+.stats-one_contact-inner:hover { transform: translateY(-4px); }
+.stats-one_contact-content a { color: white; text-decoration: none; }
+.stats-one_contact-icon { font-size: 1.6rem; margin-bottom: 14px; opacity: 0.9; }
+.stats-one_contact-content h3 { font-size: 1.4rem; margin-bottom: 6px; text-transform: uppercase; letter-spacing: -0.3px; }
+.stats-one_contact-content .text { font-weight: 300; font-size: 0.85rem; opacity: 0.85; }
+
+/* Awards -> Process */
+.awards-one { padding: 120px 0; background: #0a1410; }
+.awards-block_one { border-bottom: 1px solid rgba(255,255,255,0.08); transition: all 0.3s; }
+.awards-block_one:hover { background: rgba(255,255,255,0.03); }
+.awards-block_one:hover .awards-block_one-arrow { transform: translateX(12px); color: var(--main-color); }
+.awards-block_one:hover .awards-block_one-number { background: linear-gradient(120deg, var(--main-color), var(--accent-cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.awards-block_one-inner { padding: 32px 24px; position: relative; }
+.awards-block_one-content { display: flex; align-items: center; gap: 40px; }
+.awards-block_one-number { font-weight: 700; font-size: 2.6rem; color: rgba(255,255,255,0.4); line-height: 1; min-width: 90px; transition: all 0.3s; letter-spacing: -1px; }
+.awards-block_one-title { color: white; font-size: 1.4rem; flex: 1; line-height: 1.2; text-transform: uppercase; letter-spacing: -0.3px; }
+.awards-block_one-title span { font-weight: 300 !important; color: rgba(255,255,255,0.55); font-size: 0.85rem; display: block; margin-top: 6px; text-transform: none; letter-spacing: 0; }
+.awards-block_one-arrow { color: rgba(255,255,255,0.5); transition: all 0.3s; font-size: 1.4rem; }
+
+/* CTA / Footer */
+.main-footer { background: radial-gradient(ellipse at top, #1a2820 0%, #050a07 70%) !important; color: white; padding: 100px 0 30px; }
+.main-footer .footer-text { color: rgba(255,255,255,0.7); font-size: 1rem; margin-bottom: 24px; font-weight: 300; }
+.main-footer h2 { color: white; font-size: clamp(1.4rem, 2.5vw, 2rem); margin-bottom: 28px; text-transform: uppercase; letter-spacing: -0.5px; line-height: 1.2; }
+.main-footer h2 a { background: linear-gradient(120deg, var(--main-color), var(--accent-cyan)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+.footer_socials li, .footer_navs li { list-style: none; padding: 8px 0; }
+.footer_socials li a, .footer_navs li a { color: rgba(255,255,255,0.65); text-decoration: none; transition: all 0.2s; font-weight: 300; font-size: 0.92rem; letter-spacing: 0.5px; }
+.footer_socials li a:hover, .footer_navs li a:hover { color: var(--main-color); padding-left: 6px; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; margin-top: 50px; }
+.footer_copyright { color: rgba(255,255,255,0.45); font-size: 0.78rem; font-weight: 300; letter-spacing: 0.5px; }
+.backtop { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: white; width: 44px; height: 44px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; text-decoration: none; }
+.backtop:hover { background: var(--main-color); border-color: var(--main-color); }
+
+/* Section number badge */
+.sec-title-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+.sec-title-lead { max-width: 380px; font-weight: 300; font-size: 0.95rem; color: rgba(255,255,255,0.55); }
+
+@media (max-width: 980px) {
+  .banner-one .robot { display: none; }
+  .banner-one_content { max-width: 100%; }
+  .esg-grid { grid-template-columns: 1fr; }
+  .awards-block_one-content { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* Custom cursor — aggressive hide */
+body.cursor-hidden, body.cursor-hidden *, body.cursor-hidden *::before, body.cursor-hidden *::after,
+body.cursor-hidden a, body.cursor-hidden button, body.cursor-hidden input,
+body.cursor-hidden textarea, body.cursor-hidden select, body.cursor-hidden label,
+body.cursor-hidden spline-viewer, body.cursor-hidden canvas, body.cursor-hidden iframe {
+  cursor: none !important;
+}
+#cur-ring{position:fixed;width:28px;height:28px;border:1.5px solid rgba(0,255,136,0.6);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .35s,opacity .2s;mix-blend-mode:difference;left:-100px;top:-100px}
+#cur-dot{position:fixed;width:5px;height:5px;background:#00ff88;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);left:-100px;top:-100px}
+#cur-ring.hov{width:48px;height:48px;border-color:rgba(0,212,255,0.7)}
+#cur-ring.click{width:18px;height:18px}
+body.cursor-shown #cur-ring, body.cursor-shown #cur-dot { display: none; }
+@media (pointer: coarse) { #cur-ring, #cur-dot { display: none; } body.cursor-hidden, body.cursor-hidden * { cursor: auto !important; } }
+</style>
+</head>
+
+<body>
+
+<div id="cur-ring"></div>
+<div id="cur-dot"></div>
+
+<div class="page-wrapper">
+
+<!-- Header -->
+<header class="main-header">
+  <div class="header-lower">
+    <div class="auto-container">
+      <div class="inner-container">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+          <div class="logo-box">
+            <a href="#" class="logo-img">
+              <img src="Дорноговь форум.png" alt="Дорноговь форум">
+            </a>
+          </div>
+          <div class="nav-outer d-flex flex-wrap align-items-center">
+            <button class="theme-toggle" id="themeToggle" aria-label="Theme">
+              <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Banner -->
+<section class="banner-one">
+  <div class="robot">
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.5/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/AqtlWJlNbO-ZMkvz/scene.splinecode"></spline-viewer>
+  </div>
+  <div class="auto-container">
+    <div class="banner-one_content">
+      <div class="banner-one_content-inner">
+        <h1 class="banner-one_heading">
+          <span class="row1">INVEST</span>
+          <span class="row2">DORNOGOVI</span>
+        </h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vision / Services -->
+<section class="services-one" id="vision">
+  <div class="auto-container">
+    <div class="sec-title sec-title-row reveal">
+      <div>
+        <span class="sec-num">01 / Зорилго</span>
+        <h2 class="sec-title_heading">Тогтвортой бодлого, <span class="accent">тасралтгүй хөгжил</span></h2>
+      </div>
+      <p class="sec-title-lead">Дорноговь аймгийн "Тогтвортой бодлого — Тасралтгүй хөгжил" хөтөлбөрийн хүрээнд Сайншандыг бүс нутгийн ухаалаг ногоон төв болгох зорилго.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Smart City -->
+<section class="services-one" id="smart">
+  <div class="auto-container">
+    <div class="sec-title sec-title-row reveal">
+      <div>
+        <span class="sec-num">02 / Хөтөлбөр</span>
+        <h2 class="sec-title_heading">Дөрвөн <span class="accent">хэлэлцүүлэг</span></h2>
+      </div>
+      <p class="sec-title-lead">Форумын үндсэн хөтөлбөрийн 4 хэлэлцүүлэг — орон нутгийн бизнес эрхлэгчид, уурхайн компаниуд, нийлүүлэгчдийг холбох тавцан.</p>
+    </div>
+    <div class="row clearfix">
+      <div class="service-block_one col-lg-6 col-md-6 col-sm-12 reveal">
+        <div class="service-block_one-inner d-flex justify-content-between align-items-start flex-wrap">
+          <div>
+            <h3 class="service-block_one-heading">Дэд бүтэц — Ногоон эдийн засаг</h3>
+            <p class="service-block_one-text">Эрчим хүч, зам, тээвэр, ус хангамжийн ногоон шилжилт. Сэргээгдэх эрчим хүч, ухаалаг сүлжээ, тогтвортой санхүүжилтийн орчин.</p>
+            <div class="tech-tags"><span>GREEN ENERGY</span><span>INFRA</span><span>ESG</span></div>
+          </div>
+          <div class="service-block_one-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18"/><path d="M5 20V8l7-4 7 4v12"/><path d="M12 4v16"/><path d="M9 12h6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="service-block_one col-lg-6 col-md-6 col-sm-12 reveal">
+        <div class="service-block_one-inner d-flex justify-content-between align-items-start flex-wrap">
+          <div>
+            <h3 class="service-block_one-heading">Шинэ Сайншанд — Ухаалаг хот</h3>
+            <p class="service-block_one-text">IoT мэдрэгч, AI шийдвэр гаргалт, дижитал засаглал, e-government, ухаалаг тээвэр. Иргэн төвт үйлчилгээ, CO₂ нейтрал хороолол.</p>
+            <div class="tech-tags"><span>IoT</span><span>AI</span><span>SMART CITY</span></div>
+          </div>
+          <div class="service-block_one-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="9" width="6" height="12"/><rect x="10" y="4" width="6" height="17"/><rect x="17" y="12" width="4" height="9"/><circle cx="6" cy="6" r="1"/><circle cx="13" cy="2" r="1"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="service-block_one col-lg-6 col-md-6 col-sm-12 reveal">
+        <div class="service-block_one-inner d-flex justify-content-between align-items-start flex-wrap">
+          <div>
+            <h3 class="service-block_one-heading">ХАА — Тойрог эдийн засаг</h3>
+            <p class="service-block_one-text">Мал аж ахуй, газар тариалан, хүнсний нийлүүлэлтийн хаалттай мөчлөг. Хоршоод, биотехнологи, дахин боловсруулалт, нэмүү өртөг.</p>
+            <div class="tech-tags"><span>CIRCULAR</span><span>AGRI</span><span>BIO</span></div>
+          </div>
+          <div class="service-block_one-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9"/><polyline points="21 3 21 9 15 9"/><path d="M8 12l3 3 5-6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="service-block_one col-lg-6 col-md-6 col-sm-12 reveal">
+        <div class="service-block_one-inner d-flex justify-content-between align-items-start flex-wrap">
+          <div>
+
+            <h3 class="service-block_one-heading">Аялал жуулчлал — MICE Tourism</h3>
+            <p class="service-block_one-text">Уулзалт, урамшуулал, чуулган, үзэсгэлэнгийн аялал жуулчлал. Хил орчмын аялал, соёл-палеонтологийн маршрут, бизнесийн зочломтгой үйлчилгээ.</p>
+            <div class="tech-tags"><span>MICE</span><span>EVENTS</span><span>HOSPITALITY</span></div>
+          </div>
+          <div class="service-block_one-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Strategic Advantages -->
+<section class="gallery-one" id="advantages">
+  <div class="auto-container">
+    <div class="sec-title sec-title-row reveal">
+      <div>
+        <span class="sec-num">03 / Стратегийн давуу талууд</span>
+        <h2 class="sec-title_heading">Дорноговийн <span class="accent">дөрвөн тулгуур</span></h2>
+      </div>
+      <p class="sec-title-lead">Гео-байршил, байгалийн нөөц, хөдөө аж ахуй, аялал жуулчлал — Сайншандыг өсгөх стратегийн чадавхи.</p>
+    </div>
+    <div class="row clearfix">
+      <div class="gallery-block_one col-lg-3 col-md-6 col-sm-12 reveal">
+        <div class="gallery-block_one-inner">
+          <div class="gallery-block_one-title">01 — Гео-Байршил</div>
+          <h4 class="gallery-block_one-heading">Тээвэр &amp; Боомт</h4>
+          <ul class="gallery-block_one-list">
+            <li><b>18.3M тонн</b> жил ачаа — Замын-Үүд</li>
+            <li><b>36 сая тн</b> нүүрс экспорт</li>
+            <li><b>900 га</b> Free Zone бүс</li>
+            <li><b>10.3 сая тн</b> авто тээвэр</li>
+            <li>Транс-Монголын төмөр зам</li>
+            <li><b>87%</b> экспортын ачаа</li>
+          </ul>
+        </div>
+      </div>
+      <div class="gallery-block_one col-lg-3 col-md-6 col-sm-12 reveal">
+        <div class="gallery-block_one-inner">
+          <div class="gallery-block_one-title">02 — Байгалийн нөөц</div>
+          <h4 class="gallery-block_one-heading">Эрдэс баялаг</h4>
+          <ul class="gallery-block_one-list">
+            <li>Ашиглалтын зөвшөөрөл — <b>231</b></li>
+            <li>Хайгуулын зөвшөөрөл — <b>136</b></li>
+            <li>Тархацтай ашигт малтмал — <b>11</b></li>
+            <li>Тархацтай хайгуул — <b>6</b></li>
+            <li>Цагаан Суварга: зэс, алт, молибден</li>
+          </ul>
+        </div>
+      </div>
+      <div class="gallery-block_one col-lg-3 col-md-6 col-sm-12 reveal">
+        <div class="gallery-block_one-inner">
+          <div class="gallery-block_one-title">03 — ХАА &amp; Орчин</div>
+          <h4 class="gallery-block_one-heading">Хөдөө аж ахуй</h4>
+          <ul class="gallery-block_one-list">
+            <li>Мал аж ахуй — <b>240 хоршоо</b></li>
+            <li>Газар — <b>3,290.94 га</b></li>
+            <li>Мах, хүнс — дотоод хангалт</li>
+            <li>Ногоон бодлого, дасан зохицол</li>
+            <li>Ухаалаг хүлэмжийн төсөл</li>
+          </ul>
+        </div>
+      </div>
+      <div class="gallery-block_one col-lg-3 col-md-6 col-sm-12 reveal">
+        <div class="gallery-block_one-inner">
+          <div class="gallery-block_one-title">04 — Аялал жуулчлал</div>
+          <h4 class="gallery-block_one-heading">Соёл &amp; Байгаль</h4>
+          <ul class="gallery-block_one-list">
+            <li>Хил орчмын аялал жуулчлал</li>
+            <li>Шашин, соёл (Хамрын хийд)</li>
+            <li>Палеонтологи (Их Нарт)</li>
+            <li>4 үндсэн маршрут</li>
+            <li>AR/VR соёлын дугаар</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sectors -->
+<section class="journal-one" id="sectors">
+  <div class="auto-container">
+    <div class="sec-title sec-title-row reveal">
+      <div>
+        <span class="sec-num">04 / Тэргүүлэх салбарууд</span>
+        <h2 class="sec-title_heading">Тогтвортой <span style="color: var(--accent-yellow);">өсөлтийн хөдөлгүүр</span></h2>
+      </div>
+      <p class="sec-title-lead">Сайншандын ирээдүйн эдийн засгийн 6 тулгуур салбар, орчин үеийн технологитой хослуулсан хөгжлийн чиглэл.</p>
+    </div>
+    <div class="reveal">
+      <div class="journal-block_one">
+        <div class="journal-block_one-inner">
+          <div class="journal-block_one-title">01</div>
+          <h5 class="journal-block_one-heading"><a href="#">Сэргээгдэх эрчим хүч — нар, салхи, ногоон устөрөгч, smart grid</a></h5>
+          <span class="journal-block_one-arrow fa-solid fa-arrow-right fa-fw">→</span>
+        </div>
+      </div>
+      <div class="journal-block_one">
+        <div class="journal-block_one-inner">
+          <div class="journal-block_one-title">02</div>
+          <h5 class="journal-block_one-heading"><a href="#">Тээвэр &amp; ложистик — автоматжуулсан терминал, AI ачаа удирдлага</a></h5>
+          <span class="journal-block_one-arrow fa-solid fa-arrow-right fa-fw">→</span>
+        </div>
+      </div>
+      <div class="journal-block_one">
+        <div class="journal-block_one-inner">
+          <div class="journal-block_one-title">03</div>
+          <h5 class="journal-block_one-heading"><a href="#">Банк, санхүү — ногоон санхүүжилт, fintech, blockchain төлбөр</a></h5>
+          <span class="journal-block_one-arrow fa-solid fa-arrow-right fa-fw">→</span>
+        </div>
+      </div>
+      <div class="journal-block_one">
+        <div class="journal-block_one-inner">
+          <div class="journal-block_one-title">04</div>
+          <h5 class="journal-block_one-heading"><a href="#">Хүрээлэн буй орчин — уур амьсгалын дасан зохицол, CO₂ бууралт</a></h5>
+          <span class="journal-block_one-arrow fa-solid fa-arrow-right fa-fw">→</span>
+        </div>
+      </div>
+      <div class="journal-block_one">
+        <div class="journal-block_one-inner">
+          <div class="journal-block_one-title">05</div>
+          <h5 class="journal-block_one-heading"><a href="#">ХАА, газар тариалан — ухаалаг хүлэмж, IoT мониторинг, биотехнологи</a></h5>
+          <span class="journal-block_one-arrow fa-solid fa-arrow-right fa-fw">→</span>
+        </div>
+      </div>
+      <div class="journal-block_one">
+        <div class="journal-block_one-inner">
+          <div class="journal-block_one-title">06</div>
+          <h5 class="journal-block_one-heading"><a href="#">Аялал жуулчлал — дижитал маршрут, AR/VR, ухаалаг буудал, эко-аялал</a></h5>
+          <span class="journal-block_one-arrow fa-solid fa-arrow-right fa-fw">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESG -->
+<section class="testimonial-one" id="esg">
+  <div class="auto-container">
+    <div class="sec-title sec-title-row reveal">
+      <div>
+        <span class="sec-num">05 / ESG нөлөө</span>
+        <h2 class="sec-title_heading">Тогтвортой <span class="accent">үнэ цэнийн систем</span></h2>
+      </div>
+      <p class="sec-title-lead">Байгаль орчин — нийгэм — засаглал гурван багана дээр суурилсан хөгжлийн загвар.</p>
+    </div>
+    <div class="esg-grid reveal">
+      <div class="esg-card env">
+        <div class="letter">E</div>
+        <div>
+          <h4>Байгаль орчин</h4>
+          <p>Сэргээгдэх эрчим хүч, уур амьсгалын дасан зохицол, байгалийн нөөцийг хариуцлагатай ашиглах. CO₂ ялгаралт бууруулах ногоон үйлдвэрлэлийн стандарт.</p>
+        </div>
+      </div>
+      <div class="esg-card soc">
+        <div class="letter">S</div>
+        <div>
+          <h4>Нийгэм</h4>
+          <p>500+ ажлын байр, орлогын өсөлт, жендэрийн тэгш байдал, орон нутгийн оролцоо. Боловсрол, эрүүл мэнд, дижитал хүртээмж.</p>
+        </div>
+      </div>
+      <div class="esg-card gov">
+        <div class="letter">G</div>
+        <div>
+          <h4>Засаглал</h4>
+          <p>Ил тод байдал, авлигын эсрэг механизм, хариуцлага, иргэдийн оролцоо. Blockchain суурьт шийдвэр гаргалт, AI хяналт.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats / Forum -->
+<section class="stats-one">
+  <div class="auto-container">
+    <div class="sec-title sec-title-row reveal">
+      <div>
+        <span class="sec-num">06 / Форумын зорилго</span>
+        <h2 class="sec-title_heading">Хүрэх <span style="color: var(--accent-yellow);">үр дүн</span></h2>
+      </div>
+      <p class="sec-title-lead">2026 оны 4 сарын 26-27. Сайншанд хотноо болох форумын хэмжүүртэй зорилтууд.</p>
+    </div>
+    <div class="inner-container">
+      <div class="row clearfix">
+        <div class="counter-block_one col-lg-4 col-md-6 col-sm-6 reveal">
+          <div class="counter-block_one-inner">
+            <div class="counter-block_one-counter">100+</div>
+            <div class="counter-block_one-text">Хөрөнгө оруулагч</div>
+          </div>
+        </div>
+        <div class="counter-block_one col-lg-4 col-md-6 col-sm-6 reveal">
+          <div class="counter-block_one-inner">
+            <div class="counter-block_one-counter">100+</div>
+            <div class="counter-block_one-text">B2B уулзалт</div>
+          </div>
+        </div>
+        <div class="counter-block_one col-lg-4 col-md-6 col-sm-6 reveal">
+          <div class="counter-block_one-inner">
+            <div class="counter-block_one-counter">30+</div>
+            <div class="counter-block_one-text">Санамж бичиг</div>
+          </div>
+        </div>
+        <div class="counter-block_one col-lg-4 col-md-6 col-sm-6 reveal">
+          <div class="counter-block_one-inner">
+            <div class="counter-block_one-counter">500+</div>
+            <div class="counter-block_one-text">Оролцогч</div>
+          </div>
+        </div>
+        <div class="counter-block_one col-lg-4 col-md-6 col-sm-6 reveal">
+          <div class="counter-block_one-inner">
+            <div class="counter-block_one-counter">+50</div>
+            <div class="counter-block_one-text">Бэлэн төсөл</div>
+          </div>
+        </div>
+        <div class="stats-one_contact-column col-lg-4 col-md-6 col-sm-6 reveal">
+          <div class="stats-one_contact-inner">
+            <div class="stats-one_contact-content">
+              <a href="mailto:hello@shambala.today">
+                <div class="stats-one_contact-icon fa-regular fa-paper-plane fa-fw">✉</div>
+                <h3>Бүртгүүлэх</h3>
+                <div class="text">Форумд оролцох санал илгээх</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="awards-one" id="process">
+  <div class="auto-container">
+    <div class="sec-title sec-title-row reveal">
+      <div>
+        <span class="sec-num">07 / Хөрөнгө оруулалтын процесс</span>
+        <h2 class="sec-title_heading">Платформоос <span class="accent">үр дүн рүү</span></h2>
+      </div>
+      <p class="sec-title-lead">Төслийн санаас эхлээд KPI хяналт хүртэлх 5 шаттай ил тод үйл явц.</p>
+    </div>
+    <div class="inner-container reveal">
+      <div class="awards-block_one">
+        <div class="awards-block_one-inner">
+          <div class="awards-block_one-content">
+            <div class="awards-block_one-number">01</div>
+            <h2 class="awards-block_one-title">Төслийн сан <span>+50 бэлэн төсөл · багц танилцуулга · хөрөнгө татах</span></h2>
+            <div class="awards-block_one-arrow fa-solid fa-arrow-right fa-fw">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="awards-block_one">
+        <div class="awards-block_one-inner">
+          <div class="awards-block_one-content">
+            <div class="awards-block_one-number">02</div>
+            <h2 class="awards-block_one-title">Урьдчилсан үнэлгээ <span>ТЭЗҮ · санхүүгийн чадамж · эрсдэлийн үнэлгээ</span></h2>
+            <div class="awards-block_one-arrow fa-solid fa-arrow-right fa-fw">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="awards-block_one">
+        <div class="awards-block_one-inner">
+          <div class="awards-block_one-content">
+            <div class="awards-block_one-number">03</div>
+            <h2 class="awards-block_one-title">Санхүүжилтийн бүтэц <span>ТХХТ (PPP) · зээл, хөрөнгө оруулалт · MOU/гэрээ</span></h2>
+            <div class="awards-block_one-arrow fa-solid fa-arrow-right fa-fw">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="awards-block_one">
+        <div class="awards-block_one-inner">
+          <div class="awards-block_one-content">
+            <div class="awards-block_one-number">04</div>
+            <h2 class="awards-block_one-title">Хэрэгжилт <span>барилга · үйл ажиллагаа · гүйцэтгэлийн хяналт</span></h2>
+            <div class="awards-block_one-arrow fa-solid fa-arrow-right fa-fw">→</div>
+          </div>
+        </div>
+      </div>
+      <div class="awards-block_one">
+        <div class="awards-block_one-inner">
+          <div class="awards-block_one-content">
+            <div class="awards-block_one-number">05</div>
+            <h2 class="awards-block_one-title">Мониторинг &amp; үнэлгээ <span>KPI хэмжүүр · SDG уялдаа · ил тод тайлагнал</span></h2>
+            <div class="awards-block_one-arrow fa-solid fa-arrow-right fa-fw">→</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="main-footer">
+  <div class="auto-container">
+    <div class="widgets-section">
+      <div class="row clearfix">
+        <div class="footer-column col-lg-8 col-md-12 col-sm-12">
+          <div class="footer-text">Сайншандыг хамтдаа ирээдүйн ухаалаг ногоон хот болгоё.<br>Дорноговь, Сайншанд · 2026.04.26-27</div>
+          <h2>Хөрөнгө оруулагчдад зориулсан холбоо: <a href="mailto:hello@shambala.today">hello@shambala.today</a></h2>
+          <ul class="footer_socials">
+            <li><a href="#">Facebook →</a></li>
+            <li><a href="#">LinkedIn →</a></li>
+            <li><a href="#">Instagram →</a></li>
+            <li><a href="#">YouTube →</a></li>
+          </ul>
+        </div>
+        <div class="footer-column col-lg-4 col-md-12 col-sm-12">
+          <ul class="footer_navs">
+            <li><a href="#vision">Зорилго →</a></li>
+            <li><a href="#smart">Ухаалаг хот →</a></li>
+            <li><a href="#advantages">Давуу тал →</a></li>
+            <li><a href="#sectors">Салбарууд →</a></li>
+            <li><a href="#esg">ESG →</a></li>
+            <li><a href="#process">Процесс →</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="footer_copyright">© 2026 Дорноговь Аймгийн ЗДТГ — Сайншанд 2030</div>
+        <a class="backtop scroll-to-target" data-target=".page-wrapper" href="#"><i class="fa-solid fa-arrow-up">↑</i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script src="assets/js/jquery.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/appear.js"></script>
+<script src="assets/js/wow.js"></script>
+<script src="assets/js/swiper.min.js"></script>
+<script src="assets/js/odometer.js"></script>
+<script src="assets/js/script.js"></script>
+
+<script>
+const themeToggle = document.getElementById('themeToggle');
+const root = document.documentElement;
+const stored = localStorage.getItem('theme');
+if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  root.setAttribute('data-theme', 'dark');
+}
+themeToggle.addEventListener('click', () => {
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  if (isDark) { root.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); }
+  else { root.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); }
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const header = document.querySelector('.main-header');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) header.classList.add('scrolled');
+  else header.classList.remove('scrolled');
+});
+
+// Custom cursor — default hidden, toggle with window.unhideCursor() / window.hideCursor()
+document.body.classList.add('cursor-hidden');
+window.unhideCursor = () => { document.body.classList.remove('cursor-hidden'); document.body.classList.add('cursor-shown'); };
+window.hideCursor = () => { document.body.classList.add('cursor-hidden'); document.body.classList.remove('cursor-shown'); };
+const ring = document.getElementById('cur-ring');
+const dot = document.getElementById('cur-dot');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px';
+  dot.style.top = my + 'px';
+});
+function animateRing() {
+  rx += (mx - rx) * 0.18;
+  ry += (my - ry) * 0.18;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+document.addEventListener('mousedown', () => ring.classList.add('click'));
+document.addEventListener('mouseup', () => ring.classList.remove('click'));
+document.querySelectorAll('a, button, .service-block_one-inner, .gallery-block_one-inner, .journal-block_one, .awards-block_one, .esg-card, .theme-toggle, .navbar-toggler').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hov'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hov'));
+});
+document.addEventListener('mouseleave', () => { ring.style.opacity = '0'; dot.style.opacity = '0'; });
+document.addEventListener('mouseenter', () => { ring.style.opacity = '1'; dot.style.opacity = '1'; });
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+</script>
+</body>
+</html>

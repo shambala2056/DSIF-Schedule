@@ -131,6 +131,12 @@ body {
 .btn-sm {
   padding: 8px 16px;
   font-size: 12px;
+  width: auto;
+}
+/* btn-sm + btn-primary хослолыг үндсэн btn-primary-ийн `width: 100%`-ээс салгана */
+.btn-sm.btn-primary,
+.btn-primary.btn-sm {
+  width: auto;
 }
 
 .btn-danger {
@@ -593,11 +599,33 @@ table tr:hover td {
 }
 
 .modal-close {
-  background: none;
-  border: none;
-  color: var(--admin-text-muted);
-  font-size: 20px;
+  background: rgba(75, 172, 72, 0.12);
+  border: 1.5px solid rgba(75, 172, 72, 0.35);
+  color: #4bac48;
+  font-size: 22px;
+  font-weight: 700;
   cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.18s, color 0.18s, border-color 0.18s, transform 0.18s;
+}
+.modal-close:hover {
+  background: #4bac48;
+  color: #fff;
+  border-color: #4bac48;
+  transform: rotate(90deg);
+}
+.modal-close:active {
+  transform: scale(0.9);
+}
+body.light-theme .modal-close {
+  background: rgba(75, 172, 72, 0.1);
+  border-color: rgba(75, 172, 72, 0.4);
 }
 
 .modal-body {
@@ -1531,9 +1559,22 @@ body.light-theme .funders-tbl .col-search-input {
 }
 
 /* ── Projects table merged header (label + search input нэг нүдэнд) ── */
+/* Sticky header — scroll хийхэд дээд талдаа тулаад үлдэнэ */
+.projects-tbl thead { position: sticky; top: 0; z-index: 10; }
 .projects-tbl .projects-col-header th {
   vertical-align: top;
   padding: 10px 10px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--admin-dark-2);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  border-bottom: 1px solid var(--admin-border);
+}
+body.light-theme .projects-tbl .projects-col-header th {
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  border-bottom-color: rgba(0,0,0,0.08);
 }
 .projects-tbl .projects-col-header .col-label {
   display: block;
@@ -1796,6 +1837,312 @@ body.light-theme .funders-tbl-brand thead th {
 }
 body.light-theme .funders-tbl-brand tbody td {
   border-bottom-color: rgba(75, 172, 72, 0.12);
+}
+
+/* Admin menu settings — checkbox list (босоо жагсаалт) */
+.admin-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 520px;
+}
+.admin-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  font-size: 13px;
+}
+.admin-menu-row:hover { border-color: #2a8b27; background: rgba(42,139,39,0.06); }
+.admin-menu-row.locked {
+  opacity: 0.7;
+  cursor: not-allowed;
+  border-style: dashed;
+}
+.admin-menu-row input[type="checkbox"] {
+  accent-color: #2a8b27;
+  width: 16px;
+  height: 16px;
+}
+.admin-menu-label { flex: 1; font-weight: 500; }
+.admin-menu-locked {
+  color: var(--admin-text-muted);
+  font-size: 11px;
+}
+body.light-theme .admin-menu-row { background: #fff; border-color: rgba(0,0,0,0.08); }
+body.light-theme .admin-menu-row:hover { background: rgba(42,139,39,0.05); }
+
+/* Add-project section (3 картан сонголтын хэсэг) */
+.add-proj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+@media (max-width: 880px) { .add-proj-grid { grid-template-columns: 1fr; } }
+.add-proj-card {
+  background: var(--admin-dark-2);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  padding: 24px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .18s, transform .18s, box-shadow .18s;
+}
+.add-proj-card:hover {
+  border-color: #2a8b27;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(42,139,39,0.18);
+}
+.add-proj-card .add-proj-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(42,139,39,0.12);
+  color: #2a8b27;
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+.add-proj-card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--admin-text);
+}
+.add-proj-card p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--admin-text-muted);
+}
+body.light-theme .add-proj-card {
+  background: #fff;
+  border-color: rgba(0,0,0,0.08);
+}
+
+/* Төсөл нэмэх/засах form grid layout (дэлгэцэнд багтах scroll-той) */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 14px;
+}
+.form-grid-2 .form-group { margin-bottom: 0; }
+@media (max-width: 720px) {
+  .form-grid-2 { grid-template-columns: 1fr; }
+}
+.form-section-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #4bac48;
+  margin: 12px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(75, 172, 72, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.form-section-title:first-child { margin-top: 0; }
+
+#projectModal .modal {
+  max-width: 760px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+#projectModal .modal-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 18px 22px;
+}
+#projectModal .modal-header,
+#projectModal .modal-footer {
+  flex-shrink: 0;
+}
+#projectModal .form-group {
+  margin-bottom: 8px;
+}
+#projectModal .form-group label {
+  font-size: 11px;
+  margin-bottom: 3px;
+  display: block;
+  color: var(--admin-text-muted);
+  font-weight: 600;
+}
+#projectModal .form-group input,
+#projectModal .form-group select,
+#projectModal textarea {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-dark-2);
+  color: var(--admin-text);
+  font-family: inherit;
+  font-size: 12.5px;
+}
+#projectModal textarea {
+  resize: vertical;
+  min-height: 54px;
+  line-height: 1.4;
+}
+#projectModal .file-upload {
+  padding: 12px;
+}
+#projectModal .file-upload p {
+  font-size: 11.5px;
+  margin: 4px 0 0;
+}
+#projectModal .file-upload .preview {
+  max-height: 100px;
+  margin-top: 8px;
+}
+body.light-theme #projectModal .form-group input,
+body.light-theme #projectModal .form-group select,
+body.light-theme #projectModal textarea {
+  background: #fff; color: #1a1a1a; border-color: rgba(0,0,0,0.12);
+}
+
+/* Scrollbar дизайн тохируулга */
+#projectModal .modal-body::-webkit-scrollbar { width: 8px; }
+#projectModal .modal-body::-webkit-scrollbar-thumb {
+  background: rgba(75,172,72,0.4);
+  border-radius: 4px;
+}
+#projectModal .modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(75,172,72,0.7);
+}
+
+/* Dashboard analytics grid — дэлгэцэнд бүрэн багтаах зорилготой компакт */
+#sec-analytics .page-header { margin-bottom: 10px; }
+#sec-analytics .stats-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+#sec-analytics .stats-row .stat-card {
+  padding: 10px 12px;
+  min-height: 0;
+}
+#sec-analytics .stats-row .stat-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+#sec-analytics .stats-row .stat-value {
+  font-size: 18px;
+  margin: 2px 0;
+}
+#sec-analytics .stats-row .stat-label {
+  font-size: 10px;
+  letter-spacing: 0.4px;
+}
+
+/* 4 chart нэг мөрөнд */
+#sec-analytics .dash-analytics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+#sec-analytics .dash-chart-panel .panel-header {
+  padding: 8px 12px;
+}
+#sec-analytics .dash-chart-panel .panel-header h3 {
+  font-size: 11.5px;
+}
+#sec-analytics .dash-chart-panel .panel-body {
+  padding: 8px 10px;
+  min-height: 0;
+}
+#sec-analytics .dash-chart-panel canvas {
+  max-height: 180px !important;
+  height: 180px !important;
+}
+
+/* Top projects: scroll-той жижиг хүснэгт */
+#sec-analytics .panel:last-child .panel-body { padding: 0; }
+#sec-analytics #anaTopProjects tr td { padding: 6px 10px; font-size: 12px; }
+#sec-analytics #anaTopProjects tr th { padding: 6px 10px; font-size: 10.5px; }
+
+@media (max-width: 1200px) {
+  #sec-analytics .dash-analytics { grid-template-columns: repeat(2, 1fr); }
+  #sec-analytics .stats-row { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 720px) {
+  #sec-analytics .dash-analytics { grid-template-columns: 1fr; }
+  #sec-analytics .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Бусад дашбоард (хянах самбар) -ын default analytics grid */
+.dash-analytics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+@media (max-width: 960px) {
+  .dash-analytics { grid-template-columns: 1fr; }
+}
+.dash-chart-panel .panel-body {
+  padding: 16px 18px;
+  min-height: 240px;
+}
+.dash-chart-panel canvas {
+  max-height: 260px;
+}
+
+/* Project info modal */
+.proj-info-thumb {
+  width: 100%; max-height: 200px; object-fit: cover; border-radius: 10px;
+  margin-bottom: 14px; border: 1px solid var(--admin-border);
+}
+.proj-info-badges {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;
+}
+.proj-info-list {
+  display: grid; grid-template-columns: auto 1fr; gap: 8px 16px;
+  margin: 0 0 18px; font-size: 13px;
+}
+.proj-info-list dt {
+  font-weight: 600; color: var(--admin-text-muted);
+  font-size: 11px; letter-spacing: 0.4px; text-transform: uppercase;
+  padding-top: 2px;
+}
+.proj-info-list dd { margin: 0; color: var(--admin-text); }
+.proj-info-bar {
+  display: inline-block; width: 140px; height: 6px;
+  background: var(--admin-dark-3); border-radius: 3px; overflow: hidden;
+  margin-right: 8px; vertical-align: middle;
+}
+.proj-info-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #378a35, #4bac48);
+  border-radius: 3px;
+}
+.proj-info-actions {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  padding-top: 14px; border-top: 1px solid var(--admin-border);
+}
+body.light-theme .proj-info-thumb { border-color: rgba(0,0,0,0.08); }
+body.light-theme .proj-info-bar { background: #eee; }
+
+/* Project row hover (clickable) */
+.projects-tbl tbody tr.proj-row {
+  transition: background 0.15s;
+}
+.projects-tbl tbody tr.proj-row:hover {
+  background: rgba(75, 172, 72, 0.06);
 }
 
 /* Brand-input select option styling */

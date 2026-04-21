@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>НОГООН ХӨГЖИЛ ФОРУМ 2026</title>
+  <title>ДОРОНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026</title>
   <link rel="icon" href="../images/icon.webp" type="image/webp">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/admin.css">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 </head>
 <body>
   <!-- Theme toggle (apply saved theme ASAP) -->
@@ -39,13 +41,24 @@
         <a href="#" class="active" data-section="dashboard">
           <i class="fa fa-chart-pie"></i> <span class="sidebar-text">Хянах самбар</span>
         </a>
+        <a href="#" data-section="analytics">
+          <i class="fa fa-chart-line"></i> <span class="sidebar-text">Дашбоард</span>
+        </a>
 
         <div class="nav-label"><span class="sidebar-text">Төсөл, хөтөлбөр</span></div>
         <a href="#" data-section="projects">
           <i class="fa fa-folder-open"></i> <span class="sidebar-text">Төслүүд</span>
         </a>
+        <a href="#" data-section="add-project">
+          <i class="fa fa-plus-circle"></i> <span class="sidebar-text">Төсөл нэмэх</span>
+        </a>
         <a href="#" data-section="sectors">
           <i class="fa fa-layer-group"></i> <span class="sidebar-text">Төслийн ангилал</span>
+        </a>
+
+        <div class="nav-label"><span class="sidebar-text">Танилцуулга мэдээлэл</span></div>
+        <a href="../iltgel/01.html" target="_blank" rel="noopener">
+          <i class="fa fa-display"></i> <span class="sidebar-text">Илтгэл</span>
         </a>
 
         <div class="nav-label"><span class="sidebar-text">Санхүүжилт</span></div>
@@ -65,6 +78,9 @@
         </a>
         <a href="#" data-section="menu">
           <i class="fa fa-bars"></i> <span class="sidebar-text">Цэс тохиргоо</span>
+        </a>
+        <a href="#" data-section="admin-menu">
+          <i class="fa fa-sliders"></i> <span class="sidebar-text">Админы цэс тохиргоо</span>
         </a>
       </nav>
 
@@ -116,19 +132,19 @@
             <div class="stat-label">Нийт төсөл</div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon blue"><i class="fa fa-layer-group"></i></div>
-            <div class="stat-value" id="statSectors">9</div>
-            <div class="stat-label">Ангилалын тоо</div>
+            <div class="stat-icon blue"><i class="fa fa-users-line"></i></div>
+            <div class="stat-value" id="statFunders">0</div>
+            <div class="stat-label">Санхүүжүүлэгч</div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon yellow"><i class="fa fa-user-shield"></i></div>
-            <div class="stat-value" id="statAdmins">0</div>
-            <div class="stat-label">Нийт админ</div>
+            <div class="stat-icon green"><i class="fa fa-sack-dollar"></i></div>
+            <div class="stat-value" id="statRaised">0₮</div>
+            <div class="stat-label">Цугласан дүн</div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon red"><i class="fa fa-users"></i></div>
-            <div class="stat-value" id="statRegistrations">0</div>
-            <div class="stat-label">Бүртгэл</div>
+            <div class="stat-icon red"><i class="fa fa-percent"></i></div>
+            <div class="stat-value" id="statAvgPct">0%</div>
+            <div class="stat-label">Дундаж биелэлт</div>
           </div>
         </div>
 
@@ -179,21 +195,143 @@
         </div>
       </div>
 
+      <!-- ── ANALYTICS DASHBOARD SECTION ── -->
+      <div class="section-page" id="sec-analytics">
+        <div class="page-header">
+          <h2>Аналитик <span>дашбоард</span></h2>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="loadAnalyticsDashboard()" title="Шинэчлэх">
+              <i class="fa fa-rotate"></i> Шинэчлэх
+            </button>
+            <a href="analytics.html" target="_blank" class="btn btn-info btn-sm" title="Тусад нь бүтэн дэлгэцээр харах">
+              <i class="fa fa-expand"></i> Бүтэн цонхоор харах
+            </a>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fa fa-folder-open"></i></div>
+            <div class="stat-value" id="anaProjects">0</div>
+            <div class="stat-label">Нийт төсөл</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fa fa-users-line"></i></div>
+            <div class="stat-value" id="anaFunders">0</div>
+            <div class="stat-label">Санхүүжүүлэгч</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fa fa-sack-dollar"></i></div>
+            <div class="stat-value" id="anaRaised">0₮</div>
+            <div class="stat-label">Цугласан дүн</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon yellow"><i class="fa fa-bullseye"></i></div>
+            <div class="stat-value" id="anaGoal">0₮</div>
+            <div class="stat-label">Нийт зорилго</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red"><i class="fa fa-percent"></i></div>
+            <div class="stat-value" id="anaAvgPct">0%</div>
+            <div class="stat-label">Дундаж биелэлт</div>
+          </div>
+        </div>
+
+        <div class="dash-analytics">
+          <div class="panel dash-chart-panel">
+            <div class="panel-header">
+              <h3><i class="fa fa-chart-pie"></i>&nbsp; Ангилал тус бүр дэх төсөл</h3>
+            </div>
+            <div class="panel-body">
+              <canvas id="anaChartSectorProjects"></canvas>
+            </div>
+          </div>
+          <div class="panel dash-chart-panel">
+            <div class="panel-header">
+              <h3><i class="fa fa-chart-bar"></i>&nbsp; Ангилалын санхүүжилт</h3>
+            </div>
+            <div class="panel-body">
+              <canvas id="anaChartSectorFunding"></canvas>
+            </div>
+          </div>
+          <div class="panel dash-chart-panel">
+            <div class="panel-header">
+              <h3><i class="fa fa-chart-line"></i>&nbsp; Санхүүжилт цаг хугацаагаар</h3>
+            </div>
+            <div class="panel-body">
+              <canvas id="anaChartFundingTimeline"></canvas>
+            </div>
+          </div>
+          <div class="panel dash-chart-panel">
+            <div class="panel-header">
+              <h3><i class="fa fa-chart-column"></i>&nbsp; Санхүүжүүлэгчийн төрөл</h3>
+            </div>
+            <div class="panel-body">
+              <canvas id="anaChartFunderType"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:0">
+          <div class="panel-header">
+            <h3><i class="fa fa-trophy"></i>&nbsp; Top 10 санхүүжилт авсан төсөл</h3>
+          </div>
+          <div class="panel-body" style="padding:0">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:36px">№</th>
+                  <th>Төсөл</th>
+                  <th>Ангилал</th>
+                  <th style="text-align:right">Цугласан</th>
+                  <th style="text-align:right">Зорилго</th>
+                  <th style="text-align:right">Биелэлт</th>
+                </tr>
+              </thead>
+              <tbody id="anaTopProjects">
+                <tr><td colspan="6" class="empty-state"><i class="fa fa-inbox"></i><p>Ачаалж байна...</p></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ADD PROJECT SECTION ── -->
+      <div class="section-page" id="sec-add-project">
+        <div class="page-header">
+          <h2>Төсөл <span>нэмэх</span></h2>
+        </div>
+
+        <div class="add-proj-grid">
+          <div class="add-proj-card" onclick="document.getElementById('downloadTemplateBtn').click()">
+            <div class="add-proj-icon"><i class="fa fa-file-download"></i></div>
+            <h3>Excel загвар татах</h3>
+            <p>Төсөл нэмэх загвар файлыг татаж авч, Google Sheet-тэй ижил багануудаар бөглөнө үү.</p>
+          </div>
+          <div class="add-proj-card" onclick="document.getElementById('importExcelBtn').click()">
+            <div class="add-proj-icon"><i class="fa fa-file-excel"></i></div>
+            <h3>Excel оруулах</h3>
+            <p>Бөглөсөн загвар файлаа байршуулж олон төслийг нэг дор оруулах.</p>
+          </div>
+          <div class="add-proj-card" onclick="openAddProjectModal()">
+            <div class="add-proj-icon"><i class="fa fa-plus-circle"></i></div>
+            <h3>Шинэ төсөл нэмэх</h3>
+            <p>Гар аргаар нэг төслийг формоор нэмж үүсгэх. Бүх талбарыг бөглөнө үү.</p>
+          </div>
+        </div>
+
+        <!-- Бичигдсэн товчнуудыг нуусан төлөвт хадгалах — JS hook-үүд ажиллахын тулд -->
+        <div style="display:none">
+          <button id="downloadTemplateBtn"></button>
+          <button id="importExcelBtn"></button>
+          <button id="addProjectBtn"></button>
+        </div>
+      </div>
+
       <!-- ── PROJECTS SECTION ── -->
       <div class="section-page" id="sec-projects">
         <div class="page-header">
           <h2>Төслийн <span>удирдлага</span></h2>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="btn btn-outline btn-sm" id="downloadTemplateBtn" title="Excel загвар татах">
-              <i class="fa fa-file-download"></i> Загвар
-            </button>
-            <button class="btn btn-info btn-sm" id="importExcelBtn">
-              <i class="fa fa-file-excel"></i> Excel оруулах
-            </button>
-            <button class="btn btn-primary btn-sm" id="addProjectBtn">
-              <i class="fa fa-plus"></i> Төсөл нэмэх
-            </button>
-          </div>
         </div>
 
         <!-- Filter by sector -->
@@ -244,8 +382,18 @@
                     <span class="col-label">Санхүүжилт</span>
                     <select data-proj-search="amount" class="col-search-input">
                       <option value="">дараалал</option>
-                      <option value="desc">↓ Ихээс бага</option>
-                      <option value="asc">↑ Багаас их</option>
+                      <optgroup label="Санхүүжсэн дүнгээс">
+                        <option value="raised-desc">↓ Ихээс бага</option>
+                        <option value="raised-asc">↑ Багаас их</option>
+                      </optgroup>
+                      <optgroup label="Санхүүжилтийн дүнгээс">
+                        <option value="goal-desc">↓ Ихээс бага</option>
+                        <option value="goal-asc">↑ Багаас их</option>
+                      </optgroup>
+                      <optgroup label="Санхүүжсэн хувиар">
+                        <option value="pct-desc">↓ Ихээс бага</option>
+                        <option value="pct-asc">↑ Багаас их</option>
+                      </optgroup>
                     </select>
                   </th>
                   <th>
@@ -300,42 +448,30 @@
       <div class="section-page" id="sec-roles">
         <div class="page-header">
           <h2>Эрхийн <span>тохиргоо</span></h2>
+          <button class="btn btn-primary btn-sm" onclick="openRoleModal()">
+            <i class="fa fa-plus"></i> Шинэ эрх нэмэх
+          </button>
         </div>
 
         <div class="panel">
           <div class="panel-header">
             <h3>Эрхийн түвшингүүд</h3>
+            <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="loadRoles()">
+              <i class="fa fa-rotate"></i> Шинэчлэх
+            </button>
           </div>
-          <div class="panel-body">
+          <div class="panel-body" style="padding:0">
             <table>
               <thead>
                 <tr>
                   <th>Эрх</th>
                   <th>Тайлбар</th>
                   <th>Зөвшөөрөл</th>
+                  <th style="text-align:right;width:120px">Үйлдэл</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><span class="badge badge-admin">admin</span></td>
-                  <td>Бүрэн эрхтэй админ</td>
-                  <td>Бүх үйлдэл: төсөл нэмэх/засах/устгах, дэд админ удирдах, тохиргоо өөрчлөх</td>
-                </tr>
-                <tr>
-                  <td><span class="badge badge-sub-admin">sub-admin</span></td>
-                  <td>Дэд админ</td>
-                  <td>Төсөл нэмэх/засах, зөвхөн зөвшөөрөгдсөн ангилалд</td>
-                </tr>
-                <tr>
-                  <td><span class="badge badge-editor">editor</span></td>
-                  <td>Засварлагч</td>
-                  <td>Зөвхөн зөвшөөрөгдсөн ангилалын төслийг засах</td>
-                </tr>
-                <tr>
-                  <td><span class="badge badge-viewer">viewer</span></td>
-                  <td>Үзэгч</td>
-                  <td>Зөвхөн харах эрх</td>
-                </tr>
+              <tbody id="rolesTable">
+                <tr><td colspan="4" class="empty-state"><i class="fa fa-inbox"></i><p>Ачаалж байна...</p></td></tr>
               </tbody>
             </table>
           </div>
@@ -349,6 +485,73 @@
             <p style="font-size:13px; color:var(--admin-text-muted); margin-bottom:16px;">
               Дэд админ, засварлагч нарт ангилалын зөвшөөрлийг "Дэд админ" хэсгээс тохируулна.
             </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ADMIN MENU SETTINGS SECTION ── -->
+      <div class="section-page" id="sec-admin-menu">
+        <div class="page-header">
+          <h2>Админы <span>цэс тохиргоо</span></h2>
+          <button class="btn btn-outline btn-sm" onclick="loadAdminMenu()">
+            <i class="fa fa-rotate"></i> Сэргээх
+          </button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Sidebar цэсүүдийг харуулах/нуух</h3>
+          </div>
+          <div class="panel-body">
+            <p style="font-size:13px; color:var(--admin-text-muted); margin-bottom:16px;">
+              Админ хэрэглэгчийн зүүн талын sidebar-д ямар цэсүүд харагдахыг тохируулна.
+              Таны өөрчлөлт бусад админуудад мөн хэрэгжинэ.
+            </p>
+            <div id="adminMenuList" class="admin-menu-list"></div>
+            <div style="margin-top:16px;display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-outline btn-sm" onclick="resetAdminMenu()">Үндсэн буцаах</button>
+              <button class="btn btn-primary btn-sm" onclick="saveAdminMenu()">
+                <i class="fa fa-save"></i> Хадгалах
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role edit modal -->
+      <div class="modal-overlay" id="roleModal">
+        <div class="modal" style="max-width:520px">
+          <div class="modal-header">
+            <h3 id="roleModalTitle">Эрх нэмэх</h3>
+            <button class="modal-close" onclick="closeModal('roleModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form id="roleForm">
+              <input type="hidden" id="roleEditKey">
+              <div class="form-group">
+                <label>Эрхийн түлхүүр *</label>
+                <input type="text" id="roleKey" placeholder="жнь: editor" required pattern="[a-z0-9-]+">
+                <small style="color:var(--admin-text-muted);font-size:11px">Зөвхөн жижиг үсэг, тоо болон зураас</small>
+              </div>
+              <div class="form-group">
+                <label>Нэр *</label>
+                <input type="text" id="roleLabel" placeholder="Жишээ: Засварлагч" required>
+              </div>
+              <div class="form-group">
+                <label>Тайлбар</label>
+                <input type="text" id="roleDesc" placeholder="Тайлбар">
+              </div>
+              <div class="form-group">
+                <label>Зөвшөөрөл (юу хийж чадах)</label>
+                <textarea id="rolePerms" rows="4" placeholder="Жишээ: Төсөл засах, хандиваар тооцоо харах..."></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline btn-sm" onclick="closeModal('roleModal')">Болих</button>
+            <button class="btn btn-primary btn-sm" onclick="saveRole()">
+              <i class="fa fa-save"></i> Хадгалах
+            </button>
           </div>
         </div>
       </div>
@@ -444,10 +647,12 @@
                   <th>Утас</th>
                   <th>Дүн</th>
                   <th>Төрөл</th>
+                  <th>Төлөв</th>
+                  <th style="text-align:right">Үйлдэл</th>
                 </tr>
               </thead>
               <tbody id="fundingRequestsTable">
-                <tr><td colspan="6" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжилтийн хүсэлт байхгүй</p></td></tr>
+                <tr><td colspan="8" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжилтийн хүсэлт байхгүй</p></td></tr>
               </tbody>
             </table>
           </div>
@@ -553,6 +758,20 @@
         </div>
       </div>
 
+      <!-- Project Info Modal — төслийн дэлгэрэнгүй мэдээлэл -->
+      <div class="modal-overlay" id="projectInfoModal">
+        <div class="modal funders-modal" style="max-width:560px">
+          <div class="modal-header funders-modal-header">
+            <h3 class="funders-modal-title">
+              <span class="funders-modal-icon"><i class="fa fa-diagram-project"></i></span>
+              <span id="projInfoTitle">Төслийн мэдээлэл</span>
+            </h3>
+            <button class="modal-close" onclick="closeModal('projectInfoModal')">&times;</button>
+          </div>
+          <div class="modal-body" id="projInfoBody"></div>
+        </div>
+      </div>
+
       <!-- Project Funders List Modal — тухайн төслийн санхүүжүүлэгчдийг харуулах -->
       <div class="modal-overlay" id="projectFundersModal">
         <div class="modal funders-modal" style="max-width:780px">
@@ -605,20 +824,114 @@
         <form id="projectForm">
           <input type="hidden" id="projectEditId">
           <input type="hidden" id="projectEditSector">
-          <div class="form-group">
-            <label>Ангилал</label>
-            <select id="projectSector" required>
-              <option value="">— Ангилал сонгох —</option>
-            </select>
+
+          <div class="form-section-title"><i class="fa fa-tag"></i> Үндсэн мэдээлэл</div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Ангилал *</label>
+              <select id="projectSector" required>
+                <option value="">— Ангилал сонгох —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Төслийн салбар</label>
+              <input type="text" id="projectSalbar" placeholder="Жишээ: Эрчим хүч">
+            </div>
+            <div class="form-group">
+              <label>Салбарын чиглэл</label>
+              <input type="text" id="projectChiglel" placeholder="Жишээ: Сэргээгдэх эрчим хүч">
+            </div>
+            <div class="form-group">
+              <label>Ажлын хэлбэр</label>
+              <input type="text" id="projectWorkType" placeholder="Жишээ: Шинэчлэл / Засвар">
+            </div>
           </div>
+
           <div class="form-group">
-            <label>Төслийн нэр</label>
+            <label>Төслийн нэр *</label>
             <input type="text" id="projectName" placeholder="Төслийн нэр" required>
           </div>
           <div class="form-group">
-            <label>Зохиогч / Байгууллага</label>
-            <input type="text" id="projectCreator" placeholder="Жишээ: Дорноговь аймаг" required>
+            <label>Төсөл санаачлагч байгууллага *</label>
+            <input type="text" id="projectCreator" placeholder="Жишээ: Дорноговь аймгийн ЗДТГ" required>
           </div>
+
+          <div class="form-section-title"><i class="fa fa-coins"></i> Санхүүжилт ба хугацаа</div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Нийт санхүүжилтийн дүн (₮)</label>
+              <input type="number" id="projectAmount" placeholder="1000000" min="0" step="1000">
+            </div>
+            <div class="form-group">
+              <label>Хэрэгжих хугацаа</label>
+              <input type="text" id="projectDuration" placeholder="Жишээ: 12 сар / 2026-2027">
+            </div>
+            <div class="form-group">
+              <label>Хэрэгжүүлэх байршил</label>
+              <input type="text" id="projectLocation" placeholder="Жишээ: Сайншанд сум">
+            </div>
+            <div class="form-group">
+              <label>Хэрэгжилтийн үе шат</label>
+              <select id="projectStage">
+                <option value="">— Сонгох —</option>
+                <option value="Санаа / Судалгаа">Санаа / Судалгаа</option>
+                <option value="Төлөвлөлт">Төлөвлөлт</option>
+                <option value="Хэрэгжиж эхлээгүй">Хэрэгжиж эхлээгүй</option>
+                <option value="Хэрэгжиж байгаа">Хэрэгжиж байгаа</option>
+                <option value="Дуусч буй">Дуусч буй</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-section-title"><i class="fa fa-file-lines"></i> Дэлгэрэнгүй</div>
+          <div class="form-group">
+            <label>Тайлбар</label>
+            <textarea id="projectDesc" rows="3" placeholder="Төслийн ерөнхий тайлбар..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Тулгарч буй асуудал</label>
+            <textarea id="projectProblem" rows="3" placeholder="Тухайн төсөлд тулгарч буй асуудал..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Шийдвэрлэхийг хүсэж буй зорилго</label>
+            <textarea id="projectGoal" rows="3" placeholder="Төслийг хэрэгжүүлэхэд хүсэж буй үр дүн..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Хүлээгдэж буй үр дүн</label>
+            <textarea id="projectOutcome" rows="3" placeholder="Төсөл амжилттай хэрэгжсэний дараах үр дүн..."></textarea>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Хэрэглэгчийн тоо / Хүчин чадал</label>
+              <input type="text" id="projectCapacity" placeholder="Жишээ: 500 өрх">
+            </div>
+            <div class="form-group">
+              <label>Хэрэгжсэний дараа ямар өөрчлөлт гарах вэ?</label>
+              <input type="text" id="projectImpact" placeholder="Тайлбар">
+            </div>
+          </div>
+
+          <div class="form-section-title"><i class="fa fa-address-card"></i> Холбоо барих</div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Байгууллагын нэр</label>
+              <input type="text" id="projectOrgName" placeholder="Байгууллагын албан ёсны нэр">
+            </div>
+            <div class="form-group">
+              <label>Байгууллагын хэлбэр</label>
+              <input type="text" id="projectOrgType" placeholder="Жишээ: ХХК, ТББ, ЗДТГ">
+            </div>
+            <div class="form-group">
+              <label>И-мэйл хаяг</label>
+              <input type="email" id="projectEmail" placeholder="email@example.com">
+            </div>
+            <div class="form-group">
+              <label>Холбоо барих утас</label>
+              <input type="tel" id="projectPhone" placeholder="99119999">
+            </div>
+          </div>
+
+          <div class="form-section-title"><i class="fa fa-image"></i> Зураг</div>
           <div class="form-group">
             <label>Thumbnail зураг</label>
             <div class="file-upload" id="thumbnailUpload">
