@@ -137,13 +137,13 @@ let selectedThumbnailFile = null;
 // ── Auth guard ──
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "/admin/";
     return;
   }
   const adminDoc = await getDoc(doc(db, "admins", user.uid));
   if (!adminDoc.exists()) {
     await signOut(auth);
-    window.location.href = "index.html";
+    window.location.href = "/admin/";
     return;
   }
   currentUser = user;
@@ -234,7 +234,7 @@ document.getElementById("mobileToggle").addEventListener("click", () => {
 // ── Logout ──
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   await signOut(auth);
-  window.location.href = "index.html";
+  window.location.href = "/admin/";
 });
 
 // ═══════════════════════════════════════
