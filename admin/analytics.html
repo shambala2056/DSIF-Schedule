@@ -353,8 +353,10 @@
         raisedByProject.set(key, (raisedByProject.get(key) || 0) + (parseFloat(f.amount) || 0));
       });
       projects.forEach((p) => {
-        p.raisedAmount = raisedByProject.get(normTitle(p.title)) || 0;
-        p.funded = p.amount > 0 ? Math.round((p.raisedAmount / p.amount) * 100) : 0;
+        const rawRaised = raisedByProject.get(normTitle(p.title)) || 0;
+        // Цугласан дүн нь зорилгоос хэтрэхгүй
+        p.raisedAmount = p.amount > 0 ? Math.min(rawRaised, p.amount) : rawRaised;
+        p.funded = p.amount > 0 ? Math.min(100, Math.round((rawRaised / p.amount) * 100)) : 0;
       });
 
       // KPIs

@@ -4423,13 +4423,13 @@
           if (raised <= 0) return;
           var goal = parseFloat(card.dataset.projectAmount) || 0;
           if (goal <= 0) return;
-          var pct = Math.round((raised / goal) * 100);
-          var shownPct = Math.min(pct, 100);
+          // Хувь 100-аас хэтрэхгүй хязгаарлалт
+          var pct = Math.min(100, Math.round((raised / goal) * 100));
           if (String(card.dataset.funded) === String(pct)) return;
           card.dataset.funded = pct;
           var bar = card.querySelector('.pcard-progress-bar');
           var pctEl = card.querySelector('.pcard-progress-pct');
-          if (bar) bar.style.width = shownPct + '%';
+          if (bar) bar.style.width = pct + '%';
           if (pctEl) pctEl.textContent = pct + '%';
           updated++;
         });
