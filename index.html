@@ -2226,147 +2226,52 @@
     <script src="js/designesia.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
-      // Хөтөлбөрийн бүх табыг PDF-д нэгтгэж татах
+      // Google Sheet-ийг PDF хэлбэрээр экспорт хийж татах
       function downloadSchedulePDF() {
         const btn = document.querySelector(".schedule-pdf-btn");
         const origHTML = btn.innerHTML;
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Үүсгэж байна...';
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Татаж байна...';
+
+        const SHEET_ID = "1Tjjf9jTo7PTl_RWjQPAqXnhOtrQ4QbQ93X5_5Ssnr3Q";
+        const GID = "611523800";
+
+        // Google Sheets-ийн суулгасан PDF экспорт URL — шууд татаж авах
+        const params = new URLSearchParams({
+          format: "pdf",
+          gid: GID,
+          size: "A4",
+          portrait: "true",
+          fitw: "true",                // хуудасны өргөнд тааруулах
+          gridlines: "false",
+          printtitle: "false",
+          sheetnames: "false",
+          pagenumbers: "false",
+          fzr: "true",                 // хөлдсөн мөрийг давтах
+          top_margin: "0.35",
+          bottom_margin: "0.35",
+          left_margin: "0.35",
+          right_margin: "0.35"
+        });
+        const exportUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?${params.toString()}`;
 
         try {
-          // Бүх табын агуулга болон гарчгийг уншина
-          const tabNavItems = document.querySelectorAll("#section-schedule .d-tab-nav > li");
-          const tabPanels = document.querySelectorAll("#section-schedule .d-tab-content > li");
-
-          // PDF-д зориулсан цэвэр wrapper
-          const pdfWrap = document.createElement("div");
-          pdfWrap.style.cssText = "background:#fff;color:#000;padding:18px 22px;font-family:Montserrat,sans-serif;font-size:12px;line-height:1.4";
-
-          // PDF-ийн толгой (компакт)
-          pdfWrap.innerHTML = `
-            <div style="text-align:center;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #4bac48">
-              <h1 style="margin:0 0 3px;font-size:16px;font-weight:800;color:#2a8b27;letter-spacing:0.8px">ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026</h1>
-              <div style="font-size:12px;color:#555">ФОРУМЫН ХӨТӨЛБӨР · 2026.04.27–28 · САЙНШАНД</div>
-            </div>
-          `;
-
-          // Таб бүрийг дараалуулан нэмэх
-          tabPanels.forEach((panel, i) => {
-            const navEl = tabNavItems[i];
-            const navDate = navEl?.querySelector("h3")?.textContent?.trim() || "";
-            const navLabel = (navEl?.textContent || "").replace(navDate, "").trim();
-
-            const section = document.createElement("div");
-            section.style.cssText = "margin-top:10px;page-break-inside:auto;";
-
-            section.innerHTML = `
-              <div style="background:#4bac48;color:#fff;padding:6px 10px;border-radius:4px;margin-bottom:8px;font-weight:700;font-size:12px;letter-spacing:0.6px">
-                ${navDate} · ${navLabel}
-              </div>
-            `;
-
-            const panelClone = panel.cloneNode(true);
-            panelClone.style.display = "block";
-            // PDF-д тохирох бүдэг өнгийг цэвэрлэх
-            panelClone.querySelectorAll("*").forEach((el) => {
-              el.style.color = "#000";
-              el.style.background = "transparent";
-              el.style.borderColor = "#ddd";
-              el.style.opacity = "1";
-            });
-            // Бүх бичвэрийг 12px тохируулах
-            panelClone.querySelectorAll(".col-md-2").forEach((c) => {
-              c.style.color = "#4bac48";
-              c.style.fontWeight = "600";
-              c.style.fontSize = "12px";
-              c.style.width = "95px";
-              c.style.minWidth = "95px";
-              c.style.flex = "0 0 95px";
-            });
-            panelClone.querySelectorAll(".col-md-10 h5").forEach((h) => {
-              h.style.fontWeight = "700";
-              h.style.color = "#000";
-              h.style.fontSize = "12px";
-              h.style.margin = "0 0 2px";
-              h.style.lineHeight = "1.35";
-            });
-            panelClone.querySelectorAll(".col-md-10 p").forEach((p) => {
-              p.style.fontSize = "12px";
-              p.style.color = "#555";
-              p.style.margin = "0";
-              p.style.lineHeight = "1.35";
-            });
-            panelClone.querySelectorAll(".schedule-group-head").forEach((g) => {
-              g.style.background = "#e8f5e8";
-              g.style.borderLeft = "3px solid #4bac48";
-              g.style.padding = "5px 10px";
-              g.style.margin = "6px 0 4px";
-              g.style.pageBreakInside = "avoid";
-              g.style.breakInside = "avoid";
-            });
-            panelClone.querySelectorAll(".schedule-group-head h4").forEach((h) => {
-              h.style.color = "#2a8b27";
-              h.style.fontWeight = "700";
-              h.style.fontSize = "12px";
-              h.style.margin = "0";
-            });
-            panelClone.querySelectorAll(".schedule-group-head h4 small").forEach((s) => {
-              s.style.fontSize = "12px";
-              s.style.color = "#555";
-              s.style.fontWeight = "500";
-              s.style.marginLeft = "6px";
-            });
-            panelClone.querySelectorAll(".border-white-bottom-op-2, .pb-3.mb-3").forEach((r) => {
-              r.style.borderBottom = "1px solid #eee";
-              r.style.padding = "4px 0";
-              r.style.margin = "0";
-              r.style.pageBreakInside = "avoid";
-              r.style.breakInside = "avoid";
-            });
-            // ul-ийн зай багасгах
-            panelClone.querySelectorAll("ul").forEach((u) => {
-              u.style.fontSize = "12px";
-              u.style.lineHeight = "1.4";
-              u.style.margin = "3px 0";
-              u.style.paddingLeft = "18px";
-            });
-            panelClone.querySelectorAll("li").forEach((li) => {
-              li.style.fontSize = "12px";
-            });
-            section.appendChild(panelClone);
-            pdfWrap.appendChild(section);
-          });
-
-          // Footer (компакт)
-          pdfWrap.innerHTML += `
-            <div style="margin-top:14px;padding-top:6px;border-top:1px solid #ddd;text-align:center;font-size:10px;color:#888">
-              © ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026 · dornogovi.one
-            </div>
-          `;
-
-          const opt = {
-            margin: [6, 6, 6, 6],
-            filename: "Дорноговь_Форум_2026_Хөтөлбөр.pdf",
-            image: { type: "jpeg", quality: 0.92 },
-            html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
-            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-            pagebreak: { mode: "avoid-all", avoid: [".border-white-bottom-op-2", ".schedule-group-head"] }
-          };
-
-          html2pdf().from(pdfWrap).set(opt).save().then(() => {
-            btn.disabled = false;
-            btn.innerHTML = origHTML;
-          }).catch((err) => {
-            console.error("PDF create error:", err);
-            alert("PDF үүсгэхэд алдаа гарлаа: " + err.message);
-            btn.disabled = false;
-            btn.innerHTML = origHTML;
-          });
+          const a = document.createElement("a");
+          a.href = exportUrl;
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.download = "Дорноговь_Форум_2026_Хөтөлбөр.pdf";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
         } catch (err) {
-          console.error("PDF build error:", err);
-          alert("PDF бэлтгэхэд алдаа: " + err.message);
-          btn.disabled = false;
-          btn.innerHTML = origHTML;
+          console.error("PDF download error:", err);
+          window.open(exportUrl, "_blank");
+        } finally {
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = origHTML;
+          }, 800);
         }
       }
     </script>
