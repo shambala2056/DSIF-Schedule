@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8">
+  <title>Next Gen Тэтгэлэгт Хөтөлбөр — Дорноговь 2026</title>
+  <link rel="icon" href="images/icon.webp" type="image/gif" sizes="16x16">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --green: #4bac48;
+      --green-dark: #378a35;
+      --gold: #f0c040;
+      --red: #e63946;
+      --blue: #00bcd4;
+      --bg: #080d1a;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+    }
+    * { box-sizing: border-box; }
+    body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; }
+
+    /* NAV */
+    .ng-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      background: rgba(8,13,26,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 64px;
+    }
+    .ng-nav .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .ng-nav .logo img { height: 36px; }
+    .ng-nav .logo span { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; color: var(--green); text-transform: uppercase; }
+    .ng-nav a.back { font-size: 12px; color: rgba(255,255,255,0.5); text-decoration: none; letter-spacing: 1px; transition: color .2s; }
+    .ng-nav a.back:hover { color: var(--green); }
+
+    /* HERO */
+    .ng-hero {
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 20% 50%, rgba(75,172,72,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(0,188,212,0.08) 0%, transparent 50%),
+                  var(--bg);
+      display: flex; align-items: center; padding-top: 64px;
+    }
+    .ng-hero .container { padding: 80px 20px; }
+    .ng-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(75,172,72,0.12); border: 1px solid rgba(75,172,72,0.3);
+      color: var(--green); font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      padding: 6px 16px; border-radius: 999px; margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+    .ng-hero h1 {
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 900; line-height: 1.05; margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+    .ng-hero h1 span { color: var(--green); }
+    .ng-hero .sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(255,255,255,0.6); max-width: 560px; line-height: 1.7; margin-bottom: 48px;
+    }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: 32px; margin-bottom: 48px; }
+    .hstat { text-align: left; }
+    .hstat .num {
+      font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, var(--green), #80e878);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hstat .num.gold { background: linear-gradient(135deg, var(--gold), #ffe082); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hstat .num.blue { background: linear-gradient(135deg, var(--blue), #80deea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hstat .lbl { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; }
+    .btn-main {
+      padding: 14px 36px; background: var(--green); color: #fff;
+      font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+      border: none; border-radius: 4px; cursor: pointer; text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .btn-main:hover { background: var(--green-dark); transform: translateY(-2px); color: #fff; }
+    .btn-outline {
+      padding: 14px 36px; background: transparent;
+      border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7);
+      font-weight: 600; font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+      border-radius: 4px; cursor: pointer; text-decoration: none;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+    /* SECTIONS */
+    section { padding: 80px 0; }
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800;
+      letter-spacing: -0.5px; margin-bottom: 8px;
+    }
+    .section-sub { font-size: 14px; color: rgba(255,255,255,0.45); margin-bottom: 48px; letter-spacing: 1px; }
+    .divider { width: 48px; height: 3px; background: var(--green); margin-bottom: 20px; }
+
+    /* PROBLEM */
+    .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 48px; }
+    .pcard {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 28px 24px;
+      transition: border-color .2s;
+    }
+    .pcard:hover { border-color: rgba(75,172,72,0.3); }
+    .pcard .icon { font-size: 28px; margin-bottom: 16px; }
+    .pcard .num { font-size: 2.4rem; font-weight: 900; color: var(--green); line-height: 1; }
+    .pcard .num.red { color: var(--red); }
+    .pcard .num.gold { color: var(--gold); }
+    .pcard .num.blue { color: var(--blue); }
+    .pcard .desc { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 8px; line-height: 1.6; letter-spacing: 0.5px; }
+
+    /* PROFESSION CARDS */
+    .prof-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .prof-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 24px; position: relative; overflow: hidden;
+      transition: transform .2s, border-color .2s;
+    }
+    .prof-card:hover { transform: translateY(-4px); border-color: rgba(75,172,72,0.4); }
+    .prof-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .prof-card.edu::before { background: linear-gradient(90deg, #4bac48, #80e878); }
+    .prof-card.health::before { background: linear-gradient(90deg, #e63946, #ff8a80); }
+    .prof-card.eng::before { background: linear-gradient(90deg, #f0c040, #ffe082); }
+    .prof-card.agri::before { background: linear-gradient(90deg, #00bcd4, #80deea); }
+    .prof-card.biz::before { background: linear-gradient(90deg, #9c27b0, #ce93d8); }
+    .prof-card.it::before { background: linear-gradient(90deg, #ff5722, #ff8a65); }
+    .prof-card .sector {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; opacity: 0.6; margin-bottom: 10px;
+    }
+    .prof-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 16px; line-height: 1.4; }
+    .prof-card .positions {
+      display: flex; align-items: baseline; gap: 6px; margin-bottom: 12px;
+    }
+    .prof-card .positions .n { font-size: 2rem; font-weight: 900; color: var(--green); }
+    .prof-card .positions .unit { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .prof-card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .prof-card .tag {
+      font-size: 10px; padding: 3px 10px; border-radius: 999px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.55);
+    }
+    .prof-card .urgency {
+      font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      padding: 4px 12px; border-radius: 4px; display: inline-block;
+    }
+    .urgency.high { background: rgba(230,57,70,0.15); color: var(--red); border: 1px solid rgba(230,57,70,0.3); }
+    .urgency.med { background: rgba(240,192,64,0.15); color: var(--gold); border: 1px solid rgba(240,192,64,0.3); }
+    .urgency.low { background: rgba(75,172,72,0.15); color: var(--green); border: 1px solid rgba(75,172,72,0.3); }
+
+    /* DISTRICT TABLE */
+    .district-table { width: 100%; border-collapse: collapse; }
+    .district-table th {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); font-weight: 600;
+      border-bottom: 1px solid var(--border); padding: 12px 16px; text-align: left;
+    }
+    .district-table td {
+      font-size: 13px; padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.8);
+    }
+    .district-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .bar-wrap { background: rgba(255,255,255,0.08); border-radius: 2px; height: 6px; width: 100%; }
+    .bar-fill { height: 6px; border-radius: 2px; background: var(--green); }
+    .pct-badge {
+      font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+    }
+    .pct-badge.danger { background: rgba(230,57,70,0.2); color: var(--red); }
+    .pct-badge.warn { background: rgba(240,192,64,0.2); color: var(--gold); }
+    .pct-badge.ok { background: rgba(75,172,72,0.15); color: var(--green); }
+
+    /* TIMELINE */
+    .timeline { position: relative; padding-left: 32px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
+      width: 2px; background: linear-gradient(180deg, var(--green) 0%, rgba(75,172,72,0.1) 100%);
+    }
+    .tl-item { position: relative; margin-bottom: 40px; }
+    .tl-item::before {
+      content: ''; position: absolute; left: -37px; top: 6px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--green); border: 2px solid var(--bg);
+    }
+    .tl-year {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--green);
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .tl-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .tl-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .tl-count {
+      display: inline-block; margin-top: 10px;
+      font-size: 11px; font-weight: 700; padding: 4px 14px;
+      background: rgba(75,172,72,0.12); border: 1px solid rgba(75,172,72,0.25);
+      color: var(--green); border-radius: 4px; letter-spacing: 1px;
+    }
+
+    /* CTA */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(75,172,72,0.12) 0%, rgba(0,188,212,0.06) 100%);
+      border: 1px solid rgba(75,172,72,0.2); border-radius: 16px;
+      padding: 60px 48px; text-align: center;
+    }
+    .cta-section h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900; margin-bottom: 16px; }
+    .cta-section p { font-size: 15px; color: rgba(255,255,255,0.55); max-width: 500px; margin: 0 auto 36px; line-height: 1.7; }
+
+    /* REQUIREMENTS */
+    .req-list { list-style: none; padding: 0; margin: 0; }
+    .req-list li {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 18px 0; border-bottom: 1px solid var(--border);
+      font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.6;
+    }
+    .req-list li:last-child { border-bottom: none; }
+    .req-list .ico { color: var(--green); font-size: 16px; margin-top: 2px; flex-shrink: 0; }
+
+    /* SECTION DARK */
+    .section-dark { background: rgba(0,0,0,0.3); }
+
+    @media (max-width: 768px) {
+      .ng-nav { padding: 0 16px; }
+      .ng-hero .container { padding: 60px 16px; }
+      section { padding: 56px 0; }
+      .cta-section { padding: 40px 24px; }
+      .prof-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="ng-nav">
+  <a class="logo" href="index.html">
+    <img src="images/logo.webp" alt="DSIF">
+    <span>Дорноговь 2026</span>
+  </a>
+  <a class="back" href="index.html"><i class="fa fa-arrow-left me-2"></i>Нүүр хуудас</a>
+</nav>
+
+<!-- HERO -->
+<section class="ng-hero">
+  <div class="container">
+    <div class="ng-badge"><i class="fa fa-star"></i> Дорноговь аймаг · 2026</div>
+    <h1>NEXT GEN<br><span>ТЭТГЭЛЭГТ</span><br>ХӨТӨЛБӨР</h1>
+    <p class="sub">Аймгийн хүний нөөцийн дутагдлыг нөхөх, ирээдүйн залуу мэргэжилтнүүдийг татан оролцуулах үндэсний хэмжээний хөтөлбөр.</p>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="num">249</div>
+        <div class="lbl">Нийт сул орон тоо</div>
+      </div>
+      <div class="hstat">
+        <div class="num gold">219</div>
+        <div class="lbl">Тэргүүлэх мэргэжил</div>
+      </div>
+      <div class="hstat">
+        <div class="num blue">126</div>
+        <div class="lbl">Одоогийн тэтгэлэгт</div>
+      </div>
+      <div class="hstat">
+        <div class="num">1180</div>
+        <div class="lbl">Аймгийн оюутнууд</div>
+      </div>
+    </div>
+    <div class="hero-btns">
+      <a href="#professions" class="btn-main"><i class="fa fa-arrow-down me-2"></i>Мэргэжлүүдийг үзэх</a>
+      <a href="#districts" class="btn-outline">Сумдын мэдээлэл</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section-dark">
+  <div class="container">
+    <div class="divider"></div>
+    <div class="section-title">Яагаад чухал вэ?</div>
+    <div class="section-sub">ДОРНОГОВЬ АЙМГИЙН ХҮНИЙ НӨӨЦИЙН СУДАЛГАА · 2026</div>
+    <div class="problem-grid">
+      <div class="pcard">
+        <div class="icon">🏥</div>
+        <div class="num red">54</div>
+        <div class="desc">Эрүүл мэндийн салбарын тэргүүлэх мэргэжлийн орон тоо<br><small style="opacity:.6">Хүний их эмч 17, Сувилагч 13, ХАБ инженер 6...</small></div>
+      </div>
+      <div class="pcard">
+        <div class="icon">🎓</div>
+        <div class="num">91</div>
+        <div class="desc">Боловсролын салбарын тэргүүлэх мэргэжлийн орон тоо<br><small style="opacity:.6">Бага ангийн багш 18, СӨБ 12, Хөгжмийн багш 7...</small></div>
+      </div>
+      <div class="pcard">
+        <div class="icon">⚙️</div>
+        <div class="num gold">21</div>
+        <div class="desc">Инженерийн салбарын тэргүүлэх орон тоо<br><small style="opacity:.6">Нефтийн инженер 10, Барилгын инженер 1...</small></div>
+      </div>
+      <div class="pcard">
+        <div class="icon">🐄</div>
+        <div class="num blue">19</div>
+        <div class="desc">ХАА, мал эмнэлгийн тэргүүлэх орон тоо<br><small style="opacity:.6">Малын эмч 8, Мал зүйч 3, Малын их эмч 3...</small></div>
+      </div>
+      <div class="pcard">
+        <div class="icon">⚖️</div>
+        <div class="num" style="color:#9c27b0">31</div>
+        <div class="desc">Хууль, эрх зүй болон бизнесийн тэргүүлэх орон тоо<br><small style="opacity:.6">Нягтлан 10, Эрх зүйч 8, Бизнесийн удирдлага 7...</small></div>
+      </div>
+      <div class="pcard">
+        <div class="icon">💻</div>
+        <div class="num" style="color:#ff5722">4</div>
+        <div class="desc">Мэдээлэл технологийн тэргүүлэх орон тоо<br><small style="opacity:.6">МТ инженер, IT инженер, Программ хангамж...</small></div>
+      </div>
+    </div>
+    <div style="background:rgba(230,57,70,0.08);border:1px solid rgba(230,57,70,0.2);border-radius:8px;padding:20px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <i class="fa fa-triangle-exclamation" style="color:var(--red);font-size:20px;flex-shrink:0"></i>
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:4px">Нийт 14 суманд 249 сул орон тоо байна</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5)">Ажиллаж зохих 2,555 орон тооноос одоогоор 2,306 нь ажиллаж байна. <strong style="color:rgba(255,255,255,0.8)">Замын-Үүд суманд 87 (10%)</strong> сул орон тоо байгаа нь хамгийн их.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFESSIONS -->
+<section id="professions">
+  <div class="container">
+    <div class="divider"></div>
+    <div class="section-title">Тэргүүлэх мэргэжлүүд</div>
+    <div class="section-sub">ИРЭХ 5 ЖИЛД АЙМАГТ ХАМГИЙН ИХ ХЭРЭГТЭЙ · 2026–2030</div>
+    <div class="prof-grid">
+
+      <div class="prof-card health">
+        <div class="sector">Эрүүл мэнд</div>
+        <h4>Хүний их эмч</h4>
+        <div class="positions"><span class="n">17</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Алтанширээ ×2</span>
+          <span class="tag">Даланжаргалан ×6</span>
+          <span class="tag">Иххэт ×3</span>
+          <span class="tag">Сайхандулаан ×3</span>
+        </div>
+        <span class="urgency high">ЯАРАЛТАЙ ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card health">
+        <div class="sector">Эрүүл мэнд</div>
+        <h4>Сувилагч</h4>
+        <div class="positions"><span class="n">13</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Даланжаргалан ×5</span>
+          <span class="tag">Иххэт ×1</span>
+          <span class="tag">Мандах ×1</span>
+          <span class="tag">Хөвсгөл ×2</span>
+        </div>
+        <span class="urgency high">ЯАРАЛТАЙ ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card edu">
+        <div class="sector">Боловсрол</div>
+        <h4>Бага ангийн багш</h4>
+        <div class="positions"><span class="n">18</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Даланжаргалан ×3</span>
+          <span class="tag">Айраг ×3</span>
+          <span class="tag">Сайншанд ×5</span>
+          <span class="tag">Сайхандулаан ×2</span>
+          <span class="tag">Эрдэнэ ×3</span>
+        </div>
+        <span class="urgency high">ЯАРАЛТАЙ ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card edu">
+        <div class="sector">Боловсрол</div>
+        <h4>СӨБ-ын багш</h4>
+        <div class="positions"><span class="n">12</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Алтанширээ ×2</span>
+          <span class="tag">Даланжаргалан ×7</span>
+          <span class="tag">Сайхандулаан ×2</span>
+          <span class="tag">Эрдэнэ ×1</span>
+        </div>
+        <span class="urgency med">ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card edu">
+        <div class="sector">Боловсрол</div>
+        <h4>Англи хэлний багш</h4>
+        <div class="positions"><span class="n">6</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Замын-Үүд ×5</span>
+          <span class="tag">Хөвсгөл ×1</span>
+        </div>
+        <span class="urgency med">ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card edu">
+        <div class="sector">Боловсрол</div>
+        <h4>Хөгжмийн багш</h4>
+        <div class="positions"><span class="n">7</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Айраг ×1</span>
+          <span class="tag">Алтанширээ ×1</span>
+          <span class="tag">Мандах ×1</span>
+          <span class="tag">Сайншанд ×1</span>
+          <span class="tag">Хатанбулаг ×1</span>
+          <span class="tag">Эрдэнэ ×2</span>
+        </div>
+        <span class="urgency med">ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card eng">
+        <div class="sector">Инженер</div>
+        <h4>Нефтийн инженер</h4>
+        <div class="positions"><span class="n">10</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Алтанширээ ×10</span>
+        </div>
+        <span class="urgency high">ЯАРАЛТАЙ ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card agri">
+        <div class="sector">ХАА · Мал эмнэлэг</div>
+        <h4>Малын эмч</h4>
+        <div class="positions"><span class="n">8</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Замын-Үүд ×2</span>
+          <span class="tag">Даланжаргалан ×3</span>
+          <span class="tag">Дэлгэрэх ×3</span>
+          <span class="tag">Сайншанд ×3</span>
+        </div>
+        <span class="urgency med">ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card biz">
+        <div class="sector">Бизнес · Удирдлага</div>
+        <h4>Нягтлан бодогч</h4>
+        <div class="positions"><span class="n">10</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Алтанширээ ×2</span>
+          <span class="tag">Даланжаргалан ×4</span>
+          <span class="tag">Мандах ×1</span>
+          <span class="tag">Хатанбулаг ×2</span>
+          <span class="tag">Эрдэнэ ×1</span>
+        </div>
+        <span class="urgency med">ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card health">
+        <div class="sector">Эрүүл мэнд</div>
+        <h4>Эх баригч</h4>
+        <div class="positions"><span class="n">4</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Айраг ×1</span>
+          <span class="tag">Замын-Үүд ×2</span>
+          <span class="tag">Эрдэнэ ×1</span>
+        </div>
+        <span class="urgency med">ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card health">
+        <div class="sector">Эрүүл мэнд</div>
+        <h4>ХАБ инженер, мэргэжилтэн</h4>
+        <div class="positions"><span class="n">6</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Алтанширээ ×5</span>
+          <span class="tag">Улаанбадрах ×1</span>
+        </div>
+        <span class="urgency med">ХЭРЭГТЭЙ</span>
+      </div>
+
+      <div class="prof-card it">
+        <div class="sector">Мэдээлэл технологи</div>
+        <h4>МТ инженер / IT инженер</h4>
+        <div class="positions"><span class="n">4</span><span class="unit">орон тоо</span></div>
+        <div class="tags">
+          <span class="tag">Айраг ×1</span>
+          <span class="tag">Замын-Үүд ×1</span>
+          <span class="tag">Улаанбадрах ×1</span>
+          <span class="tag">Улаанбадрах ×1</span>
+        </div>
+        <span class="urgency low">ШИНЭ ХЭРЭГЦЭЭ</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DISTRICTS -->
+<section id="districts" class="section-dark">
+  <div class="container">
+    <div class="divider"></div>
+    <div class="section-title">Сумдын хүний нөөцийн байдал</div>
+    <div class="section-sub">АЖИЛЛАДАГ / ЗОХИХ ОРОН ТОО · 14 СУМ</div>
+    <div style="overflow-x:auto;">
+      <table class="district-table">
+        <thead>
+          <tr>
+            <th>СУМ</th>
+            <th>ЗОХИХ ОТ</th>
+            <th>АЖИЛЛАЖ БУЙ</th>
+            <th>СУЛ</th>
+            <th>ДҮҮРГЭЛТ</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Замын-Үүд</strong></td>
+            <td>878</td>
+            <td>791</td>
+            <td style="color:var(--red);font-weight:700">87</td>
+            <td><span class="pct-badge danger">90%</span></td>
+            <td style="width:120px"><div class="bar-wrap"><div class="bar-fill" style="width:90%;background:var(--red)"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Мандах</strong></td>
+            <td>112</td>
+            <td>93</td>
+            <td style="color:var(--red);font-weight:700">19</td>
+            <td><span class="pct-badge danger">83%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:83%;background:var(--red)"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Хатанбулаг</strong></td>
+            <td>141</td>
+            <td>122</td>
+            <td style="color:var(--red);font-weight:700">19</td>
+            <td><span class="pct-badge danger">87%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:87%;background:var(--gold)"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Алтанширээ</strong></td>
+            <td>101</td>
+            <td>86</td>
+            <td style="color:var(--gold);font-weight:700">15</td>
+            <td><span class="pct-badge warn">85%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:85%;background:var(--gold)"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Иххэт</strong></td>
+            <td>124</td>
+            <td>108</td>
+            <td style="color:var(--gold);font-weight:700">16</td>
+            <td><span class="pct-badge warn">87%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:87%;background:var(--gold)"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Сайхандулаан</strong></td>
+            <td>108</td>
+            <td>94</td>
+            <td style="color:var(--gold);font-weight:700">14</td>
+            <td><span class="pct-badge warn">87%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:87%;background:var(--gold)"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Хөвсгөл</strong></td>
+            <td>117</td>
+            <td>104</td>
+            <td style="color:var(--gold);font-weight:700">13</td>
+            <td><span class="pct-badge warn">89%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:89%;background:var(--gold)"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Даланжаргалан</strong></td>
+            <td>144</td>
+            <td>132</td>
+            <td style="color:var(--gold);font-weight:700">12</td>
+            <td><span class="pct-badge warn">92%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:92%;background:var(--gold)"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Өргөн</strong></td>
+            <td>111</td>
+            <td>100</td>
+            <td style="color:rgba(255,255,255,0.5);font-weight:700">11</td>
+            <td><span class="pct-badge warn">90%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:90%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Улаанбадрах</strong></td>
+            <td>98</td>
+            <td>87</td>
+            <td style="color:rgba(255,255,255,0.5);font-weight:700">11</td>
+            <td><span class="pct-badge warn">89%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:89%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Эрдэнэ</strong></td>
+            <td>115</td>
+            <td>105</td>
+            <td style="color:rgba(255,255,255,0.5);font-weight:700">10</td>
+            <td><span class="pct-badge ok">91%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:91%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Айраг</strong></td>
+            <td>149</td>
+            <td>140</td>
+            <td style="color:rgba(255,255,255,0.5)">9</td>
+            <td><span class="pct-badge ok">94%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:94%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Сайншанд</strong></td>
+            <td>253</td>
+            <td>245</td>
+            <td style="color:rgba(255,255,255,0.5)">8</td>
+            <td><span class="pct-badge ok">97%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:97%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>Дэлгэрэх</strong></td>
+            <td>104</td>
+            <td>99</td>
+            <td style="color:rgba(255,255,255,0.5)">5</td>
+            <td><span class="pct-badge ok">95%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:95%"></div></div></td>
+          </tr>
+          <tr style="border-top:2px solid var(--border)">
+            <td><strong style="color:var(--green)">НИЙТ</strong></td>
+            <td><strong>2,555</strong></td>
+            <td><strong>2,306</strong></td>
+            <td><strong style="color:var(--red)">249</strong></td>
+            <td><span class="pct-badge warn">90.3%</span></td>
+            <td><div class="bar-wrap"><div class="bar-fill" style="width:90.3%"></div></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CURRENT SCHOLARSHIP PROGRESS -->
+<section>
+  <div class="container">
+    <div class="divider"></div>
+    <div class="section-title">Одоогийн тэтгэлэгт оюутнуудын явц</div>
+    <div class="section-sub">СУРГАЛТЫН ТӨЛБӨРИЙН ДЭМЖЛЭГ АВСАН 126 ОЮУТАН · ТӨГСӨХ ОН</div>
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-year">2026 ОН · АНХНЫ ЭЛС</div>
+            <div class="tl-title">29 оюутан төгсөнө</div>
+            <div class="tl-desc">Боловсрол 5, Эрүүл мэнд 6, ХАА 2, Компьютер 4, Банк санхүү 3, Инженер 4, Бусад 5</div>
+            <span class="tl-count">29 ОЮУТАН</span>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2027 ОН</div>
+            <div class="tl-title">25 оюутан төгсөнө</div>
+            <div class="tl-desc">Боловсрол 2, Эрүүл мэнд 5, Инженер 3, Хууль 3, Банк санхүү 3, Нийгэм 5, Компьютер 2, ХАА 1</div>
+            <span class="tl-count">25 ОЮУТАН</span>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2028 ОН</div>
+            <div class="tl-title">32 оюутан төгсөнө — хамгийн их</div>
+            <div class="tl-desc">Боловсрол 2, Эрүүл мэнд 3, Инженер 5, Хууль 4, Банк санхүү 5, Нийгэм 4, Байгаль 2, Үйлчилгээ 3, ХАА 1, Компьютер 2</div>
+            <span class="tl-count">32 ОЮУТАН</span>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2029 ОН</div>
+            <div class="tl-title">30 оюутан төгсөнө</div>
+            <div class="tl-desc">Боловсрол 6, Эрүүл мэнд 1, Инженер 6, Хууль 3, Банк санхүү 6, Нийгэм 2, Компьютер 2, ХАА 1</div>
+            <span class="tl-count">30 ОЮУТАН</span>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2030 ОН</div>
+            <div class="tl-title">10 оюутан төгсөнө</div>
+            <div class="tl-desc">Эрүүл мэнд 4, Инженер 3, Хууль 0, Банк санхүү 1, Нийгэм 0, Байгаль 0</div>
+            <span class="tl-count">10 ОЮУТАН</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:28px;">
+          <div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:20px;text-transform:uppercase">Нийт санхүүжилт</div>
+          <div style="font-size:2.8rem;font-weight:900;color:var(--green);line-height:1">684.2 сая</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:28px">төгрөг · 2023–2026</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+              <span style="font-size:12px;color:rgba(255,255,255,0.5)">2023 он</span>
+              <span style="font-size:13px;font-weight:600">73.4 сая ₮</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+              <span style="font-size:12px;color:rgba(255,255,255,0.5)">2024 он</span>
+              <span style="font-size:13px;font-weight:600">237.8 сая ₮</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+              <span style="font-size:12px;color:rgba(255,255,255,0.5)">2025 он</span>
+              <span style="font-size:13px;font-weight:600">288.4 сая ₮</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0">
+              <span style="font-size:12px;color:rgba(255,255,255,0.5)">2026 он</span>
+              <span style="font-size:13px;font-weight:600;color:var(--green)">45.6 сая ₮</span>
+            </div>
+          </div>
+          <div style="margin-top:24px;background:rgba(75,172,72,0.08);border:1px solid rgba(75,172,72,0.2);border-radius:6px;padding:14px;font-size:12px;color:rgba(255,255,255,0.55);line-height:1.6">
+            <i class="fa fa-info-circle me-2" style="color:var(--green)"></i>
+            57 ААНБ оролцож, 129 оюутанд дэмжлэг олгосон. Даланжаргалан сум хамгийн идэвхтэй — 22 ААНБ, 42 оюутан.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REQUIREMENTS -->
+<section class="section-dark">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-6">
+        <div class="divider"></div>
+        <div class="section-title">Хөтөлбөрт хамрагдах нөхцөл</div>
+        <div class="section-sub">NEXT GEN · ШААРДЛАГА</div>
+        <ul class="req-list">
+          <li>
+            <i class="fa fa-check-circle ico"></i>
+            <div>Дорноговь аймгийн иргэн байх буюу аймгийн их, дэд сургуульд суралцаж байгаа оюутан</div>
+          </li>
+          <li>
+            <i class="fa fa-check-circle ico"></i>
+            <div>Тэргүүлэх мэргэжлийн чиглэлээр суралцаж байгаа буюу суралцахаар зорьж буй</div>
+          </li>
+          <li>
+            <i class="fa fa-check-circle ico"></i>
+            <div>Дүнгийн голч дүн 2.5-аас дээш (их сургуулийн GPA)</div>
+          </li>
+          <li>
+            <i class="fa fa-check-circle ico"></i>
+            <div>Төгссөний дараа аймагт 3-аас доошгүй жил ажиллах амлалт өгөх</div>
+          </li>
+          <li>
+            <i class="fa fa-check-circle ico"></i>
+            <div>ААНБ-ын баталгаажуулалт бүхий хүний нөөцийн судалгааны бүртгэлтэй байх</div>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <div class="divider" style="background:var(--gold)"></div>
+        <div class="section-title">Хөтөлбөрийн давуу тал</div>
+        <div class="section-sub">NEXT GEN · ОЛГОХ ДЭМ</div>
+        <ul class="req-list">
+          <li>
+            <i class="fa fa-star ico" style="color:var(--gold)"></i>
+            <div><strong>Жилийн сургалтын төлбөр бүрэн буюу хэсэгчлэн</strong> — ААНБ-тай гэрээний үндсэн дээр</div>
+          </li>
+          <li>
+            <i class="fa fa-star ico" style="color:var(--gold)"></i>
+            <div><strong>Дадлагын орон тоо</strong> — аймгийн байгууллагуудад баталгаатай дадлага хийх боломж</div>
+          </li>
+          <li>
+            <i class="fa fa-star ico" style="color:var(--gold)"></i>
+            <div><strong>Ажлын байрны баталгаа</strong> — төгссөний дараа аймагт ажиллах байрны урьдчилсан гэрээ</div>
+          </li>
+          <li>
+            <i class="fa fa-star ico" style="color:var(--gold)"></i>
+            <div><strong>Менторшип</strong> — аймгийн мэргэжлийн дарга, ахмад мэргэжилтнүүдтэй холбоо</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="container">
+    <div class="cta-section">
+      <div class="ng-badge" style="margin:0 auto 24px"><i class="fa fa-bolt"></i> Одоо бүртгүүл</div>
+      <h2>Дорноговийн ирээдүй<br>чиний гарт</h2>
+      <p>Аймгийн хөгжилд хувь нэмрээ оруулахад бэлэн үү? Next Gen тэтгэлэгт хөтөлбөрт бүртгүүлж, аймагтаа буцаж ирэх замаа эхлүүл.</p>
+      <div class="hero-btns" style="justify-content:center">
+        <a href="register.html" class="btn-main"><i class="fa fa-user-plus me-2"></i>Бүртгүүлэх</a>
+        <a href="mailto:forum@dornogovi.gov.mn" class="btn-outline"><i class="fa fa-envelope me-2"></i>Холбоо барих</a>
+      </div>
+      <div style="margin-top:32px;font-size:12px;color:rgba(255,255,255,0.3)">
+        Судалгаа нэгтгэсэн: Боловсролын газрын ахлах арга зүйч Ц.Шүрэнцэцэг · 2026.04.21
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:rgba(0,0,0,0.4);border-top:1px solid var(--border);padding:32px 0;text-align:center">
+  <div class="container">
+    <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:1px">
+      © ДОРНОГОВЬ ТОГТВОРТОЙ ХӨРӨНГӨ ОРУУЛАЛТ ФОРУМ 2026 · САЙНШАНД · <span style="color:rgba(255,255,255,0.15)">ca.boogii edition</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Animate numbers on scroll
+  const nums = document.querySelectorAll('.hstat .num');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = parseInt(el.textContent.replace(/\D/g, ''));
+        let cur = 0;
+        const step = Math.ceil(target / 40);
+        const timer = setInterval(() => {
+          cur = Math.min(cur + step, target);
+          el.textContent = cur.toLocaleString();
+          if (cur >= target) clearInterval(timer);
+        }, 30);
+        obs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  nums.forEach(n => obs.observe(n));
+</script>
+</body>
+</html>
