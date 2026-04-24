@@ -314,6 +314,16 @@
       body:not(.dark-scheme) #section-venue {
         background-color: #f4f6f8 !important;
       }
+      /* Map iframe interactivity fix — jarallax / overlay-аас дээр тавих */
+      #section-venue iframe {
+        position: relative;
+        z-index: 10;
+        pointer-events: auto !important;
+      }
+      #section-venue .jarallax-img,
+      #section-venue > .jarallax-container {
+        pointer-events: none;
+      }
 
       /* Marquee / ticker */
       body:not(.dark-scheme) [class*="marquee"],

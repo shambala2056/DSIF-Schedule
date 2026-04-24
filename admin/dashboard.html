@@ -41,9 +41,18 @@
         <a href="#" class="active" data-section="dashboard">
           <i class="fa fa-chart-pie"></i> <span class="sidebar-text">Хянах самбар</span>
         </a>
-        <a href="#" data-section="analytics">
+        <a href="#" data-section="analytics" class="has-sub">
           <i class="fa fa-chart-line"></i> <span class="sidebar-text">Дашбоард</span>
+          <i class="fa fa-angle-down sidebar-text nav-sub-caret"></i>
         </a>
+        <div class="sidebar-sub">
+          <a href="#" data-section="analytics" data-ana-tab="funding" class="sub-item">
+            <i class="fa fa-sack-dollar"></i> <span class="sidebar-text">Санхүүжилт</span>
+          </a>
+          <a href="#" data-section="analytics" data-ana-tab="forum" class="sub-item">
+            <i class="fa fa-calendar-days"></i> <span class="sidebar-text">Форумын мэдээлэл</span>
+          </a>
+        </div>
 
         <div class="nav-label"><span class="sidebar-text">Төсөл, хөтөлбөр</span></div>
         <a href="#" data-section="projects">
@@ -62,11 +71,6 @@
         </a>
         <a href="/admin/test-seed-funders.html" target="_blank" rel="noopener">
           <i class="fa fa-flask"></i> <span class="sidebar-text">Test: 100 үүсгэх</span>
-        </a>
-
-        <div class="nav-label"><span class="sidebar-text">Форум</span></div>
-        <a href="#" data-section="attendance">
-          <i class="fa fa-clipboard-user"></i> <span class="sidebar-text">Ирц</span>
         </a>
 
         <div class="nav-label"><span class="sidebar-text">Тохиргоо</span></div>
@@ -111,6 +115,18 @@
         <span class="topbar-title" id="topbarTitle">Хянах самбар</span>
       </div>
       <div class="topbar-right">
+        <a href="https://docs.google.com/spreadsheets/d/12pZJcmCCMdnkVrjY4coxFFVwTa-7nUTjjOUxwwIHEHc/edit?gid=1578455080#gid=1578455080" target="_blank" rel="noopener" class="topbar-btn" title="Google Sheet нээх">
+          <i class="fa fa-table"></i>
+          <span class="topbar-btn-text">Шийт нээх</span>
+        </a>
+        <button class="topbar-btn" id="forumFsBtn" title="Бүтэн цонхоор харах (F11)">
+          <i class="fa fa-expand"></i>
+          <span class="topbar-btn-text">Бүтэн цонх</span>
+        </button>
+        <button class="topbar-btn topbar-btn-refresh" onclick="refreshCurrentSection()" title="Шинэчлэх">
+          <i class="fa fa-rotate"></i>
+          <span class="topbar-btn-text">Шинэчлэх</span>
+        </button>
         <a href="/index.html" target="_blank" class="topbar-btn" title="Сайт руу очих">
           <i class="fa fa-external-link-alt"></i>
           <span class="topbar-btn-text">Сайт руу очих</span>
@@ -200,18 +216,6 @@
 
       <!-- ── ANALYTICS DASHBOARD SECTION ── -->
       <div class="section-page" id="sec-analytics">
-        <div class="page-header">
-          <h2>Аналитик <span>дашбоард</span></h2>
-          <div style="display:flex; gap:8px;">
-            <button class="btn btn-outline btn-sm" onclick="loadAnalyticsDashboard()" title="Шинэчлэх">
-              <i class="fa fa-rotate"></i> Шинэчлэх
-            </button>
-            <a href="/admin/analytics.html?fs=1" target="_blank" class="btn btn-info btn-sm" title="Тусад нь бүтэн дэлгэцээр харах">
-              <i class="fa fa-expand"></i> Бүтэн цонхоор харах
-            </a>
-          </div>
-        </div>
-
         <!-- Tab switcher -->
         <div class="ana-tabs">
           <button class="ana-tab active" data-ana-tab="funding">
@@ -344,76 +348,69 @@
             </div>
           </div>
 
-          <!-- Ирцийн товч мэдээлэл -->
-          <div class="stats-row" id="dashAttStatsRow">
-            <div class="stat-card dash-att-card">
-              <div class="stat-icon blue"><i class="fa fa-clipboard-list"></i></div>
-              <div class="stat-value" id="dashAttTotal">0</div>
-              <div class="stat-label">Бүртгэлийн нийт</div>
+          <!-- Нэгтгэсэн сессийн ирц — бүх 5 sheet-ийн нийт -->
+          <div class="panel dash-chart-panel" style="margin-top:12px">
+            <div class="panel-header">
+              <h3><i class="fa fa-object-group"></i>&nbsp; Бүх оролцогчдын нэгдсэн ирц (5 бүртгэлийн нийт)</h3>
+              <span id="combTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
             </div>
-            <div class="stat-card dash-att-card">
-              <div class="stat-icon green"><i class="fa fa-check-circle"></i></div>
-              <div class="stat-value" id="dashAttDay1">0 <span class="stat-pct" id="dashAttDay1Pct">0%</span></div>
-              <div class="stat-label">Ирц 04.27</div>
-            </div>
-            <div class="stat-card dash-att-card">
-              <div class="stat-icon green"><i class="fa fa-check-circle"></i></div>
-              <div class="stat-value" id="dashAttDay2">0 <span class="stat-pct" id="dashAttDay2Pct">0%</span></div>
-              <div class="stat-label">Ирц 04.28</div>
-            </div>
-            <div class="stat-card dash-att-card">
-              <div class="stat-icon yellow"><i class="fa fa-percent"></i></div>
-              <div class="stat-value" id="dashAttAvg">0%</div>
-              <div class="stat-label">Ирцийн дундаж</div>
+            <div class="panel-body">
+              <div id="combByDateWrap" class="fgn-pie-grid" data-panel="combined"></div>
             </div>
           </div>
 
-          <div class="dash-analytics">
-            <!-- Ангилал бүрийн ирц -->
-            <div class="panel dash-chart-panel">
-              <div class="panel-header">
-                <h3><i class="fa fa-layer-group"></i>&nbsp; Ангилал бүрийн ирц</h3>
-                <a href="#" data-section="attendance" class="btn btn-outline btn-sm" style="margin-left:auto" onclick="document.querySelector('.sidebar-nav a[data-section=attendance]').click();return false;">
-                  <i class="fa fa-arrow-right"></i> Дэлгэрэнгүй
-                </a>
-              </div>
-              <div class="panel-body" style="padding:0">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Ангилал</th>
-                      <th style="text-align:center">Бүртгэл</th>
-                      <th style="text-align:center">04.27</th>
-                      <th style="text-align:center">04.28</th>
-                      <th style="text-align:right">Ирц</th>
-                    </tr>
-                  </thead>
-                  <tbody id="dashAttByCategory">
-                    <tr><td colspan="5" class="empty-state"><i class="fa fa-spinner fa-spin"></i><p>Ачаалж байна...</p></td></tr>
-                  </tbody>
-                </table>
-              </div>
+          <!-- Гадаад хөрөнгө оруулагч — сессийн ирц -->
+          <div class="panel dash-chart-panel" style="margin-top:12px">
+            <div class="panel-header">
+              <h3><i class="fa fa-chart-column"></i>&nbsp; Гадаад хөрөнгө оруулагч — сессийн ирц</h3>
+              <span id="fgnTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
             </div>
+            <div class="panel-body">
+              <div id="fgnByDateWrap" class="fgn-pie-grid" data-panel="foreign"></div>
+            </div>
+          </div>
 
-            <!-- Сүүлийн бүртгэлүүд -->
-            <div class="panel dash-chart-panel">
-              <div class="panel-header">
-                <h3><i class="fa fa-user-plus"></i>&nbsp; Сүүлийн бүртгэгдсэн хүмүүс</h3>
-              </div>
-              <div class="panel-body" style="padding:0">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Нэр</th>
-                      <th>Утас</th>
-                      <th style="text-align:right">Огноо</th>
-                    </tr>
-                  </thead>
-                  <tbody id="forumLatestRegs">
-                    <tr><td colspan="3" class="empty-state"><i class="fa fa-inbox"></i><p>Ачаалж байна...</p></td></tr>
-                  </tbody>
-                </table>
-              </div>
+          <!-- Уул уурхайн дотоод хөрөнгө оруулагч — сессийн ирц -->
+          <div class="panel dash-chart-panel" style="margin-top:12px">
+            <div class="panel-header">
+              <h3><i class="fa fa-industry"></i>&nbsp; Уул, уурхайн дотоод хөрөнгө оруулагч — сессийн ирц</h3>
+              <span id="mineTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
+            </div>
+            <div class="panel-body">
+              <div id="mineByDateWrap" class="fgn-pie-grid" data-panel="mining"></div>
+            </div>
+          </div>
+
+          <!-- Аймаг, сумын удирдлага — сессийн ирц -->
+          <div class="panel dash-chart-panel" style="margin-top:12px">
+            <div class="panel-header">
+              <h3><i class="fa fa-landmark"></i>&nbsp; Аймаг, сумын удирдлага — сессийн ирц</h3>
+              <span id="aimagTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
+            </div>
+            <div class="panel-body">
+              <div id="aimagByDateWrap" class="fgn-pie-grid" data-panel="aimag"></div>
+            </div>
+          </div>
+
+          <!-- ТББ, хоршоо, ААН, иргэн — сессийн ирц -->
+          <div class="panel dash-chart-panel" style="margin-top:12px">
+            <div class="panel-header">
+              <h3><i class="fa fa-people-group"></i>&nbsp; ТББ, хоршоо, ААН, иргэн — сессийн ирц</h3>
+              <span id="tbbTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
+            </div>
+            <div class="panel-body">
+              <div id="tbbByDateWrap" class="fgn-pie-grid" data-panel="tbb"></div>
+            </div>
+          </div>
+
+          <!-- Төрийн байгууллага — сессийн ирц -->
+          <div class="panel dash-chart-panel" style="margin-top:12px">
+            <div class="panel-header">
+              <h3><i class="fa fa-building-columns"></i>&nbsp; Төрийн байгууллага — сессийн ирц</h3>
+              <span id="govTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
+            </div>
+            <div class="panel-body">
+              <div id="govByDateWrap" class="fgn-pie-grid" data-panel="gov"></div>
             </div>
           </div>
 
@@ -534,85 +531,6 @@
               </thead>
               <tbody id="projectGrid">
                 <tr><td colspan="7" class="empty-state"><i class="fa fa-folder-open"></i><p>Ачаалж байна...</p></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── ATTENDANCE SECTION ── -->
-      <div class="section-page" id="sec-attendance">
-        <div class="page-header">
-          <h2>Форумын <span>ирц</span></h2>
-          <div style="display:flex; gap:8px">
-            <a href="https://docs.google.com/spreadsheets/d/12pZJcmCCMdnkVrjY4coxFFVwTa-7nUTjjOUxwwIHEHc/edit?gid=1449637541#gid=1449637541" target="_blank" class="btn btn-outline btn-sm" title="Бүртгэлийн шийт нээх">
-              <i class="fa fa-table"></i> Бүртгэл нээх
-            </a>
-            <button class="btn btn-primary btn-sm" onclick="loadAttendance()" title="Шинэчлэх">
-              <i class="fa fa-rotate"></i> Шинэчлэх
-            </button>
-          </div>
-        </div>
-
-        <div class="stats-row">
-          <div class="stat-card">
-            <div class="stat-icon blue"><i class="fa fa-user-group"></i></div>
-            <div class="stat-value" id="attTotal">0</div>
-            <div class="stat-label">Нийт бүртгэл</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon green"><i class="fa fa-check-circle"></i></div>
-            <div class="stat-value" id="attDay1">0 <span class="stat-pct" id="attDay1Pct">0%</span></div>
-            <div class="stat-label">Ирц 04.27</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon green"><i class="fa fa-check-circle"></i></div>
-            <div class="stat-value" id="attDay2">0 <span class="stat-pct" id="attDay2Pct">0%</span></div>
-            <div class="stat-label">Ирц 04.28</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon yellow"><i class="fa fa-percent"></i></div>
-            <div class="stat-value" id="attPct">0%</div>
-            <div class="stat-label">Ирцийн дундаж</div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-header">
-            <h3><i class="fa fa-clipboard-user"></i>&nbsp; Бүртгэгдсэн оролцогчдын ирц</h3>
-            <input type="text" id="attSearch" placeholder="🔍 Нэрээр хайх..." style="margin-left:auto;width:260px;padding:8px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.3);background:#4bac48;color:#fff;font-size:13px">
-          </div>
-          <div class="att-tabs" id="attTabs">
-            <button type="button" class="att-tab active" data-cat="">Бүгд <span class="att-tab-count" data-count="all">0</span></button>
-            <button type="button" class="att-tab" data-cat="Гадаад">Гадаад <span class="att-tab-count" data-count="Гадаад">0</span></button>
-            <button type="button" class="att-tab" data-cat="Дотоод">Дотоод <span class="att-tab-count" data-count="Дотоод">0</span></button>
-            <button type="button" class="att-tab" data-cat="Иргэн">Иргэн <span class="att-tab-count" data-count="Иргэн">0</span></button>
-            <button type="button" class="att-tab" data-cat="Илтгэгч">Илтгэгч <span class="att-tab-count" data-count="Илтгэгч">0</span></button>
-            <button type="button" class="att-tab" data-cat="Малчин">Малчин <span class="att-tab-count" data-count="Малчин">0</span></button>
-          </div>
-          <div class="panel-body" style="padding:0">
-            <div id="attSheetTitle" class="att-sheet-title" style="display:none"></div>
-            <table class="projects-tbl">
-              <thead>
-                <tr>
-                  <th style="width:40px">Д/д</th>
-                  <th>Огноо</th>
-                  <th>Овог</th>
-                  <th>Нэр</th>
-                  <th>Утас</th>
-                  <th>И-мэйл</th>
-                  <th>Байгууллага</th>
-                  <th>Албан тушаал</th>
-                  <th>Зочид буудал</th>
-                  <th style="text-align:center">Хүний тоо</th>
-                  <th>Бүртгэлийн №</th>
-                  <th>Тайлбар</th>
-                  <th style="text-align:center">4.27</th>
-                  <th style="text-align:center">4.28</th>
-                </tr>
-              </thead>
-              <tbody id="attTable">
-                <tr><td colspan="14" class="empty-state"><i class="fa fa-inbox"></i><p>Ачаалж байна...</p></td></tr>
               </tbody>
             </table>
           </div>
@@ -959,6 +877,17 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+
+      <!-- Гадаад хөрөнгө оруулагч — сессийн дэлгэрэнгүй -->
+      <div class="modal-overlay" id="fgnSessionModal">
+        <div class="modal" style="max-width:820px;max-height:90vh">
+          <div class="modal-header">
+            <h3 id="fgnSessionTitle"><i class="fa fa-users"></i>&nbsp; Сессийн ирц</h3>
+            <button class="modal-close" onclick="closeModal('fgnSessionModal')">&times;</button>
+          </div>
+          <div class="modal-body" id="fgnSessionBody"></div>
         </div>
       </div>
 
