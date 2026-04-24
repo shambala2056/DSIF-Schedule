@@ -1663,6 +1663,10 @@
         <div class="mnav-icon-wrap"><i class="fa fa-clipboard-list"></i></div>
         <span>Судалгаа</span>
       </a>
+      <a class="mob-nav-item mob-nav-nextgen" href="next-gen.html" data-menu-label="NEXT GEN">
+        <div class="mnav-icon-wrap"><i class="fa fa-graduation-cap"></i></div>
+        <span>Next Gen</span>
+      </a>
       <div id="mnav-indicator"></div>
     </nav>
     <script>
@@ -1820,6 +1824,19 @@
         background: transparent;
         border: 0;
         box-shadow: none;
+      }
+
+      /* NEXT GEN mobile nav — golden pill */
+      .mob-nav-item[data-menu-label="NEXT GEN"] .mnav-icon-wrap {
+        background: rgba(75,172,72,0.15);
+        border: 1px solid rgba(75,172,72,0.5);
+      }
+      .mob-nav-item[data-menu-label="NEXT GEN"] i {
+        color: #4bac48 !important;
+      }
+      .mob-nav-item[data-menu-label="NEXT GEN"] span {
+        color: #4bac48;
+        font-weight: 700;
       }
 
       /* Schedule tabs — active green */
