@@ -2681,15 +2681,24 @@ async function loadMenu() {
 
   try {
     const res = await fetch(MENU_PATH);
-    if (res.ok) menuData = await res.json();
+    const baseList = res.ok ? await res.json() : [];
 
-    // Firestore-д хадгалсан тохиргоо байвал давхардуулах
+    // Firestore override-уудыг ачаалж (зөвхөн visibility гэх мэт төлөв), JSON-ы жагсаалтад merge хийх
+    let fsList = null;
     try {
       const snap = await getDoc(doc(db, "settings", "menu"));
-      if (snap.exists() && snap.data().list) {
-        menuData = snap.data().list;
-      }
+      if (snap.exists() && Array.isArray(snap.data().list)) fsList = snap.data().list;
     } catch {}
+
+    if (fsList) {
+      const fsById = new Map(fsList.filter((x) => x && x.id).map((x) => [x.id, x]));
+      menuData = baseList.map((item) => {
+        const fs = fsById.get(item.id);
+        return fs ? { ...item, ...fs } : item;
+      });
+    } else {
+      menuData = baseList;
+    }
 
     renderMenuTable(tbody);
   } catch (err) {

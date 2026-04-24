@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXT GEN — ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ 2026</title>
+<link rel="icon" href="images/icon.webp" type="image/webp" sizes="16x16">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+  --green:#4bac48;
+  --green-light:#5cc759;
+  --blue:#29ABE2;
+  --accent:#FFC107;
+  --text:#e8e8e8;
+  --text-dim:rgba(255,255,255,.55);
+  --border:rgba(255,255,255,.08);
+  --bg-card:rgba(255,255,255,.02);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;color:#e8e8e8;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+
+/* NAV */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 60px;position:relative;z-index:10}
+.topbar-back{padding:10px 28px;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;text-decoration:none}
+.topbar-back:hover{border-color:var(--green);color:var(--green)}
+.topbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:700;font-size:.75rem;letter-spacing:1.5px}
+.topbar-logo img{height:28px;width:auto}
+
+/* HERO */
+.hero{padding:60px 60px 80px;max-width:1200px;margin:0 auto;width:100%;text-align:center}
+.hero-tag{display:inline-block;padding:8px 22px;border:1px solid rgba(75,172,72,.4);background:rgba(75,172,72,.08);font-size:.65rem;font-weight:700;letter-spacing:4px;color:var(--green);text-transform:uppercase;margin-bottom:32px;border-radius:50px}
+.hero-title{font-size:clamp(3rem,8vw,7rem);font-weight:900;line-height:1;letter-spacing:-2px;text-transform:uppercase;margin-bottom:24px;background:linear-gradient(135deg,var(--green) 0%,var(--blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-subtitle{font-size:1rem;font-weight:400;color:var(--text-dim);line-height:1.8;max-width:700px;margin:0 auto 40px}
+
+/* CONTENT */
+.content{padding:0 60px 80px;max-width:1200px;margin:0 auto;width:100%;flex:1}
+
+.section{margin-bottom:80px}
+.section-label{font-size:.6rem;font-weight:700;letter-spacing:5px;color:var(--green);text-transform:uppercase;margin-bottom:16px}
+.section-title{font-size:clamp(1.5rem,3vw,2.4rem);font-weight:800;letter-spacing:-1px;text-transform:uppercase;margin-bottom:28px;line-height:1.1}
+.section-text{font-size:.9rem;font-weight:300;color:rgba(255,255,255,.75);line-height:2;margin-bottom:24px;max-width:850px}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+.card{padding:32px;border:1px solid var(--border);background:var(--bg-card);transition:all .25s;border-radius:4px}
+.card:hover{border-color:rgba(75,172,72,.4);background:rgba(75,172,72,.03);transform:translateY(-4px)}
+.card-icon{width:48px;height:48px;border-radius:10px;background:rgba(75,172,72,.1);border:1px solid rgba(75,172,72,.2);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:1.2rem;margin-bottom:20px}
+.card-title{font-size:1rem;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:.3px}
+.card-text{font-size:.8rem;font-weight:300;color:var(--text-dim);line-height:1.7}
+
+/* CTA */
+.cta-box{padding:60px 50px;border:1px solid rgba(75,172,72,.3);background:linear-gradient(135deg,rgba(75,172,72,.06) 0%,rgba(41,171,226,.06) 100%);text-align:center;border-radius:6px;margin-top:60px}
+.cta-title{font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:12px;letter-spacing:-.5px}
+.cta-text{font-size:.9rem;color:var(--text-dim);margin-bottom:28px;line-height:1.7}
+.cta-btn{display:inline-block;padding:14px 40px;background:var(--green);color:#fff;text-decoration:none;font-weight:700;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;border-radius:4px;transition:all .2s}
+.cta-btn:hover{background:var(--green-light);transform:translateY(-2px)}
+
+/* FOOTER */
+.footer{padding:40px 60px;border-top:1px solid var(--border);text-align:center;margin-top:auto}
+.footer p{font-size:.65rem;font-weight:500;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase}
+
+@media(max-width:900px){
+  .cards-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .topbar,.hero,.content,.footer{padding-left:24px;padding-right:24px}
+  .hero{padding-top:40px;padding-bottom:50px}
+  .cta-box{padding:40px 24px}
+  .topbar-logo span{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="index.html" class="topbar-logo">
+    <img src="dsif-logo.png" alt="DSIF 2026">
+    <span>DSIF 2026</span>
+  </a>
+  <a href="index.html" class="topbar-back"><i class="fa fa-arrow-left"></i> &nbsp; Буцах</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">NEXT GEN</div>
+  <h1 class="hero-title">Шинэ үе</h1>
+  <p class="hero-subtitle">
+    Дорноговь аймгийн залуу үеийнхний санаачилга, инноваци, тогтвортой хөгжлийн ирээдүйг
+    бүтээгчдэд зориулсан хөтөлбөр. Залуу бизнес эрхлэгчид, оюутнууд, эрдэмтэн судлаачдын
+    оролцоог дэмжих платформ.
+  </p>
+</section>
+
+<div class="content">
+
+  <section class="section">
+    <div class="section-label">Зорилго</div>
+    <h2 class="section-title">Залуучуудын<br>оролцоог нэмэгдүүлэх</h2>
+    <p class="section-text">
+      Аймгийн ирээдүйг бүтээх ажилд залуу үеийнхнийг идэвхтэй татан оролцуулж, тэдний
+      санаачилга, төсөл хэрэгжүүлэх боломжийг бий болгоно. Хөрөнгө оруулагчид, мэргэжилтнүүд,
+      залуу бүтээгчдийг холбож, тогтвортой хөгжлийн зорилт руу хамтран чиглүүлнэ.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-label">Хөтөлбөрийн чиглэлүүд</div>
+    <h2 class="section-title">Гол үйл ажиллагаа</h2>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon"><i class="fa fa-lightbulb"></i></div>
+        <h3 class="card-title">Стартап шоу</h3>
+        <p class="card-text">
+          Залуучуудын инновацийн санаа, бизнес санаачлагуудыг хөрөнгө оруулагчдад
+          танилцуулах, mentor-ийн дэмжлэг авах боломж.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa fa-graduation-cap"></i></div>
+        <h3 class="card-title">Чадавхжуулах сургалт</h3>
+        <p class="card-text">
+          Бизнес төлөвлөгөө, санхүүгийн боловсрол, төсөл удирдлага, маркетингийн
+          сэдвээр чиглэсэн практик сургалт.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa fa-people-group"></i></div>
+        <h3 class="card-title">Networking</h3>
+        <p class="card-text">
+          Залуу бизнес эрхлэгчдийг хоорондоо болон мэргэжлийн оролцогч талуудтай
+          холбож, түншлэлийн боломж бий болгоно.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa fa-seedling"></i></div>
+        <h3 class="card-title">Тогтвортой хөгжил</h3>
+        <p class="card-text">
+          Ногоон эдийн засаг, тойрог эдийн засаг, цахим шилжилт зэрэг ирээдүйн
+          чиглэлд залуучуудын төслийг дэмжих.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa fa-trophy"></i></div>
+        <h3 class="card-title">Шилдэг төсөл шалгаруулалт</h3>
+        <p class="card-text">
+          Аймгийн залуу бүтээгчдийн шилдэг төслүүдийг шалгаруулж, мөнгөн урамшуулал
+          болон хэрэгжүүлэх дэмжлэг олгоно.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa fa-handshake"></i></div>
+        <h3 class="card-title">Ментор хөтөлбөр</h3>
+        <p class="card-text">
+          Туршлагатай бизнес эрхлэгч, мэргэжилтнүүдтэй хосолж урт хугацааны зөвлөгөө
+          авах боломжтой mentorship хөтөлбөр.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-box">
+    <h3 class="cta-title">Хамтран ажиллахыг хүсэж байна уу?</h3>
+    <p class="cta-text">
+      NEXT GEN хөтөлбөрт оролцох, ивээн тэтгэх эсвэл санаачилга нэмэхийг хүсвэл бидэнтэй холбогдоорой.
+    </p>
+    <a href="register.html" class="cta-btn"><i class="fa fa-paper-plane"></i> &nbsp; Бүртгүүлэх</a>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>© 2026 ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ — NEXT GEN</p>
+</footer>
+
+</body>
+</html>
