@@ -48,5 +48,10 @@ service cloud.firestore {
       allow read: if request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
       allow create: if request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
+
+    // Ирц — админ үзэж, тэмдэглэх
+    match /attendance/{regId} {
+      allow read, write: if request.auth != null && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
   }
 }

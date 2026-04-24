@@ -22,7 +22,8 @@ import {
   orderBy,
   where,
   serverTimestamp,
-  Timestamp
+  Timestamp,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getStorage,
@@ -156,6 +157,7 @@ onAuthStateChanged(auth, async (user) => {
 
   // Эрхээс хамаарч товчнуудыг нуух
   applyPermissions();
+  initAdminMenuVisibility();
   loadDashboard();
 });
 
@@ -187,7 +189,8 @@ const SECTION_TITLES = {
   sectors: "Төслийн ангилал",
   menu: "Цэс тохиргоо",
   funding: "Санхүүжилт тохиргоо",
-  funders: "Санхүүжүүлэгчид"
+  funders: "Санхүүжүүлэгчид",
+  attendance: "Форумын ирц"
 };
 
 // ── Sidebar навигаци ──
@@ -215,6 +218,7 @@ document.querySelectorAll(".sidebar-nav a[data-section]").forEach((link) => {
     if (section === "projects") loadProjects();
     if (section === "roles") loadRoles();
     if (section === "admin-menu") loadAdminMenu();
+    if (section === "attendance") loadAttendance();
     if (section === "sub-admins") loadSubAdmins();
     if (section === "sectors") loadSectors();
     if (section === "menu") loadMenu();
@@ -338,8 +342,73 @@ async function loadForumInfo() {
     const tbody = document.getElementById("forumLatestRegs");
     if (tbody) tbody.innerHTML = '<tr><td colspan="3" class="empty-state"><i class="fa fa-exclamation-triangle"></i><p>Уншиж чадсангүй</p></td></tr>';
   }
+
+  // Ирцийн товч мэдээлэл
+  loadDashAttendance();
 }
 window.loadForumInfo = loadForumInfo;
+
+async function loadDashAttendance() {
+  // Хэрэв ирцийн өгөгдлийг хараахан унших гээгүй байгаа бол одоо унших
+  if (!_attRegistrants || !_attRegistrants.length) {
+    if (typeof loadAttendance === "function") {
+      try { await loadAttendance(); } catch (e) { /* ignore */ }
+    }
+  } else if (!_attMarks.size) {
+    // Бүртгэлтэй боловч Firestore-ийн mark уншаагүй бол
+    try {
+      const snap = await getDocs(collection(db, "attendance"));
+      _attMarks = new Map();
+      snap.forEach((d) => _attMarks.set(d.id, d.data() || {}));
+    } catch (e) { /* ignore */ }
+  }
+
+  const total = _attRegistrants.length;
+  let d1 = 0, d2 = 0;
+  _attRegistrants.forEach((r) => {
+    const m = _attMarks.get(r.regId);
+    if (m && m.day1) d1++;
+    if (m && m.day2) d2++;
+  });
+  const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
+  const avg = total ? Math.round(((d1 + d2) / (total * 2)) * 100) : 0;
+  const setHTML = (id, v) => { const el = document.getElementById(id); if (el) el.innerHTML = v; };
+  const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  setText("dashAttTotal", total);
+  setHTML("dashAttDay1", `${d1} <span class="stat-pct">${pct(d1)}%</span>`);
+  setHTML("dashAttDay2", `${d2} <span class="stat-pct">${pct(d2)}%</span>`);
+  setText("dashAttAvg", avg + "%");
+
+  // Ангилал бүрийн ирц
+  const tbody = document.getElementById("dashAttByCategory");
+  if (!tbody) return;
+  if (!total) {
+    tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fa fa-inbox"></i><p>Бүртгэл байхгүй</p></td></tr>`;
+    return;
+  }
+  const stats = {};
+  ATT_CATEGORIES.forEach((c) => (stats[c] = { total: 0, d1: 0, d2: 0 }));
+  _attRegistrants.forEach((r) => {
+    const c = _attGetCategory(r.regId);
+    const s = stats[c]; if (!s) return;
+    s.total++;
+    const m = _attMarks.get(r.regId);
+    if (m && m.day1) s.d1++;
+    if (m && m.day2) s.d2++;
+  });
+  tbody.innerHTML = ATT_CATEGORIES.map((c) => {
+    const s = stats[c];
+    const catPct = s.total ? Math.round(((s.d1 + s.d2) / (s.total * 2)) * 100) : 0;
+    return `<tr>
+      <td><span class="att-cat-badge">${escapeHtml(c)}</span></td>
+      <td style="text-align:center">${s.total}</td>
+      <td style="text-align:center">${s.d1} <span class="stat-pct" style="font-size:10px">${s.total ? Math.round(s.d1 / s.total * 100) : 0}%</span></td>
+      <td style="text-align:center">${s.d2} <span class="stat-pct" style="font-size:10px">${s.total ? Math.round(s.d2 / s.total * 100) : 0}%</span></td>
+      <td style="text-align:right;font-weight:600">${catPct}%</td>
+    </tr>`;
+  }).join("");
+}
+window.loadDashAttendance = loadDashAttendance;
 
 async function loadAnalyticsDashboard() {
   try {
@@ -2205,16 +2274,34 @@ async function loadSubAdmins() {
 }
 
 // Дэд админ нэмэх modal
-document.getElementById("addSubAdminBtn").addEventListener("click", () => {
+document.getElementById("addSubAdminBtn").addEventListener("click", async () => {
   document.getElementById("subAdminModalTitle").textContent = "Дэд админ нэмэх";
   document.getElementById("subAdminForm").reset();
   document.getElementById("subAdminEditId").value = "";
   document.getElementById("subAdminPasswordGroup").style.display = "block";
   document.getElementById("subAdminPassword").required = true;
-  // Бүх checkbox сонголтыг цуцлах
+  await populateSubAdminRoleSelect();
+  // Sector жагсаалтыг сүүлийн хувилбарт нь шинэчлэх
+  if (typeof refreshSectorLists === "function") { try { await refreshSectorLists(); } catch (e) {} }
   document.querySelectorAll("#sectorPermissions input").forEach((cb) => (cb.checked = false));
   openModal("subAdminModal");
 });
+
+async function populateSubAdminRoleSelect(selected) {
+  const sel = document.getElementById("subAdminRole");
+  if (!sel) return;
+  // currentRoles ачаалаагүй бол Firestore-оос унших
+  if (!currentRoles) {
+    try {
+      const snap = await getDoc(doc(db, "settings", "roles"));
+      currentRoles = snap.exists() && Array.isArray(snap.data().list) ? snap.data().list : DEFAULT_ROLES.slice();
+    } catch (e) { currentRoles = DEFAULT_ROLES.slice(); }
+  }
+  // "admin" эрхийг нэмж өгөхөөс сэргийлэх — UI-аар дэд админд "admin" олгохгүй
+  const list = currentRoles.filter((r) => r.key !== "admin");
+  sel.innerHTML = list.map((r) => `<option value="${escapeHtml(r.key)}">${escapeHtml(r.label || r.key)}</option>`).join("");
+  if (selected) sel.value = selected;
+}
 
 // Дэд админ хадгалах
 document.getElementById("saveSubAdminBtn").addEventListener("click", async () => {
@@ -2303,12 +2390,13 @@ window.editSubAdmin = async function (id) {
     document.getElementById("subAdminEditId").value = id;
     document.getElementById("subAdminName").value = data.name || "";
     document.getElementById("subAdminEmail").value = data.email || "";
-    document.getElementById("subAdminRole").value = data.role || "sub-admin";
+    await populateSubAdminRoleSelect(data.role || "sub-admin");
     // Нууц үг засварлахад шаардлагагүй
     document.getElementById("subAdminPasswordGroup").style.display = "none";
     document.getElementById("subAdminPassword").required = false;
 
-    // Салбар checkbox тохируулах
+    // Sector жагсаалтыг шинэчлэх дараа checkbox тохируулах
+    if (typeof refreshSectorLists === "function") { try { await refreshSectorLists(); } catch (e) {} }
     const allowed = data.allowedSectors || [];
     document.querySelectorAll("#sectorPermissions input").forEach((cb) => {
       cb.checked = allowed.includes(cb.value);
@@ -2769,7 +2857,7 @@ async function loadFundingSettings() {
     const tbody = document.getElementById("fundingRequestsTable");
     if (!tbody) return;
     if (snap.empty) {
-      tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжилтийн хүсэлт байхгүй</p></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="14" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжилтийн хүсэлт байхгүй</p></td></tr>';
       return;
     }
     tbody.innerHTML = "";
@@ -2900,7 +2988,7 @@ function normProjectTitle(s) {
 async function loadFunders() {
   const tbody = document.getElementById("fundersTable");
   if (!tbody) return;
-  tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><span class="spinner"></span><p>Ачаалж байна...</p></td></tr>';
+  tbody.innerHTML = '<tr><td colspan="14" class="empty-state"><span class="spinner"></span><p>Ачаалж байна...</p></td></tr>';
 
   try {
     // 1) Funder өгөгдлийг авах — orderBy байхгүй, fundings-д createdAt байхгүй doc байж болзошгүй
@@ -2935,7 +3023,7 @@ async function loadFunders() {
     }
   } catch (e) {
     console.error("Funders load error:", e);
-    tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><i class="fa fa-triangle-exclamation"></i><p>Ачаалахад алдаа: ${escapeHtml(e.message || String(e))}</p></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><i class="fa fa-triangle-exclamation"></i><p>Ачаалахад алдаа: ${escapeHtml(e.message || String(e))}</p></td></tr>`;
   }
 }
 
@@ -3066,7 +3154,7 @@ function renderFunders() {
   if (countEl) countEl.textContent = `${filtered.length} / ${allFunders.length}`;
 
   if (filtered.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжүүлэгч олдсонгүй</p></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="14" class="empty-state"><i class="fa fa-inbox"></i><p>Санхүүжүүлэгч олдсонгүй</p></td></tr>';
     return;
   }
 
@@ -3369,41 +3457,85 @@ function collectAdminMenuItems() {
   return items;
 }
 
+// Цэс тус бүрт ямар role-ууд хандах боломжтойг тодорхойлсон map
+// { menuKey: ["admin", "sub-admin", ...] } — утга байхгүй бол бүх role-д харагдана
+let currentAdminMenuAccess = {};
+
 async function loadAdminMenu() {
   const listEl = document.getElementById("adminMenuList");
   if (!listEl) return;
   const items = collectAdminMenuItems();
+
+  // Roles-ыг эхэлж ачаалах (хараахан уншаагүй бол)
+  if (!currentRoles) {
+    try {
+      const rsnap = await getDoc(doc(db, "settings", "roles"));
+      currentRoles = rsnap.exists() && Array.isArray(rsnap.data().list) ? rsnap.data().list : DEFAULT_ROLES.slice();
+    } catch (e) { currentRoles = DEFAULT_ROLES.slice(); }
+  }
+
+  // Одоогийн access тохиргоог Firestore-оос унших
+  let legacyHidden = [];
   try {
     const snap = await getDoc(doc(db, "settings", "admin_menu"));
-    currentAdminMenu = snap.exists() && snap.data().hidden ? snap.data().hidden : [];
+    const data = snap.exists() ? snap.data() : {};
+    currentAdminMenuAccess = (data && typeof data.access === "object") ? data.access : {};
+    legacyHidden = Array.isArray(data.hidden) ? data.hidden : [];
   } catch (e) {
-    currentAdminMenu = [];
+    currentAdminMenuAccess = {};
   }
+
+  const allRoleKeys = currentRoles.map((r) => r.key);
+  const accessFor = (key) => {
+    if (Object.prototype.hasOwnProperty.call(currentAdminMenuAccess, key)) {
+      return currentAdminMenuAccess[key] || [];
+    }
+    // Legacy: hidden[]-д байвал хэнд ч харагдахгүй, үгүй бол бүх role-д харагдана
+    return legacyHidden.includes(key) ? [] : allRoleKeys.slice();
+  };
+
   listEl.innerHTML = items.map((it) => {
-    const checked = !currentAdminMenu.includes(it.key);
-    // "admin-menu" өөрөө болон "dashboard" нь үндсэн — хаасан ч үлдэнэ
     const locked = it.key === "admin-menu" || it.key === "dashboard";
+    const granted = locked ? allRoleKeys : accessFor(it.key);
+    const rolesHtml = currentRoles.map((r) => {
+      const has = granted.includes(r.key);
+      const dis = (locked || (r.key === "admin")) ? "disabled" : "";
+      const checked = (r.key === "admin" || has) ? "checked" : "";
+      return `
+        <label class="admin-menu-role ${dis ? "locked" : ""}">
+          <input type="checkbox" data-menu-key="${escapeHtml(it.key)}" data-role-key="${escapeHtml(r.key)}" ${checked} ${dis}>
+          <span>${escapeHtml(r.label || r.key)}</span>
+        </label>
+      `;
+    }).join("");
     return `
-      <label class="admin-menu-row ${locked ? "locked" : ""}">
-        <input type="checkbox" data-menu-key="${escapeHtml(it.key)}" ${checked ? "checked" : ""} ${locked ? "disabled" : ""}>
-        <span class="admin-menu-label">${escapeHtml(it.label)}</span>
-        ${locked ? '<span class="admin-menu-locked"><i class="fa fa-lock"></i></span>' : ""}
-      </label>
+      <div class="admin-menu-row ${locked ? "locked" : ""}">
+        <div class="admin-menu-label-cell">
+          <span class="admin-menu-label">${escapeHtml(it.label)}</span>
+          ${locked ? '<span class="admin-menu-locked"><i class="fa fa-lock"></i></span>' : ""}
+        </div>
+        <div class="admin-menu-roles">${rolesHtml}</div>
+      </div>
     `;
   }).join("");
 }
 window.loadAdminMenu = loadAdminMenu;
 
 async function saveAdminMenu() {
-  const hidden = [];
+  const access = {};
   document.querySelectorAll("#adminMenuList input[type=checkbox]").forEach((cb) => {
-    if (!cb.checked && !cb.disabled) hidden.push(cb.dataset.menuKey);
+    const key = cb.dataset.menuKey;
+    const role = cb.dataset.roleKey;
+    if (!key || !role) return;
+    if (!access[key]) access[key] = [];
+    if (cb.checked) access[key].push(role);
   });
   try {
-    await setDoc(doc(db, "settings", "admin_menu"), { hidden, updatedAt: serverTimestamp() });
-    await logActivity(`Админ цэс тохируулсан (${hidden.length} нуусан)`);
+    await setDoc(doc(db, "settings", "admin_menu"), { access, updatedAt: serverTimestamp() });
+    await logActivity(`Админ цэсийн эрх тохируулсан`);
     showToast("Хадгалагдлаа — хуудсыг сэргээж оруулахад тусна", "success");
-    applyAdminMenuVisibility(hidden);
+    currentAdminMenuAccess = access;
+    applyAdminMenuVisibility();
   } catch (err) {
     console.error("Admin menu save:", err);
     showToast("Хадгалахад алдаа", "error");
@@ -3413,31 +3545,563 @@ window.saveAdminMenu = saveAdminMenu;
 
 function resetAdminMenu() {
   if (!confirm("Цэсийн тохиргоог үндсэн төлөв рүү буцаах уу?")) return;
-  setDoc(doc(db, "settings", "admin_menu"), { hidden: [], updatedAt: serverTimestamp() })
+  setDoc(doc(db, "settings", "admin_menu"), { access: {}, updatedAt: serverTimestamp() })
     .then(() => {
       showToast("Буцаагдлаа", "success");
-      applyAdminMenuVisibility([]);
+      currentAdminMenuAccess = {};
+      applyAdminMenuVisibility();
       loadAdminMenu();
     })
     .catch((err) => { console.error(err); showToast("Алдаа", "error"); });
 }
 window.resetAdminMenu = resetAdminMenu;
 
-function applyAdminMenuVisibility(hidden) {
+function applyAdminMenuVisibility() {
+  const userRole = currentAdmin && currentAdmin.role;
+  if (!userRole) return;
   document.querySelectorAll(".sidebar-nav a").forEach((a) => {
     const section = a.dataset.section || "";
     const href = a.getAttribute("href") || "";
     const key = section || href;
-    a.style.display = hidden.includes(key) ? "none" : "";
+    if (key === "admin-menu" || key === "dashboard") { a.style.display = ""; return; }
+    let allow;
+    if (Object.prototype.hasOwnProperty.call(currentAdminMenuAccess, key)) {
+      allow = (currentAdminMenuAccess[key] || []).includes(userRole);
+    } else {
+      allow = true; // тохируулаагүй → харагдана
+    }
+    // Админд бүх зүйл харагдана
+    if (userRole === "admin") allow = true;
+    a.style.display = allow ? "" : "none";
   });
 }
 
 // Хуудас ачаалах үед admin_menu тохиргоог ажиллуулах
-(async function initAdminMenuVisibility() {
+async function initAdminMenuVisibility() {
   try {
     const snap = await getDoc(doc(db, "settings", "admin_menu"));
-    if (snap.exists() && Array.isArray(snap.data().hidden)) {
-      applyAdminMenuVisibility(snap.data().hidden);
+    if (snap.exists()) {
+      const data = snap.data() || {};
+      if (typeof data.access === "object") {
+        currentAdminMenuAccess = data.access || {};
+      } else if (Array.isArray(data.hidden)) {
+        // Legacy тохиргоог access форматад хөрвүүлэх
+        const legacyHidden = data.hidden;
+        currentAdminMenuAccess = {};
+        document.querySelectorAll(".sidebar-nav a").forEach((a) => {
+          const key = a.dataset.section || a.getAttribute("href") || "";
+          if (legacyHidden.includes(key)) currentAdminMenuAccess[key] = [];
+        });
+      }
     }
   } catch (e) { /* анхдагч төлөвөөр үлдэнэ */ }
-})();
+  applyAdminMenuVisibility();
+}
+
+/* ============================================================
+   ИРЦ — Бүртгэл шийтийн tab бүрээс уншиж, ирцийг Firestore-д хадгална
+   Source: 12pZJcmCCMdnkVrjY4coxFFVwTa-7nUTjjOUxwwIHEHc
+   Sheet tab бүрийн нэр = ангиллын нэр (Гадаад / Дотоод / Иргэн / Илтгэгч / Малчин)
+   Mark storage: Firestore collection "attendance/{regId}"
+============================================================ */
+const ATTENDANCE_SRC_ID = "12pZJcmCCMdnkVrjY4coxFFVwTa-7nUTjjOUxwwIHEHc";
+const ATT_CATEGORIES = ["Гадаад", "Дотоод", "Иргэн", "Илтгэгч", "Малчин"];
+const ATT_DEFAULT_CATEGORY = "Гадаад";
+let _attRegistrants = [];
+let _attMarks = new Map(); // regId → { day1, day2, note, category }
+let _attRegMap = new Map(); // regId → registrant (sourceCategory-г хайхад)
+let _attSheetsRaw = {}; // cat → { cols, rows, regIdByRow } — түүхий sheet өгөгдөл
+let _attActiveCat = ""; // "" = all
+let _attUnsub = null;   // onSnapshot unsubscribe
+
+function _attNormLabel(s) { return (s || "").toString().toLowerCase().normalize("NFC").trim(); }
+
+function _attCell(row, i) {
+  if (i < 0 || !row || !row.c || !row.c[i]) return "";
+  const v = row.c[i].v;
+  if (v === null || v === undefined) return "";
+  return String(v).trim();
+}
+
+// Эхний data row нь жинхэнэ толгой (Овог, Нэр, Утас гэх мэт) гэж шалгах
+function _attLooksLikeHeaderRow(row) {
+  if (!row || !row.c) return false;
+  const keywords = ["овог", "нэр", "утас", "имэйл", "и-мэйл", "и мэйл", "байгууллага", "албан", "огноо", "д/д", "бүртгэл", "тайлбар", "тоо", "буудал", "хаяг", "имэил"];
+  let m = 0;
+  row.c.forEach((c) => {
+    if (!c || c.v == null) return;
+    const v = c.v.toString().toLowerCase().normalize("NFC");
+    if (keywords.some((k) => v.indexOf(k) !== -1)) m++;
+  });
+  return m >= 2;
+}
+
+async function _fetchAttendanceSheet(sheetName) {
+  // Sheet нэрээр (gid биш) уншина — gviz API нь &sheet=<нэр> дэмждэг
+  const url = `https://docs.google.com/spreadsheets/d/${ATTENDANCE_SRC_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}&_=${Date.now()}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return { cols: [], rows: [], title: "" };
+    const text = await res.text();
+    const jsonStart = text.indexOf("{");
+    const jsonEnd = text.lastIndexOf("}");
+    if (jsonStart < 0 || jsonEnd < 0) return { cols: [], rows: [], title: "" };
+    const json = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
+    if (json.status !== "ok") {
+      console.info(`Attendance sheet "${sheetName}" not found or empty.`);
+      return { cols: [], rows: [], title: "" };
+    }
+    let cols = (json.table && json.table.cols) || [];
+    let rows = (json.table && json.table.rows) || [];
+    let title = "";
+
+    // Sheet-ийн Row 1 нь гарчиг бол (label-ууд урт текст / зөвхөн нэг л cell-д) автоматаар тохируулах
+    if (rows.length && _attLooksLikeHeaderRow(rows[0])) {
+      // Хуучин cols-ийн label-уудаас гарчгийг ялгах (хамгийн урт label-ыг гарчгаар тооцов)
+      let longest = "";
+      cols.forEach((c) => {
+        const lbl = (c && c.label) ? c.label.toString() : "";
+        if (lbl.length > longest.length) longest = lbl;
+      });
+      if (longest && longest.length > 20) title = longest;
+      // Эхний data row-г жинхэнэ толгой болгож сольж, дараагийн мөрөөс data эхэлнэ
+      const newCols = cols.map((c, i) => {
+        const cell = rows[0].c && rows[0].c[i];
+        const label = (cell && cell.v != null) ? cell.v.toString().trim() : (c && c.label) || "";
+        return { ...(c || {}), label };
+      });
+      cols = newCols;
+      rows = rows.slice(1);
+    }
+
+    return { cols, rows, title };
+  } catch (e) {
+    console.warn(`Attendance sheet "${sheetName}" fetch failed:`, e);
+    return { cols: [], rows: [], title: "" };
+  }
+}
+
+// Sheet-ийн header нэрээс багана хайх
+function _attFindCol(cols, ...candidates) {
+  const norm = (s) => (s || "").toString().toLowerCase().normalize("NFC").trim().replace(/[\s_,.\-]+/g, "");
+  // Яг тохирох
+  for (const want of candidates) {
+    const w = norm(want);
+    for (let i = 0; i < cols.length; i++) {
+      if (norm(cols[i].label) === w) return i;
+    }
+  }
+  // Хэсэгчилсэн тохирох
+  for (const want of candidates) {
+    const w = norm(want);
+    for (let i = 0; i < cols.length; i++) {
+      const cl = norm(cols[i].label);
+      if (cl && (cl.includes(w) || w.includes(cl))) return i;
+    }
+  }
+  return -1;
+}
+
+async function loadAttendance() {
+  const tbody = document.getElementById("attTable");
+  if (!tbody) return;
+  tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><i class="fa fa-spinner fa-spin"></i><p>Ачаалж байна...</p></td></tr>`;
+
+  try {
+    // 1) Sheet tab бүрийг параллел татаж, header нэрээр баганыг таних
+    const results = await Promise.all(
+      ATT_CATEGORIES.map((cat) => _fetchAttendanceSheet(cat).then((data) => ({ cat, ...data })))
+    );
+    _attRegistrants = [];
+    _attRegMap = new Map();
+    _attSheetsRaw = {};
+    results.forEach(({ cat, cols, rows, title }) => {
+      // Түүхий sheet өгөгдлийг хадгалах — tab сонгоход бүх багана харуулна
+      const regIdByRow = [];
+      const regNumIdx0 = _attFindCol(cols, "Бүртгэлийн №", "Бүртгэлийн дугаар", "Registration");
+      rows.forEach((r, i) => {
+        const reg = regNumIdx0 >= 0 ? _attCell(r, regNumIdx0) : "";
+        regIdByRow[i] = reg || (cat + "_" + i);
+      });
+      _attSheetsRaw[cat] = { cols, rows, regIdByRow, title: title || "" };
+
+      const idx = {
+        seq:     _attFindCol(cols, "Д/д", "№", "No"),
+        date:    _attFindCol(cols, "Огноо", "Timestamp", "Date"),
+        full:    _attFindCol(cols, "Овог нэр", "Овог, нэр", "Бүтэн нэр", "Full name"),
+        name:    _attFindCol(cols, "Нэр", "Name", "First name"),
+        surname: _attFindCol(cols, "Овог", "Surname", "Last name"),
+        phone:   _attFindCol(cols, "Утас", "Утасны дугаар", "Phone", "Tel"),
+        email:   _attFindCol(cols, "И-мэйл", "Имэйл", "E-mail", "Email"),
+        org:     _attFindCol(cols, "Байгууллага", "Organization", "Org"),
+        pos:     _attFindCol(cols, "Албан тушаал", "Position", "Title"),
+        hotel:   _attFindCol(cols, "Зочид буудал", "Hotel", "Буудал"),
+        count:   _attFindCol(cols, "Хүний тоо", "Тоо", "Count"),
+        regNum:  _attFindCol(cols, "Бүртгэлийн №", "Бүртгэлийн дугаар", "Registration", "Reg #"),
+        note:    _attFindCol(cols, "Тайлбар", "Тэмдэглэл", "Note"),
+        day1:    _attFindCol(cols, "4.27", "04.27", "Day 1"),
+        day2:    _attFindCol(cols, "4.28", "04.28", "Day 2"),
+      };
+      rows.forEach((r, rowIdx) => {
+        const ovog = idx.surname >= 0 ? _attCell(r, idx.surname) : "";
+        const name = idx.name >= 0 ? _attCell(r, idx.name) : "";
+        let full = idx.full >= 0 ? _attCell(r, idx.full) : "";
+        if (!full) full = (ovog + " " + name).trim();
+        if (!full) return;
+        const reg = idx.regNum >= 0 ? _attCell(r, idx.regNum) : "";
+        const regId = reg || (cat + "_" + rowIdx);
+        if (_attRegMap.has(regId)) return;
+        const reg_ = {
+          regId,
+          seq:    idx.seq    >= 0 ? _attCell(r, idx.seq)    : "",
+          date:   idx.date   >= 0 ? _attCell(r, idx.date)   : "",
+          ovog,
+          name,
+          full,
+          phone:  idx.phone  >= 0 ? _attCell(r, idx.phone)  : "",
+          email:  idx.email  >= 0 ? _attCell(r, idx.email)  : "",
+          org:    idx.org    >= 0 ? _attCell(r, idx.org)    : "",
+          pos:    idx.pos    >= 0 ? _attCell(r, idx.pos)    : "",
+          hotel:  idx.hotel  >= 0 ? _attCell(r, idx.hotel)  : "",
+          count:  idx.count  >= 0 ? _attCell(r, idx.count)  : "",
+          regNum: reg,
+          noteSheet: idx.note >= 0 ? _attCell(r, idx.note)  : "",
+          day1Sheet: idx.day1 >= 0 ? _attCell(r, idx.day1)  : "",
+          day2Sheet: idx.day2 >= 0 ? _attCell(r, idx.day2)  : "",
+          sourceCategory: cat
+        };
+        _attRegistrants.push(reg_);
+        _attRegMap.set(regId, reg_);
+      });
+    });
+
+    // 2) Firestore — real-time listener (олон админ зэрэг засварлахад шууд харагдана)
+    if (_attUnsub) { try { _attUnsub(); } catch (e) {} _attUnsub = null; }
+    _attMarks = new Map();
+    _attUnsub = onSnapshot(collection(db, "attendance"), (snap) => {
+      snap.docChanges().forEach((ch) => {
+        if (ch.type === "removed") _attMarks.delete(ch.doc.id);
+        else _attMarks.set(ch.doc.id, ch.doc.data() || {});
+      });
+      _renderAttendance(_currentAttFilter());
+      _updateAttendanceStats();
+    }, (err) => {
+      console.error("attendance onSnapshot:", err);
+    });
+
+    // Анхны render (snapshot ирэхээс өмнө бүртгэлүүдийг харуулах)
+    _renderAttendance(_attRegistrants);
+    _updateAttendanceStats();
+  } catch (err) {
+    console.error("loadAttendance:", err);
+    tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><i class="fa fa-triangle-exclamation"></i><p>Ачаалахад алдаа: ${err.message || err}</p></td></tr>`;
+  }
+}
+window.loadAttendance = loadAttendance;
+
+function _updateAttendanceStats() {
+  const total = _attRegistrants.length;
+  let d1 = 0, d2 = 0;
+  _attRegistrants.forEach((r) => {
+    const m = _attMarks.get(r.regId);
+    if (m && m.day1) d1++;
+    if (m && m.day2) d2++;
+  });
+  const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
+  const avg = total ? Math.round(((d1 + d2) / (total * 2)) * 100) : 0;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  const setHTML = (id, v) => { const el = document.getElementById(id); if (el) el.innerHTML = v; };
+  set("attTotal", total);
+  setHTML("attDay1", `${d1} <span class="stat-pct">${pct(d1)}%</span>`);
+  setHTML("attDay2", `${d2} <span class="stat-pct">${pct(d2)}%</span>`);
+  set("attPct", avg + "%");
+}
+
+function _attGetCategory(regId) {
+  // Цорын ганц authoritative source = sheet-ийн нэр (sourceCategory)
+  // Firestore-д хадгалсан category override-ыг үл тоомсорлоно — sheet-д байхгүй мэдээлэл tab-д "найгахаас" сэргийлнэ
+  const r = _attRegMap.get(regId);
+  if (r && r.sourceCategory) return r.sourceCategory;
+  return ATT_DEFAULT_CATEGORY;
+}
+
+function _attMarkBtn(regId, day) {
+  const m = _attMarks.get(regId);
+  const on = !!(m && m[day]);
+  return `<button type="button" class="att-mark ${on ? "att-on" : ""}" data-reg="${_esc(regId)}" data-day="${day}" title="${on ? "Ирсэн" : "Ирээгүй"}">${on ? '<i class="fa fa-check"></i>' : '—'}</button>`;
+}
+
+function _attNoteInput(regId, sheetNote) {
+  const fsNote = (_attMarks.get(regId) || {}).note || "";
+  const val = fsNote || sheetNote || "";
+  return `<input type="text" class="att-note" data-reg="${_esc(regId)}" value="${_esc(val)}" placeholder="—" style="width:100%;background:transparent;border:1px solid transparent;color:inherit;padding:4px 6px;border-radius:4px">`;
+}
+
+function _captureNoteFocus(tbody) {
+  const ae = document.activeElement;
+  if (ae && tbody.contains(ae) && ae.classList && ae.classList.contains("att-note")) {
+    return { reg: ae.dataset.reg, val: ae.value, start: ae.selectionStart, end: ae.selectionEnd };
+  }
+  return null;
+}
+
+function _restoreNoteFocus(tbody, restore) {
+  if (!restore) return;
+  const el = tbody.querySelector(`.att-note[data-reg="${CSS.escape(restore.reg)}"]`);
+  if (el) {
+    el.value = restore.val;
+    el.focus();
+    try { el.setSelectionRange(restore.start, restore.end); } catch (e) {}
+  }
+}
+
+function _setSheetTitle(title) {
+  const el = document.getElementById("attSheetTitle");
+  if (!el) return;
+  if (title) {
+    el.textContent = title;
+    el.style.display = "";
+  } else {
+    el.textContent = "";
+    el.style.display = "none";
+  }
+}
+
+function _renderAttendance(list) {
+  const tbody = document.getElementById("attTable");
+  if (!tbody) return;
+  // Active tab нь sheet-тэй бол тухайн sheet-ийн бүх баганыг харуулна
+  if (_attActiveCat && _attSheetsRaw[_attActiveCat]) {
+    _renderAttendanceSheet(_attActiveCat);
+    _updateAttTabCounts();
+    return;
+  }
+  const restore = _captureNoteFocus(tbody);
+  _setSheetTitle("");
+  // Бүгд tab — стандарт компакт харагдалт
+  _setAttendanceCombinedHeader();
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><i class="fa fa-inbox"></i><p>Бүртгэл олдсонгүй</p></td></tr>`;
+    _updateAttTabCounts();
+    return;
+  }
+  tbody.innerHTML = list.map((r, i) => `
+    <tr data-reg="${_esc(r.regId)}">
+      <td>${i + 1}</td>
+      <td style="font-size:12px;color:var(--admin-muted,#8ea3bd)">${_esc(r.date)}</td>
+      <td>${_esc(r.ovog)}</td>
+      <td style="font-weight:500">${_esc(r.name)}</td>
+      <td>${_esc(r.phone)}</td>
+      <td style="font-size:12px">${_esc(r.email)}</td>
+      <td>${_esc(r.org)}</td>
+      <td>${_esc(r.pos)}</td>
+      <td>${_esc(r.hotel)}</td>
+      <td style="text-align:center">${_esc(r.count)}</td>
+      <td style="font-size:11px;color:var(--admin-muted,#8ea3bd)">${_esc(r.regNum)}</td>
+      <td>${_attNoteInput(r.regId, r.noteSheet)}</td>
+      <td style="text-align:center">${_attMarkBtn(r.regId, "day1")}</td>
+      <td style="text-align:center">${_attMarkBtn(r.regId, "day2")}</td>
+    </tr>`).join("");
+  _bindAttendanceEvents(tbody);
+  _updateAttTabCounts();
+  _restoreNoteFocus(tbody, restore);
+}
+
+function _setAttendanceCombinedHeader() {
+  const thead = document.querySelector("#sec-attendance table thead");
+  if (!thead) return;
+  thead.innerHTML = `<tr>
+    <th style="width:40px">Д/д</th>
+    <th>Огноо</th>
+    <th>Овог</th>
+    <th>Нэр</th>
+    <th>Утас</th>
+    <th>И-мэйл</th>
+    <th>Байгууллага</th>
+    <th>Албан тушаал</th>
+    <th>Зочид буудал</th>
+    <th style="text-align:center">Хүний тоо</th>
+    <th>Бүртгэлийн №</th>
+    <th>Тайлбар</th>
+    <th style="text-align:center">4.27</th>
+    <th style="text-align:center">4.28</th>
+  </tr>`;
+}
+
+// Тухайн sheet-ийн бүх баганыг буулгана + 4.27/4.28/Тэмдэглэл (Firestore)
+function _renderAttendanceSheet(cat) {
+  const sheet = _attSheetsRaw[cat];
+  const thead = document.querySelector("#sec-attendance table thead");
+  const tbody = document.getElementById("attTable");
+  if (!sheet || !thead || !tbody) return;
+  const restore = _captureNoteFocus(tbody);
+  _setSheetTitle(sheet.title || "");
+  const { cols, rows, regIdByRow } = sheet;
+  const noteColIdx = _attFindCol(cols, "Тайлбар", "Тэмдэглэл", "Note");
+  const day1ColIdx = _attFindCol(cols, "4.27", "04.27", "Day 1");
+  const day2ColIdx = _attFindCol(cols, "4.28", "04.28", "Day 2");
+  // Sheet дотор 4.27/4.28/Тайлбар байгаа бол, эдгээрийг хүснэгтийн төгсгөлд Firestore-ийн live mark-аар сольж харуулна
+  const skipIdx = new Set([noteColIdx, day1ColIdx, day2ColIdx].filter((i) => i >= 0));
+  const showCols = cols.map((c, i) => ({ c, i })).filter((x) => !skipIdx.has(x.i));
+
+  thead.innerHTML = `<tr>
+    <th style="width:40px">Д/д</th>
+    ${showCols.map((x) => `<th>${escapeHtml(x.c.label || "")}</th>`).join("")}
+    <th>Тэмдэглэл</th>
+    <th style="text-align:center">4.27</th>
+    <th style="text-align:center">4.28</th>
+  </tr>`;
+
+  const global = document.getElementById("attSearch");
+  const gq = global ? _attNormLabel(global.value) : "";
+  const totalCols = showCols.length + 4;
+
+  const filteredRows = [];
+  rows.forEach((r, idx) => {
+    if (!r || !r.c) return;
+    if (gq) {
+      const match = cols.some((_, i) => _attNormLabel(_attCell(r, i)).indexOf(gq) !== -1);
+      if (!match) return;
+    }
+    filteredRows.push({ r, idx });
+  });
+
+  if (!filteredRows.length) {
+    tbody.innerHTML = `<tr><td colspan="${totalCols}" class="empty-state"><i class="fa fa-inbox"></i><p>Бүртгэл олдсонгүй</p></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filteredRows.map(({ r, idx }, i) => {
+    const regId = regIdByRow[idx];
+    const cells = showCols.map((x) => `<td>${_esc(_attCell(r, x.i))}</td>`).join("");
+    const sheetNote = noteColIdx >= 0 ? _attCell(r, noteColIdx) : "";
+    return `<tr data-reg="${_esc(regId)}">
+      <td>${i + 1}</td>
+      ${cells}
+      <td>${_attNoteInput(regId, sheetNote)}</td>
+      <td style="text-align:center">${_attMarkBtn(regId, "day1")}</td>
+      <td style="text-align:center">${_attMarkBtn(regId, "day2")}</td>
+    </tr>`;
+  }).join("");
+
+  _bindAttendanceEvents(tbody);
+  _restoreNoteFocus(tbody, restore);
+}
+
+function _updateAttTabCounts() {
+  const counts = { all: _attRegistrants.length };
+  ATT_CATEGORIES.forEach((c) => (counts[c] = 0));
+  _attRegistrants.forEach((r) => {
+    const c = _attGetCategory(r.regId);
+    if (counts[c] != null) counts[c]++;
+  });
+  document.querySelectorAll(".att-tab-count").forEach((el) => {
+    const k = el.dataset.count;
+    el.textContent = counts[k] != null ? counts[k] : 0;
+  });
+}
+
+function _bindAttendanceEvents(tbody) {
+  if (tbody.dataset.attBound === "1") return;
+  tbody.dataset.attBound = "1";
+  tbody.addEventListener("click", (e) => {
+    const btn = e.target.closest(".att-mark");
+    if (!btn) return;
+    const regId = btn.dataset.reg;
+    const day = btn.dataset.day;
+    if (regId && day) toggleAttendance(regId, day);
+  });
+  tbody.addEventListener("change", (e) => {
+    const note = e.target.closest(".att-note");
+    if (note) {
+      const regId = note.dataset.reg;
+      if (regId) saveAttendanceNote(regId, note.value);
+    }
+  });
+  tbody.addEventListener("focusin", (e) => {
+    const inp = e.target.closest(".att-note");
+    if (inp) inp.style.borderColor = "var(--admin-border,#243247)";
+  });
+  tbody.addEventListener("focusout", (e) => {
+    const inp = e.target.closest(".att-note");
+    if (inp) inp.style.borderColor = "transparent";
+  });
+}
+
+async function toggleAttendance(regId, day) {
+  const prev = _attMarks.get(regId) || {};
+  const nextVal = !prev[day];
+  _attMarks.set(regId, { ...prev, [day]: nextVal });
+  _renderAttendance(_currentAttFilter());
+  _updateAttendanceStats();
+  try {
+    await setDoc(
+      doc(db, "attendance", regId),
+      { [day]: nextVal, updatedAt: serverTimestamp() },
+      { merge: true }
+    );
+  } catch (err) {
+    console.error("toggleAttendance:", regId, day, err);
+    showToast && showToast("Ирц хадгалагдсангүй: " + (err.code || err.message || err), "error");
+  }
+}
+window.toggleAttendance = toggleAttendance;
+
+async function saveAttendanceNote(regId, note) {
+  const prev = _attMarks.get(regId) || {};
+  _attMarks.set(regId, { ...prev, note });
+  try {
+    await setDoc(doc(db, "attendance", regId), { note, updatedAt: serverTimestamp() }, { merge: true });
+  } catch (err) {
+    console.error("saveAttendanceNote:", err);
+    showToast && showToast("Тэмдэглэл хадгалагдсангүй", "error");
+  }
+}
+window.saveAttendanceNote = saveAttendanceNote;
+
+
+function _currentAttFilter() {
+  const global = document.getElementById("attSearch");
+  const gq = global ? _attNormLabel(global.value) : "";
+  return _attRegistrants.filter((r) => {
+    if (_attActiveCat && _attGetCategory(r.regId) !== _attActiveCat) return false;
+    if (!gq) return true;
+    return (
+      _attNormLabel(r.full).indexOf(gq) !== -1 ||
+      _attNormLabel(r.phone).indexOf(gq) !== -1 ||
+      _attNormLabel(r.email).indexOf(gq) !== -1 ||
+      _attNormLabel(r.org).indexOf(gq) !== -1 ||
+      _attNormLabel(r.pos).indexOf(gq) !== -1 ||
+      _attNormLabel(r.hotel).indexOf(gq) !== -1 ||
+      _attNormLabel(r.regId).indexOf(gq) !== -1
+    );
+  });
+}
+
+function _esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("attSearch");
+  if (input) input.addEventListener("input", () => { _renderAttendance(_currentAttFilter()); });
+  const tabs = document.getElementById("attTabs");
+  if (tabs) {
+    tabs.addEventListener("click", (e) => {
+      const btn = e.target.closest(".att-tab");
+      if (!btn) return;
+      const prevScroll = window.scrollY;
+      _attActiveCat = btn.dataset.cat || "";
+      tabs.querySelectorAll(".att-tab").forEach((t) => t.classList.toggle("active", t === btn));
+      _renderAttendance(_currentAttFilter());
+      // Хуудас богиносоод scroll авто-засагдвал, sticky toolbar-ыг бэхэлсэн чигт нь үлдээх
+      requestAnimationFrame(() => {
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        const target = Math.min(prevScroll, maxScroll);
+        if (target !== window.scrollY) window.scrollTo(0, target);
+      });
+    });
+  }
+});
