@@ -174,5 +174,89 @@ body{font-family:'Montserrat',sans-serif;font-weight:300;background:#0a0a0a;colo
   <p>© 2026 ДОРНОГОВЬ ХӨРӨНГӨ ОРУУЛАЛТЫН ФОРУМ — NEXT GEN</p>
 </footer>
 
+<!-- Magic Mobile Bottom Navigation -->
+<nav id="mobile-bottom-nav">
+  <a class="mob-nav-item" href="index.html" data-menu-label="НҮҮР">
+    <div class="mnav-icon-wrap"><i class="fa fa-home"></i></div>
+    <span>Нүүр</span>
+  </a>
+  <a class="mob-nav-item" href="index.html#section-about" data-menu-label="ЗОРИЛГО">
+    <div class="mnav-icon-wrap"><i class="fa fa-bullseye"></i></div>
+    <span>Зорилго</span>
+  </a>
+  <a class="mob-nav-item" href="tusul.html" data-menu-label="ТӨСӨЛ">
+    <div class="mnav-icon-wrap"><i class="fa fa-folder-open"></i></div>
+    <span>Төсөл</span>
+  </a>
+  <a class="mob-nav-item" href="index.html#section-schedule" data-menu-label="ХӨТӨЛБӨР">
+    <div class="mnav-icon-wrap"><i class="fa fa-calendar-alt"></i></div>
+    <span>Хөтөлбөр</span>
+  </a>
+  <a class="mob-nav-item" href="index.html#section-venue" data-menu-label="БАЙРШИЛ">
+    <div class="mnav-icon-wrap"><i class="fa fa-location-dot"></i></div>
+    <span>Байршил</span>
+  </a>
+  <a class="mob-nav-item active" href="next-gen.html" data-menu-label="NEXT GEN">
+    <div class="mnav-icon-wrap"><i class="fa fa-rocket"></i></div>
+    <span>Next Gen</span>
+  </a>
+</nav>
+<style>
+  #mobile-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    height: calc(52px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: rgba(14,14,14,0.96);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .mob-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 1px;
+    text-decoration: none !important;
+    color: #fff !important;
+    opacity: 0.65;
+    transition: opacity 0.25s, transform 0.25s;
+    padding: 2px;
+  }
+  .mob-nav-item.active { opacity: 1; }
+  .mnav-icon-wrap {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  .mob-nav-item i { font-size: 14px; line-height: 1; }
+  .mob-nav-item.active i { color: var(--green); }
+  .mob-nav-item span {
+    font-size: 8px;
+    letter-spacing: 0.2px;
+    line-height: 1;
+    margin-top: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  @media (max-width: 991px) {
+    #mobile-bottom-nav { display: flex; }
+    body { padding-bottom: 56px; }
+  }
+</style>
+
 </body>
 </html>

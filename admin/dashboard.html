@@ -117,7 +117,7 @@
       <div class="topbar-right">
         <a href="https://docs.google.com/spreadsheets/d/12pZJcmCCMdnkVrjY4coxFFVwTa-7nUTjjOUxwwIHEHc/edit?gid=1578455080#gid=1578455080" target="_blank" rel="noopener" class="topbar-btn" title="Google Sheet нээх">
           <i class="fa fa-table"></i>
-          <span class="topbar-btn-text">Шийт нээх</span>
+          <span class="topbar-btn-text">Ирц бүртгэлийн шийт</span>
         </a>
         <button class="topbar-btn" id="forumFsBtn" title="Бүтэн цонхоор харах (F11)">
           <i class="fa fa-expand"></i>
@@ -348,69 +348,14 @@
             </div>
           </div>
 
-          <!-- Нэгтгэсэн сессийн ирц — бүх 5 sheet-ийн нийт -->
+          <!-- Нэгтгэл — 5 сессийн ирц -->
           <div class="panel dash-chart-panel" style="margin-top:12px">
             <div class="panel-header">
-              <h3><i class="fa fa-object-group"></i>&nbsp; Бүх оролцогчдын нэгдсэн ирц (5 бүртгэлийн нийт)</h3>
-              <span id="combTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
+              <h3><i class="fa fa-chart-pie"></i>&nbsp; Нэгтгэл — сессийн ирц</h3>
+              <span id="negTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
             </div>
             <div class="panel-body">
-              <div id="combByDateWrap" class="fgn-pie-grid" data-panel="combined"></div>
-            </div>
-          </div>
-
-          <!-- Гадаад хөрөнгө оруулагч — сессийн ирц -->
-          <div class="panel dash-chart-panel" style="margin-top:12px">
-            <div class="panel-header">
-              <h3><i class="fa fa-chart-column"></i>&nbsp; Гадаад хөрөнгө оруулагч — сессийн ирц</h3>
-              <span id="fgnTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
-            </div>
-            <div class="panel-body">
-              <div id="fgnByDateWrap" class="fgn-pie-grid" data-panel="foreign"></div>
-            </div>
-          </div>
-
-          <!-- Уул уурхайн дотоод хөрөнгө оруулагч — сессийн ирц -->
-          <div class="panel dash-chart-panel" style="margin-top:12px">
-            <div class="panel-header">
-              <h3><i class="fa fa-industry"></i>&nbsp; Уул, уурхайн дотоод хөрөнгө оруулагч — сессийн ирц</h3>
-              <span id="mineTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
-            </div>
-            <div class="panel-body">
-              <div id="mineByDateWrap" class="fgn-pie-grid" data-panel="mining"></div>
-            </div>
-          </div>
-
-          <!-- Аймаг, сумын удирдлага — сессийн ирц -->
-          <div class="panel dash-chart-panel" style="margin-top:12px">
-            <div class="panel-header">
-              <h3><i class="fa fa-landmark"></i>&nbsp; Аймаг, сумын удирдлага — сессийн ирц</h3>
-              <span id="aimagTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
-            </div>
-            <div class="panel-body">
-              <div id="aimagByDateWrap" class="fgn-pie-grid" data-panel="aimag"></div>
-            </div>
-          </div>
-
-          <!-- ТББ, хоршоо, ААН, иргэн — сессийн ирц -->
-          <div class="panel dash-chart-panel" style="margin-top:12px">
-            <div class="panel-header">
-              <h3><i class="fa fa-people-group"></i>&nbsp; ТББ, хоршоо, ААН, иргэн — сессийн ирц</h3>
-              <span id="tbbTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
-            </div>
-            <div class="panel-body">
-              <div id="tbbByDateWrap" class="fgn-pie-grid" data-panel="tbb"></div>
-            </div>
-          </div>
-
-          <!-- Төрийн байгууллага — сессийн ирц -->
-          <div class="panel dash-chart-panel" style="margin-top:12px">
-            <div class="panel-header">
-              <h3><i class="fa fa-building-columns"></i>&nbsp; Төрийн байгууллага — сессийн ирц</h3>
-              <span id="govTotal" style="margin-left:auto;font-size:12px;color:var(--admin-text-muted)">—</span>
-            </div>
-            <div class="panel-body">
-              <div id="govByDateWrap" class="fgn-pie-grid" data-panel="gov"></div>
+              <div id="negByDateWrap" class="fgn-pie-grid" data-panel="neg"></div>
             </div>
           </div>
 

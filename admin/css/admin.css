@@ -2253,7 +2253,7 @@ body:not(.light-theme) .fgn-sum-donut-pct {
 /* Гадаад хөрөнгө оруулагч — сессийн pie chart grid */
 .fgn-pie-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: max-content repeat(5, 1fr);
   gap: 8px;
   margin-bottom: 0;
 }
@@ -2263,15 +2263,82 @@ body:not(.light-theme) .fgn-sum-donut-pct {
   cursor: default !important;
 }
 .fgn-pie-avg:hover { transform: none !important; }
+.fgn-pie-avg { padding: 6px 8px !important; }
+.fgn-pie-avg .fgn-pie-top { gap: 6px; justify-content: flex-start; }
+.fgn-pie-avg .fgn-pie-label { flex: 0 0 auto; padding-right: 0; }
 .ana-tab-content[data-ana-panel="forum"] .panel.dash-chart-panel {
   margin-top: 4px !important;
   margin-bottom: 4px !important;
 }
 .ana-tab-content[data-ana-panel="forum"] .panel.dash-chart-panel > .panel-header {
-  padding: 5px 12px;
+  padding: 6px 14px;
+  background: linear-gradient(90deg, rgba(75,172,72,0.15), rgba(41,171,226,0.08)) !important;
+  border-bottom: 1px solid rgba(75,172,72,0.3);
 }
 .ana-tab-content[data-ana-panel="forum"] .panel.dash-chart-panel > .panel-header h3 {
   font-size: 11px;
+  color: var(--admin-primary, #4bac48) !important;
+}
+body.light-theme .ana-tab-content[data-ana-panel="forum"] .panel.dash-chart-panel > .panel-header h3 {
+  color: #2a8b27 !important;
+}
+
+/* Нэгтгэл (Гадаадын зочин төлөөлөгчид) хүснэгт */
+.neg-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.neg-tbl th {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--admin-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--admin-border);
+  background: rgba(75,172,72,0.04);
+  white-space: nowrap;
+}
+.neg-tbl td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--admin-border);
+  vertical-align: top;
+}
+.neg-tbl tr:last-child td { border-bottom: none; }
+.neg-tbl tr:hover td { background: rgba(255,255,255,0.02); }
+body.light-theme .neg-tbl tr:hover td { background: rgba(0,0,0,0.02); }
+
+/* Combined panel — бусдаас ялгаатай (yellow/accent тэмдэгт) */
+.fgn-combined-panel {
+  border: 2px solid var(--admin-accent, #FFC107) !important;
+  box-shadow: 0 6px 24px rgba(255,193,7,0.18), 0 0 0 4px rgba(255,193,7,0.05);
+  background: linear-gradient(180deg, rgba(255,193,7,0.05), rgba(255,193,7,0.0)) !important;
+  margin-top: 16px !important;
+  margin-bottom: 14px !important;
+}
+.fgn-combined-panel > .panel-header {
+  background: linear-gradient(90deg, #FFC107, #f0a500) !important;
+  border-bottom-color: rgba(0,0,0,0.1) !important;
+  padding: 10px 16px !important;
+}
+.fgn-combined-panel > .panel-header h3 {
+  color: #1a1a1a !important;
+  font-size: 14px !important;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.fgn-combined-panel > .panel-header h3 i {
+  font-size: 16px;
+}
+.fgn-combined-panel > .panel-header span {
+  color: rgba(0,0,0,0.7) !important;
+  font-weight: 600;
+}
+.fgn-combined-panel .fgn-pie-item {
+  background: rgba(255,193,7,0.05);
+  border-color: rgba(255,193,7,0.3);
 }
 .ana-tab-content[data-ana-panel="forum"] .panel.dash-chart-panel > .panel-body {
   padding: 6px 10px;
@@ -2279,10 +2346,10 @@ body:not(.light-theme) .fgn-sum-donut-pct {
 .fgn-pie-item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 6px 10px;
+  gap: 8px;
+  padding: 12px 14px;
   border: 1px solid var(--admin-border);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--admin-dark-3, rgba(255,255,255,0.02));
   transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
   cursor: pointer;
@@ -2290,7 +2357,7 @@ body:not(.light-theme) .fgn-sum-donut-pct {
 .fgn-pie-top {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 .fgn-pie-item:hover {
   transform: translateY(-2px);
@@ -2376,8 +2443,8 @@ body.light-theme .fgn-modal-tbl tr:hover td { background: rgba(0,0,0,0.02); }
   font-style: italic;
 }
 .fgn-donut {
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   display: block;
   flex-shrink: 0;
 }
@@ -2402,12 +2469,12 @@ body:not(.light-theme) .fgn-donut-pct {
   margin: 0;
 }
 .fgn-pie-line {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
   color: #6b7280;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.25;
+  line-height: 1.35;
 }
 body.dark-scheme .fgn-pie-line,
 body:not(.light-theme) .fgn-pie-line {
@@ -2416,9 +2483,9 @@ body:not(.light-theme) .fgn-pie-line {
 .fgn-pie-stats {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 3px;
   flex-shrink: 0;
-  min-width: 58px;
+  min-width: 72px;
 }
 .fgn-stat {
   display: flex;
@@ -2428,7 +2495,7 @@ body:not(.light-theme) .fgn-pie-line {
   gap: 4px;
 }
 .fgn-stat-val {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   color: #1a1a1a;
   line-height: 1.1;
@@ -2438,10 +2505,10 @@ body:not(.light-theme) .fgn-stat-val {
   color: #ffffff;
 }
 .fgn-stat-lbl {
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 600;
   color: #5a6574;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.4px;
   text-transform: uppercase;
 }
 body.dark-scheme .fgn-stat-lbl,

@@ -443,16 +443,21 @@ async function loadForumInfo() {
     if (tbody) tbody.innerHTML = '<tr><td colspan="3" class="empty-state"><i class="fa fa-exclamation-triangle"></i><p>Уншиж чадсангүй</p></td></tr>';
   }
 
-
-  // 5 sheet-ийн ирц panel параллел, бүгд амжилттай дуусахад нэгтгэх
-  Promise.all([
-    loadForeignByDate(),
-    loadMiningByDate(),
-    loadAimagByDate(),
-    loadTbbByDate(),
-    loadGovByDate()
-  ]).then(() => renderCombinedSessions());
+  // Нэгтгэл шийтийн сессийн ирц
+  loadNegtgel();
 }
+
+const NEGTGEL_GID = "1157661015";
+function loadNegtgel() {
+  return loadSessionPanel({
+    sheetNames: [],
+    primaryGid: NEGTGEL_GID,
+    wrapId: "negByDateWrap",
+    totalId: "negTotal",
+    panelKey: "neg"
+  });
+}
+window.loadNegtgel = loadNegtgel;
 
 // Бүх panel-ын сессийг label-аар нэгтгэж харуулах
 function renderCombinedSessions() {
@@ -537,7 +542,12 @@ function renderCombinedSessions() {
   const totalPresent = entries.reduce((a, e) => a + e.present, 0);
   const totalAbsent = entries.reduce((a, e) => a + e.absent, 0);
   const totalParticipants = entries.reduce((m, e) => Math.max(m, e.present + e.absent), 0);
-  const avgPct = totalMarks ? Math.round((totalPresent / totalMarks) * 100) : 0;
+  // Дундаж = сесс бүрийн ирцийн хувийн simple mean
+  const sessionPcts = entries.map((e) => {
+    const t = e.present + e.absent;
+    return t ? (e.present / t) * 100 : 0;
+  });
+  const avgPct = sessionPcts.length ? Math.round(sessionPcts.reduce((a, b) => a + b, 0) / sessionPcts.length) : 0;
   if (totalEl) totalEl.textContent = `Нийт тэмдэглэгдсэн: ${totalMarks}`;
 
   // Cache combined data модалд ашиглах
@@ -628,7 +638,7 @@ function _fgnParts(label) {
     .replace(/^[-–,]+|[-–,]+$/g, "")
     .trim();
   return {
-    date: datePadded ? (datePadded + " өдөр") : "",
+    date: datePadded ? ("Бүртгэх өдөр " + datePadded) : "",
     place: rest,
     time: time
   };
@@ -652,11 +662,6 @@ function _fgnRenderAverage(totalPresent, totalAbsent, avgPct) {
       <div class="fgn-pie-label">
         <div class="fgn-pie-line" style="font-weight:700;color:inherit">ДУНДАЖ</div>
         <div class="fgn-pie-line">Бүх сесс</div>
-      </div>
-      <div class="fgn-pie-stats">
-        <div class="fgn-stat"><span class="fgn-stat-lbl">Нийт</span><span class="fgn-stat-val">${total}</span></div>
-        <div class="fgn-stat fgn-stat-present"><span class="fgn-stat-lbl">Ирсэн</span><span class="fgn-stat-val">${totalPresent}</span></div>
-        <div class="fgn-stat fgn-stat-absent"><span class="fgn-stat-lbl">Ирээгүй</span><span class="fgn-stat-val">${totalAbsent}</span></div>
       </div>
       ${donut}
     </div>
@@ -703,14 +708,14 @@ function _fgnNorm(s) {
 
 function _fgnIsSessionCol(label) {
   const l = _fgnNorm(label);
-  // "4.27" эсвэл "4.28" гэдэг мөрийг агуулдаг багана нь сесс гэж үзнэ
-  return /\b4\.27\b|\b4\.28\b|\b04\.27\b|\b04\.28\b/.test(l);
+  // "4.27" эсвэл "4.28" агуулсан багана л сесс гэж тооцох (ямар ч байрлалд, цэгийг тоонд оруулахгүй)
+  return /(?:^|\D)0?4\.(?:27|28)(?:\D|$)/.test(l);
 }
 
 function _fgnStatus(v) {
   const s = _fgnNorm(v);
   if (!s) return "";
-  if (s === "ирсэн" || s === "true" || s === "yes" || s === "✓") return "present";
+  if (s === "ирсэн" || s === "true" || s === "yes" || s === "✓" || s === ".") return "present";
   if (s === "ирээгүй" || s === "false" || s === "no" || s === "✗" || s === "x") return "absent";
   return "";
 }
@@ -751,8 +756,13 @@ async function _fgnFetchOnce(queryPart) {
   } catch (err) { return null; }
 }
 
-async function _fgnFetchSheet(sheetNames, fallbackGid) {
-  const names = sheetNames || FOREIGN_SHEET_NAMES;
+async function _fgnFetchSheet(sheetNames, fallbackGid, primaryGid) {
+  // primaryGid өгөгдсөн бол хамгийн түрүүнд тэрхүү gid-аар уншина
+  if (primaryGid) {
+    const out = await _fgnFetchOnce(`gid=${encodeURIComponent(primaryGid)}`);
+    if (out) return { ...out, sheetName: `gid:${primaryGid}` };
+  }
+  const names = sheetNames || [];
   for (const name of names) {
     const out = await _fgnFetchOnce(`sheet=${encodeURIComponent(name)}`);
     if (out) return { ...out, sheetName: name };
@@ -769,18 +779,33 @@ async function loadSessionPanel(cfg) {
   const totalEl = document.getElementById(cfg.totalId);
   if (!wrap) return;
 
-  const { cols, rows } = await _fgnFetchSheet(cfg.sheetNames, cfg.fallbackGid);
+  const { cols, rows } = await _fgnFetchSheet(cfg.sheetNames, cfg.fallbackGid, cfg.primaryGid);
   if (!cols.length || !rows.length) {
     if (totalEl) totalEl.textContent = "Мэдээлэл олдсонгүй";
     wrap.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fa fa-inbox"></i><p>Мэдээлэл олдсонгүй</p></div>';
     return;
   }
 
+  // Session багана таних: (1) label-д огноо байх, эсвэл (2) баганад ирсэн/ирээгүй утга агуулагдах
   const sessionCols = [];
   cols.forEach((c, i) => {
-    if (c && _fgnIsSessionCol(c.label)) {
-      sessionCols.push({ idx: i, label: String(c.label || "").trim() });
+    if (!c) return;
+    const label = String(c.label || "").trim();
+    if (!label) return;
+    if (_fgnIsSessionCol(label)) {
+      sessionCols.push({ idx: i, label });
+      return;
     }
+    // Агуулгаар нь шалгах
+    let statusCount = 0;
+    for (let j = 0; j < rows.length && statusCount < 2; j++) {
+      const r = rows[j];
+      if (!r || !r.c || !r.c[i]) continue;
+      const cell = r.c[i];
+      const raw = cell.v != null ? cell.v : cell.f;
+      if (_fgnStatus(raw)) statusCount++;
+    }
+    if (statusCount >= 2) sessionCols.push({ idx: i, label });
   });
 
   if (!sessionCols.length) {
@@ -801,16 +826,36 @@ async function loadSessionPanel(cfg) {
     return -1;
   };
   const surnameIdx = findIdx("Овог", "Surname");
-  const nameIdx = findIdx("Нэр", "Name");
+  const nameIdx = findIdx("Нэр", "Name", "Захирал", "Төлөөлөн ирсэн хүний нэр", "Төлөөлөн ирсэн хүний нэр-утас");
   const phoneIdx = findIdx("Утас", "Phone");
+  const sessionIdxSet = new Set(sessionCols.map((s) => s.idx));
+  const hasNameCols = surnameIdx >= 0 || nameIdx >= 0 || phoneIdx >= 0;
   const stats = sessionCols.map((s) => ({ label: s.label, present: 0, absent: 0 }));
   rows.forEach((r) => {
     if (!r || !r.c) return;
-    const ovog = surnameIdx >= 0 && r.c[surnameIdx] ? (r.c[surnameIdx].v || "") : "";
-    const name = nameIdx >= 0 && r.c[nameIdx] ? (r.c[nameIdx].v || "") : "";
-    const phone = phoneIdx >= 0 && r.c[phoneIdx] ? (r.c[phoneIdx].v || "") : "";
-    const hasIdentity = String(ovog).trim() || String(name).trim() || String(phone).trim();
-    if (!hasIdentity) return;
+
+    // Section heading мөр (жишээ: "Гадаадын зочин төлөөлөгчид") — session-н багана хоосон, нэг урт текст cell үлддэг
+    const filledNonSession = r.c.reduce((arr, c, i) => {
+      if (sessionIdxSet.has(i)) return arr;
+      const v = c && c.v != null ? String(c.v).trim() : "";
+      if (v) arr.push(v);
+      return arr;
+    }, []);
+    const sessionFilled = sessionCols.some((s) => {
+      const c = r.c[s.idx];
+      return c && c.v != null && String(c.v).trim() !== "";
+    });
+    if (filledNonSession.length === 1 && !sessionFilled && filledNonSession[0].length >= 4) {
+      return; // section heading — алгасах
+    }
+
+    if (hasNameCols) {
+      const ovog = surnameIdx >= 0 && r.c[surnameIdx] ? (r.c[surnameIdx].v || "") : "";
+      const name = nameIdx >= 0 && r.c[nameIdx] ? (r.c[nameIdx].v || "") : "";
+      const phone = phoneIdx >= 0 && r.c[phoneIdx] ? (r.c[phoneIdx].v || "") : "";
+      const hasIdentity = String(ovog).trim() || String(name).trim() || String(phone).trim();
+      if (!hasIdentity) return;
+    }
     sessionCols.forEach((s, i) => {
       const cell = r.c[s.idx];
       const raw = cell ? (cell.v != null ? cell.v : cell.f) : "";
@@ -856,8 +901,12 @@ async function loadSessionPanel(cfg) {
 
   const totalPresent = stats.reduce((a, s) => a + s.present, 0);
   const totalAbsent = stats.reduce((a, s) => a + s.absent, 0);
-  const totalMarks = totalPresent + totalAbsent;
-  const avgPct = totalMarks ? Math.round((totalPresent / totalMarks) * 100) : 0;
+  // Дундаж хувь = сесс бүрийн ирцийн хувийн simple mean (sum-based биш)
+  const sessionPcts = stats.map((s) => {
+    const t = s.present + s.absent;
+    return t ? (s.present / t) * 100 : 0;
+  });
+  const avgPct = sessionPcts.length ? Math.round(sessionPcts.reduce((a, b) => a + b, 0) / sessionPcts.length) : 0;
 
   const summaryHtml = _fgnRenderAverage(totalPresent, totalAbsent, avgPct);
   const piesHtml = stats.map((s, i) => {
