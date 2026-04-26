@@ -314,6 +314,16 @@
       body:not(.dark-scheme) #section-venue {
         background-color: #f4f6f8 !important;
       }
+      /* Map iframe interactivity fix — jarallax / overlay-аас дээр тавих */
+      #section-venue iframe {
+        position: relative;
+        z-index: 10;
+        pointer-events: auto !important;
+      }
+      #section-venue .jarallax-img,
+      #section-venue > .jarallax-container {
+        pointer-events: none;
+      }
 
       /* Marquee / ticker */
       body:not(.dark-scheme) [class*="marquee"],
@@ -864,111 +874,22 @@
                             <!-- 3-р таб: Уулзалтын хөтөлбөр -->
                             <li>
                                 <div class="b2b-scope">
-                                    <div class="text-center mb-4 px-3">
-                                        <!-- <div class="b2b-subtitle">ИХ ГОВИЙН ХӨГЖЛИЙН ГАРЦ ОНӨААТҮГ · НЭМЭЛТ ХӨТӨЛБӨР</div> -->
-                                        <p class="b2b-intro">
-                                            Энэхүү нэмэлт хөтөлбөр нь үндсэн форумтой зэрэгцэн, оролцогчдын чөлөөт цагт хэрэгжинэ.
-                                            Нийт <strong>4 хэлэлцүүлэг</strong> — бүгд <strong>Өрөө №2</strong>-т — болон урьдчилан тохирсон
-                                            <strong>B2B уулзалтуудаас</strong> бүрдэнэ. Хэлэлцүүлэг бүрд уул уурхайн компаниудын тухайн
-                                            салбар хариуцсан төлөөлөл болон орон нутгийн бизнесүүд оролцоно. <strong>Их говийн хөгжлийн гарц</strong>
-                                            бүх уулзалтыг зуучлан зохицуулна.
-                                        </p>
-                                    </div>
-
-                                    <div class="b2b-rooms mb-4">
-                                        <div class="b2b-room-row b2b-room-head">
-                                            <span class="b2b-room-name">ОРОН ЗАЙ</span>
-                                            <span class="b2b-room-loc">БАЙРШИЛ</span>
-                                            <span class="b2b-room-use">ЗОРИУЛАЛТ</span>
+                                    <div class="b2b-table">
+                                        <div class="b2b-table-head">
+                                            <span class="b2b-th-time">B2B уулзалт / хэлэлцүүлэг</span>
+                                            <span class="b2b-th-text">Тайлбар</span>
                                         </div>
-                                        <div class="b2b-room-row">
-                                            <span class="b2b-room-name">Өрөө №2</span>
-                                            <span class="b2b-room-loc">2-р давхар</span>
-                                            <span class="b2b-room-use">4 хэлэлцүүлэг бүгд энд явагдана · ≤ 20 оролцогч</span>
-                                        </div>
-                                        <div class="b2b-room-row">
-                                            <span class="b2b-room-name">Үндсэн танхим</span>
-                                            <span class="b2b-room-loc">—</span>
-                                            <span class="b2b-room-use">B2B уулзалт — ИГХГ ажилтнууд зуучлан тасралтгүй ажиллана</span>
-                                        </div>
-                                        <div class="b2b-room-row">
-                                            <span class="b2b-room-name">Өрөө №1</span>
-                                            <span class="b2b-room-loc">2-р давхар</span>
-                                            <span class="b2b-room-use">Чөлөөтэй</span>
-                                        </div>
-                                    </div>
 
-                                    <div class="de-tab plain b2b-days-tab">
-                                        <ul class="b2b-days-nav mb-4 pb-4 d-flex justify-content-center gap-5" id="b2b-tab-nav">
-                                            <li class="active-tab"><h3>2026.04.27</h3>ӨДӨР 1</li>
-                                            <li><h3>2026.04.28</h3>ӨДӨР 2</li>
-                                        </ul>
-                                        <ul class="b2b-days-content pt-3" id="b2b-tab-content">
-                                            <li>
-                                                <div class="b2b-note">
-                                                    Үндсэн хөтөлбөр <strong>09:00–17:00</strong> явагдана. <strong>11:40–12:30</strong> цагт үндсэн танхимд
-                                                    Ухаалаг худаг 2.0, Дорноговь платформ, Аялал жуулчлалын илтгэлүүд явагдаж байх үед
-                                                    <strong>Өрөө №2</strong>-т зэрэгцэн нэг хэлэлцүүлэг явагдана.
-                                                </div>
-                                                <div class="b2b-row"><span class="b2b-time">09:00–11:40</span><span class="b2b-text">ҮНДСЭН ХӨТӨЛБӨР ТАСРАЛТГҮЙ — НЭЭЛТ, ЭДИЙН ЗАСАГ, НОГООН ХӨГЖИЛ, ХАА, ХОРШОО<small class="b2b-meta">Үндсэн танхим · B2B тасралтгүй нээлттэй</small></span></div>
-                                                <div class="b2b-row b2b-highlight"><span class="b2b-time">11:40–12:30</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №4 — БАЙГАЛЬ ОРЧИН, НӨХӨН СЭРГЭЭЛТ · 50 МИН<small class="b2b-meta">Өрөө №2 · Үндсэн танхимтай зэрэгцэн</small></span></div>
-                                                <div class="b2b-row b2b-break"><span class="b2b-time">12:30–13:45</span><span class="b2b-text">ҮДИЙН ХООЛ — ХООСОН ЗАВСАРЛАГА<small class="b2b-meta">Нэмэлт хөтөлбөр ажиллахгүй</small></span></div>
-                                                <div class="b2b-row"><span class="b2b-time">13:45–17:00</span><span class="b2b-text">ҮНДСЭН ХӨТӨЛБӨР — ХӨРӨНГӨ ОРУУЛАЛТ, ГЭРЭЭ БАЙГУУЛАЛТ, УУЛ УУРХАЙ<small class="b2b-meta">Үндсэн танхим · B2B тасралтгүй нээлттэй</small></span></div>
-                                                <div class="b2b-row b2b-break"><span class="b2b-time">17:00–17:30</span><span class="b2b-text">COFFEE BREAK — ХООСОН ЗАВСАРЛАГА<small class="b2b-meta">Нэмэлт хөтөлбөр ажиллахгүй</small></span></div>
-                                                <div class="b2b-row"><span class="b2b-time">17:30–18:30</span><span class="b2b-text">ААН-ТЭЙ НИЙГМИЙН ХАРИУЦЛАГЫН ГЭРЭЭ БАЙГУУЛАХ<small class="b2b-meta">Үндсэн танхим · Үндсэн хөтөлбөр</small></span></div>
+                                        <div class="b2b-day-head">1-Р ӨДӨР – 2026.04.27</div>
+                                        <div class="b2b-row"><span class="b2b-time">10:00–12:20</span><span class="b2b-text">B2B networking (ОНӨГ)</span></div>
+                                        <div class="b2b-row b2b-highlight"><span class="b2b-time">13:20–14:20</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №1 — Тэрбум мод хөтөлбөр, ногоон байгууламжийг нэмэгдүүлэхэд орон нутгийн ханган нийлүүлэгчид, уул уурхайн хамтын оролцоо</span></div>
+                                        <div class="b2b-row"><span class="b2b-time">15:00–16:40</span><span class="b2b-text">B2B networking (ОНӨГ)</span></div>
 
-                                                <div class="b2b-discussion">
-                                                    <div class="b2b-disc-head">ХЭЛЭЛЦҮҮЛЭГ №4 — БАЙГАЛЬ ОРЧИН, НӨХӨН СЭРГЭЭЛТ</div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Уул уурхайн компаниас:</span><span>Байгаль орчны менежер буюу нөхөн сэргээлтийн чиглэл хариуцсан шийдвэр гаргагч — тус бүр өөр өөр компаниас, нийт ≤ 10 компани</span></div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Бизнесийн талаас:</span><span>Ногоон байгууламж, мод тарилт, хөрс нөхөн сэргээлт, усны эх үүсвэрийн менежмент эрхэлдэг компани, хоршоо — нийт ≤ 10</span></div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Хэлэлцэх гол асуудал:</span><span>Нөхөн сэргээлтийн тендерт орох шаардлага, техникийн нөхцөл, хугацаа; орон нутгийн компанид хэрхэн хандах вэ</span></div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="b2b-note">
-                                                    Үндсэн хөтөлбөр <strong>12:40</strong>-д дуусна. <strong>14:00–18:45</strong> цагт
-                                                    <strong>3 хэлэлцүүлэг</strong> зэрэгцэн B2B явагдана.
-                                                </div>
-                                                <div class="b2b-row"><span class="b2b-time">09:00–12:20</span><span class="b2b-text">ҮНДСЭН ХӨТӨЛБӨР — ЭРЧИМ ХҮЧ, БАЙГАЛЬ ОРЧИН, ДЭД БҮТЭЦ<small class="b2b-meta">Үндсэн танхим · B2B тасралтгүй нээлттэй</small></span></div>
-                                                <div class="b2b-row"><span class="b2b-time">12:20–12:40</span><span class="b2b-text">ДҮГНЭЛТ, ХААЛТ<small class="b2b-meta">Үндсэн танхим</small></span></div>
-                                                <div class="b2b-row b2b-break"><span class="b2b-time">12:40–14:00</span><span class="b2b-text">ҮДИЙН ХООЛ — ХООСОН ЗАВСАРЛАГА<small class="b2b-meta">Нэмэлт хөтөлбөр ажиллахгүй</small></span></div>
-                                                <div class="b2b-row b2b-highlight"><span class="b2b-time">14:00–14:45</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №1 — ХУДАЛДАА, КАТЕРИНГ, ҮЙЛЧИЛГЭЭ · 45 МИН<small class="b2b-meta">Өрөө №2 · B2B зэрэгцэн нээлттэй</small></span></div>
-                                                <div class="b2b-row b2b-break"><span class="b2b-time">14:45–15:15</span><span class="b2b-text">ЗАВСАРЛАГА · 30 МИН<small class="b2b-meta">B2B үргэлжилнэ</small></span></div>
-                                                <div class="b2b-row b2b-highlight"><span class="b2b-time">15:15–16:00</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №2 — БАЯЛАГ БҮТЭЭГЧ, ОЁДОЛ, ГАР УРЛАЛ · 45 МИН<small class="b2b-meta">Өрөө №2 · B2B зэрэгцэн нээлттэй</small></span></div>
-                                                <div class="b2b-row b2b-break"><span class="b2b-time">16:00–16:30</span><span class="b2b-text">ЗАВСАРЛАГА · 30 МИН<small class="b2b-meta">B2B үргэлжилнэ</small></span></div>
-                                                <div class="b2b-row b2b-highlight"><span class="b2b-time">16:30–17:30</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №3 — ХӨДӨӨ АЖ АХУЙ · 60 МИН<small class="b2b-meta">Өрөө №2 · B2B зэрэгцэн нээлттэй</small></span></div>
-                                                <div class="b2b-row b2b-break"><span class="b2b-time">17:30–18:00</span><span class="b2b-text">ЗАВСАРЛАГА · 30 МИН<small class="b2b-meta">B2B үргэлжилнэ</small></span></div>
-                                                <div class="b2b-row"><span class="b2b-time">18:00–18:45</span><span class="b2b-text">B2B — ӨДРИЙН ХААЛТ<small class="b2b-meta">Үндсэн танхим</small></span></div>
-                                                <div class="b2b-row"><span class="b2b-time">19:00–23:00</span><span class="b2b-text">ШАГНАЛ ГАРДУУЛАХ ЁСЛОЛ<small class="b2b-meta">Үндсэн хөтөлбөр</small></span></div>
-
-                                                <div class="b2b-discussion">
-                                                    <div class="b2b-disc-head">ХЭЛЭЛЦҮҮЛЭГ №1 — ХУДАЛДАА, КАТЕРИНГ, ҮЙЛЧИЛГЭЭ</div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Уул уурхайн компаниас:</span><span>Ханган нийлүүлэлт, хоол хүнс, ахуйн үйлчилгээ хариуцсан менежерүүд — тус бүр өөр өөр компаниас</span></div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Бизнесийн талаас:</span><span>Катеринг, цэвэрлэгээ, аюулгүй байдлын хувцас, ариун цэврийн хэрэгсэл, оффисын хэрэгцээ нийлүүлдэг орон нутгийн бизнесүүд</span></div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Хэлэлцэх гол асуудал:</span><span>Жилийн захиалгын хэмжээ, чанарын шаардлага, орон нутгийн нийлүүлэгчид тавигдах нөхцөл</span></div>
-                                                </div>
-                                                <div class="b2b-discussion">
-                                                    <div class="b2b-disc-head">ХЭЛЭЛЦҮҮЛЭГ №2 — БАЯЛАГ БҮТЭЭГЧ, ОЁДОЛ, ГАР УРЛАЛ, ХӨНГӨН ҮЙЛДВЭР</div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Уул уурхайн компаниас:</span><span>Ажлын хувцас, хамгаалалтын хэрэгсэл худалдан авалт хариуцсан менежерүүд — тус бүр өөр өөр компаниас</span></div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Бизнесийн талаас:</span><span>Ажлын хувцас, малгай, гутал, хамгаалалтын тоног төхөөрөмж үйлдвэрлэдэг компани, хоршоо, гар урчууд</span></div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Хэлэлцэх гол асуудал:</span><span>Жилийн захиалгын хэмжээ, чанарын стандарт, малгай / брэндийн бараа захиалах боломж</span></div>
-                                                </div>
-                                                <div class="b2b-discussion">
-                                                    <div class="b2b-disc-head">ХЭЛЭЛЦҮҮЛЭГ №3 — ХӨДӨӨ АЖ АХУЙ</div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Уул уурхайн компаниас:</span><span>Хүнсний нийлүүлэлт, ажиллагчдын хоолны захиалга хариуцсан менежерүүд — тус бүр өөр өөр компаниас</span></div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Бизнесийн талаас:</span><span>Мах, сүү, ногоо, гурил нийлүүлдэг фермер, малчдын хоршоо, ХАА-н бизнес эрхлэгчид</span></div>
-                                                    <div class="b2b-disc-row"><span class="b2b-disc-label">Хэлэлцэх гол асуудал:</span><span>Жилийн захиалгын хэмжээ, тогтмол нийлүүлэлтийн нөхцөл, чанарын баталгааны шаардлага</span></div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="b2b-coord-title mt-4">B2B УУЛЗАЛТЫН ЗОХИЦУУЛАЛТ</div>
-                                    <div class="b2b-coord">
-                                        <div class="b2b-coord-row"><span class="b2b-coord-key">Ажиллах цаг</span><span class="b2b-coord-val">Үндсэн хөтөлбөр явагдаж байх бүх цагт үндсэн танхимын нэг хэсэгт тасралтгүй нээлттэй байна </span></div>
-                                        <div class="b2b-coord-row"><span class="b2b-coord-key">Урьдчилсан бүртгэл</span><span class="b2b-coord-val">Форумын эхний өдрийн бүртгэлийн үеэр B2B хүсэлтийн хуудас бөглөнө </span></div>
-                                        <div class="b2b-coord-row"><span class="b2b-coord-key">Зохицуулалт</span><span class="b2b-coord-val">Нэг уулзалт <strong>20–25 минут</strong></span></div>
-                                        <div class="b2b-coord-row"><span class="b2b-coord-key">Тэмдэглэл</span><span class="b2b-coord-val">Ажилтнууд уулзалт бүрийн дараа товч тэмдэглэл хөтлөнө</span></div>
+                                        <div class="b2b-day-head">2-Р ӨДӨР – 2026.04.28</div>
+                                        <div class="b2b-row"><span class="b2b-time">09:00–10:00</span><span class="b2b-text">B2B networking (ОНӨГ)</span></div>
+                                        <div class="b2b-row b2b-highlight"><span class="b2b-time">10:00–10:50</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №2 — Худалдаа, катеринг, үйлчилгээний ханган нийлүүлэгчид, уул уурхайн хамтын оролцоо</span></div>
+                                        <div class="b2b-row b2b-highlight"><span class="b2b-time">10:50–11:35</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №3 — Баялаг бүтээгч, оёдол, гар урлалын салбарын ханган нийлүүлэгчид, уул уурхайн хамтын оролцоо</span></div>
+                                        <div class="b2b-row b2b-highlight"><span class="b2b-time">13:00–13:40</span><span class="b2b-text">ХЭЛЭЛЦҮҮЛЭГ №4 — Хүнс, Хөдөө аж ахуйн ханган нийлүүлэгчид, уул уурхайн хамтын оролцоо</span></div>
                                     </div>
                                 </div>
                             </li>
@@ -1002,7 +923,13 @@
               .b2b-scope .b2b-note { background: rgba(75,172,72,0.08); border-left: 3px solid #4bac48; padding: 12px 16px; font-size: 13px; line-height: 1.6; margin-bottom: 18px; border-radius: 4px; }
               .b2b-scope .b2b-note strong { color: #4bac48; font-weight: 600; }
 
-              .b2b-scope .b2b-row { display: flex; align-items: flex-start; gap: 14px; padding: 10px 12px; border-radius: 6px; transition: background 0.2s; margin-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+              .b2b-scope .b2b-table { border: 1px solid rgba(75,172,72,0.25); border-radius: 8px; overflow: hidden; max-width: 1100px; margin: 0 auto; }
+              .b2b-scope .b2b-table-head { display: flex; gap: 14px; padding: 14px 16px; background: rgba(75,172,72,0.18); font-weight: 700; color: #4bac48; letter-spacing: 1.5px; font-size: 12px; text-transform: uppercase; border-bottom: 2px solid rgba(75,172,72,0.35); }
+              .b2b-scope .b2b-th-time { min-width: 280px; flex-shrink: 0; }
+              .b2b-scope .b2b-th-text { flex: 1; }
+              .b2b-scope .b2b-day-head { padding: 12px 16px; background: rgba(75,172,72,0.08); font-weight: 700; font-size: 13px; letter-spacing: 1px; color: #4bac48; text-transform: uppercase; border-top: 1px solid rgba(75,172,72,0.2); border-bottom: 1px solid rgba(75,172,72,0.2); }
+              body:not(.dark-scheme) .b2b-scope .b2b-day-head { background: rgba(75,172,72,0.1); }
+              .b2b-scope .b2b-row { display: flex; align-items: flex-start; gap: 14px; padding: 10px 16px; transition: background 0.2s; border-bottom: 1px solid rgba(255,255,255,0.04); }
               .b2b-scope .b2b-row:hover { background: #4bac48; }
               .b2b-scope .b2b-row:hover .b2b-time,
               .b2b-scope .b2b-row:hover .b2b-text,
@@ -2133,6 +2060,7 @@
                         <li><a href="index.html#section-schedule">ХӨТӨЛБӨР</a></li>
                         <li><a href="index.html#section-venue">БАЙРШИЛ</a></li>
                         <li><a href="sudalgaa.html">СУДАЛГАА</a></li>
+                        <li><a href="next-gen.html">NEXT GEN</a></li>
                     </ul>
                 </div>
 

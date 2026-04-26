@@ -22,8 +22,7 @@ import {
   orderBy,
   where,
   serverTimestamp,
-  Timestamp,
-  onSnapshot
+  Timestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getStorage,
@@ -82,6 +81,44 @@ const ROLE_LABELS = {
   editor: "Засварлагч",
   viewer: "Үзэгч"
 };
+
+// ── Topbar: Бүтэн цонх ──
+(function initForumFs() {
+  const btn = document.getElementById("forumFsBtn");
+  if (!btn) return;
+  const isFs = () => !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+  function updateUI() {
+    const icon = btn.querySelector("i");
+    const text = btn.querySelector(".topbar-btn-text");
+    if (isFs()) {
+      if (icon) icon.className = "fa fa-compress";
+      if (text) text.textContent = "Гарах";
+      btn.title = "Бүтэн цонхноос гарах (Esc)";
+    } else {
+      if (icon) icon.className = "fa fa-expand";
+      if (text) text.textContent = "Бүтэн цонх";
+      btn.title = "Бүтэн цонхоор харах (F11)";
+    }
+  }
+  btn.addEventListener("click", async () => {
+    try {
+      if (isFs()) {
+        if (document.exitFullscreen) await document.exitFullscreen();
+        else if (document.webkitExitFullscreen) await document.webkitExitFullscreen();
+        else if (document.msExitFullscreen) await document.msExitFullscreen();
+      } else {
+        const el = document.documentElement;
+        if (el.requestFullscreen) await el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+        else if (el.msRequestFullscreen) await el.msRequestFullscreen();
+      }
+    } catch (e) { console.warn("Fullscreen:", e); }
+  });
+  ["fullscreenchange", "webkitfullscreenchange", "msfullscreenchange"].forEach((evt) => {
+    document.addEventListener(evt, updateUI);
+  });
+  updateUI();
+})();
 
 // ── Theme toggle ──
 (function initThemeToggle() {
@@ -158,7 +195,19 @@ onAuthStateChanged(auth, async (user) => {
   // Эрхээс хамаарч товчнуудыг нуух
   applyPermissions();
   initAdminMenuVisibility();
-  loadDashboard();
+
+  // Хуудас сэргэх үед өмнөх идэвхтэй хэсгийг сэргээх (URL hash эсвэл localStorage)
+  let saved = "";
+  try {
+    const hashSec = window.location.hash.slice(1);
+    if (hashSec) saved = hashSec;
+    else saved = localStorage.getItem("dsif-admin-section") || "";
+  } catch (e) {}
+  if (saved && document.getElementById("sec-" + saved)) {
+    activateSection(saved, { skipHash: true });
+  } else {
+    loadDashboard();
+  }
 });
 
 // ── Эрхийн хязгаарлалт ──
@@ -189,45 +238,96 @@ const SECTION_TITLES = {
   sectors: "Төслийн ангилал",
   menu: "Цэс тохиргоо",
   funding: "Санхүүжилт тохиргоо",
-  funders: "Санхүүжүүлэгчид",
-  attendance: "Форумын ирц"
+  funders: "Санхүүжүүлэгчид"
 };
 
 // ── Sidebar навигаци ──
+function activateSection(section, opts) {
+  opts = opts || {};
+  const link = document.querySelector(`.sidebar-nav a[data-section="${section}"]`);
+  const target = document.getElementById("sec-" + section);
+  if (!link || !target) return false;
+
+  // Active state
+  document.querySelectorAll(".sidebar-nav a").forEach((a) => a.classList.remove("active"));
+  link.classList.add("active");
+
+  // Show section
+  document.querySelectorAll(".section-page").forEach((s) => s.classList.remove("active"));
+  target.classList.add("active");
+
+  // Topbar title
+  const topTitle = document.getElementById("topbarTitle");
+  if (topTitle) topTitle.textContent = SECTION_TITLES[section] || section;
+
+  // Load data
+  if (section === "dashboard") loadDashboard();
+  if (section === "analytics") loadAnalyticsDashboard();
+  if (section === "projects") loadProjects();
+  if (section === "roles") loadRoles();
+  if (section === "admin-menu") loadAdminMenu();
+  if (section === "sub-admins") loadSubAdmins();
+  if (section === "sectors") loadSectors();
+  if (section === "menu") loadMenu();
+  if (section === "funding") loadFundingSettings();
+  if (section === "funders") loadFunders();
+
+  // Mobile: sidebar хаах
+  const sb = document.getElementById("sidebar");
+  if (sb) sb.classList.remove("open");
+
+  // URL hash-д хадгалах (хуудас сэргэх үед сэргээхэд)
+  if (!opts.skipHash && window.location.hash.slice(1) !== section) {
+    history.replaceState(null, "", "#" + section);
+  }
+  try { localStorage.setItem("dsif-admin-section", section); } catch (e) {}
+  return true;
+}
+
 document.querySelectorAll(".sidebar-nav a[data-section]").forEach((link) => {
   link.addEventListener("click", (e) => {
     e.preventDefault();
-    const section = link.dataset.section;
+    const sec = link.dataset.section;
+    const anaTab = link.dataset.anaTab;
 
-    // Active state
-    document.querySelectorAll(".sidebar-nav a").forEach((a) => a.classList.remove("active"));
-    link.classList.add("active");
+    // Дашбоард гол цэс (has-sub) дээр дарахад зөвхөн sub-menu toggle
+    if (link.classList.contains("has-sub")) {
+      const sub = link.nextElementSibling;
+      if (sub && sub.classList.contains("sidebar-sub")) {
+        sub.classList.toggle("open");
+        link.classList.toggle("sub-open");
+      }
+      activateSection(sec);
+      return;
+    }
 
-    // Show section
-    document.querySelectorAll(".section-page").forEach((s) => s.classList.remove("active"));
-    const target = document.getElementById("sec-" + section);
-    if (target) target.classList.add("active");
+    activateSection(sec);
 
-    // Topbar title шинэчлэх
-    const topTitle = document.getElementById("topbarTitle");
-    if (topTitle) topTitle.textContent = SECTION_TITLES[section] || section;
-
-    // Load data
-    if (section === "dashboard") loadDashboard();
-    if (section === "analytics") loadAnalyticsDashboard();
-    if (section === "projects") loadProjects();
-    if (section === "roles") loadRoles();
-    if (section === "admin-menu") loadAdminMenu();
-    if (section === "attendance") loadAttendance();
-    if (section === "sub-admins") loadSubAdmins();
-    if (section === "sectors") loadSectors();
-    if (section === "menu") loadMenu();
-    if (section === "funding") loadFundingSettings();
-    if (section === "funders") loadFunders();
-
-    // Mobile: sidebar хаах
-    document.getElementById("sidebar").classList.remove("open");
+    // Sub-menu item дарагдсан бол тохирох ana-tab-г сонгох
+    if (anaTab) {
+      requestAnimationFrame(() => {
+        const btn = document.querySelector(`.ana-tab[data-ana-tab="${anaTab}"]`);
+        if (btn) btn.click();
+      });
+    }
   });
+});
+
+// Page-header-ын Шинэчлэх товчийг ажиллуулах — одоогийн section-ийг дахин ачаалах
+window.refreshCurrentSection = function () {
+  const active = document.querySelector(".sidebar-nav a.active");
+  if (!active) return;
+  const sec = active.dataset.section;
+  if (sec) activateSection(sec, { skipHash: true });
+  // Analytics хуудсанд бол идэвхтэй tab-д тохирох load-ыг мөн дуудах
+  const anaActive = document.querySelector(".ana-tab.active");
+  if (anaActive) anaActive.click();
+};
+
+// Browser back/forward — URL hash өөрчлөгдөхөд дагах
+window.addEventListener("hashchange", () => {
+  const s = window.location.hash.slice(1);
+  if (s) activateSection(s, { skipHash: true });
 });
 
 // Mobile toggle
@@ -343,72 +443,733 @@ async function loadForumInfo() {
     if (tbody) tbody.innerHTML = '<tr><td colspan="3" class="empty-state"><i class="fa fa-exclamation-triangle"></i><p>Уншиж чадсангүй</p></td></tr>';
   }
 
-  // Ирцийн товч мэдээлэл
-  loadDashAttendance();
+  // Нэгтгэл шийтийн сессийн ирц
+  loadNegtgel();
+}
+
+const NEGTGEL_GID = "1157661015";
+function loadNegtgel() {
+  return loadSessionPanel({
+    sheetNames: [],
+    primaryGid: NEGTGEL_GID,
+    wrapId: "negByDateWrap",
+    totalId: "negTotal",
+    panelKey: "neg"
+  });
+}
+window.loadNegtgel = loadNegtgel;
+
+// Бүх panel-ын сессийг label-аар нэгтгэж харуулах
+function renderCombinedSessions() {
+  const wrap = document.getElementById("combByDateWrap");
+  const totalEl = document.getElementById("combTotal");
+  const sumEl = document.getElementById("combSummary");
+  if (!wrap) return;
+
+  const keys = ["foreign", "mining", "aimag", "tbb", "gov"];
+  // Огноо + байршил + цагаар нэгтгэнэ (sheet бүрд бичлэг ялгаатай байж болох тул)
+  const normLabel = (s) => {
+    const p = _fgnParts(s);
+    const key = [p.date, p.place, p.time]
+      .map((x) => (x || "").toLowerCase().normalize("NFC").replace(/\s+/g, " ").trim())
+      .join("|");
+    return key || String(s || "").toLowerCase().replace(/\s+/g, " ").trim();
+  };
+
+  // label (normalized) → { origLabel, present, absent, perPanel: { key: { present, absent, rows } } }
+  const merged = new Map();
+
+  const findLocal = (cols, ...names) => {
+    const norm = (s) => (s || "").toString().toLowerCase().normalize("NFC").trim();
+    for (const want of names) {
+      const w = norm(want);
+      for (let i = 0; i < cols.length; i++) {
+        if (norm(cols[i] && cols[i].label) === w) return i;
+      }
+    }
+    return -1;
+  };
+  keys.forEach((key) => {
+    const data = _fgnSessionData[key];
+    if (!data) return;
+    const { cols, rows, sessionCols } = data;
+    const ovogIdx = findLocal(cols, "Овог", "Surname");
+    const nameIdx = findLocal(cols, "Нэр", "Name");
+    const phoneIdx = findLocal(cols, "Утас", "Phone");
+    sessionCols.forEach((sc) => {
+      const norm = normLabel(sc.label);
+      if (!norm) return;
+      if (!merged.has(norm)) {
+        merged.set(norm, { origLabel: sc.label, present: 0, absent: 0, perPanel: {} });
+      }
+      const entry = merged.get(norm);
+      const panelEntry = { present: 0, absent: 0, cols, rows, sessionIdx: sc.idx };
+      rows.forEach((r) => {
+        if (!r || !r.c) return;
+        const ovog = ovogIdx >= 0 && r.c[ovogIdx] ? (r.c[ovogIdx].v || "") : "";
+        const name = nameIdx >= 0 && r.c[nameIdx] ? (r.c[nameIdx].v || "") : "";
+        const phone = phoneIdx >= 0 && r.c[phoneIdx] ? (r.c[phoneIdx].v || "") : "";
+        if (!String(ovog).trim() && !String(name).trim() && !String(phone).trim()) return;
+        const cell = r.c[sc.idx];
+        const st = _fgnStatus(cell ? (cell.v != null ? cell.v : cell.f) : "");
+        if (st === "present") panelEntry.present++;
+        else if (st === "absent") panelEntry.absent++;
+      });
+      entry.present += panelEntry.present;
+      entry.absent += panelEntry.absent;
+      entry.perPanel[key] = panelEntry;
+    });
+  });
+
+  if (!merged.size) {
+    if (totalEl) totalEl.textContent = "Мэдээлэл байхгүй";
+    wrap.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fa fa-inbox"></i><p>Нэгтгэх сесс олдсонгүй</p></div>';
+    if (sumEl) sumEl.innerHTML = "";
+    return;
+  }
+
+  // Хугацаагаар эрэмбэлэх (4.27 өмнө, дараа нь 4.28, цагаар)
+  const entries = Array.from(merged.values()).sort((a, b) => {
+    const norm = (x) => {
+      const d = x.origLabel.match(/(0?4\.\d{1,2})/);
+      const t = x.origLabel.match(/(\d{1,2}:\d{2})/);
+      return (d ? d[1] : "") + " " + (t ? t[1] : "");
+    };
+    return norm(a).localeCompare(norm(b));
+  });
+
+  const totalMarks = entries.reduce((a, e) => a + e.present + e.absent, 0);
+  const totalPresent = entries.reduce((a, e) => a + e.present, 0);
+  const totalAbsent = entries.reduce((a, e) => a + e.absent, 0);
+  const totalParticipants = entries.reduce((m, e) => Math.max(m, e.present + e.absent), 0);
+  // Дундаж = сесс бүрийн ирцийн хувийн simple mean
+  const sessionPcts = entries.map((e) => {
+    const t = e.present + e.absent;
+    return t ? (e.present / t) * 100 : 0;
+  });
+  const avgPct = sessionPcts.length ? Math.round(sessionPcts.reduce((a, b) => a + b, 0) / sessionPcts.length) : 0;
+  if (totalEl) totalEl.textContent = `Нийт тэмдэглэгдсэн: ${totalMarks}`;
+
+  // Cache combined data модалд ашиглах
+  _fgnSessionData["combined"] = {
+    sessionCols: entries.map((e) => ({ label: e.origLabel, _combined: true, perPanel: e.perPanel })),
+    cols: [],
+    rows: []
+  };
+
+  const summaryHtml = _fgnRenderAverage(totalPresent, totalAbsent, avgPct);
+  const piesHtml = entries.map((e, i) => {
+    const total = e.present + e.absent;
+    const pct = total ? Math.round((e.present / total) * 100) : 0;
+    const s = { label: e.origLabel, present: e.present, absent: e.absent };
+    return _fgnRenderPie(s, total, pct, i, "combined");
+  }).join("");
+  wrap.innerHTML = summaryHtml + piesHtml;
+  _bindFgnPieClicks(wrap);
+
+  if (sumEl) {
+    const bigDonut = totalMarks
+      ? `<svg class="fgn-sum-donut" viewBox="0 0 42 42">
+           <circle cx="21" cy="21" r="15.915" fill="none" stroke="#e74c3c" stroke-width="6"/>
+           <circle cx="21" cy="21" r="15.915" fill="none"
+                   stroke="#4bac48" stroke-width="6"
+                   pathLength="100"
+                   stroke-dasharray="${avgPct} ${100 - avgPct}"
+                   stroke-dashoffset="25"/>
+           <text x="21" y="22" text-anchor="middle" dominant-baseline="middle" class="fgn-sum-donut-pct">${avgPct}%</text>
+         </svg>`
+      : `<svg class="fgn-sum-donut" viewBox="0 0 42 42"><circle cx="21" cy="21" r="15.915" fill="none" stroke-width="6" class="fgn-donut-bg-empty"/></svg>`;
+    sumEl.innerHTML = `
+      <div class="fgn-sum-donut-wrap">${bigDonut}</div>
+      <div class="fgn-sum-stats">
+        <div class="fgn-sum-stat"><span>${totalParticipants}</span><small>Нийт оролцогч</small></div>
+        <div class="fgn-sum-stat fgn-sum-present"><span>${totalPresent}</span><small>Бүгд ирсэн нийлбэр</small></div>
+        <div class="fgn-sum-stat fgn-sum-absent"><span>${totalAbsent}</span><small>Бүгд ирээгүй нийлбэр</small></div>
+        <div class="fgn-sum-stat fgn-sum-pct"><span>${avgPct}%</span><small>Дундаж ирц</small></div>
+      </div>
+    `;
+  }
 }
 window.loadForumInfo = loadForumInfo;
 
-async function loadDashAttendance() {
-  // Хэрэв ирцийн өгөгдлийг хараахан унших гээгүй байгаа бол одоо унших
-  if (!_attRegistrants || !_attRegistrants.length) {
-    if (typeof loadAttendance === "function") {
-      try { await loadAttendance(); } catch (e) { /* ignore */ }
-    }
-  } else if (!_attMarks.size) {
-    // Бүртгэлтэй боловч Firestore-ийн mark уншаагүй бол
-    try {
-      const snap = await getDocs(collection(db, "attendance"));
-      _attMarks = new Map();
-      snap.forEach((d) => _attMarks.set(d.id, d.data() || {}));
-    } catch (e) { /* ignore */ }
-  }
+const FOREIGN_SHEET_ID = "12pZJcmCCMdnkVrjY4coxFFVwTa-7nUTjjOUxwwIHEHc";
+const FOREIGN_SHEET_NAMES = ["Гадаад хөрөнгө оруулагч", "Гадаад"];
+const MINING_SHEET_NAMES = [
+  "Уул, уурхайн дотоод хөрөнгө оруулагч",
+  "Уул уурхайн дотоод хөрөнгө оруулагч",
+  "Дотоод хөрөнгө оруулагч"
+];
+const MINING_SHEET_GID = "1578455080";
 
-  const total = _attRegistrants.length;
-  let d1 = 0, d2 = 0;
-  _attRegistrants.forEach((r) => {
-    const m = _attMarks.get(r.regId);
-    if (m && m.day1) d1++;
-    if (m && m.day2) d2++;
+const AIMAG_SHEET_NAMES = [
+  "Аймаг, сумын удирдлага",
+  "Аймаг сумын удирдлага",
+  "Аймаг, сум",
+  "Аймаг сум"
+];
+const TBB_SHEET_NAMES = [
+  "ТББ, хоршоо, ААН, иргэн",
+  "ТББ хоршоо ААН иргэн",
+  "ТББ, хоршоо, ААН",
+  "ТББ"
+];
+const GOV_SHEET_NAMES = [
+  "Төрийн байгууллага",
+  "Төрийн"
+];
+// Panel key-ээр кэшлэх ({ foreign: {...}, mining: {...} })
+const _fgnSessionData = {};
+function _fgnParts(label) {
+  const s = String(label || "").replace(/\s+/g, " ").trim();
+  const timeMatch = s.match(/(\d{1,2}:\d{2}\s*[-–]\s*\d{1,2}:\d{2})/);
+  const time = timeMatch ? timeMatch[1].replace(/\s/g, "") : "";
+  const dateMatch = s.match(/(0?4\.\d{1,2})/);
+  const dateRaw = dateMatch ? dateMatch[1] : "";
+  const datePadded = dateRaw ? dateRaw.split(".").map((p) => p.padStart(2, "0")).join(".") : "";
+  let rest = s;
+  if (timeMatch) rest = rest.replace(timeMatch[0], "");
+  if (dateMatch) rest = rest.replace(dateMatch[0], "");
+  // Cyrillic үгэнд \b ажиллахгүй тул substring-аар хасах
+  rest = rest
+    .replace(/бүртгэх/gi, "")
+    .replace(/өдөр/gi, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/^[-–,]+|[-–,]+$/g, "")
+    .trim();
+  return {
+    date: datePadded ? ("Бүртгэх өдөр " + datePadded) : "",
+    place: rest,
+    time: time
+  };
+}
+
+function _fgnRenderAverage(totalPresent, totalAbsent, avgPct) {
+  const total = totalPresent + totalAbsent;
+  const donut = total
+    ? `<svg class="fgn-donut" viewBox="0 0 42 42">
+         <circle cx="21" cy="21" r="15.915" fill="none" stroke="#e74c3c" stroke-width="6"/>
+         <circle cx="21" cy="21" r="15.915" fill="none"
+                 stroke="#4bac48" stroke-width="6"
+                 pathLength="100"
+                 stroke-dasharray="${avgPct} ${100 - avgPct}"
+                 stroke-dashoffset="25"/>
+         <text x="21" y="22" text-anchor="middle" dominant-baseline="middle" class="fgn-donut-pct">${avgPct}%</text>
+       </svg>`
+    : `<svg class="fgn-donut" viewBox="0 0 42 42"><circle cx="21" cy="21" r="15.915" fill="none" stroke-width="6" class="fgn-donut-bg-empty"/></svg>`;
+  return `<div class="fgn-pie-item fgn-pie-avg" title="Бүх сессийн дундаж">
+    <div class="fgn-pie-top">
+      <div class="fgn-pie-label">
+        <div class="fgn-pie-line" style="font-weight:700;color:inherit">ДУНДАЖ</div>
+        <div class="fgn-pie-line">Бүх сесс</div>
+      </div>
+      ${donut}
+    </div>
+  </div>`;
+}
+
+function _fgnRenderPie(s, total, pct, idx) {
+  const fullLabel = String(s.label || "").trim();
+  const parts = _fgnParts(fullLabel);
+  const lines = [parts.date, parts.place, parts.time].filter(Boolean);
+  const labelHtmlInner = lines.length
+    ? lines.map((l) => `<div class="fgn-pie-line">${escapeHtml(l)}</div>`).join("")
+    : `<div class="fgn-pie-line">${escapeHtml(fullLabel)}</div>`;
+  const empty = !total;
+  const donut = empty
+    ? `<svg class="fgn-donut" viewBox="0 0 42 42" aria-hidden="true">
+         <circle cx="21" cy="21" r="15.915" fill="none" stroke-width="6" class="fgn-donut-bg-empty"/>
+       </svg>`
+    : `<svg class="fgn-donut" viewBox="0 0 42 42">
+         <circle cx="21" cy="21" r="15.915" fill="none" stroke="#e74c3c" stroke-width="6"/>
+         <circle cx="21" cy="21" r="15.915" fill="none"
+                 stroke="#4bac48" stroke-width="6"
+                 pathLength="100"
+                 stroke-dasharray="${pct} ${100 - pct}"
+                 stroke-dashoffset="25"/>
+         <text x="21" y="22" text-anchor="middle" dominant-baseline="middle" class="fgn-donut-pct">${pct}%</text>
+       </svg>`;
+  return `<div class="fgn-pie-item" data-idx="${idx != null ? idx : ""}" role="button" tabindex="0" title="Дэлгэрэнгүй харах">
+    <div class="fgn-pie-top">
+      <div class="fgn-pie-label">${labelHtmlInner}</div>
+      <div class="fgn-pie-stats">
+        <div class="fgn-stat"><span class="fgn-stat-lbl">Нийт</span><span class="fgn-stat-val">${total}</span></div>
+        <div class="fgn-stat fgn-stat-present"><span class="fgn-stat-lbl">Ирсэн</span><span class="fgn-stat-val">${s.present}</span></div>
+        <div class="fgn-stat fgn-stat-absent"><span class="fgn-stat-lbl">Ирээгүй</span><span class="fgn-stat-val">${s.absent}</span></div>
+      </div>
+      ${donut}
+    </div>
+  </div>`;
+}
+
+function _fgnNorm(s) {
+  return (s || "").toString().toLowerCase().normalize("NFC").trim();
+}
+
+function _fgnIsSessionCol(label) {
+  const l = _fgnNorm(label);
+  // "4.27" эсвэл "4.28" агуулсан багана л сесс гэж тооцох (ямар ч байрлалд, цэгийг тоонд оруулахгүй)
+  return /(?:^|\D)0?4\.(?:27|28)(?:\D|$)/.test(l);
+}
+
+function _fgnStatus(v) {
+  const s = _fgnNorm(v);
+  if (!s) return "";
+  if (s === "ирсэн" || s === "true" || s === "yes" || s === "✓" || s === ".") return "present";
+  if (s === "ирээгүй" || s === "false" || s === "no" || s === "✗" || s === "x") return "absent";
+  return "";
+}
+
+function _fgnLooksLikeHeaderRow(row) {
+  if (!row || !row.c) return false;
+  const kw = ["огноо", "date", "овог", "нэр", "name", "утас", "phone", "байгууллага", "албан", "бүртгэл", "д/д", "зочид", "имэйл", "и-мэйл"];
+  let m = 0;
+  row.c.forEach((c) => {
+    if (!c || c.v == null) return;
+    const v = c.v.toString().toLowerCase().normalize("NFC");
+    if (kw.some((k) => v.indexOf(k) !== -1)) m++;
   });
-  const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
-  const avg = total ? Math.round(((d1 + d2) / (total * 2)) * 100) : 0;
-  const setHTML = (id, v) => { const el = document.getElementById(id); if (el) el.innerHTML = v; };
-  const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  setText("dashAttTotal", total);
-  setHTML("dashAttDay1", `${d1} <span class="stat-pct">${pct(d1)}%</span>`);
-  setHTML("dashAttDay2", `${d2} <span class="stat-pct">${pct(d2)}%</span>`);
-  setText("dashAttAvg", avg + "%");
+  return m >= 2;
+}
 
-  // Ангилал бүрийн ирц
-  const tbody = document.getElementById("dashAttByCategory");
-  if (!tbody) return;
-  if (!total) {
-    tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fa fa-inbox"></i><p>Бүртгэл байхгүй</p></td></tr>`;
+async function _fgnFetchOnce(queryPart) {
+  const url = `https://docs.google.com/spreadsheets/d/${FOREIGN_SHEET_ID}/gviz/tq?tqx=out:json&${queryPart}&_=${Date.now()}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const text = await res.text();
+    const s = text.indexOf("{"), e = text.lastIndexOf("}");
+    if (s < 0 || e < 0) return null;
+    const json = JSON.parse(text.substring(s, e + 1));
+    if (json.status !== "ok") return null;
+    let cols = (json.table && json.table.cols) || [];
+    let rows = (json.table && json.table.rows) || [];
+    if (rows.length && _fgnLooksLikeHeaderRow(rows[0])) {
+      cols = cols.map((c, i) => {
+        const cell = rows[0].c && rows[0].c[i];
+        const label = (cell && cell.v != null) ? cell.v.toString().trim() : (c && c.label) || "";
+        return { ...(c || {}), label };
+      });
+      rows = rows.slice(1);
+    }
+    return { cols, rows };
+  } catch (err) { return null; }
+}
+
+async function _fgnFetchSheet(sheetNames, fallbackGid, primaryGid) {
+  // primaryGid өгөгдсөн бол хамгийн түрүүнд тэрхүү gid-аар уншина
+  if (primaryGid) {
+    const out = await _fgnFetchOnce(`gid=${encodeURIComponent(primaryGid)}`);
+    if (out) return { ...out, sheetName: `gid:${primaryGid}` };
+  }
+  const names = sheetNames || [];
+  for (const name of names) {
+    const out = await _fgnFetchOnce(`sheet=${encodeURIComponent(name)}`);
+    if (out) return { ...out, sheetName: name };
+  }
+  if (fallbackGid) {
+    const out = await _fgnFetchOnce(`gid=${encodeURIComponent(fallbackGid)}`);
+    if (out) return { ...out, sheetName: `gid:${fallbackGid}` };
+  }
+  return { cols: [], rows: [], sheetName: "" };
+}
+
+async function loadSessionPanel(cfg) {
+  const wrap = document.getElementById(cfg.wrapId);
+  const totalEl = document.getElementById(cfg.totalId);
+  if (!wrap) return;
+
+  const { cols, rows } = await _fgnFetchSheet(cfg.sheetNames, cfg.fallbackGid, cfg.primaryGid);
+  if (!cols.length || !rows.length) {
+    if (totalEl) totalEl.textContent = "Мэдээлэл олдсонгүй";
+    wrap.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fa fa-inbox"></i><p>Мэдээлэл олдсонгүй</p></div>';
     return;
   }
-  const stats = {};
-  ATT_CATEGORIES.forEach((c) => (stats[c] = { total: 0, d1: 0, d2: 0 }));
-  _attRegistrants.forEach((r) => {
-    const c = _attGetCategory(r.regId);
-    const s = stats[c]; if (!s) return;
-    s.total++;
-    const m = _attMarks.get(r.regId);
-    if (m && m.day1) s.d1++;
-    if (m && m.day2) s.d2++;
+
+  // Session багана таних: (1) label-д огноо байх, эсвэл (2) баганад ирсэн/ирээгүй утга агуулагдах
+  const sessionCols = [];
+  cols.forEach((c, i) => {
+    if (!c) return;
+    const label = String(c.label || "").trim();
+    if (!label) return;
+    if (_fgnIsSessionCol(label)) {
+      sessionCols.push({ idx: i, label });
+      return;
+    }
+    // Агуулгаар нь шалгах
+    let statusCount = 0;
+    for (let j = 0; j < rows.length && statusCount < 2; j++) {
+      const r = rows[j];
+      if (!r || !r.c || !r.c[i]) continue;
+      const cell = r.c[i];
+      const raw = cell.v != null ? cell.v : cell.f;
+      if (_fgnStatus(raw)) statusCount++;
+    }
+    if (statusCount >= 2) sessionCols.push({ idx: i, label });
   });
-  tbody.innerHTML = ATT_CATEGORIES.map((c) => {
-    const s = stats[c];
-    const catPct = s.total ? Math.round(((s.d1 + s.d2) / (s.total * 2)) * 100) : 0;
-    return `<tr>
-      <td><span class="att-cat-badge">${escapeHtml(c)}</span></td>
-      <td style="text-align:center">${s.total}</td>
-      <td style="text-align:center">${s.d1} <span class="stat-pct" style="font-size:10px">${s.total ? Math.round(s.d1 / s.total * 100) : 0}%</span></td>
-      <td style="text-align:center">${s.d2} <span class="stat-pct" style="font-size:10px">${s.total ? Math.round(s.d2 / s.total * 100) : 0}%</span></td>
-      <td style="text-align:right;font-weight:600">${catPct}%</td>
-    </tr>`;
+
+  if (!sessionCols.length) {
+    if (totalEl) totalEl.textContent = "Сесс олдсонгүй";
+    wrap.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fa fa-triangle-exclamation"></i><p>Сессийн багана олдсонгүй</p></div>';
+    return;
+  }
+
+  // Нэртэй мөр л тоолох (хоосон/тест мөрүүдийг алгасах)
+  const findIdx = (...names) => {
+    const norm = (s) => (s || "").toString().toLowerCase().normalize("NFC").trim();
+    for (const want of names) {
+      const w = norm(want);
+      for (let i = 0; i < cols.length; i++) {
+        if (norm(cols[i] && cols[i].label) === w) return i;
+      }
+    }
+    return -1;
+  };
+  const surnameIdx = findIdx("Овог", "Surname");
+  const nameIdx = findIdx("Нэр", "Name", "Захирал", "Төлөөлөн ирсэн хүний нэр", "Төлөөлөн ирсэн хүний нэр-утас");
+  const phoneIdx = findIdx("Утас", "Phone");
+  const sessionIdxSet = new Set(sessionCols.map((s) => s.idx));
+  const hasNameCols = surnameIdx >= 0 || nameIdx >= 0 || phoneIdx >= 0;
+  const stats = sessionCols.map((s) => ({ label: s.label, present: 0, absent: 0 }));
+  rows.forEach((r) => {
+    if (!r || !r.c) return;
+
+    // Section heading мөр (жишээ: "Гадаадын зочин төлөөлөгчид") — session-н багана хоосон, нэг урт текст cell үлддэг
+    const filledNonSession = r.c.reduce((arr, c, i) => {
+      if (sessionIdxSet.has(i)) return arr;
+      const v = c && c.v != null ? String(c.v).trim() : "";
+      if (v) arr.push(v);
+      return arr;
+    }, []);
+    const sessionFilled = sessionCols.some((s) => {
+      const c = r.c[s.idx];
+      return c && c.v != null && String(c.v).trim() !== "";
+    });
+    if (filledNonSession.length === 1 && !sessionFilled && filledNonSession[0].length >= 4) {
+      return; // section heading — алгасах
+    }
+
+    if (hasNameCols) {
+      const ovog = surnameIdx >= 0 && r.c[surnameIdx] ? (r.c[surnameIdx].v || "") : "";
+      const name = nameIdx >= 0 && r.c[nameIdx] ? (r.c[nameIdx].v || "") : "";
+      const phone = phoneIdx >= 0 && r.c[phoneIdx] ? (r.c[phoneIdx].v || "") : "";
+      const hasIdentity = String(ovog).trim() || String(name).trim() || String(phone).trim();
+      if (!hasIdentity) return;
+    }
+    sessionCols.forEach((s, i) => {
+      const cell = r.c[s.idx];
+      const raw = cell ? (cell.v != null ? cell.v : cell.f) : "";
+      const st = _fgnStatus(raw);
+      if (st === "present") stats[i].present++;
+      else if (st === "absent") stats[i].absent++;
+    });
+  });
+
+  const maxMarked = stats.reduce((m, s) => Math.max(m, s.present + s.absent), 0);
+  if (totalEl) totalEl.textContent = `Нийт тэмдэглэгдсэн: ${maxMarked}`;
+
+  // Panel-ын доод талын нийт үзүүлэлт (том doughnut + тоонууд)
+  const sumEl = document.getElementById(cfg.summaryId);
+  if (sumEl) {
+    const totalPresent = stats.reduce((a, s) => a + s.present, 0);
+    const totalAbsent = stats.reduce((a, s) => a + s.absent, 0);
+    const totalMarks = totalPresent + totalAbsent;
+    const avgPct = totalMarks ? Math.round((totalPresent / totalMarks) * 100) : 0;
+    const bigDonut = totalMarks
+      ? `<svg class="fgn-sum-donut" viewBox="0 0 42 42">
+           <circle cx="21" cy="21" r="15.915" fill="none" stroke="#e74c3c" stroke-width="6"/>
+           <circle cx="21" cy="21" r="15.915" fill="none"
+                   stroke="#4bac48" stroke-width="6"
+                   pathLength="100"
+                   stroke-dasharray="${avgPct} ${100 - avgPct}"
+                   stroke-dashoffset="25"/>
+           <text x="21" y="22" text-anchor="middle" dominant-baseline="middle" class="fgn-sum-donut-pct">${avgPct}%</text>
+         </svg>`
+      : `<svg class="fgn-sum-donut" viewBox="0 0 42 42"><circle cx="21" cy="21" r="15.915" fill="none" stroke-width="6" class="fgn-donut-bg-empty"/></svg>`;
+    sumEl.innerHTML = `
+      <div class="fgn-sum-donut-wrap">${bigDonut}</div>
+      <div class="fgn-sum-stats">
+        <div class="fgn-sum-stat"><span>${maxMarked}</span><small>Нийт оролцогч</small></div>
+        <div class="fgn-sum-stat fgn-sum-present"><span>${totalPresent}</span><small>Бүх сесст ирсэн</small></div>
+        <div class="fgn-sum-stat fgn-sum-absent"><span>${totalAbsent}</span><small>Бүх сесст ирээгүй</small></div>
+        <div class="fgn-sum-stat fgn-sum-pct"><span>${avgPct}%</span><small>Дундаж ирц</small></div>
+      </div>
+    `;
+  }
+
+  _fgnSessionData[cfg.panelKey] = { cols, rows, sessionCols };
+
+  const totalPresent = stats.reduce((a, s) => a + s.present, 0);
+  const totalAbsent = stats.reduce((a, s) => a + s.absent, 0);
+  // Дундаж хувь = сесс бүрийн ирцийн хувийн simple mean (sum-based биш)
+  const sessionPcts = stats.map((s) => {
+    const t = s.present + s.absent;
+    return t ? (s.present / t) * 100 : 0;
+  });
+  const avgPct = sessionPcts.length ? Math.round(sessionPcts.reduce((a, b) => a + b, 0) / sessionPcts.length) : 0;
+
+  const summaryHtml = _fgnRenderAverage(totalPresent, totalAbsent, avgPct);
+  const piesHtml = stats.map((s, i) => {
+    const total = s.present + s.absent;
+    const pct = total ? Math.round((s.present / total) * 100) : 0;
+    return _fgnRenderPie(s, total, pct, i, cfg.panelKey);
   }).join("");
+  wrap.innerHTML = summaryHtml + piesHtml;
+
+  _bindFgnPieClicks(wrap);
 }
-window.loadDashAttendance = loadDashAttendance;
+
+function loadForeignByDate() {
+  return loadSessionPanel({
+    sheetNames: FOREIGN_SHEET_NAMES,
+    wrapId: "fgnByDateWrap",
+    totalId: "fgnTotal",
+    summaryId: "fgnSummary",
+    panelKey: "foreign"
+  });
+}
+window.loadForeignByDate = loadForeignByDate;
+
+function loadMiningByDate() {
+  return loadSessionPanel({
+    sheetNames: MINING_SHEET_NAMES,
+    fallbackGid: MINING_SHEET_GID,
+    wrapId: "mineByDateWrap",
+    totalId: "mineTotal",
+    summaryId: "mineSummary",
+    panelKey: "mining"
+  });
+}
+window.loadMiningByDate = loadMiningByDate;
+
+function loadAimagByDate() {
+  return loadSessionPanel({
+    sheetNames: AIMAG_SHEET_NAMES,
+    wrapId: "aimagByDateWrap",
+    totalId: "aimagTotal",
+    summaryId: "aimagSummary",
+    panelKey: "aimag"
+  });
+}
+window.loadAimagByDate = loadAimagByDate;
+
+function loadTbbByDate() {
+  return loadSessionPanel({
+    sheetNames: TBB_SHEET_NAMES,
+    wrapId: "tbbByDateWrap",
+    totalId: "tbbTotal",
+    summaryId: "tbbSummary",
+    panelKey: "tbb"
+  });
+}
+window.loadTbbByDate = loadTbbByDate;
+
+function loadGovByDate() {
+  return loadSessionPanel({
+    sheetNames: GOV_SHEET_NAMES,
+    wrapId: "govByDateWrap",
+    totalId: "govTotal",
+    summaryId: "govSummary",
+    panelKey: "gov"
+  });
+}
+window.loadGovByDate = loadGovByDate;
+
+function _bindFgnPieClicks(wrap) {
+  if (wrap.dataset.fgnBound === "1") return;
+  wrap.dataset.fgnBound = "1";
+  const panelKey = wrap.dataset.panel || "foreign";
+  const handle = (e) => {
+    const card = e.target.closest(".fgn-pie-item");
+    if (!card || card.dataset.idx === "") return;
+    openFgnSessionModal(panelKey, parseInt(card.dataset.idx, 10));
+  };
+  wrap.addEventListener("click", handle);
+  wrap.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handle(e); }
+  });
+}
+
+function _fgnSafe(r, i) {
+  if (!r || !r.c || i < 0 || !r.c[i]) return "";
+  const v = r.c[i].v;
+  if (v == null) return "";
+  return String(v).trim();
+}
+
+window.openFgnSessionModal = function (panelKey, sessionIdx) {
+  if (typeof panelKey === "number") { sessionIdx = panelKey; panelKey = "foreign"; }
+
+  // Combined panel — олон sheet-ээс хүмүүс нэгтгэх
+  if (panelKey === "combined") {
+    return _openCombinedSessionModal(sessionIdx);
+  }
+
+  const data = _fgnSessionData[panelKey];
+  if (!data) return;
+  const { cols, rows, sessionCols } = data;
+  const session = sessionCols[sessionIdx];
+  if (!session) return;
+
+  const findCol = (...names) => {
+    const norm = (s) => (s || "").toString().toLowerCase().normalize("NFC").trim();
+    for (const want of names) {
+      const w = norm(want);
+      for (let i = 0; i < cols.length; i++) {
+        if (norm(cols[i] && cols[i].label) === w) return i;
+      }
+    }
+    return -1;
+  };
+  const surnameIdx = findCol("Овог", "Surname");
+  const nameIdx = findCol("Нэр", "Name");
+  const phoneIdx = findCol("Утас", "Phone");
+  const orgIdx = findCol("Байгууллага", "Organization");
+  const posIdx = findCol("Албан тушаал", "Position");
+
+  const present = [], absent = [];
+  rows.forEach((r) => {
+    if (!r || !r.c) return;
+    const sv = r.c[session.idx];
+    const st = _fgnStatus(sv ? (sv.v != null ? sv.v : sv.f) : "");
+    const row = {
+      ovog:  _fgnSafe(r, surnameIdx),
+      name:  _fgnSafe(r, nameIdx),
+      phone: _fgnSafe(r, phoneIdx),
+      org:   _fgnSafe(r, orgIdx),
+      pos:   _fgnSafe(r, posIdx)
+    };
+    if (!row.ovog && !row.name && !row.phone) return;
+    if (st === "present") present.push(row);
+    else if (st === "absent") absent.push(row);
+  });
+
+  const parts = _fgnParts(session.label);
+  const title = [parts.date, parts.place, parts.time].filter(Boolean).join(" · ") || session.label;
+  document.getElementById("fgnSessionTitle").innerHTML = `<i class="fa fa-users"></i>&nbsp; ${escapeHtml(title)}`;
+
+  const total = present.length + absent.length;
+  const pct = total ? Math.round((present.length / total) * 100) : 0;
+  const renderRow = (p) => `
+    <tr>
+      <td>${escapeHtml(p.ovog)}</td>
+      <td style="font-weight:600">${escapeHtml(p.name)}</td>
+      <td style="font-size:12px">${escapeHtml(p.phone)}</td>
+      <td style="font-size:12px">${escapeHtml(p.org)}</td>
+      <td style="font-size:11px;color:var(--admin-text-muted)">${escapeHtml(p.pos)}</td>
+    </tr>`;
+
+  document.getElementById("fgnSessionBody").innerHTML = `
+    <div class="fgn-modal-summary">
+      <div class="fgn-modal-stat"><span>${total}</span><small>Нийт</small></div>
+      <div class="fgn-modal-stat fgn-modal-stat-present"><span>${present.length}</span><small>Ирсэн</small></div>
+      <div class="fgn-modal-stat fgn-modal-stat-absent"><span>${absent.length}</span><small>Ирээгүй</small></div>
+      <div class="fgn-modal-stat fgn-modal-stat-pct"><span>${pct}%</span><small>Ирц</small></div>
+    </div>
+
+    <h4 class="fgn-modal-subtitle present"><i class="fa fa-circle-check"></i>&nbsp; Ирсэн (${present.length})</h4>
+    ${present.length ? `<table class="fgn-modal-tbl"><thead><tr><th>Овог</th><th>Нэр</th><th>Утас</th><th>Байгууллага</th><th>Албан тушаал</th></tr></thead><tbody>${present.map(renderRow).join("")}</tbody></table>` : '<p class="fgn-modal-empty">Ирсэн бүртгэл алга</p>'}
+
+    <h4 class="fgn-modal-subtitle absent"><i class="fa fa-circle-xmark"></i>&nbsp; Ирээгүй (${absent.length})</h4>
+    ${absent.length ? `<table class="fgn-modal-tbl"><thead><tr><th>Овог</th><th>Нэр</th><th>Утас</th><th>Байгууллага</th><th>Албан тушаал</th></tr></thead><tbody>${absent.map(renderRow).join("")}</tbody></table>` : '<p class="fgn-modal-empty">Ирээгүй бүртгэл алга</p>'}
+  `;
+  openModal("fgnSessionModal");
+};
+
+function _openCombinedSessionModal(sessionIdx) {
+  const data = _fgnSessionData["combined"];
+  if (!data) return;
+  const session = data.sessionCols[sessionIdx];
+  if (!session || !session._combined) return;
+
+  const PANEL_NAMES = {
+    foreign: "Гадаад хөрөнгө оруулагч",
+    mining: "Уул, уурхайн дотоод хөрөнгө оруулагч",
+    aimag: "Аймаг, сумын удирдлага",
+    tbb: "ТББ, хоршоо, ААН, иргэн",
+    gov: "Төрийн байгууллага"
+  };
+
+  const findCol = (cols, ...names) => {
+    const norm = (s) => (s || "").toString().toLowerCase().normalize("NFC").trim();
+    for (const want of names) {
+      const w = norm(want);
+      for (let i = 0; i < cols.length; i++) {
+        if (norm(cols[i] && cols[i].label) === w) return i;
+      }
+    }
+    return -1;
+  };
+
+  const allPresent = [], allAbsent = [];
+  Object.entries(session.perPanel).forEach(([panelKey, pd]) => {
+    const { cols, rows, sessionIdx: sIdx } = pd;
+    const surnameIdx = findCol(cols, "Овог", "Surname");
+    const nameIdx = findCol(cols, "Нэр", "Name");
+    const phoneIdx = findCol(cols, "Утас", "Phone");
+    const orgIdx = findCol(cols, "Байгууллага", "Organization");
+    const posIdx = findCol(cols, "Албан тушаал", "Position");
+
+    rows.forEach((r) => {
+      if (!r || !r.c) return;
+      const sv = r.c[sIdx];
+      const st = _fgnStatus(sv ? (sv.v != null ? sv.v : sv.f) : "");
+      if (st !== "present" && st !== "absent") return;
+      const row = {
+        ovog:  _fgnSafe(r, surnameIdx),
+        name:  _fgnSafe(r, nameIdx),
+        phone: _fgnSafe(r, phoneIdx),
+        org:   _fgnSafe(r, orgIdx),
+        pos:   _fgnSafe(r, posIdx),
+        panel: PANEL_NAMES[panelKey] || panelKey
+      };
+      if (!row.ovog && !row.name && !row.phone) return;
+      (st === "present" ? allPresent : allAbsent).push(row);
+    });
+  });
+
+  const parts = _fgnParts(session.label);
+  const title = [parts.date, parts.place, parts.time].filter(Boolean).join(" · ") || session.label;
+  document.getElementById("fgnSessionTitle").innerHTML = `<i class="fa fa-object-group"></i>&nbsp; ${escapeHtml(title)} <small style="font-weight:400;font-size:12px;color:var(--admin-text-muted)">(5 бүртгэлийн нэгтгэсэн)</small>`;
+
+  const total = allPresent.length + allAbsent.length;
+  const pct = total ? Math.round((allPresent.length / total) * 100) : 0;
+  const renderRow = (p) => `
+    <tr>
+      <td>${escapeHtml(p.ovog)}</td>
+      <td style="font-weight:600">${escapeHtml(p.name)}</td>
+      <td style="font-size:12px">${escapeHtml(p.phone)}</td>
+      <td style="font-size:12px">${escapeHtml(p.org)}</td>
+      <td style="font-size:11px;color:var(--admin-text-muted)">${escapeHtml(p.pos)}</td>
+      <td style="font-size:10px"><span class="badge badge-editor">${escapeHtml(p.panel)}</span></td>
+    </tr>`;
+
+  document.getElementById("fgnSessionBody").innerHTML = `
+    <div class="fgn-modal-summary">
+      <div class="fgn-modal-stat"><span>${total}</span><small>Нийт</small></div>
+      <div class="fgn-modal-stat fgn-modal-stat-present"><span>${allPresent.length}</span><small>Ирсэн</small></div>
+      <div class="fgn-modal-stat fgn-modal-stat-absent"><span>${allAbsent.length}</span><small>Ирээгүй</small></div>
+      <div class="fgn-modal-stat fgn-modal-stat-pct"><span>${pct}%</span><small>Ирц</small></div>
+    </div>
+
+    <h4 class="fgn-modal-subtitle present"><i class="fa fa-circle-check"></i>&nbsp; Ирсэн (${allPresent.length})</h4>
+    ${allPresent.length ? `<table class="fgn-modal-tbl"><thead><tr><th>Овог</th><th>Нэр</th><th>Утас</th><th>Байгууллага</th><th>Албан тушаал</th><th>Бүртгэл</th></tr></thead><tbody>${allPresent.map(renderRow).join("")}</tbody></table>` : '<p class="fgn-modal-empty">Ирсэн бүртгэл алга</p>'}
+
+    <h4 class="fgn-modal-subtitle absent"><i class="fa fa-circle-xmark"></i>&nbsp; Ирээгүй (${allAbsent.length})</h4>
+    ${allAbsent.length ? `<table class="fgn-modal-tbl"><thead><tr><th>Овог</th><th>Нэр</th><th>Утас</th><th>Байгууллага</th><th>Албан тушаал</th><th>Бүртгэл</th></tr></thead><tbody>${allAbsent.map(renderRow).join("")}</tbody></table>` : '<p class="fgn-modal-empty">Ирээгүй бүртгэл алга</p>'}
+  `;
+  openModal("fgnSessionModal");
+}
+
+// "4.27 өдөр Спортын ордон 08:30-09:00" → "4.27 08:30" (chart label богиносгох)
+function _fgnShortLabel(full) {
+  const s = String(full || "").replace(/\s+/g, " ").trim();
+  const dateMatch = s.match(/\b(4\.\d{1,2}|04\.\d{1,2})\b/);
+  const timeMatch = s.match(/\b(\d{1,2}:\d{2})[-–]/);
+  const date = dateMatch ? dateMatch[1] : "";
+  const time = timeMatch ? timeMatch[1] : "";
+  return (date + (time ? " " + time : "")).trim() || s.slice(0, 12);
+}
 
 async function loadAnalyticsDashboard() {
   try {
@@ -2681,15 +3442,24 @@ async function loadMenu() {
 
   try {
     const res = await fetch(MENU_PATH);
-    if (res.ok) menuData = await res.json();
+    const baseList = res.ok ? await res.json() : [];
 
-    // Firestore-д хадгалсан тохиргоо байвал давхардуулах
+    // Firestore override-уудыг ачаалж (зөвхөн visibility гэх мэт төлөв), JSON-ы жагсаалтад merge хийх
+    let fsList = null;
     try {
       const snap = await getDoc(doc(db, "settings", "menu"));
-      if (snap.exists() && snap.data().list) {
-        menuData = snap.data().list;
-      }
+      if (snap.exists() && Array.isArray(snap.data().list)) fsList = snap.data().list;
     } catch {}
+
+    if (fsList) {
+      const fsById = new Map(fsList.filter((x) => x && x.id).map((x) => [x.id, x]));
+      menuData = baseList.map((item) => {
+        const fs = fsById.get(item.id);
+        return fs ? { ...item, ...fs } : item;
+      });
+    } else {
+      menuData = baseList;
+    }
 
     renderMenuTable(tbody);
   } catch (err) {
@@ -3598,510 +4368,3 @@ async function initAdminMenuVisibility() {
   applyAdminMenuVisibility();
 }
 
-/* ============================================================
-   ИРЦ — Бүртгэл шийтийн tab бүрээс уншиж, ирцийг Firestore-д хадгална
-   Source: 12pZJcmCCMdnkVrjY4coxFFVwTa-7nUTjjOUxwwIHEHc
-   Sheet tab бүрийн нэр = ангиллын нэр (Гадаад / Дотоод / Иргэн / Илтгэгч / Малчин)
-   Mark storage: Firestore collection "attendance/{regId}"
-============================================================ */
-const ATTENDANCE_SRC_ID = "12pZJcmCCMdnkVrjY4coxFFVwTa-7nUTjjOUxwwIHEHc";
-const ATT_CATEGORIES = ["Гадаад", "Дотоод", "Иргэн", "Илтгэгч", "Малчин"];
-const ATT_DEFAULT_CATEGORY = "Гадаад";
-let _attRegistrants = [];
-let _attMarks = new Map(); // regId → { day1, day2, note, category }
-let _attRegMap = new Map(); // regId → registrant (sourceCategory-г хайхад)
-let _attSheetsRaw = {}; // cat → { cols, rows, regIdByRow } — түүхий sheet өгөгдөл
-let _attActiveCat = ""; // "" = all
-let _attUnsub = null;   // onSnapshot unsubscribe
-
-function _attNormLabel(s) { return (s || "").toString().toLowerCase().normalize("NFC").trim(); }
-
-function _attCell(row, i) {
-  if (i < 0 || !row || !row.c || !row.c[i]) return "";
-  const v = row.c[i].v;
-  if (v === null || v === undefined) return "";
-  return String(v).trim();
-}
-
-// Эхний data row нь жинхэнэ толгой (Овог, Нэр, Утас гэх мэт) гэж шалгах
-function _attLooksLikeHeaderRow(row) {
-  if (!row || !row.c) return false;
-  const keywords = ["овог", "нэр", "утас", "имэйл", "и-мэйл", "и мэйл", "байгууллага", "албан", "огноо", "д/д", "бүртгэл", "тайлбар", "тоо", "буудал", "хаяг", "имэил"];
-  let m = 0;
-  row.c.forEach((c) => {
-    if (!c || c.v == null) return;
-    const v = c.v.toString().toLowerCase().normalize("NFC");
-    if (keywords.some((k) => v.indexOf(k) !== -1)) m++;
-  });
-  return m >= 2;
-}
-
-async function _fetchAttendanceSheet(sheetName) {
-  // Sheet нэрээр (gid биш) уншина — gviz API нь &sheet=<нэр> дэмждэг
-  const url = `https://docs.google.com/spreadsheets/d/${ATTENDANCE_SRC_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}&_=${Date.now()}`;
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return { cols: [], rows: [], title: "" };
-    const text = await res.text();
-    const jsonStart = text.indexOf("{");
-    const jsonEnd = text.lastIndexOf("}");
-    if (jsonStart < 0 || jsonEnd < 0) return { cols: [], rows: [], title: "" };
-    const json = JSON.parse(text.substring(jsonStart, jsonEnd + 1));
-    if (json.status !== "ok") {
-      console.info(`Attendance sheet "${sheetName}" not found or empty.`);
-      return { cols: [], rows: [], title: "" };
-    }
-    let cols = (json.table && json.table.cols) || [];
-    let rows = (json.table && json.table.rows) || [];
-    let title = "";
-
-    // Sheet-ийн Row 1 нь гарчиг бол (label-ууд урт текст / зөвхөн нэг л cell-д) автоматаар тохируулах
-    if (rows.length && _attLooksLikeHeaderRow(rows[0])) {
-      // Хуучин cols-ийн label-уудаас гарчгийг ялгах (хамгийн урт label-ыг гарчгаар тооцов)
-      let longest = "";
-      cols.forEach((c) => {
-        const lbl = (c && c.label) ? c.label.toString() : "";
-        if (lbl.length > longest.length) longest = lbl;
-      });
-      if (longest && longest.length > 20) title = longest;
-      // Эхний data row-г жинхэнэ толгой болгож сольж, дараагийн мөрөөс data эхэлнэ
-      const newCols = cols.map((c, i) => {
-        const cell = rows[0].c && rows[0].c[i];
-        const label = (cell && cell.v != null) ? cell.v.toString().trim() : (c && c.label) || "";
-        return { ...(c || {}), label };
-      });
-      cols = newCols;
-      rows = rows.slice(1);
-    }
-
-    return { cols, rows, title };
-  } catch (e) {
-    console.warn(`Attendance sheet "${sheetName}" fetch failed:`, e);
-    return { cols: [], rows: [], title: "" };
-  }
-}
-
-// Sheet-ийн header нэрээс багана хайх
-function _attFindCol(cols, ...candidates) {
-  const norm = (s) => (s || "").toString().toLowerCase().normalize("NFC").trim().replace(/[\s_,.\-]+/g, "");
-  // Яг тохирох
-  for (const want of candidates) {
-    const w = norm(want);
-    for (let i = 0; i < cols.length; i++) {
-      if (norm(cols[i].label) === w) return i;
-    }
-  }
-  // Хэсэгчилсэн тохирох
-  for (const want of candidates) {
-    const w = norm(want);
-    for (let i = 0; i < cols.length; i++) {
-      const cl = norm(cols[i].label);
-      if (cl && (cl.includes(w) || w.includes(cl))) return i;
-    }
-  }
-  return -1;
-}
-
-async function loadAttendance() {
-  const tbody = document.getElementById("attTable");
-  if (!tbody) return;
-  tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><i class="fa fa-spinner fa-spin"></i><p>Ачаалж байна...</p></td></tr>`;
-
-  try {
-    // 1) Sheet tab бүрийг параллел татаж, header нэрээр баганыг таних
-    const results = await Promise.all(
-      ATT_CATEGORIES.map((cat) => _fetchAttendanceSheet(cat).then((data) => ({ cat, ...data })))
-    );
-    _attRegistrants = [];
-    _attRegMap = new Map();
-    _attSheetsRaw = {};
-    results.forEach(({ cat, cols, rows, title }) => {
-      // Түүхий sheet өгөгдлийг хадгалах — tab сонгоход бүх багана харуулна
-      const regIdByRow = [];
-      const regNumIdx0 = _attFindCol(cols, "Бүртгэлийн №", "Бүртгэлийн дугаар", "Registration");
-      rows.forEach((r, i) => {
-        const reg = regNumIdx0 >= 0 ? _attCell(r, regNumIdx0) : "";
-        regIdByRow[i] = reg || (cat + "_" + i);
-      });
-      _attSheetsRaw[cat] = { cols, rows, regIdByRow, title: title || "" };
-
-      const idx = {
-        seq:     _attFindCol(cols, "Д/д", "№", "No"),
-        date:    _attFindCol(cols, "Огноо", "Timestamp", "Date"),
-        full:    _attFindCol(cols, "Овог нэр", "Овог, нэр", "Бүтэн нэр", "Full name"),
-        name:    _attFindCol(cols, "Нэр", "Name", "First name"),
-        surname: _attFindCol(cols, "Овог", "Surname", "Last name"),
-        phone:   _attFindCol(cols, "Утас", "Утасны дугаар", "Phone", "Tel"),
-        email:   _attFindCol(cols, "И-мэйл", "Имэйл", "E-mail", "Email"),
-        org:     _attFindCol(cols, "Байгууллага", "Organization", "Org"),
-        pos:     _attFindCol(cols, "Албан тушаал", "Position", "Title"),
-        hotel:   _attFindCol(cols, "Зочид буудал", "Hotel", "Буудал"),
-        count:   _attFindCol(cols, "Хүний тоо", "Тоо", "Count"),
-        regNum:  _attFindCol(cols, "Бүртгэлийн №", "Бүртгэлийн дугаар", "Registration", "Reg #"),
-        note:    _attFindCol(cols, "Тайлбар", "Тэмдэглэл", "Note"),
-        day1:    _attFindCol(cols, "4.27", "04.27", "Day 1"),
-        day2:    _attFindCol(cols, "4.28", "04.28", "Day 2"),
-      };
-      rows.forEach((r, rowIdx) => {
-        const ovog = idx.surname >= 0 ? _attCell(r, idx.surname) : "";
-        const name = idx.name >= 0 ? _attCell(r, idx.name) : "";
-        let full = idx.full >= 0 ? _attCell(r, idx.full) : "";
-        if (!full) full = (ovog + " " + name).trim();
-        if (!full) return;
-        const reg = idx.regNum >= 0 ? _attCell(r, idx.regNum) : "";
-        const regId = reg || (cat + "_" + rowIdx);
-        if (_attRegMap.has(regId)) return;
-        const reg_ = {
-          regId,
-          seq:    idx.seq    >= 0 ? _attCell(r, idx.seq)    : "",
-          date:   idx.date   >= 0 ? _attCell(r, idx.date)   : "",
-          ovog,
-          name,
-          full,
-          phone:  idx.phone  >= 0 ? _attCell(r, idx.phone)  : "",
-          email:  idx.email  >= 0 ? _attCell(r, idx.email)  : "",
-          org:    idx.org    >= 0 ? _attCell(r, idx.org)    : "",
-          pos:    idx.pos    >= 0 ? _attCell(r, idx.pos)    : "",
-          hotel:  idx.hotel  >= 0 ? _attCell(r, idx.hotel)  : "",
-          count:  idx.count  >= 0 ? _attCell(r, idx.count)  : "",
-          regNum: reg,
-          noteSheet: idx.note >= 0 ? _attCell(r, idx.note)  : "",
-          day1Sheet: idx.day1 >= 0 ? _attCell(r, idx.day1)  : "",
-          day2Sheet: idx.day2 >= 0 ? _attCell(r, idx.day2)  : "",
-          sourceCategory: cat
-        };
-        _attRegistrants.push(reg_);
-        _attRegMap.set(regId, reg_);
-      });
-    });
-
-    // 2) Firestore — real-time listener (олон админ зэрэг засварлахад шууд харагдана)
-    if (_attUnsub) { try { _attUnsub(); } catch (e) {} _attUnsub = null; }
-    _attMarks = new Map();
-    _attUnsub = onSnapshot(collection(db, "attendance"), (snap) => {
-      snap.docChanges().forEach((ch) => {
-        if (ch.type === "removed") _attMarks.delete(ch.doc.id);
-        else _attMarks.set(ch.doc.id, ch.doc.data() || {});
-      });
-      _renderAttendance(_currentAttFilter());
-      _updateAttendanceStats();
-    }, (err) => {
-      console.error("attendance onSnapshot:", err);
-    });
-
-    // Анхны render (snapshot ирэхээс өмнө бүртгэлүүдийг харуулах)
-    _renderAttendance(_attRegistrants);
-    _updateAttendanceStats();
-  } catch (err) {
-    console.error("loadAttendance:", err);
-    tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><i class="fa fa-triangle-exclamation"></i><p>Ачаалахад алдаа: ${err.message || err}</p></td></tr>`;
-  }
-}
-window.loadAttendance = loadAttendance;
-
-function _updateAttendanceStats() {
-  const total = _attRegistrants.length;
-  let d1 = 0, d2 = 0;
-  _attRegistrants.forEach((r) => {
-    const m = _attMarks.get(r.regId);
-    if (m && m.day1) d1++;
-    if (m && m.day2) d2++;
-  });
-  const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
-  const avg = total ? Math.round(((d1 + d2) / (total * 2)) * 100) : 0;
-  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-  const setHTML = (id, v) => { const el = document.getElementById(id); if (el) el.innerHTML = v; };
-  set("attTotal", total);
-  setHTML("attDay1", `${d1} <span class="stat-pct">${pct(d1)}%</span>`);
-  setHTML("attDay2", `${d2} <span class="stat-pct">${pct(d2)}%</span>`);
-  set("attPct", avg + "%");
-}
-
-function _attGetCategory(regId) {
-  // Цорын ганц authoritative source = sheet-ийн нэр (sourceCategory)
-  // Firestore-д хадгалсан category override-ыг үл тоомсорлоно — sheet-д байхгүй мэдээлэл tab-д "найгахаас" сэргийлнэ
-  const r = _attRegMap.get(regId);
-  if (r && r.sourceCategory) return r.sourceCategory;
-  return ATT_DEFAULT_CATEGORY;
-}
-
-function _attMarkBtn(regId, day) {
-  const m = _attMarks.get(regId);
-  const on = !!(m && m[day]);
-  return `<button type="button" class="att-mark ${on ? "att-on" : ""}" data-reg="${_esc(regId)}" data-day="${day}" title="${on ? "Ирсэн" : "Ирээгүй"}">${on ? '<i class="fa fa-check"></i>' : '—'}</button>`;
-}
-
-function _attNoteInput(regId, sheetNote) {
-  const fsNote = (_attMarks.get(regId) || {}).note || "";
-  const val = fsNote || sheetNote || "";
-  return `<input type="text" class="att-note" data-reg="${_esc(regId)}" value="${_esc(val)}" placeholder="—" style="width:100%;background:transparent;border:1px solid transparent;color:inherit;padding:4px 6px;border-radius:4px">`;
-}
-
-function _captureNoteFocus(tbody) {
-  const ae = document.activeElement;
-  if (ae && tbody.contains(ae) && ae.classList && ae.classList.contains("att-note")) {
-    return { reg: ae.dataset.reg, val: ae.value, start: ae.selectionStart, end: ae.selectionEnd };
-  }
-  return null;
-}
-
-function _restoreNoteFocus(tbody, restore) {
-  if (!restore) return;
-  const el = tbody.querySelector(`.att-note[data-reg="${CSS.escape(restore.reg)}"]`);
-  if (el) {
-    el.value = restore.val;
-    el.focus();
-    try { el.setSelectionRange(restore.start, restore.end); } catch (e) {}
-  }
-}
-
-function _setSheetTitle(title) {
-  const el = document.getElementById("attSheetTitle");
-  if (!el) return;
-  if (title) {
-    el.textContent = title;
-    el.style.display = "";
-  } else {
-    el.textContent = "";
-    el.style.display = "none";
-  }
-}
-
-function _renderAttendance(list) {
-  const tbody = document.getElementById("attTable");
-  if (!tbody) return;
-  // Active tab нь sheet-тэй бол тухайн sheet-ийн бүх баганыг харуулна
-  if (_attActiveCat && _attSheetsRaw[_attActiveCat]) {
-    _renderAttendanceSheet(_attActiveCat);
-    _updateAttTabCounts();
-    return;
-  }
-  const restore = _captureNoteFocus(tbody);
-  _setSheetTitle("");
-  // Бүгд tab — стандарт компакт харагдалт
-  _setAttendanceCombinedHeader();
-  if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="14" class="empty-state"><i class="fa fa-inbox"></i><p>Бүртгэл олдсонгүй</p></td></tr>`;
-    _updateAttTabCounts();
-    return;
-  }
-  tbody.innerHTML = list.map((r, i) => `
-    <tr data-reg="${_esc(r.regId)}">
-      <td>${i + 1}</td>
-      <td style="font-size:12px;color:var(--admin-muted,#8ea3bd)">${_esc(r.date)}</td>
-      <td>${_esc(r.ovog)}</td>
-      <td style="font-weight:500">${_esc(r.name)}</td>
-      <td>${_esc(r.phone)}</td>
-      <td style="font-size:12px">${_esc(r.email)}</td>
-      <td>${_esc(r.org)}</td>
-      <td>${_esc(r.pos)}</td>
-      <td>${_esc(r.hotel)}</td>
-      <td style="text-align:center">${_esc(r.count)}</td>
-      <td style="font-size:11px;color:var(--admin-muted,#8ea3bd)">${_esc(r.regNum)}</td>
-      <td>${_attNoteInput(r.regId, r.noteSheet)}</td>
-      <td style="text-align:center">${_attMarkBtn(r.regId, "day1")}</td>
-      <td style="text-align:center">${_attMarkBtn(r.regId, "day2")}</td>
-    </tr>`).join("");
-  _bindAttendanceEvents(tbody);
-  _updateAttTabCounts();
-  _restoreNoteFocus(tbody, restore);
-}
-
-function _setAttendanceCombinedHeader() {
-  const thead = document.querySelector("#sec-attendance table thead");
-  if (!thead) return;
-  thead.innerHTML = `<tr>
-    <th style="width:40px">Д/д</th>
-    <th>Огноо</th>
-    <th>Овог</th>
-    <th>Нэр</th>
-    <th>Утас</th>
-    <th>И-мэйл</th>
-    <th>Байгууллага</th>
-    <th>Албан тушаал</th>
-    <th>Зочид буудал</th>
-    <th style="text-align:center">Хүний тоо</th>
-    <th>Бүртгэлийн №</th>
-    <th>Тайлбар</th>
-    <th style="text-align:center">4.27</th>
-    <th style="text-align:center">4.28</th>
-  </tr>`;
-}
-
-// Тухайн sheet-ийн бүх баганыг буулгана + 4.27/4.28/Тэмдэглэл (Firestore)
-function _renderAttendanceSheet(cat) {
-  const sheet = _attSheetsRaw[cat];
-  const thead = document.querySelector("#sec-attendance table thead");
-  const tbody = document.getElementById("attTable");
-  if (!sheet || !thead || !tbody) return;
-  const restore = _captureNoteFocus(tbody);
-  _setSheetTitle(sheet.title || "");
-  const { cols, rows, regIdByRow } = sheet;
-  const noteColIdx = _attFindCol(cols, "Тайлбар", "Тэмдэглэл", "Note");
-  const day1ColIdx = _attFindCol(cols, "4.27", "04.27", "Day 1");
-  const day2ColIdx = _attFindCol(cols, "4.28", "04.28", "Day 2");
-  // Sheet дотор 4.27/4.28/Тайлбар байгаа бол, эдгээрийг хүснэгтийн төгсгөлд Firestore-ийн live mark-аар сольж харуулна
-  const skipIdx = new Set([noteColIdx, day1ColIdx, day2ColIdx].filter((i) => i >= 0));
-  const showCols = cols.map((c, i) => ({ c, i })).filter((x) => !skipIdx.has(x.i));
-
-  thead.innerHTML = `<tr>
-    <th style="width:40px">Д/д</th>
-    ${showCols.map((x) => `<th>${escapeHtml(x.c.label || "")}</th>`).join("")}
-    <th>Тэмдэглэл</th>
-    <th style="text-align:center">4.27</th>
-    <th style="text-align:center">4.28</th>
-  </tr>`;
-
-  const global = document.getElementById("attSearch");
-  const gq = global ? _attNormLabel(global.value) : "";
-  const totalCols = showCols.length + 4;
-
-  const filteredRows = [];
-  rows.forEach((r, idx) => {
-    if (!r || !r.c) return;
-    if (gq) {
-      const match = cols.some((_, i) => _attNormLabel(_attCell(r, i)).indexOf(gq) !== -1);
-      if (!match) return;
-    }
-    filteredRows.push({ r, idx });
-  });
-
-  if (!filteredRows.length) {
-    tbody.innerHTML = `<tr><td colspan="${totalCols}" class="empty-state"><i class="fa fa-inbox"></i><p>Бүртгэл олдсонгүй</p></td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = filteredRows.map(({ r, idx }, i) => {
-    const regId = regIdByRow[idx];
-    const cells = showCols.map((x) => `<td>${_esc(_attCell(r, x.i))}</td>`).join("");
-    const sheetNote = noteColIdx >= 0 ? _attCell(r, noteColIdx) : "";
-    return `<tr data-reg="${_esc(regId)}">
-      <td>${i + 1}</td>
-      ${cells}
-      <td>${_attNoteInput(regId, sheetNote)}</td>
-      <td style="text-align:center">${_attMarkBtn(regId, "day1")}</td>
-      <td style="text-align:center">${_attMarkBtn(regId, "day2")}</td>
-    </tr>`;
-  }).join("");
-
-  _bindAttendanceEvents(tbody);
-  _restoreNoteFocus(tbody, restore);
-}
-
-function _updateAttTabCounts() {
-  const counts = { all: _attRegistrants.length };
-  ATT_CATEGORIES.forEach((c) => (counts[c] = 0));
-  _attRegistrants.forEach((r) => {
-    const c = _attGetCategory(r.regId);
-    if (counts[c] != null) counts[c]++;
-  });
-  document.querySelectorAll(".att-tab-count").forEach((el) => {
-    const k = el.dataset.count;
-    el.textContent = counts[k] != null ? counts[k] : 0;
-  });
-}
-
-function _bindAttendanceEvents(tbody) {
-  if (tbody.dataset.attBound === "1") return;
-  tbody.dataset.attBound = "1";
-  tbody.addEventListener("click", (e) => {
-    const btn = e.target.closest(".att-mark");
-    if (!btn) return;
-    const regId = btn.dataset.reg;
-    const day = btn.dataset.day;
-    if (regId && day) toggleAttendance(regId, day);
-  });
-  tbody.addEventListener("change", (e) => {
-    const note = e.target.closest(".att-note");
-    if (note) {
-      const regId = note.dataset.reg;
-      if (regId) saveAttendanceNote(regId, note.value);
-    }
-  });
-  tbody.addEventListener("focusin", (e) => {
-    const inp = e.target.closest(".att-note");
-    if (inp) inp.style.borderColor = "var(--admin-border,#243247)";
-  });
-  tbody.addEventListener("focusout", (e) => {
-    const inp = e.target.closest(".att-note");
-    if (inp) inp.style.borderColor = "transparent";
-  });
-}
-
-async function toggleAttendance(regId, day) {
-  const prev = _attMarks.get(regId) || {};
-  const nextVal = !prev[day];
-  _attMarks.set(regId, { ...prev, [day]: nextVal });
-  _renderAttendance(_currentAttFilter());
-  _updateAttendanceStats();
-  try {
-    await setDoc(
-      doc(db, "attendance", regId),
-      { [day]: nextVal, updatedAt: serverTimestamp() },
-      { merge: true }
-    );
-  } catch (err) {
-    console.error("toggleAttendance:", regId, day, err);
-    showToast && showToast("Ирц хадгалагдсангүй: " + (err.code || err.message || err), "error");
-  }
-}
-window.toggleAttendance = toggleAttendance;
-
-async function saveAttendanceNote(regId, note) {
-  const prev = _attMarks.get(regId) || {};
-  _attMarks.set(regId, { ...prev, note });
-  try {
-    await setDoc(doc(db, "attendance", regId), { note, updatedAt: serverTimestamp() }, { merge: true });
-  } catch (err) {
-    console.error("saveAttendanceNote:", err);
-    showToast && showToast("Тэмдэглэл хадгалагдсангүй", "error");
-  }
-}
-window.saveAttendanceNote = saveAttendanceNote;
-
-
-function _currentAttFilter() {
-  const global = document.getElementById("attSearch");
-  const gq = global ? _attNormLabel(global.value) : "";
-  return _attRegistrants.filter((r) => {
-    if (_attActiveCat && _attGetCategory(r.regId) !== _attActiveCat) return false;
-    if (!gq) return true;
-    return (
-      _attNormLabel(r.full).indexOf(gq) !== -1 ||
-      _attNormLabel(r.phone).indexOf(gq) !== -1 ||
-      _attNormLabel(r.email).indexOf(gq) !== -1 ||
-      _attNormLabel(r.org).indexOf(gq) !== -1 ||
-      _attNormLabel(r.pos).indexOf(gq) !== -1 ||
-      _attNormLabel(r.hotel).indexOf(gq) !== -1 ||
-      _attNormLabel(r.regId).indexOf(gq) !== -1
-    );
-  });
-}
-
-function _esc(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("attSearch");
-  if (input) input.addEventListener("input", () => { _renderAttendance(_currentAttFilter()); });
-  const tabs = document.getElementById("attTabs");
-  if (tabs) {
-    tabs.addEventListener("click", (e) => {
-      const btn = e.target.closest(".att-tab");
-      if (!btn) return;
-      const prevScroll = window.scrollY;
-      _attActiveCat = btn.dataset.cat || "";
-      tabs.querySelectorAll(".att-tab").forEach((t) => t.classList.toggle("active", t === btn));
-      _renderAttendance(_currentAttFilter());
-      // Хуудас богиносоод scroll авто-засагдвал, sticky toolbar-ыг бэхэлсэн чигт нь үлдээх
-      requestAnimationFrame(() => {
-        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-        const target = Math.min(prevScroll, maxScroll);
-        if (target !== window.scrollY) window.scrollTo(0, target);
-      });
-    });
-  }
-});
