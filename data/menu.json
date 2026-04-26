@@ -3,7 +3,7 @@
   { "id": "projects", "label": "ТӨСӨЛ", "href": "tusul.html", "type": "menu", "visible": true, "mega": true },
   { "id": "schedule", "label": "ХӨТӨЛБӨР", "href": "index.html#section-schedule", "type": "menu", "visible": true },
   { "id": "venue", "label": "БАЙРШИЛ", "href": "index.html#section-venue", "type": "menu", "visible": true },
-  { "id": "survey", "label": "СУДАЛГАА", "href": "sudalgaa.html", "type": "menu", "visible": false },
+  { "id": "survey", "label": "СУДАЛГАА", "href": "sudalgaa.html", "type": "menu", "visible": true },
   { "id": "next-gen", "label": "NEXT GEN", "href": "next-gen.html", "type": "menu", "visible": true },
   { "id": "section-why-attend", "label": "ТӨСЛҮҮД (нүүр хуудас)", "href": "index.html#section-why-attend", "type": "section", "visible": true }
 ]
